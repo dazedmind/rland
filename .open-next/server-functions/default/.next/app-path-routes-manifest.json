@@ -1,0 +1,16 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/favicon.ico/route": "/favicon.ico",
+  "/contact-us/page": "/contact-us",
+  "/loan-calculator/page": "/loan-calculator",
+  "/news/page": "/news",
+  "/about-us/page": "/about-us",
+  "/page": "/",
+  "/buyer-guide/page": "/buyer-guide",
+  "/reservation/page": "/reservation",
+  "/privacy-policy/page": "/privacy-policy",
+  "/brokers-accreditation/page": "/brokers-accreditation",
+  "/careers/page": "/careers",
+  "/promos/page": "/promos",
+  "/projects/page": "/projects"
+}

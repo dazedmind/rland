@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
@@ -5,15 +6,23 @@ import arcoeResidencesLogo from "@/public/project-logo/ar-logo-white.png";
 import arcoeEstatesLogo from "@/public/project-logo/ae-logo-white.png";
 import arAerialView from "@/public/ar-aerial.png";
 import aeAerialView from "@/public/ae-aerial.png";
-import Image from "next/image";
 import ProjectCard from "@/components/ProjectCard";
 import PageBanner from "@/components/PageBanner";
+import MobileNavBar from '@/components/MobileNavBar'
+import { useState } from 'react'
 
 function ProjectsPage() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <div className="pt-20 md:pt-30">
       <header>
-        <NavBar isScrolled={true} />
+        <NavBar 
+          isScrolled={true} 
+          isMenuOpen={isMenuOpen} 
+          setIsMenuOpen={setIsMenuOpen} 
+        />
+        <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       </header>
       <main>
         {/* PAGE BANNER */}

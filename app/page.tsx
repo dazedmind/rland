@@ -7,10 +7,10 @@ import rmrLogo from "@/public/rmr-logo.png";
 import hcptLogo from "@/public/hcpt-logo.png";
 import r2Logo from "@/public/r2-logo.png";
 import FeaturedProjectCard from "../components/FeaturedProjectCard";
-import { Slider } from "@/components/ui/slider";
-import { ArrowRight, ChevronDownIcon, Mail, Phone, Search } from "lucide-react";
+import { ArrowRight, Mail, Phone } from "lucide-react";
 import ContactForm from "@/components/ContactForm";
 import NavBar from "@/components/NavBar";
+import MobileNavBar from "@/components/MobileNavBar";
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
 import arcoeResidencesLogo from "@/public/project-logo/ar-logo-white.png";
@@ -28,7 +28,7 @@ import Link from "next/link";
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
-
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
       // Check if scrolled past the video hero section (100vh)
@@ -46,31 +46,39 @@ export default function Home() {
       category: "Announcements",
       title: "R Land Breaks Ground on New Eco-Friendly Residential Project",
       date: "Feb 10, 2026",
-      excerpt: "The latest development aims to integrate sustainable architecture with modern living...",
-      image: aeMeadowUnit
+      excerpt:
+        "The latest development aims to integrate sustainable architecture with modern living...",
+      image: aeMeadowUnit,
     },
     {
       id: 2,
       category: "Events",
       title: "R Land Breaks Ground on New Eco-Friendly Residential Project",
       date: "Feb 14, 2026",
-      excerpt: "The latest development aims to integrate sustainable architecture with modern living...",
-      image: aeValleyUnit
+      excerpt:
+        "The latest development aims to integrate sustainable architecture with modern living...",
+      image: aeValleyUnit,
     },
     {
       id: 3,
       category: "Blog",
       title: "R Land Breaks Ground on New Eco-Friendly Residential Project",
       date: "Feb 14, 2026",
-      excerpt: "The latest development aims to integrate sustainable architecture with modern living...",
-      image: aeMeadowUnit
+      excerpt:
+        "The latest development aims to integrate sustainable architecture with modern living...",
+      image: aeMeadowUnit,
     },
     // Add more mock items here...
   ];
   return (
     <div className="min-h-screen bg-zinc-50 font-sans w-full">
       <header>
-        <NavBar isScrolled={isScrolled}/>
+        <NavBar 
+          isScrolled={isScrolled} 
+          isMenuOpen={isMenuOpen} 
+          setIsMenuOpen={setIsMenuOpen} 
+        />
+        <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       </header>
 
       <main>
@@ -171,7 +179,11 @@ export default function Home() {
               />
             </div>
           </div>
-          <Button variant="secondary" size="lg" className="flex items-center gap-2 bg-secondary text-white px-4 py-2 rounded-full cursor-pointer">
+          <Button
+            variant="secondary"
+            size="lg"
+            className="flex items-center gap-2 bg-secondary text-white px-4 py-2 rounded-full cursor-pointer"
+          >
             View More Projects <ArrowRight className="w-4 h-4" />
           </Button>
         </div>
@@ -181,14 +193,20 @@ export default function Home() {
             {/* Image */}
             <div className="w-full lg:w-1/2">
               <div className="h-100 bg-neutral-300 rounded-xl">
-                <Image src={aeValleyUnit} alt="R Land Logo" className="rounded-xl object-cover h-full" />
+                <Image
+                  src={aeValleyUnit}
+                  alt="R Land Logo"
+                  className="rounded-xl object-cover h-full"
+                />
               </div>
             </div>
 
             {/* Text */}
             <span className="flex flex-col gap-4 p-4 md:p-8 w-full lg:w-1/2 ">
               <span>
-                <h1 className="text-4xl font-bold text-primary">About R Land</h1>
+                <h1 className="text-4xl font-bold text-primary">
+                  About R Land
+                </h1>
                 <p>Rooted in Nature, Designed for the Future</p>
               </span>
 
@@ -260,7 +278,11 @@ export default function Home() {
               </p>
             </span>
 
-            <Button variant="secondary" size="lg" className="bg-secondary text-white px-4 py-2 rounded-full cursor-pointer">
+            <Button
+              variant="secondary"
+              size="lg"
+              className="bg-secondary text-white px-4 py-2 rounded-full cursor-pointer"
+            >
               More <ArrowRight className="w-4 h-4" />
             </Button>
           </div>
@@ -291,18 +313,25 @@ export default function Home() {
         </div>
 
         <div className="flex px-12 lg:px-44 gap-4 py-24 bg-primary text-white relative">
-
-          <Image src={platinumUnit} alt="Search Icon" width={700} height={600} className="mx-auto absolute bottom-0 right-0" />
+          <Image
+            src={platinumUnit}
+            alt="Search Icon"
+            width={700}
+            height={600}
+            className="mx-auto absolute bottom-0 right-0"
+          />
           <div className="flex flex-col text-start gap-4 w-full lg:w-1/2 py-16">
             <span className="space-y-2 z-50">
-              <h1 className="text-3xl lg:text-4xl font-bold">Find Available Home Near You</h1>
+              <h1 className="text-3xl lg:text-4xl font-bold">
+                Find Available Home Near You
+              </h1>
               <p className="text-md lg:text-lg z-100 leading-tight">
                 Discover your dream home with our comprehensive listing of
                 available properties across the Philippines.
               </p>
             </span>
-         
-           <HouseSearchBar />
+
+            <HouseSearchBar />
           </div>
         </div>
 
@@ -318,7 +347,10 @@ export default function Home() {
               </p>
             </span>
 
-            <Button variant="secondary" className="bg-secondary text-white px-4 py-2 rounded-full cursor-pointer flex items-center gap-2">
+            <Button
+              variant="secondary"
+              className="bg-secondary text-white px-4 py-2 rounded-full cursor-pointer flex items-center gap-2"
+            >
               More News <ArrowRight className="w-4 h-4" />
             </Button>
           </div>
@@ -329,20 +361,41 @@ export default function Home() {
             <NewsCard />
           </div> */}
 
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {newsArticles.map((article) => (
-              <div key={article.id} className='flex flex-col bg-white rounded-xl overflow-hidden border border-neutral-100 shadow-sm hover:shadow-md transition-shadow'>
-                <div className='h-48 bg-neutral-200'>
-                  <Image src={article.image} alt={article.title} width={300} height={100} className="object-cover w-full h-full" />
-                </div> {/* Image Placeholder */}
-                <div className='p-6 flex flex-col'>
-                  <div className='flex justify-between items-center mb-3'>
-                    <span className='text-xs font-bold text-secondary uppercase'>{article.category}</span>
-                    <span className='text-xs text-neutral-400'>{article.date}</span>
+              <div
+                key={article.id}
+                className="flex flex-col bg-white rounded-xl overflow-hidden border border-neutral-100 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div className="h-48 bg-neutral-200">
+                  <Image
+                    src={article.image}
+                    alt={article.title}
+                    width={300}
+                    height={100}
+                    className="object-cover w-full h-full"
+                  />
+                </div>{" "}
+                {/* Image Placeholder */}
+                <div className="p-6 flex flex-col">
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-xs font-bold text-secondary uppercase">
+                      {article.category}
+                    </span>
+                    <span className="text-xs text-neutral-400">
+                      {article.date}
+                    </span>
                   </div>
-                  <h3 className='text-xl font-bold mb-3 line-clamp-2'>{article.title}</h3>
-                  <p className='text-sm text-neutral-600 mb-6 line-clamp-3'>{article.excerpt}</p>
-                  <Link href={`/news/${article.id}`} className='bg-transparent text-primary px-4 py-2 rounded-full text-center mt-auto font-semibold text-sm border border-border hover:bg-primary hover:text-white hover:border-primary transition-all duration-300'>
+                  <h3 className="text-xl font-bold mb-3 line-clamp-2">
+                    {article.title}
+                  </h3>
+                  <p className="text-sm text-neutral-600 mb-6 line-clamp-3">
+                    {article.excerpt}
+                  </p>
+                  <Link
+                    href={`/news/${article.id}`}
+                    className="bg-transparent text-primary px-4 py-2 rounded-full text-center mt-auto font-semibold text-sm border border-border hover:bg-primary hover:text-white hover:border-primary transition-all duration-300"
+                  >
                     Read More
                   </Link>
                 </div>
@@ -376,7 +429,7 @@ export default function Home() {
               </span>
             </div>
           </div>
-          
+
           {/* Contact Card */}
           <ContactForm />
         </section>

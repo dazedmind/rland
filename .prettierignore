@@ -1,3 +1,16 @@
 node_modules
-dist
 .next
+.open-next
+.wrangler
+build
+dist
+public
+*.log
+*.lock
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+coverage
+.env
+.env.local
+.env.*.local

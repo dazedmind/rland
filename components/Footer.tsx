@@ -32,8 +32,8 @@ function Footer() {
           </span>
         </div>
 
-        <div className="flex flex-col gap-4 text-white list-none">
-          <span className="flex flex-row items-center gap-2">
+        <div className="flex flex-col gap-4 text-white list-none pt-8">
+          <span className="flex flex-row items-center gap-6">
             <li>
               <a href="https://www.facebook.com/rland.ph" target="_blank">
                 <FaFacebook className="w-8 h-8" />
@@ -69,13 +69,13 @@ function Footer() {
         <div className="bg-primary rounded-md p-6 text-white flex flex-col gap-4 w-auto">
           <span>
             <h2 className="text-2xl font-bold">Subscribe to our newsletter</h2>
-            <p>
+            <p className="text-sm md:text-base">
               Be the first to receive news, offers, and hear about project
               updates
             </p>
           </span>
 
-          <span className="flex gap-2">
+          <span className="flex flex-col lg:flex-row gap-2">
             <div className="relative w-full">
               <MailIcon className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" />
               <Input

@@ -3,11 +3,11 @@ import { useState } from "react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import PageBanner from "@/components/PageBanner";
-import Image from "next/image";
 import Link from "next/link";
 import NewsCard from "@/components/NewsCard";
 import aeMeadowUnit from "@/public/ae-meadow-unit.jpg";
 import aeValleyUnit from "@/public/ae-valley-unit.jpg";
+import MobileNavBar from '@/components/MobileNavBar'
 
 // Mock Data for the articles
 const newsArticles = [
@@ -33,13 +33,18 @@ const newsArticles = [
 ];
 
 function NewsPage() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [filter, setFilter] = useState("All");
   const categories = ["All", "Announcements", "Events", "Industry Trends"];
 
   return (
     <div className="pt-20 md:pt-30">
       <header>
-        <NavBar isScrolled={true} />
+        <NavBar isScrolled={true} 
+        isMenuOpen={isMenuOpen} 
+        setIsMenuOpen={setIsMenuOpen} 
+        />
+        <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       </header>
 
       <main>

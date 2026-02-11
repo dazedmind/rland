@@ -1,20 +1,13 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import aboutUsImage from "@/public/ae-meadow-unit.jpg";
 import Image from "next/image";
-import { HandHeart, HeartHandshake, Ribbon, Target } from "lucide-react";
+import { HeartHandshake, Ribbon, Target } from "lucide-react";
 import PageBanner from "@/components/PageBanner";
-import {
-  RiHandHeartLine,
-  RiHeart2Line,
-  RiShakeHandsLine,
-  RiStarLine,
-  RiTeamLine,
-  RiTrophyLine,
-  RiVipCrownLine,
-} from "react-icons/ri";
 import { GoLaw, GoPeople, GoStar, GoTrophy } from "react-icons/go";
+import MobileNavBar from "@/components/MobileNavBar";
 
 const companyValues = [
     {icon: <GoPeople className="w-16 h-16 text-secondary" />, title: "Teamwork", description: "We believe in the exponential power of minds working together to achieve greater outcomes."},
@@ -25,10 +18,16 @@ const companyValues = [
 ]
 
 function AboutUs() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <div className="pt-20 md:pt-30">
       <header>
-        <NavBar isScrolled={true} />
+        <NavBar 
+          isScrolled={true} 
+          isMenuOpen={isMenuOpen} 
+          setIsMenuOpen={setIsMenuOpen} 
+        />
+        <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       </header>
       <main>
         {/* PAGE BANNER */}

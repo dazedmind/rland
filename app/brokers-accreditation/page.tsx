@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import {
@@ -10,14 +11,20 @@ import {
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import brokerHero from "@/public/brokers-hero.png";
-import { Home } from "lucide-react";
 import PageBanner from "@/components/PageBanner";
+import MobileNavBar from "@/components/MobileNavBar";
 
 function BrokersAccreditation() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <div className="pt-20 md:pt-30">
       <header>
-        <NavBar isScrolled={true} />
+        <NavBar 
+          isScrolled={true} 
+          isMenuOpen={isMenuOpen} 
+          setIsMenuOpen={setIsMenuOpen} 
+        />
+        <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       </header>
       <main>
         {/* PAGE BANNER */}

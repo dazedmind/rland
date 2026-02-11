@@ -4,15 +4,16 @@ import Image from "next/image";
 import rlandLogo from "@/public/rland_logo.png";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Menu } from "lucide-react";
 
 interface NavBarProps {
   isScrolled: boolean;
+  isMenuOpen?: boolean;
+  setIsMenuOpen?: (isOpen: boolean) => void;
 }
 
-function NavBar({ isScrolled }: NavBarProps) {
-
+function NavBar({ isScrolled, isMenuOpen, setIsMenuOpen }: NavBarProps) {
   const pathname = usePathname();
-  
   const mainLinks = [
     { name: "Home", href: "/" },
     { name: "About Us", href: "/about-us" },
@@ -86,6 +87,13 @@ function NavBar({ isScrolled }: NavBarProps) {
             <button className="bg-primary text-white px-4 py-2 rounded-md cursor-pointer hover:bg-primary/90 transition-colors">
               Reserve Now
             </button>
+          </div>
+
+          <div className="lg:hidden">
+            <Menu
+              className="w-6 h-6 cursor-pointer"
+              onClick={() => setIsMenuOpen?.(!isMenuOpen)}
+            />
           </div>
         </div>
        

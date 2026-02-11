@@ -1,13 +1,22 @@
+"use client";
 import React from 'react'
 import NavBar from '@/components/NavBar'
 import Footer from '@/components/Footer'
 import PageBanner from '@/components/PageBanner'
+import MobileNavBar from '@/components/MobileNavBar'
+import { useState } from 'react'
+
 
 function LoanCalculatorPage() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <div className='pt-20 md:pt-30'>
         <header>
-            <NavBar isScrolled={true} />
+            <NavBar isScrolled={true} 
+            isMenuOpen={isMenuOpen} 
+            setIsMenuOpen={setIsMenuOpen} 
+            />
+            <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
         </header>
         <main>
             {/* PAGE BANNER */}
