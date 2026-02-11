@@ -1,0 +1,37 @@
+name: Prettier Auto-Format
+
+on:
+  push:
+    branches: [ main, master ] # Add other branches if needed
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          # Crucial: checkout with permissions to push back to the repo
+          ref: ${{ github.head_ref }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Prettier
+        run: npm install --no-save prettier
+
+      - name: Run Prettier
+        # This command formats all files and writes the changes
+        run: npx prettier --write .
+
+      - name: Commit and Push Changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: auto-format code with Prettier"
+          # This ensures the action only commits if there were actual changes
+          status_options: '--untracked-files=no'
