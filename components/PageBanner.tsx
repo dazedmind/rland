@@ -1,0 +1,20 @@
+import { Home } from 'lucide-react'
+import Link from 'next/link'
+import React from 'react'
+
+function PageBanner({ title, description, breadcrumb }: { title: string, description: string, breadcrumb: string }) {
+  return (
+    <div className='flex flex-col items-start px-8 md:px-24 lg:px-44 justify-center h-54 bg-primary'>
+        <span className='flex items-center gap-2 text-white'>
+            <Link href="/">
+                <Home className='text-neutral-400 size-4' />
+            </Link>
+            / {breadcrumb}
+        </span>
+        <h1 className='text-4xl lg:text-5xl font-bold text-white'>{title}</h1>
+        <p className='text-lg text-muted'>{description}</p>
+    </div>
+  )
+}
+
+export default PageBanner

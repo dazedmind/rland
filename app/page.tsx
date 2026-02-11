@@ -8,7 +8,7 @@ import hcptLogo from "@/public/hcpt-logo.png";
 import r2Logo from "@/public/r2-logo.png";
 import FeaturedProjectCard from "../components/FeaturedProjectCard";
 import { Slider } from "@/components/ui/slider";
-import { ArrowRight, ChevronDownIcon, Search } from "lucide-react";
+import { ArrowRight, ChevronDownIcon, Mail, Phone, Search } from "lucide-react";
 import ContactForm from "@/components/ContactForm";
 import NavBar from "@/components/NavBar";
 import { Button } from "@/components/ui/button";
@@ -23,6 +23,8 @@ import aeValleyUnit from "@/public/ae-valley-unit.jpg";
 import aeMeadowUnit from "@/public/ae-meadow-unit.jpg";
 import NewsCard from "@/components/NewsCard";
 import platinumUnit from "@/public/platinum-unit-nobg.png";
+import HouseSearchBar from "@/components/HouseSearchBar";
+import Link from "next/link";
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -38,19 +40,46 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const newsArticles = [
+    {
+      id: 1,
+      category: "Announcements",
+      title: "R Land Breaks Ground on New Eco-Friendly Residential Project",
+      date: "Feb 10, 2026",
+      excerpt: "The latest development aims to integrate sustainable architecture with modern living...",
+      image: aeMeadowUnit
+    },
+    {
+      id: 2,
+      category: "Events",
+      title: "R Land Breaks Ground on New Eco-Friendly Residential Project",
+      date: "Feb 14, 2026",
+      excerpt: "The latest development aims to integrate sustainable architecture with modern living...",
+      image: aeValleyUnit
+    },
+    {
+      id: 3,
+      category: "Blog",
+      title: "R Land Breaks Ground on New Eco-Friendly Residential Project",
+      date: "Feb 14, 2026",
+      excerpt: "The latest development aims to integrate sustainable architecture with modern living...",
+      image: aeMeadowUnit
+    },
+    // Add more mock items here...
+  ];
   return (
     <div className="min-h-screen bg-zinc-50 font-sans w-full">
       <header>
-        <NavBar isScrolled={isScrolled} />
+        <NavBar isScrolled={isScrolled}/>
       </header>
 
       <main>
         <section className="bg-neutral-400 h-screen ">
           {/* VIDEO HERO SECTION */}
           <div className="h-screen w-full gradient-overlay">
-            <div className="bg-black/50 z-20 w-full absolute top-0 left-0 h-full flex flex-col items-start justify-center text-white px-44 py-16 gap-4">
-              <span className="w-1/2 space-y-2">
-                <h1 className="text-4xl font-bold">Live The Experience</h1>
+            <div className="bg-black/50 z-20 w-full absolute top-0 left-0 h-screen flex flex-col text-center lg:text-left items-center lg:items-start justify-center text-white px-8 md:px-44 py-16 gap-4">
+              <span className="w-full lg:w-1/2 space-y-2">
+                <h1 className="text-5xl font-bold">Live The Experience</h1>
                 <p className="text-lg leading-tight">
                   We are a real estate development company that specializes in
                   the development of residential properties.
@@ -78,8 +107,8 @@ export default function Home() {
           </div>
         </section>
 
-        <div className="flex flex-col items-center justify-center h-dvh py-16 gap-4 px-44">
-          <h1 className="text-4xl font-bold text-primary">
+        <div className="flex flex-col text-center items-center justify-center py-24 gap-4 px-8 md:24 lg:px-44">
+          <h1 className="text-4xl font-bold text-primary text-center lg:text-left">
             Our Bright Future Together
           </h1>
           <p className="text-lg">
@@ -87,8 +116,8 @@ export default function Home() {
             development of residential properties.
           </p>
 
-          <div className="flex flex-row items-center justify-center gap-4">
-            <div className="w-100 h-60 bg-linear-to-t from-primary to-blue-950 rounded-xl relative transition-all duration-300 shadow-lg cursor-pointer group">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 w-full">
+            <div className="w-full lg:w-1/3 h-60 bg-linear-to-t from-primary to-blue-950 rounded-xl relative transition-all duration-300 shadow-lg cursor-pointer group">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 group-hover:scale-110 transition-all duration-300">
                 <Image
                   src={arcoeResidencesLogo}
@@ -106,7 +135,7 @@ export default function Home() {
               />
             </div>
 
-            <div className="w-100 h-60 bg-linear-to-t from-primary to-blue-950 rounded-xl relative transition-all duration-300 shadow-lg cursor-pointer group">
+            <div className="w-full lg:w-1/3 h-60 bg-linear-to-t from-primary to-blue-950 rounded-xl relative transition-all duration-300 shadow-lg cursor-pointer group">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 group-hover:scale-110 transition-all duration-300">
                 <Image
                   src={arcoeEstatesLogo}
@@ -124,7 +153,7 @@ export default function Home() {
               />
             </div>
 
-            <div className="w-100 h-60 bg-linear-to-t from-primary to-blue-950 rounded-xl relative transition-all duration-300 shadow-lg">
+            <div className="w-full lg:w-1/3 h-60 bg-linear-to-t from-primary to-blue-950 rounded-xl relative transition-all duration-300 shadow-lg">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 group-hover:scale-110 transition-all duration-300">
                 <Image
                   src={arcoeResidencesLogo}
@@ -147,22 +176,21 @@ export default function Home() {
           </Button>
         </div>
 
-        <div className="flex flex-col items-center justify-center h-dvh">
-          <div className="flex flex-row-reverse h-dvh w-full bg-neutral-100 py-12 px-44">
+        <div className="flex flex-col items-center justify-center h-auto lg:h-dvh">
+          <div className="flex flex-col md:flex-row-reverse h-auto lg:h-dvh w-full bg-neutral-100 py-12 px-8 md:px-16 lg:px-44">
             {/* Image */}
-            <div className="w-1/2">
+            <div className="w-full lg:w-1/2">
               <div className="h-100 bg-neutral-300 rounded-xl">
                 <Image src={aeValleyUnit} alt="R Land Logo" className="rounded-xl object-cover h-full" />
               </div>
             </div>
 
             {/* Text */}
-            <span className="flex flex-col gap-4 p-8 w-1/2 ">
+            <span className="flex flex-col gap-4 p-4 md:p-8 w-full lg:w-1/2 ">
               <span>
                 <h1 className="text-4xl font-bold text-primary">About R Land</h1>
                 <p>Rooted in Nature, Designed for the Future</p>
               </span>
-       
 
               <p>
                 R Land Development Inc., a subsidiary of RMR Capital Inc., is
@@ -186,58 +214,58 @@ export default function Home() {
               </h1>
             </div>
 
-            <div className="flex flex-row items-center justify-center gap-24 px-44 py-8">
+            <div className="flex flex-row items-center justify-center gap-8 md:gap-24 lg:gap-32 px-8 md:px-44 py-8">
               <Image
                 src={rmrLogo}
                 alt="RMR Logo"
                 width={100}
                 height={100}
-                className="saturate-0 hover:saturate-100 transition-all duration-300 cursor-pointer"
+                className="saturate-0 hover:saturate-100 transition-all w-12 md:w-16 lg:w-24 duration-300 cursor-pointer"
               />
               <Image
                 src={philecoLogo}
                 alt="Phileco Logo"
                 width={160}
                 height={100}
-                className="saturate-0 hover:saturate-100 transition-all duration-300 cursor-pointer"
+                className="saturate-0 hover:saturate-100 transition-all w-24 md:w-28 lg:w-32 duration-300 cursor-pointer"
               />
               <Image
                 src={hcptLogo}
                 alt="HCPT Logo"
                 width={100}
                 height={100}
-                className="saturate-0 hover:saturate-100 transition-all duration-300 cursor-pointer"
+                className="saturate-0 hover:saturate-100 transition-all w-12 md:w-16 lg:w-24 duration-300 cursor-pointer"
               />
               <Image
                 src={r2Logo}
                 alt="R2 Logo"
                 width={100}
                 height={100}
-                className="saturate-0 hover:saturate-100 transition-all duration-300 cursor-pointer"
+                className="saturate-0 hover:saturate-100 transition-all w-12 md:w-16 lg:w-24 duration-300 cursor-pointer"
               />
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col h-dvh justify-center px-44 gap-4 py-16">
+        <div className="flex flex-col h-auto lg:h-dvh justify-center px-8 lg:px-44 gap-4 py-16">
           {/* SECTION HEADER */}
           <div className="flex flex-row items-center justify-between">
             <span>
               <h1 className="text-3xl font-bold text-primary">
                 Explore Our Realm
               </h1>
-              <p className="text-lg">
+              <p className="text-lg leading-snug">
                 Browse our diverse projects each offering a familiar and comfort
                 vibes
               </p>
             </span>
 
             <Button variant="secondary" size="lg" className="bg-secondary text-white px-4 py-2 rounded-full cursor-pointer">
-              View More Units <ArrowRight className="w-4 h-4" />
+              More <ArrowRight className="w-4 h-4" />
             </Button>
           </div>
 
-          <div className="flex flex-row items-center justify-center gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 items-center justify-center gap-4">
             {/* CARDS */}
             <FeaturedProjectCard
               projectImage={arGoldUnit}
@@ -262,66 +290,23 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex px-44 gap-4 py-24 bg-primary text-white relative">
+        <div className="flex px-12 lg:px-44 gap-4 py-24 bg-primary text-white relative">
 
           <Image src={platinumUnit} alt="Search Icon" width={700} height={600} className="mx-auto absolute bottom-0 right-0" />
-          <div className="flex flex-col text-start gap-4 w-1/2 py-16">
-            <span className="space-y-2">
-              <h1 className="text-4xl font-bold">Find Available Home Near You</h1>
-              <p className="text-lg z-100 leading-tight">
+          <div className="flex flex-col text-start gap-4 w-full lg:w-1/2 py-16">
+            <span className="space-y-2 z-50">
+              <h1 className="text-3xl lg:text-4xl font-bold">Find Available Home Near You</h1>
+              <p className="text-md lg:text-lg z-100 leading-tight">
                 Discover your dream home with our comprehensive listing of
                 available properties across the Philippines.
               </p>
             </span>
          
-
-            <div className="flex gap-8 bg-background rounded-lg p-4 z-20">
-              <div className="relative w-full">
-                <ChevronDownIcon className="text-black w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 z-30" />
-                <select
-                  name="location"
-                  id="location"
-                  className="w-full h-12 text-sm bg-input text-black outline-none border-none rounded-md px-2 border-2 border-neutral-200"
-                >
-                  <option className="text-sm rounded-md" value="1">
-                    Location 1
-                  </option>
-                  <option className="text-sm" value="2">
-                    Location 2
-                  </option>
-                  <option className="text-sm" value="3">
-                    Location 3
-                  </option>
-                </select>
-              </div>
-
-              <div className="flex flex-col items-center gap-3 w-full">
-                <div className="flex flex-row items-center justify-between gap-2 w-full">
-                  <span className="text-muted-foreground text-sm">
-                    ₱10,000
-                  </span>
-                  <span className="text-muted-foreground text-sm">
-                      ₱1,500,000
-                  </span>
-                </div>
-          
-                <Slider
-                  id="price-slider"
-                  defaultValue={[10, 1500000]}
-                  max={1500000}
-                  step={5}
-                  className="mx-auto w-full max-w-xs"
-                />
-              </div>
-            
-              <button className="bg-secondary text-white px-3 py-2 rounded-lg cursor-pointer">
-                <Search className="w-6 h-6" />
-              </button>
-            </div>
+           <HouseSearchBar />
           </div>
         </div>
 
-        <section className="flex flex-col justify-center px-44 gap-4 py-16">
+        <section className="flex flex-col justify-center px-8 lg:px-44 gap-4 py-16">
           {/* SECTION HEADER */}
           <div className="flex flex-row items-center justify-between">
             <span>
@@ -334,37 +319,72 @@ export default function Home() {
             </span>
 
             <Button variant="secondary" className="bg-secondary text-white px-4 py-2 rounded-full cursor-pointer flex items-center gap-2">
-              View Latest News <ArrowRight className="w-4 h-4" />
+              More News <ArrowRight className="w-4 h-4" />
             </Button>
           </div>
 
-          <div className="flex flex-row items-center justify-center gap-4">
-            {/* CARDS */}
+          {/* <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 items-center justify-center gap-4">
             <NewsCard />
             <NewsCard />
             <NewsCard />
-            <NewsCard />
+          </div> */}
 
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+            {newsArticles.map((article) => (
+              <div key={article.id} className='flex flex-col bg-white rounded-xl overflow-hidden border border-neutral-100 shadow-sm hover:shadow-md transition-shadow'>
+                <div className='h-48 bg-neutral-200'>
+                  <Image src={article.image} alt={article.title} width={300} height={100} className="object-cover w-full h-full" />
+                </div> {/* Image Placeholder */}
+                <div className='p-6 flex flex-col'>
+                  <div className='flex justify-between items-center mb-3'>
+                    <span className='text-xs font-bold text-secondary uppercase'>{article.category}</span>
+                    <span className='text-xs text-neutral-400'>{article.date}</span>
+                  </div>
+                  <h3 className='text-xl font-bold mb-3 line-clamp-2'>{article.title}</h3>
+                  <p className='text-sm text-neutral-600 mb-6 line-clamp-3'>{article.excerpt}</p>
+                  <Link href={`/news/${article.id}`} className='bg-transparent text-primary px-4 py-2 rounded-full text-center mt-auto font-semibold text-sm border border-border hover:bg-primary hover:text-white hover:border-primary transition-all duration-300'>
+                    Read More
+                  </Link>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
-        <section className="bg-background flex justify-between items-start px-44 gap-4 py-16">
+        <section className="bg-background flex flex-col lg:flex-row justify-between items-start px-8 lg:px-44 gap-4 py-16">
           {/* SECTION HEADER */}
-          <div className="flex flex-row items-center justify-between">
-            <span>
-              <h1 className="text-3xl font-bold text-primary">Contact Us</h1>
-              <p className="text-lg">And we will handle the rest.</p>
-            </span>
-          </div>
+          <div className="flex items-center justify-between">
+            {/* RIGHT SIDE INFO */}
+            <div className="flex flex-col space-y-4">
+              <span>
+                <h1 className="text-4xl font-bold text-primary">Contact Us</h1>
+                <p className="text-lg">And we will handle the rest.</p>
+              </span>
 
+              <span>
+                <p>You can also reach us at:</p>
+                <ul className="flex flex-row items-center justify-center gap-4">
+                  <li className="flex flex-row items-center justify-center gap-2">
+                    <Phone className="w-4 h-4 text-primary" />
+                    <p>(02) 7752 2789</p>
+                  </li>
+                  <li className="flex flex-row items-center justify-center gap-2">
+                    <Mail className="w-4 h-4 text-primary" />
+                    <p>moreinfo@rland.ph</p>
+                  </li>
+                </ul>
+              </span>
+            </div>
+          </div>
+          
           {/* Contact Card */}
           <ContactForm />
         </section>
 
         {/* BANNER */}
         <section className="flex flex-col items-center justify-center bg-primary py-24">
-          <div className="flex flex-col items-center justify-center gap-4 px-44 text-white">
-            <h1 className="text-4xl font-bold">
+          <div className="flex flex-col items-center justify-center text-center gap-4 px-8 md:px-24 lg:px-44 text-white">
+            <h1 className="text-3xl lg:text-4xl font-bold">
               Ready to Settle on Your Dream Home?
             </h1>
             <p className="text-lg w-3/ text-center">

@@ -8,11 +8,11 @@ import Image from "next/image";
 
 function Footer() {
   return (
-    <div className="flex flex-row items-center justify-between h-120 p-16 bg-primary-fg space-x-8">
+    <div className="flex flex-col-reverse md:flex-row items-center justify-between h-auto lg:h-120 p-8 md:p-16 bg-primary-fg space-x-8">
       {/* LEFT */}
       <div className="flex flex-col justify-between w-full h-full p-4">
-        <div className="flex flex-col gap-4">
-          <Image src={rlandLogo} alt="R Land Logo" width={140} height={140} />
+        <div className="flex flex-col gap-6">
+          <Image src={rlandLogo} alt="R Land Logo" width={200} height={200} />
           <span className="flex flex-col gap-2 text-neutral-200">
             <li className="flex flex-row items-center gap-2">
               <MapPin className="w-4 h-4" />
@@ -66,7 +66,7 @@ function Footer() {
       {/* RIGHT */}
       <div className=" w-full h-full p-4 flex flex-col gap-8">
         {/* NEWSLETTER */}
-        <div className="bg-primary rounded-md p-6 text-white flex flex-col gap-4 w-5/6">
+        <div className="bg-primary rounded-md p-6 text-white flex flex-col gap-4 w-auto">
           <span>
             <h2 className="text-2xl font-bold">Subscribe to our newsletter</h2>
             <p>
@@ -95,7 +95,8 @@ function Footer() {
           </span>
         </div>
 
-        <div className="flex flex-row items-start gap-12">
+        {/* QUICK LINKS */}
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 items-start gap-12">
           <div className="flex flex-col text-sm text-white list-none gap-1">
             <h2 className="font-bold uppercase">Company</h2>
             <li className="text-neutral-300 hover:text-white">

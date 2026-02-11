@@ -6,10 +6,9 @@ import { Bath, Bed } from 'lucide-react';
 
 function FeaturedProjectCard({ projectImage, projectName, projectLocation }: { projectImage: StaticImageData, projectName: string, projectLocation: string }) {
   return (
-    <div className="w-80 border-2 border-neutral-200 rounded-xl">
+    <div className="w-auto border-2 border-neutral-200 rounded-xl">
         <div>
-        <Image src={projectImage} alt="Project 1" width={300} height={100} className="rounded-t-lg aspect-video object-cover" />
-        {/* <Image src="https://placehold.co/600x400" alt="Project 1" width={100} height={100} /> */}
+          <Image src={projectImage} alt="Project 1" width={300} height={100} className="rounded-t-lg aspect-video w-full object-cover" />
         </div>
 
         <span className="p-4 flex flex-col gap-4">
