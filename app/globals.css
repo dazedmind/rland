@@ -98,6 +98,10 @@
   --radius-4xl: calc(var(--radius) + 16px);
 }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   color: var(--foreground);
   font-family: 'Figtree', sans-serif;
@@ -141,9 +145,16 @@ body {
   * {
     @apply border-border outline-ring/50;  
   }
+
   body {
     @apply bg-background text-foreground;  
-  }  
+    transition: .3s ease-in-out;
+  }
+  
+  /* Prevent layout shift when dialogs open */
+  body[style*="pointer-events: none"] {
+    padding-right: 0 !important;
+  }
 }
 
 .gradient-overlay {

@@ -7,7 +7,7 @@ import Link from "next/link";
 import NewsCard from "@/components/NewsCard";
 import aeMeadowUnit from "@/public/ae-meadow-unit.jpg";
 import aeValleyUnit from "@/public/ae-valley-unit.jpg";
-import MobileNavBar from '@/components/MobileNavBar'
+import MobileNavBar from "@/components/MobileNavBar";
 
 // Mock Data for the articles
 const newsArticles = [
@@ -29,6 +29,15 @@ const newsArticles = [
       "The latest development aims to integrate sustainable architecture with modern living...",
     image: aeValleyUnit,
   },
+  {
+    id: 3,
+    category: "Blog",
+    title: "R Land Breaks Ground on New Eco-Friendly Residential Project",
+    date: "Feb 14, 2026",
+    excerpt:
+      "The latest development aims to integrate sustainable architecture with modern living...",
+    image: aeValleyUnit,
+  },
   // Add more mock items here...
 ];
 
@@ -40,22 +49,23 @@ function NewsPage() {
   return (
     <div className="pt-20 md:pt-30">
       <header>
-        <NavBar isScrolled={true} 
-        isMenuOpen={isMenuOpen} 
-        setIsMenuOpen={setIsMenuOpen} 
+        <NavBar
+          isScrolled={true}
+          isMenuOpen={isMenuOpen}
+          setIsMenuOpen={setIsMenuOpen}
         />
         <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       </header>
 
+      <PageBanner
+        title="R Land News & Updates"
+        description="Stay informed with our latest announcements, articles, and industry trends."
+        breadcrumb="News"
+      />
+      
       <main>
-        <PageBanner
-          title="R Land News & Updates"
-          description="Stay informed with our latest announcements, articles, and industry trends."
-          breadcrumb="News"
-        />
-
         {/* FEATURED STORY SECTION */}
-        <section className="px-8 md:px-16 lg:px-44 py-16">
+        <section className="px-8 md:px-16 xl:px-44 py-16">
           <h2 className="text-3xl font-bold mb-4 ">Featured Story</h2>
           <div className="group relative grid grid-cols-1 lg:grid-cols-2 gap-10 items-center overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-50 hover:shadow-md transition-all duration-300">
             <div className="relative h-64 lg:h-full min-h-[400px] overflow-hidden">
@@ -85,7 +95,7 @@ function NewsPage() {
         </section>
 
         {/* NEWS FEED SECTION */}
-        <section className="px-8 md:px-16 lg:px-44 py-16 bg-neutral-50">
+        <section className="px-8 md:px-16 xl:px-44 py-16 bg-neutral-50">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
             <h2 className="text-3xl font-bold">Latest News</h2>
 

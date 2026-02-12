@@ -29,18 +29,17 @@ function AboutUs() {
         />
         <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       </header>
-      <main>
         {/* PAGE BANNER */}
         <PageBanner
           title="About R Land"
           description="Learn more about R Land and our mission"
           breadcrumb="About Us"
         />
-
+      <main>
         {/* ABOUT US SECTION */}
-        <section className="flex flex-col items-start p-8 md:p-16 lg:px-44 xl:px-80 justify-center py-16 space-y-12">
+        <section className="flex flex-col items-start p-8 md:p-16 lg:px-16 xl:px-80 justify-center py-16 space-y-12">
           <span className="flex flex-col gap-4">
-            <h1 className="text-4xl font-bold">
+            <h1 className="text-4xl font-bold text-primary">
               Rooted in Nature, Designed for the Future
             </h1>
 
@@ -69,8 +68,8 @@ function AboutUs() {
           </div>
 
           <div className="flex flex-col gap-4">
-            <div className="flex justify-start gap-4">
-              <span className="flex flex-col items-center w-1/2 text-center border-border border-2 rounded-xl p-6 bg-linear-to-t from-neutral-50 to-neutral-200">
+            <div className="flex flex-col md:flex-row justify-start gap-4">
+              <span className="flex flex-col items-center w-full md:w-1/2 text-center border-border border-2 rounded-xl p-6 bg-linear-to-t from-neutral-50 to-neutral-200">
                 <Target className="w-20 h-20 text-secondary" strokeWidth={1} />
                 <h1 className="text-4xl font-bold text-primary">
                   Our Mission
@@ -83,7 +82,7 @@ function AboutUs() {
                 </p>
               </span>
 
-              <span className="flex flex-col items-center w-1/2 text-center border-border border-2 rounded-xl p-6 bg-linear-to-t from-neutral-50 to-neutral-200">
+              <span className="flex flex-col items-center w-full md:w-1/2 text-center border-border border-2 rounded-xl p-6 bg-linear-to-t from-neutral-50 to-neutral-200">
                 <Ribbon className="w-20 h-20 text-secondary" strokeWidth={1} />
                 <h1 className="text-4xl font-bold text-primary">
                   Our Promise

@@ -8,7 +8,7 @@ import { ChevronDownIcon } from "lucide-react";
 
 function ContactForm() {
   return (
-    <div className="bg-white border-2 border-neutral-200 rounded-lg p-6 md:p-8 w-full lg:w-4/6 gap-4">
+    <div className="bg-white border-2 border-neutral-200 rounded-lg p-6 md:p-6 w-full lg:w-4/6 gap-4">
       <div className="grid grid-cols-2 gap-4">
           <Field className="col-span-2 md:col-span-1">
             <FieldLabel>First Name</FieldLabel>

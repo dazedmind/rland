@@ -25,6 +25,7 @@ import NewsCard from "@/components/NewsCard";
 import platinumUnit from "@/public/platinum-unit-nobg.png";
 import HouseSearchBar from "@/components/HouseSearchBar";
 import Link from "next/link";
+import contactBg from "@/public/contact-bg.png";
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -73,10 +74,10 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-zinc-50 font-sans w-full">
       <header>
-        <NavBar 
-          isScrolled={isScrolled} 
-          isMenuOpen={isMenuOpen} 
-          setIsMenuOpen={setIsMenuOpen} 
+        <NavBar
+          isScrolled={isScrolled}
+          isMenuOpen={isMenuOpen}
+          setIsMenuOpen={setIsMenuOpen}
         />
         <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       </header>
@@ -93,14 +94,12 @@ export default function Home() {
                   the development of residential properties.
                 </p>
               </span>
-
-              <Button
-                variant="default"
-                size="lg"
-                className="bg-secondary text-white px-4 py-2 rounded-full"
+              <Link
+                href="/projects"
+                className="flex items-center gap-1 bg-secondary font-bold text-white px-4 py-2 rounded-full"
               >
                 View More Projects <ArrowRight className="w-4 h-4" />
-              </Button>
+              </Link>
             </div>
             <video
               className="w-full h-full object-cover"
@@ -115,7 +114,7 @@ export default function Home() {
           </div>
         </section>
 
-        <div className="flex flex-col text-center items-center justify-center py-24 gap-4 px-8 md:24 lg:px-44">
+        <div className="flex flex-col text-center items-center justify-center py-24 gap-4 px-8 md:24 xl:px-44">
           <h1 className="text-4xl font-bold text-primary text-center lg:text-left">
             Our Bright Future Together
           </h1>
@@ -189,7 +188,7 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col items-center justify-center h-auto lg:h-dvh">
-          <div className="flex flex-col md:flex-row-reverse h-auto lg:h-dvh w-full bg-neutral-100 py-12 px-8 md:px-16 lg:px-44">
+          <div className="flex flex-col md:flex-row-reverse h-auto lg:h-dvh w-full bg-neutral-100 py-12 px-8 md:px-16 xl:px-44">
             {/* Image */}
             <div className="w-full lg:w-1/2">
               <div className="h-100 bg-neutral-300 rounded-xl">
@@ -232,7 +231,7 @@ export default function Home() {
               </h1>
             </div>
 
-            <div className="flex flex-row items-center justify-center gap-8 md:gap-24 lg:gap-32 px-8 md:px-44 py-8">
+            <div className="flex flex-row items-center justify-center gap-8 md:gap-24 lg:gap-32 px-8 md:px-16 xl:px-44 py-8">
               <Image
                 src={rmrLogo}
                 alt="RMR Logo"
@@ -265,7 +264,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex flex-col h-auto lg:h-dvh justify-center px-8 lg:px-44 gap-4 py-16">
+        <div className="flex flex-col h-auto lg:h-dvh justify-center px-8 md:px-16 xl:px-44 gap-4 py-16">
           {/* SECTION HEADER */}
           <div className="flex flex-row items-center justify-between">
             <span>
@@ -312,7 +311,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex px-12 lg:px-44 gap-4 py-24 bg-primary text-white relative">
+        <div className="flex px-12 md:px-16 xl:px-44 gap-4 py-24 bg-primary text-white relative">
           <Image
             src={platinumUnit}
             alt="Search Icon"
@@ -323,7 +322,7 @@ export default function Home() {
           <div className="flex flex-col text-start gap-4 w-full lg:w-1/2 py-16">
             <span className="space-y-2 z-50">
               <h1 className="text-3xl lg:text-4xl font-bold">
-                Find Available Home Near You
+                Let's Find Available Home Near You
               </h1>
               <p className="text-md lg:text-lg z-100 leading-tight">
                 Discover your dream home with our comprehensive listing of
@@ -335,7 +334,7 @@ export default function Home() {
           </div>
         </div>
 
-        <section className="flex flex-col justify-center px-8 lg:px-44 gap-4 py-16">
+        <section className="flex flex-col justify-center px-8 md:px-16 xl:px-44 gap-4 py-16">
           {/* SECTION HEADER */}
           <div className="flex flex-row items-center justify-between">
             <span>
@@ -355,84 +354,67 @@ export default function Home() {
             </Button>
           </div>
 
-          {/* <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 items-center justify-center gap-4">
-            <NewsCard />
-            <NewsCard />
-            <NewsCard />
-          </div> */}
-
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {newsArticles.map((article) => (
-              <div
+              <NewsCard
                 key={article.id}
-                className="flex flex-col bg-white rounded-xl overflow-hidden border border-neutral-100 shadow-sm hover:shadow-md transition-shadow"
-              >
-                <div className="h-48 bg-neutral-200">
-                  <Image
-                    src={article.image}
-                    alt={article.title}
-                    width={300}
-                    height={100}
-                    className="object-cover w-full h-full"
-                  />
-                </div>{" "}
-                {/* Image Placeholder */}
-                <div className="p-6 flex flex-col">
-                  <div className="flex justify-between items-center mb-3">
-                    <span className="text-xs font-bold text-secondary uppercase">
-                      {article.category}
-                    </span>
-                    <span className="text-xs text-neutral-400">
-                      {article.date}
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-bold mb-3 line-clamp-2">
-                    {article.title}
-                  </h3>
-                  <p className="text-sm text-neutral-600 mb-6 line-clamp-3">
-                    {article.excerpt}
-                  </p>
-                  <Link
-                    href={`/news/${article.id}`}
-                    className="bg-transparent text-primary px-4 py-2 rounded-full text-center mt-auto font-semibold text-sm border border-border hover:bg-primary hover:text-white hover:border-primary transition-all duration-300"
-                  >
-                    Read More
-                  </Link>
-                </div>
-              </div>
+                articleImage={article.image}
+                articleTitle={article.title}
+                articleCategory={article.category}
+                articleDate={article.date}
+                articleExcerpt={article.excerpt}
+                articleID={article.id}
+              />
             ))}
           </div>
         </section>
 
-        <section className="bg-background flex flex-col lg:flex-row justify-between items-start px-8 lg:px-44 gap-4 py-16">
-          {/* SECTION HEADER */}
-          <div className="flex items-center justify-between">
-            {/* RIGHT SIDE INFO */}
-            <div className="flex flex-col space-y-4">
-              <span>
-                <h1 className="text-4xl font-bold text-primary">Contact Us</h1>
-                <p className="text-lg">And we will handle the rest.</p>
-              </span>
-
-              <span>
-                <p>You can also reach us at:</p>
-                <ul className="flex flex-row items-center justify-center gap-4">
-                  <li className="flex flex-row items-center justify-center gap-2">
-                    <Phone className="w-4 h-4 text-primary" />
-                    <p>(02) 7752 2789</p>
-                  </li>
-                  <li className="flex flex-row items-center justify-center gap-2">
-                    <Mail className="w-4 h-4 text-primary" />
-                    <p>moreinfo@rland.ph</p>
-                  </li>
-                </ul>
-              </span>
-            </div>
+        <div className="relative overflow-hidden">
+          {/* Background Image with Gradient Overlay */}
+          <div className="absolute inset-0 z-0">
+            <Image 
+              src={contactBg} 
+              alt="Contact Us" 
+              width={1920} 
+              height={1080}  
+              className="absolute w-full h-full object-cover"
+            />
+            {/* Gradient Overlay - blends to white on the left */}
+            <div className="absolute inset-0 bg-linear-to-b from-white via-white/90 to-white" />
           </div>
 
-          {/* Contact Card */}
-          <ContactForm />
-        </section>
+          <section className="relative z-10 flex flex-col lg:flex-row justify-between items-start px-8 md:px-16 xl:px-44 gap-8 py-16">
+            {/* SECTION HEADER */}
+            <div className="flex items-center justify-between">
+              {/* LEFT SIDE INFO */}
+              <div className="flex flex-col space-y-4">
+                <span>
+                  <h1 className="text-4xl font-bold text-primary">Contact Us</h1>
+                  <p className="text-lg">And we will handle the rest.</p>
+                </span>
+
+                <span>
+                  <p>You can also reach us at:</p>
+                  <ul className="flex flex-col lg:flex-row items-start lg:items-center gap-3 lg:gap-4 mt-2">
+                    <li className="flex flex-row items-center gap-2">
+                      <Phone className="w-4 h-4 text-primary" />
+                      <p>(02) 7752 2789</p>
+                    </li>
+                    <li className="flex flex-row items-center gap-2">
+                      <Mail className="w-4 h-4 text-primary" />
+                      <p>moreinfo@rland.ph</p>
+                    </li>
+                  </ul>
+                </span>
+              </div>
+            </div>
+
+            {/* Contact Card */}
+            <ContactForm />
+          </section>
+        </div>
+
+       
 
         {/* BANNER */}
         <section className="flex flex-col items-center justify-center bg-primary py-24">

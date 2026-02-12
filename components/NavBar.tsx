@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import rlandLogo from "@/public/rland_logo.png";
+import rlandLogo from "@/public/rland-logo.png";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
@@ -37,21 +37,13 @@ function NavBar({ isScrolled, isMenuOpen, setIsMenuOpen }: NavBarProps) {
         {/* UTILITY NAVIGATION */}
         <div className={`hidden md:flex items-center justify-end w-full text-sm p-2 px-16 transition-colors duration-300 ${isScrolled ? 'bg-neutral-100 text-black' : 'bg-neutral-100/10 text-white'}`}>
           <div className="flex items-center gap-4 list-none">
-            <li>
-              <a href="/loan-calculator">Loan Calculator</a>
-            </li>
-            <li>
-              <a href="/buyer-guide">Buyer&apos;s Guide</a>
-            </li>
-            <li>
-              <a href="/promos">Promos</a>
-            </li>
-            <li>
-              <a href="/">Broker&apos;s Login</a>
-            </li>
-            <li>
-              <a href="/careers">Careers</a>
-            </li>
+            {utilityLinks.map((link) => {
+              return (
+                <li key={link.href}>
+                  <a href={link.href}>{link.name}</a>
+                </li>
+              );
+            })}
           </div>
         </div>
 

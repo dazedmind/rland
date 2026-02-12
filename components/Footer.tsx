@@ -2,13 +2,14 @@ import { Mail, Phone, MailIcon, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FaFacebook, FaLinkedin, FaInstagram, FaYoutube } from "react-icons/fa";
 import { Input } from "@/components/ui/input";
-import rlandLogo from "@/public/rland_logo.png";
+import rlandLogo from "@/public/rland-logo-white.png";
 import Image from "next/image";
+import Link from "next/link";
 
 
 function Footer() {
   return (
-    <div className="flex flex-col-reverse md:flex-row items-center justify-between h-auto lg:h-120 p-8 md:p-16 bg-primary-fg space-x-8">
+    <div className="flex flex-col-reverse lg:flex-row items-center justify-between h-auto lg:h-120 p-6 md:p-16 bg-primary-fg gap-8">
       {/* LEFT */}
       <div className="flex flex-col justify-between w-full h-full p-4">
         <div className="flex flex-col gap-6">
@@ -61,7 +62,7 @@ function Footer() {
       </div>
 
       {/* SEPARATOR */}
-      <div className="w-px h-full bg-primary"></div>
+      <div className="w-full md:w-px h-px md:h-full bg-primary"></div>
 
       {/* RIGHT */}
       <div className=" w-full h-full p-4 flex flex-col gap-8">
@@ -100,55 +101,55 @@ function Footer() {
           <div className="flex flex-col text-sm text-white list-none gap-1">
             <h2 className="font-bold uppercase">Company</h2>
             <li className="text-neutral-300 hover:text-white">
-              <a href="/">About Us</a>
+              <Link href="/about-us">About Us</Link>
             </li>
             <li className="text-neutral-300 hover:text-white">
-              <a href="/">News</a>
+              <Link href="/news">News</Link>
             </li>
             <li className="text-neutral-300 hover:text-white">
-              <a href="/">Careers</a>
+              <Link href="/careers">Careers</Link>
             </li>
             <li className="text-neutral-300 hover:text-white">
-              <a href="/">Brokers Accreditation</a>
+              <Link href="/brokers-accreditation">Brokers Accreditation</Link>
             </li>
           </div>
 
           <div className="flex flex-col text-sm text-white list-none gap-1">
             <h2 className="font-bold uppercase">Projects</h2>
             <li className="text-neutral-300 hover:text-white">
-              <a href="/">Arcoe Residences</a>
+              <Link href="/arcoe-residences">Arcoe Residences</Link>
             </li>
             <li className="text-neutral-300 hover:text-white">
-              <a href="/">Arcoe Estates</a>
+              <Link href="/arcoe-estates">Arcoe Estates</Link>
             </li>
             <li className="text-neutral-300 hover:text-white">
-              <a href="/">Brighter Mornings</a>
+              <Link href="/brighter-mornings">Brighter Mornings</Link>
             </li>
           </div>
 
           <div className="flex flex-col text-sm text-white list-none gap-1">
             <h2 className="font-bold uppercase">Buyer</h2>
             <li className="text-neutral-300 hover:text-white">
-              <a href="/">Reservation</a>
+              <Link href="/reservation">Reservation</Link>
             </li>
             <li className="text-neutral-300 hover:text-white">
-              <a href="/">Contact Us</a>
+              <Link href="/contact-us">Contact Us</Link>
             </li>
             <li className="text-neutral-300 hover:text-white">
-              <a href="/">Buyer&apos;s Guide</a>
+              <Link href="/buyer-guide">Buyer&apos;s Guide</Link>
             </li>
             <li className="text-neutral-300 hover:text-white">
-              <a href="/">Loan Calculator</a>
+              <Link href="/loan-calculator">Loan Calculator</Link>
             </li>
           </div>
 
           <div className="flex flex-col text-sm text-white list-none gap-1">
             <h2 className="font-bold uppercase">Privacy</h2>
             <li className="text-neutral-300 hover:text-white">
-              <a href="/">Privacy Policy</a>
+              <Link href="/privacy-policy">Privacy Policy</Link>
             </li>
             <li className="text-neutral-300 hover:text-white">
-              <a href="/">Terms of Service</a>
+              <Link href="/privacy-policy">Terms of Service</Link>
             </li>
           </div>
         </div>

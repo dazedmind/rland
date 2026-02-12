@@ -1,16 +1,19 @@
 {
+  "/_global-error/page": "app/_global-error/page.js",
   "/_not-found/page": "app/_not-found/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/about-us/page": "app/about-us/page.js",
+  "/brokers-accreditation/page": "app/brokers-accreditation/page.js",
+  "/buyer-guide/page": "app/buyer-guide/page.js",
+  "/careers/[id]/page": "app/careers/[id]/page.js",
+  "/careers/page": "app/careers/page.js",
   "/contact-us/page": "app/contact-us/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/loan-calculator/page": "app/loan-calculator/page.js",
   "/news/page": "app/news/page.js",
-  "/about-us/page": "app/about-us/page.js",
   "/page": "app/page.js",
-  "/buyer-guide/page": "app/buyer-guide/page.js",
-  "/reservation/page": "app/reservation/page.js",
   "/privacy-policy/page": "app/privacy-policy/page.js",
-  "/brokers-accreditation/page": "app/brokers-accreditation/page.js",
-  "/careers/page": "app/careers/page.js",
+  "/projects/[id]/page": "app/projects/[id]/page.js",
+  "/projects/page": "app/projects/page.js",
   "/promos/page": "app/promos/page.js",
-  "/projects/page": "app/projects/page.js"
+  "/reservation/page": "app/reservation/page.js"
 }

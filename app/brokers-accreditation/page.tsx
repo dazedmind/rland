@@ -13,6 +13,7 @@ import Image from "next/image";
 import brokerHero from "@/public/brokers-hero.png";
 import PageBanner from "@/components/PageBanner";
 import MobileNavBar from "@/components/MobileNavBar";
+import Link from "next/link";
 
 function BrokersAccreditation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,9 +36,9 @@ function BrokersAccreditation() {
         />
 
         {/* ABOUT US SECTION */}
-        <section className="flex flex-col items-start px-8 md:px-24 lg:px-44 xl:px-80 justify-center py-16 space-y-8">
+        <section className="flex flex-col items-start px-8 md:px-16 lg:px-16 xl:px-80 justify-center py-16 space-y-8">
           <span className="flex flex-col gap-4 justify-center w-full">
-            <h1 className="text-4xl font-bold">
+            <h1 className="text-4xl font-bold text-primary">
               Broker's Accreditation Requirements
             </h1>
 
@@ -149,16 +150,21 @@ function BrokersAccreditation() {
                 />
                 <span className="p-6 md:px-2 flex flex-col justify-center gap-2">
                   <span>
-                    <h1 className="text-3xl font-bold">
+                    <h1 className="text-2xl lg:text-3xl font-bold">
                       Ready to Become a Broker?
                     </h1>
-                    <p className="text-md">
+                    <p className="text-sm">
                       Gain access to exclusive listings, premium support, and a
                       network designed for your success.
                     </p>
                   </span>
-
-                  <Button className="bg-secondary text-white rounded-md">Apply Now</Button>
+                  
+                  <Link href="https://docs.google.com/forms/d/e/1FAIpQLSdUjoDri-j4l73hE-TMSBxOp1gpFLJx0z3J6H76jQNZ4KpByw/viewform" target="_blank">
+                    <Button className="bg-secondary w-full text-white rounded-md">
+                     Apply Now
+                    </Button>
+                  </Link>
+             
                 </span>
               </div>
             </div>

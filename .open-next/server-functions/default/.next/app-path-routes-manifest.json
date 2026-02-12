@@ -1,16 +1,19 @@
 {
+  "/_global-error/page": "/_global-error",
   "/_not-found/page": "/_not-found",
-  "/favicon.ico/route": "/favicon.ico",
+  "/about-us/page": "/about-us",
+  "/brokers-accreditation/page": "/brokers-accreditation",
+  "/buyer-guide/page": "/buyer-guide",
+  "/careers/[id]/page": "/careers/[id]",
+  "/careers/page": "/careers",
   "/contact-us/page": "/contact-us",
+  "/favicon.ico/route": "/favicon.ico",
   "/loan-calculator/page": "/loan-calculator",
   "/news/page": "/news",
-  "/about-us/page": "/about-us",
   "/page": "/",
-  "/buyer-guide/page": "/buyer-guide",
-  "/reservation/page": "/reservation",
   "/privacy-policy/page": "/privacy-policy",
-  "/brokers-accreditation/page": "/brokers-accreditation",
-  "/careers/page": "/careers",
+  "/projects/[id]/page": "/projects/[id]",
+  "/projects/page": "/projects",
   "/promos/page": "/promos",
-  "/projects/page": "/projects"
+  "/reservation/page": "/reservation"
 }

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { PanelRightClose, X } from "lucide-react";
-import rlandLogo from "@/public/rland_logo.png";
+import rlandLogo from "@/public/rland-logo.png";
 
 interface MobileNavBarProps {
   isMenuOpen: boolean;

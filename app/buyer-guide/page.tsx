@@ -1,54 +1,60 @@
 "use client";
-import React from 'react'
-import NavBar from '@/components/NavBar'
-import Footer from '@/components/Footer'
-import PageBanner from '@/components/PageBanner'
-import MobileNavBar from '@/components/MobileNavBar'
-import { useState } from 'react'
+import React from "react";
+import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
+import PageBanner from "@/components/PageBanner";
+import MobileNavBar from "@/components/MobileNavBar";
+import { useState } from "react";
 
 function BuyerGuidePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <div className='pt-20 md:pt-30'>
-        <header>
-            <NavBar 
-            isScrolled={true} 
-            isMenuOpen={isMenuOpen} 
-            setIsMenuOpen={setIsMenuOpen} 
-            />
-            <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
-        </header>
-        <main>
-            {/* PAGE BANNER */}
-            <PageBanner
-		          title="Buyer&apos;s Guide"
-		          description="This guide helps you understand the buying process and what to expect."
-		          breadcrumb="Buyer&apos;s Guide"
-		        />
+    <div className="pt-20 md:pt-30">
+      <header>
+        <NavBar
+          isScrolled={true}
+          isMenuOpen={isMenuOpen}
+          setIsMenuOpen={setIsMenuOpen}
+        />
+        <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+      </header>
 
-            {/* ABOUT US SECTION */}
-            <section className='flex flex-col items-start px-44 justify-center py-16 space-y-8'>
-                <span className='flex flex-col gap-4'>
-                    <h1 className='text-4xl font-bold'>Rooted in Nature, Designed for the Future</h1>
+      {/* PAGE BANNER */}
+      <PageBanner
+        title="Buyer's Guide"
+        description="This guide helps you understand the buying process and what to expect."
+        breadcrumb="Buyer's Guide"
+      />
 
-                    <p className='leading-relaxed'>
-                    R Land Development Inc., a subsidiary of RMR Capital Inc., is dedicated to transforming landscapes into thriving centers of growth. The company is committed to creating thoughtfully-designed communities that lead to new opportunities and a promising future.
+      <main>
+        {/* ABOUT US SECTION */}
+        <section className="flex flex-col items-start px-44 justify-center py-16 space-y-8">
+          <span className="flex flex-col gap-4">
+            <h1 className="text-4xl font-bold">
+              Rooted in Nature, Designed for the Future
+            </h1>
 
-                    <br />
-                    <br />  
-
-                    Guided by the motto "Our Bright Future Together," R Land focuses on improving land and enriching lives through responsible and sustainable real estate projects that offer exceptional living experiences.
-                    </p>
-                </span>
-            </section>
-        </main>
-        <footer>
-            <Footer />
-        </footer>
-
+            <p className="leading-relaxed">
+              R Land Development Inc., a subsidiary of RMR Capital Inc., is
+              dedicated to transforming landscapes into thriving centers of
+              growth. The company is committed to creating thoughtfully-designed
+              communities that lead to new opportunities and a promising future.
+              <br />
+              <br />
+              Guided by the motto "Our Bright Future Together," R Land focuses
+              on improving land and enriching lives through responsible and
+              sustainable real estate projects that offer exceptional living
+              experiences.
+            </p>
+          </span>
+        </section>
+      </main>
+      <footer>
+        <Footer />
+      </footer>
     </div>
-  )
+  );
 }
 
-export default BuyerGuidePage
+export default BuyerGuidePage;
