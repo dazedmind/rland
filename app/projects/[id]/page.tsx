@@ -27,6 +27,8 @@ import { Button } from "@/components/ui/button";
 import ContactForm from "@/components/ContactForm";
 import contactBg from "@/public/contact-bg.png";
 
+export const runtime = 'edge';
+
 // Navigation sections
 const sections = [
   { id: "specification", label: "Specifications" },

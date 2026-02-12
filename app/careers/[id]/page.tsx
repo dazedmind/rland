@@ -17,6 +17,8 @@ import { Input } from "@/components/ui/input";
 import { FileUpload } from "@/components/ui/file-upload";
 import CareerCard from "@/components/CareerCard";
 
+export const runtime = 'edge';
+
 function AboutUs() {
   // Define state to hold a File object or null
   const [coverLetter, setCoverLetter] = useState<File | null>(null);
