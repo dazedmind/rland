@@ -372,11 +372,11 @@ export default function Home() {
         <div className="relative overflow-hidden">
           {/* Background Image with Gradient Overlay */}
           <div className="absolute inset-0 z-0">
-            <Image 
-              src={contactBg} 
-              alt="Contact Us" 
-              width={1920} 
-              height={1080}  
+            <Image
+              src={contactBg}
+              alt="Contact Us"
+              width={1920}
+              height={1080}
               className="absolute w-full h-full object-cover"
             />
             {/* Gradient Overlay - blends to white on the left */}
@@ -385,36 +385,44 @@ export default function Home() {
 
           <section className="relative z-10 flex flex-col lg:flex-row justify-between items-start px-8 md:px-16 xl:px-44 gap-8 py-16">
             {/* SECTION HEADER */}
-            <div className="flex items-center justify-between">
-              {/* LEFT SIDE INFO */}
-              <div className="flex flex-col space-y-4">
+            <div className="flex flex-row items-start w-full gap-4">
+              <div className="flex flex-col space-y-4 w-1/2">
                 <span>
-                  <h1 className="text-4xl font-bold text-primary">Contact Us</h1>
-                  <p className="text-lg">And we will handle the rest.</p>
+                  <h1 className="text-4xl md:text-5xl font-bold text-primary">
+                    Your next step in owning{" "}
+                    <span className="text-secondary font-serif italic">
+                      your dream home
+                    </span>{" "}
+                    starts{" "}
+                    <span className="text-secondary font-bold">here</span>
+                  </h1>
+                  <p className="text-base md:text-lg">
+                    Get in touch, and we'll handle the rest.
+                  </p>
                 </span>
 
                 <span>
-                  <p>You can also reach us at:</p>
-                  <ul className="flex flex-col lg:flex-row items-start lg:items-center gap-3 lg:gap-4 mt-2">
-                    <li className="flex flex-row items-center gap-2">
+                  <p>You may also reach us at:</p>
+                  <ul className="flex flex-wrap items-start justify-start gap-2 space-y-2 py-2 ">
+                    <li className="flex flex-row items-center justify-center gap-2 bg-neutral-100 rounded-full p-1 px-3">
                       <Phone className="w-4 h-4 text-primary" />
                       <p>(02) 7752 2789</p>
                     </li>
-                    <li className="flex flex-row items-center gap-2">
+                    <li className="flex flex-row items-center justify-center gap-2 bg-neutral-100 rounded-full p-1 px-3">
                       <Mail className="w-4 h-4 text-primary" />
                       <p>moreinfo@rland.ph</p>
                     </li>
                   </ul>
                 </span>
               </div>
-            </div>
 
-            {/* Contact Card */}
-            <ContactForm />
+              {/* Contact Card */}
+              <div className="w-1/2">
+                <ContactForm />
+              </div>
+            </div>
           </section>
         </div>
-
-       
 
         {/* BANNER */}
         <section className="flex flex-col items-center justify-center bg-primary py-24">
