@@ -37,12 +37,12 @@ function BrokersAccreditation() {
 
         {/* ABOUT US SECTION */}
         <section className="flex flex-col items-start px-8 md:px-16 lg:px-16 xl:px-80 justify-center py-16 space-y-8">
-          <span className="flex flex-col gap-4 justify-center w-full">
+          <span className="flex flex-col gap-2 justify-center w-full">
             <h1 className="text-4xl font-bold text-primary">
               Broker's Accreditation Requirements
             </h1>
 
-            <p className="leading-relaxed">
+            <p className="text-sm md:text-base leading-relaxed text-muted-foreground">
               Joining our exclusive network begins by meeting a few key
               qualifications. These standards help us maintain a trusted
               community of professionals, ensuring you benefit from premium

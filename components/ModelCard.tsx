@@ -5,17 +5,17 @@ import { Bed, Bath, Car, LandPlotIcon, Utensils } from 'lucide-react'
 function ModelCard() {
   return (
     <div className="border-border border flex flex-col rounded-lg">
-    <div className=" flex gap-2 rounded-md p-4 w-full">
-      {/* <Image src={houseModel1} alt="House Model 1" width={500} height={500} className="rounded-md object-cover" /> */}
-      <div className="h-full w-1/2">
+    <div className=" flex flex-col lg:flex-row gap-2 rounded-md p-4 w-full">
+      {/* IMAGE */}
+      <div className="h-full w-full lg:w-1/2">
         <img
           className="aspect-video object-cover rounded-lg"
           src="https://placehold.co/600x400"
           alt=""
         />
       </div>
-      {/* House details */}
-      <span className="flex flex-col justify-between gap-2 p-6 w-1/2">
+      {/* HOUSE DETAILS */}
+      <span className="flex flex-col justify-between gap-2 p-6  w-full lg:w-1/2">
         <span>
           <h2 className="text-2xl font-bold">Platinum Unit</h2>
           <p className="text-sm text-neutral-500">
@@ -38,35 +38,35 @@ function ModelCard() {
     </div>
 
     {/* HOUSE SPECIFICATION */}
-    <div className="flex justify-between items-center p-8 border-t border-border">
+    <div className="grid grid-cols-2 lg:flex justify-between items-center p-8 border-t border-border">
       <div className="flex items-center gap-2">
-        <Bed className="size-8 text-neutral-400" />
+        <Bed className="size-4 lg:size-8 text-neutral-400" />
         <span>
-          <p className="text-md">3 Bedrooms</p>
+          <p className="text-sm lg:text-md">3 Bedrooms</p>
         </span>
       </div>
       <div className="flex items-center gap-2">
-        <Bath className="size-8 text-neutral-400" />
+        <Bath className="size-4 lg:size-8 text-neutral-400" />
         <span>
-          <p className="text-md">2 Bathrooms</p>
+          <p className="text-sm lg:text-md">2 Bathrooms</p>
         </span>
       </div>
       <div className="flex items-center gap-2">
-        <Car className="size-8 text-neutral-400" />
+        <Car className="size-4 lg:size-8 text-neutral-400" />
         <span>
-          <p className="text-md">1 Carport</p>
+          <p className="text-sm lg:text-md">1 Carport</p>
         </span>
       </div>
       <div className="flex items-center gap-2">
-        <LandPlotIcon className="size-8 text-neutral-400" />
+        <LandPlotIcon className="size-4 lg:size-8 text-neutral-400" />
         <span>
-          <p className="text-md">Living and Dining</p>
+          <p className="text-sm lg:text-md">Living and Dining</p>
         </span>
       </div>
       <div className="flex items-center gap-2">
-        <Utensils className="size-8 text-neutral-400" />
+        <Utensils className="size-4 lg:size-8 text-neutral-400" />
         <span>
-          <p className="text-md">Kitchen</p>
+          <p className="text-sm lg:text-md">Kitchen</p>
         </span>
       </div>
     </div>

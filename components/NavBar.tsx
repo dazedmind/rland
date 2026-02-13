@@ -27,7 +27,7 @@ function NavBar({ isScrolled, isMenuOpen, setIsMenuOpen }: NavBarProps) {
     { name: "Loan Calculator", href: "/loan-calculator" },
     { name: "Buyer's Guide", href: "/buyer-guide" },
     { name: "Promos", href: "/promos" },
-    { name: "Broker's Login", href: "/broker-login" },
+    { name: "Broker's Login", href: "/" },
     { name: "Careers", href: "/careers" },
   ];
   
@@ -76,7 +76,7 @@ function NavBar({ isScrolled, isMenuOpen, setIsMenuOpen }: NavBarProps) {
               );
             })}
             
-            <button className="bg-primary text-white px-4 py-2 rounded-md cursor-pointer hover:bg-primary/90 transition-colors">
+            <button onClick={() => window.location.href = "/reservation"} className="bg-primary text-white px-4 py-2 rounded-md cursor-pointer hover:bg-primary/90 transition-colors">
               Reserve Now
             </button>
           </div>

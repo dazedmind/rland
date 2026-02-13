@@ -1,6 +1,7 @@
 "use client";
 import { ArrowUp } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import { Toaster } from "sonner";
 
 function UtilityWrapper({ children }: { children: React.ReactNode }) {
   useEffect(() => {
@@ -31,6 +32,8 @@ function UtilityWrapper({ children }: { children: React.ReactNode }) {
         </button>
       )}
       {children}
+
+      <Toaster />
     </div>
   );
 }

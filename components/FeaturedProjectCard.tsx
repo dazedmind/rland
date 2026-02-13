@@ -44,8 +44,8 @@ function ModernProjectCard({
           className="object-cover transition-transform duration-700" 
         />
         {/* Floating Price Tag */}
-        <div className="absolute top-4 left-4 backdrop-blur-md bg-white/90 px-3 py-1.5 rounded-lg border border-white/20 shadow-sm z-10">
-          <p className="text-xs font-bold text-primary uppercase tracking-tight">₱1.65M</p>
+        <div className="absolute top-4 left-4 backdrop-blur-md bg-linear-to-br from-secondary to-yellow-600 px-3 py-1.5 rounded-lg  shadow-sm z-10">
+          <p className="text-sm font-bold text-white uppercase tracking-tight">₱1.65M</p>
         </div>
 
         {/* DETAILS OVERLAY (Initially hidden/positioned below) */}
@@ -65,8 +65,7 @@ function ModernProjectCard({
           <h3 className="text-lg font-bold text-neutral-800 line-clamp-1 group-hover:text-primary transition-colors duration-300">
             {projectName}
           </h3>
-          <p className="text-sm text-neutral-500 flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+          <p className="text-sm text-neutral-500 italicflex items-center gap-1.5">
             {projectLocation}
           </p>
         </div>

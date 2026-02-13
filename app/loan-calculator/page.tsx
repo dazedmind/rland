@@ -222,9 +222,9 @@ function LoanCalculatorPage() {
       <main>
         {/* CALCULATOR SECTION */}
         <section className="flex flex-col items-start px-8 md:px-16 xl:px-64  justify-center py-16 space-y-8">
-          <span className="flex flex-col gap-4">
-            <h1 className="text-4xl font-bold">Finance Your Future Home</h1>
-            <p className="leading-relaxed">
+          <span className="flex flex-col gap-2">
+            <h1 className="text-4xl font-bold text-primary">Finance Your Future Home</h1>
+            <p className="text-sm md:text-base leading-relaxed text-muted-foreground">
               This loan calculator helps estimate your monthly payments based on
               your loan amount, interest rate, and payment terms.
             </p>

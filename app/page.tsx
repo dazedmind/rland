@@ -26,10 +26,13 @@ import platinumUnit from "@/public/platinum-unit-nobg.png";
 import HouseSearchBar from "@/components/HouseSearchBar";
 import Link from "next/link";
 import contactBg from "@/public/contact-bg.png";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
+  
   useEffect(() => {
     const handleScroll = () => {
       // Check if scrolled past the video hero section (100vh)
@@ -98,7 +101,7 @@ export default function Home() {
                 href="/projects"
                 className="flex items-center gap-1 bg-secondary font-bold text-white px-4 py-2 rounded-full"
               >
-                View More Projects <ArrowRight className="w-4 h-4" />
+                Explore Projects <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
             <video
@@ -271,7 +274,7 @@ export default function Home() {
               <h1 className="text-3xl font-bold text-primary">
                 Explore Our Realm
               </h1>
-              <p className="text-lg leading-snug">
+              <p className="text-sm md:text-base lg:text-lg leading-snug">
                 Browse our diverse projects each offering a familiar and comfort
                 vibes
               </p>
@@ -311,16 +314,10 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex px-12 md:px-16 xl:px-44 gap-4 py-24 bg-primary text-white relative">
-          <Image
-            src={platinumUnit}
-            alt="Search Icon"
-            width={700}
-            height={600}
-            className="mx-auto absolute bottom-0 right-0"
-          />
+        <div className="flex flex-col lg:flex-row px-12 md:px-16 xl:px-44 gap-4 pt-12 lg:py-24 bg-primary text-white relative">
+          {/* DETAILS SECTION */}
           <div className="flex flex-col text-start gap-4 w-full lg:w-1/2 py-16">
-            <span className="space-y-2 z-50">
+            <span className="space-y-2 z-10">
               <h1 className="text-3xl lg:text-4xl font-bold">
                 Let's Find Available Home Near You
               </h1>
@@ -332,6 +329,15 @@ export default function Home() {
 
             <HouseSearchBar />
           </div>
+
+          {/* HOUSE IMAGE HERO SECTION */}
+          <Image
+            src={platinumUnit}
+            alt="Search Icon"
+            width={700}
+            height={600}
+            className="mx-auto w-full lg:w-1/2 lg:absolute bottom-0 right-0"
+          />
         </div>
 
         <section className="flex flex-col justify-center px-8 md:px-16 xl:px-44 gap-4 py-16">
@@ -341,7 +347,7 @@ export default function Home() {
               <h1 className="text-3xl font-bold text-primary">
                 Latest News & Blogs
               </h1>
-              <p className="text-lg">
+              <p className="text-sm md:text-base lg:text-lg">
                 Stay updated with the most recent news & blogs from R Land
               </p>
             </span>
@@ -385,8 +391,8 @@ export default function Home() {
 
           <section className="relative z-10 flex flex-col lg:flex-row justify-between items-start px-8 md:px-16 xl:px-44 gap-8 py-16">
             {/* SECTION HEADER */}
-            <div className="flex flex-row items-start w-full gap-4">
-              <div className="flex flex-col space-y-4 w-1/2">
+            <div className="flex flex-col lg:flex-row items-start w-full gap-4">
+              <div className="flex flex-col space-y-4 w-full lg:w-1/2">
                 <span>
                   <h1 className="text-4xl md:text-5xl font-bold text-primary">
                     Your next step in owning{" "}
@@ -417,7 +423,7 @@ export default function Home() {
               </div>
 
               {/* Contact Card */}
-              <div className="w-1/2">
+              <div className="w-full lg:w-1/2">
                 <ContactForm />
               </div>
             </div>
