@@ -2,11 +2,18 @@
 import { ArrowUp } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Toaster } from "sonner";
+import { getGtm } from "@/lib/gtm";
 
 function UtilityWrapper({ children }: { children: React.ReactNode }) {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
-      // Check if scrolled past the video hero section (100vh)
       const heroHeight = 200;
       setIsScrolled(window.scrollY > heroHeight);
     };
@@ -14,8 +21,16 @@ function UtilityWrapper({ children }: { children: React.ReactNode }) {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-  
-  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    getGtm().then((gtm) => {
+      gtm.dataLayer({
+        dataLayer: {
+          event: "home_view",
+        }
+      });
+    });
+  }, []);
 
   const handleScrollToTop = () => {
     window.scrollTo({
@@ -26,7 +41,7 @@ function UtilityWrapper({ children }: { children: React.ReactNode }) {
 
   return (
     <div>
-      {isScrolled && (
+      {isMounted && isScrolled && (
         <button onClick={handleScrollToTop} className="flex flex-row items-center gap-2 bg-secondary rounded-full p-2 px-4 fixed bottom-8 right-8 z-50 cursor-pointer shadow-lg">
           <ArrowUp className="size-8 text-primary-fg" strokeWidth={3} />
         </button>

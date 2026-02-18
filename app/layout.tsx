@@ -4,6 +4,7 @@ import "./globals.css";
 import UtilityWrapper from "./UtilityWrapper";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
+import GoogleTagManager from "@/components/GoogleTagManager";
 
 const figtree = Figtree({
   variable: "--font-figtree",
@@ -29,13 +30,16 @@ export default function RootLayout({
 }>) {
   if (!GA_MEASUREMENT_ID) {
     console.log("GA_MEASUREMENT_ID is not set");
+  } else {
+    console.log("GA_MEASUREMENT_ID is set");
   }
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${figtree.variable} ${geistMono.variable} antialiased`}
       >
         <GoogleAnalytics gaId={GA_MEASUREMENT_ID as string} />
+        <GoogleTagManager gtmId={GA_MEASUREMENT_ID as string} />
         <UtilityWrapper>
           {children}
         </UtilityWrapper>
