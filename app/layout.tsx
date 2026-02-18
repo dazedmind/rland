@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Figtree, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import UtilityWrapper from "./UtilityWrapper";
-import { GoogleAnalytics } from "@next/third-parties/google";
-import CookieConsentBanner from "@/components/CookieConsentBanner";
-import GoogleTagManager from "@/components/GoogleTagManager";
+import UtilityWrapper from "../components/utils/UtilityWrapper";
+import CookieConsentBanner from "@/components/analytics/CookieConsentBanner";
+import GoogleTagManager from "@/components/analytics/GoogleTagManager";
+import GoogleAnalyticsWrapper from "@/components/analytics/GoogleAnalyticsWrapper";
+import { ConsentProvider } from "@/components/analytics/ConsentProvider";
 
 const figtree = Figtree({
   variable: "--font-figtree",
@@ -30,20 +31,20 @@ export default function RootLayout({
 }>) {
   if (!GA_MEASUREMENT_ID) {
     console.log("GA_MEASUREMENT_ID is not set");
-  } else {
-    console.log("GA_MEASUREMENT_ID is set");
   }
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${figtree.variable} ${geistMono.variable} antialiased`}
       >
-        <GoogleAnalytics gaId={GA_MEASUREMENT_ID as string} />
-        <GoogleTagManager gtmId={GA_MEASUREMENT_ID as string} />
-        <UtilityWrapper>
-          {children}
-        </UtilityWrapper>
-        <CookieConsentBanner />
+        <ConsentProvider>
+          <GoogleAnalyticsWrapper gaId={GA_MEASUREMENT_ID as string} />
+          <GoogleTagManager gtmId={GA_MEASUREMENT_ID as string} />
+          <UtilityWrapper>
+            {children}
+          </UtilityWrapper>
+          <CookieConsentBanner />
+        </ConsentProvider>
       </body>
     </html>
   )

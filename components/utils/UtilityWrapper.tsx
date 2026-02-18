@@ -3,10 +3,12 @@ import { ArrowUp } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Toaster } from "sonner";
 import { getGtm } from "@/lib/gtm";
+import { useConsent } from "@/components/analytics/ConsentProvider";
 
 function UtilityWrapper({ children }: { children: React.ReactNode }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const { consent, isInitialized } = useConsent();
 
   useEffect(() => {
     setIsMounted(true);
@@ -23,14 +25,16 @@ function UtilityWrapper({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    getGtm().then((gtm) => {
-      gtm.dataLayer({
-        dataLayer: {
-          event: "home_view",
-        }
+    if (isInitialized && consent === "accepted") {
+      getGtm().then((gtm) => {
+        gtm.dataLayer({
+          dataLayer: {
+            event: "home_view",
+          }
+        });
       });
-    });
-  }, []);
+    }
+  }, [isInitialized, consent]);
 
   const handleScrollToTop = () => {
     window.scrollTo({

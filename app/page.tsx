@@ -190,8 +190,8 @@ export default function Home() {
           </Button>
         </div>
 
-        <div className="flex flex-col items-center justify-center h-auto lg:h-dvh">
-          <div className="flex flex-col md:flex-row-reverse h-auto lg:h-dvh w-full bg-neutral-100 py-12 px-8 md:px-16 xl:px-44">
+        <div className="flex flex-col items-center justify-center h-auto">
+          <div className="flex flex-col md:flex-row-reverse h-auto w-full bg-neutral-100 py-12 px-8 md:px-16 xl:px-44">
             {/* Image */}
             <div className="w-full lg:w-1/2">
               <div className="h-100 bg-neutral-300 rounded-xl">
