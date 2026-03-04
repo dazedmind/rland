@@ -3,7 +3,7 @@ import React from "react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import PageBanner from "@/components/PageBanner";
-import ContactForm from "@/components/ContactForm";
+import ContactForm from "@/components/layout/ContactForm";
 import { Phone, Mail } from "lucide-react";
 import MobileNavBar from "@/components/MobileNavBar";
 import { useState } from "react";

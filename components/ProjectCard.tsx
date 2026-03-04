@@ -1,6 +1,6 @@
 import React from "react";
 import Image, { StaticImageData } from "next/image";
-import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
 
 function ProjectCard({
   projectImage,
@@ -8,17 +8,21 @@ function ProjectCard({
   projectLocation,
   projectStatus,
   projectLogo,
+  projectAccent,
+  className,
 }: {
   projectImage: StaticImageData;
   projectName: string;
   projectLocation: string;
   projectStatus: string;
   projectLogo: StaticImageData;
+  projectAccent: string;
+  className?: string;
 }) {
   return (
     <div className="flex flex-col gap-4 w-full">
       {/* CARD */}
-      <div className="w-auto h-60 bg-linear-to-t from-primary to-blue-950 rounded-lg relative transition-all duration-300 shadow-lg cursor-pointer group">
+      <div className={cn(`w-auto h-60 ${projectAccent} rounded-lg relative transition-all duration-300 shadow-lg cursor-pointer group`, className)}>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 group-hover:scale-110 transition-all duration-300">
           <Image src={projectLogo} alt="Project 2" width={200} height={200} />
         </div>

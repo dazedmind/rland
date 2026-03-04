@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use, createElement } from "react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import PageBanner from "@/components/PageBanner";
@@ -18,16 +18,20 @@ import {
   MapPin,
   Mail,
   Phone,
+  Building,
 } from "lucide-react";
 import arAerialView from "@/public/ar-aerial.png";
 import Image from "next/image";
 import ModelCard from "@/components/ModelCard";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import ContactForm from "@/components/ContactForm";
+import ContactForm from "@/components/layout/ContactForm";
 import contactBg from "@/public/contact-bg.png";
 import arcoeResidencesLogo from "@/public/project-logo/ar-logo.png";
-import { GoogleMapsIcon } from "@/components/icons/GoogleMapsIcon";
+import { ProjectDetails, getMinMaxArea, getPriceRange } from "@/app/utils/types";
+import ProjectDetailsSkeleton from "@/components/layout/skeleton/ProjectDetailsSkeleton";
+import ScrollReveal from "@/components/ui/ScrollReveal";
+import { priceFormatter } from "@/app/utils/priceFormatter";
 
 export const runtime = "edge";
 
@@ -40,40 +44,62 @@ const sections = [
   { id: "contact", label: "Contact Us" },
 ];
 
-function ProjectDetailsPage() {
+const landmarkIcon = [
+  { icon: Hospital, category: "Hospitals" },
+  { icon: School, category: "Schools" },
+  { icon: ShoppingCart, category: "Shopping Centers" },
+  { icon: Landmark, category: "Landmarks" },
+  { icon: TreePalm, category: "Leisure Parks" },
+  { icon: Building, category: "Common Landmarks" },
+]
+
+const typeMap = {
+  houselot: "House & Lot",
+  condo: "Condo",
+};
+
+function ProjectDetailsPage({
+  params,
+}: {
+  params: Promise<{ id: string }> | { id: string };
+}) {
+  const { id } = use(params as Promise<{ id: string }>);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("specification");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [project, setProject] = useState<ProjectDetails[]>([]);
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 200; // Offset for better detection
+      const scrollPosition = window.scrollY + 250; // Offset for navbar + threshold
 
-      // Find which section is currently in view
-      for (let i = sections.length - 1; i >= 0; i--) {
+      // Find which section is currently in view (use getBoundingClientRect for accurate doc position)
+      let currentSection = sections[0].id;
+      for (let i = 0; i < sections.length; i++) {
         const section = document.getElementById(sections[i].id);
         if (section) {
-          const sectionTop = section.offsetTop;
-          const sectionBottom = sectionTop + section.offsetHeight;
+          const rect = section.getBoundingClientRect();
+          const sectionTop = rect.top + window.scrollY;
 
-          if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-            setActiveSection(sections[i].id);
-            break;
+          if (scrollPosition >= sectionTop) {
+            currentSection = sections[i].id;
           }
         }
       }
+      setActiveSection(currentSection);
     };
 
-    // Initial check
-    handleScroll();
+    // Initial check after a brief delay (allow layout to settle)
+    const initTimer = setTimeout(handleScroll, 100);
 
-    // Add scroll listener
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
-    // Cleanup
     return () => {
+      clearTimeout(initTimer);
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [loading]);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -88,6 +114,73 @@ function ProjectDetailsPage() {
       });
     }
   };
+
+  useEffect(() => {
+    if (!id) return;
+    const fetchData = async () => {
+      try {
+        const res = await fetch(`/api/projects/${id}`);
+        if (!res.ok) {
+          if (res.status === 404) setError("Project not found");
+          else setError("Failed to load project");
+          setProject([]);
+          return;
+        }
+        const data = await res.json();
+        setProject(data?.project ? [{ project: data.project, models: data.models ?? [], inventory: data.featuredUnits ?? [] }] : []);
+      } catch (error) {
+        console.error("Error fetching project:", error);
+        setError("Failed to load project");
+        setProject([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="pt-20 md:pt-30">
+        <header>
+          <NavBar
+            isScrolled={true}
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+          />
+          <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+        </header>
+        <ProjectDetailsSkeleton />
+        <footer>
+          <Footer />
+        </footer>
+      </div>
+    );
+  }
+
+  const models = project[0]?.models ?? [];
+  const inventory = project[0]?.inventory ?? [];
+  const { minLot, maxLot, minFloor, maxFloor } = getMinMaxArea(models);
+  const { minPrice, maxPrice } = getPriceRange(inventory);
+
+  if (error) {
+    return (
+      <div className="pt-20 md:pt-30 min-h-screen flex flex-col items-center justify-center gap-4">
+        <header>
+          <NavBar isScrolled={true} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+          <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+        </header>
+        <p className="text-destructive">{error}</p>
+        <Link href="/projects" className="text-primary hover:underline">
+          Back to Projects
+        </Link>
+        <footer>
+          <Footer />
+        </footer>
+      </div>
+    );
+  }
+
   return (
     <div className="pt-20 md:pt-30">
       <header>
@@ -98,13 +191,6 @@ function ProjectDetailsPage() {
         />
         <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       </header>
-
-      {/* PAGE BANNER */}
-      {/* <PageBanner
-        title="Arcoe Residences"
-        description="Angeles City, Pampanga."
-        breadcrumb="Projects / Arcoe Residences"
-      /> */}
 
       <main className="relative">
         {/* Side Navigation - Hidden on mobile */}
@@ -129,10 +215,11 @@ function ProjectDetailsPage() {
         </nav>
 
         {/* PROJECT DETAILS SECTION */}
-        <section
-          className="flex flex-col items-start px-8 md:px-16 lg:px-44 xl:px-64 justify-center pt-16 space-y-8"
-          id="specification"
-        >
+        <ScrollReveal delay={0}>
+          <section
+            className="flex flex-col items-start px-8 md:px-16 lg:px-44 xl:px-64 justify-center pt-16 space-y-8"
+            id="specification"
+          >
           <span>
             <Link
               href="/projects"
@@ -149,8 +236,8 @@ function ProjectDetailsPage() {
             </div>
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
               <span className="flex flex-col">
-                <h1 className="text-4xl font-bold">Arcoe Residences</h1>
-                <p className="text-lg text-primary">Lipa City, Batangas</p>
+                <h1 className="text-4xl font-bold">{project[0]?.project?.projectName}</h1>
+                <p className="text-lg text-primary">{project[0]?.project?.location}</p>
               </span>
 
               <span>
@@ -168,14 +255,7 @@ function ProjectDetailsPage() {
             </div>
 
             <p className="leading-relaxed">
-              Arcoe Residences presents a neighborhood for quiet respite in a
-              progressive component city, creating an atmosphere of safety,
-              security and serenity. A diverse selection of shared courtyards
-              creates a genuine neighborly ambiance with a full range of
-              settings for recreation and relaxation, all connected by gardens,
-              bike and walk paths. A combination of a community center, a play
-              area, and multi-purpose court expands opportunities for
-              interaction and exchange between homeowners.
+              {project[0]?.project?.description}
             </p>
 
             <div className="flex flex-col md:flex-row gap-4 w-full border-border border-2 rounded-lg p-8 scroll-mt-24">
@@ -188,28 +268,28 @@ function ProjectDetailsPage() {
                   <House className="size-10 text-neutral-400" />
                   <span>
                     <p className="text-sm text-neutral-500">Type</p>
-                    <p className="text-xl font-bold">House & Lot</p>
+                    <p className="text-xl font-bold">{typeMap[project[0]?.project?.type as keyof typeof typeMap]}</p>
                   </span>
                 </div>
                 <div className="flex flex-row items-center gap-2">
                   <LandPlotIcon className="size-10 text-neutral-400" />
                   <span>
                     <p className="text-sm text-neutral-500">Lot Area</p>
-                    <p className="text-xl font-bold">42.50 – 182.00 sqm ±</p>
+                    <p className="text-xl font-bold">{minLot} – {maxLot} sqm ±</p>
                   </span>
                 </div>
                 <div className="flex flex-row items-center gap-2">
                   <PhilippinePeso className="size-10 text-neutral-400" />
                   <span>
                     <p className="text-sm text-neutral-500">Price Range</p>
-                    <p className="text-xl font-bold">PHP 1.841M – 4M</p>
+                    <p className="text-xl font-bold">{priceFormatter(minPrice)} – {priceFormatter(maxPrice)}</p>
                   </span>
                 </div>
                 <div className="flex flex-row items-center gap-2">
                   <Scan className="size-10 text-neutral-400" />
                   <span>
                     <p className="text-sm text-neutral-500">Floor Area</p>
-                    <p className="text-xl font-bold">46.00 – 71.00 sqm ±</p>
+                    <p className="text-xl font-bold">{minFloor} – {maxFloor} sqm ±</p>
                   </span>
                 </div>
               </div>
@@ -226,11 +306,13 @@ function ProjectDetailsPage() {
             />
           </div>
         </section>
+        </ScrollReveal>
 
-        <section
-          className="flex flex-col items-start px-8 md:px-16 lg:px-44 xl:px-64 justify-center space-y-8 scroll-mt-24 py-16"
-          id="amenities"
-        >
+        <ScrollReveal delay={100}>
+          <section
+            className="flex flex-col items-start px-8 md:px-16 lg:px-44 xl:px-64 justify-center space-y-8 scroll-mt-24 py-16"
+            id="amenities"
+          >
           <span
             id="amenities"
             className="flex flex-col gap-4 w-full scroll-mt-24"
@@ -238,135 +320,77 @@ function ProjectDetailsPage() {
             <h1 className="text-4xl font-bold">Amenities</h1>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="flex justify-center items-center h-50  bg-neutral-400 rounded-md">
-                <p className="text-xl font-bold text-white">
-                  {" "}
-                  Basketball Court
-                </p>
-              </div>
-
-              <div className="flex justify-center items-center h-50 bg-neutral-400 rounded-md">
-                <p className="text-xl font-bold text-white"> Jogging Trail</p>
-              </div>
-
-              <div className="flex justify-center items-center h-50 bg-neutral-400 rounded-md">
-                <p className="text-xl font-bold text-white"> Glamping Hub</p>
-              </div>
-
-              <div className="flex justify-center items-center h-50 bg-neutral-400 rounded-md">
-                <p className="text-xl font-bold text-white"> Swimming Pool</p>
-              </div>
+              {(project[0]?.project?.amenities ?? []).map((amenity) => (
+                <div key={amenity} className="flex justify-center items-center h-50  bg-neutral-400 rounded-md">
+                  <p className="text-xl font-bold text-white">{amenity}</p>
+                </div>
+              ))}
             </div>
           </span>
         </section>
+        </ScrollReveal>
 
-        <section
-          id="landmarks"
-          className="flex flex-col items-start px-8 md:px-16 lg:px-44 xl:px-64 justify-center py-16 space-y-8 bg-neutral-100 scroll-mt-24"
-        >
+        <ScrollReveal delay={150}>
+          <section
+            id="landmarks"
+            className="flex flex-col items-start px-8 md:px-16 lg:px-44 xl:px-64 justify-center py-16 space-y-8 bg-neutral-100 scroll-mt-24"
+          >
           <span className="flex flex-col gap-4 w-full">
             <h1 className="text-4xl font-bold">Nearby Landmarks</h1>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className="flex flex-col gap-2 rounded-md p-4 ">
-                <p className="flex items-center gap-2 text-xl font-bold">
-                  {" "}
-                  <span>
-                    <Hospital className="size-8 text-secondary" />
-                  </span>
-                  Hospitals
-                </p>
-                <ul className="list-disc list-outside text-slate-800 max-w-3xl pl-5">
-                  <li>San Antonio Medical Center Lipa</li>
-                  <li>NL Villa Memorial Medical Center</li>
-                  <li>Lipa Medix Medical Hospital</li>
-                  <li>Lipa Medics Medical Center Inc.</li>
-                </ul>
-              </div>
-
-              <div className="flex flex-col gap-2 rounded-md p-4 ">
-                <p className="flex items-center gap-2 text-xl font-bold">
-                  {" "}
-                  <span>
-                    <School className="size-8 text-secondary" />
-                  </span>
-                  Schools
-                </p>
-                <ul className="list-disc list-outside text-slate-800 max-w-3xl pl-5">
-                  <li>University of Batangas - Lipa Campus</li>
-                  <li>Lipa City Colleges</li>
-                  <li>De La Salle Lipa</li>
-                  <li>Lipa Medics Medical Center Inc.</li>
-                </ul>
-              </div>
-
-              <div className="flex flex-col gap-2 rounded-md p-4">
-                <p className="flex items-center gap-2 text-xl font-bold">
-                  {" "}
-                  <span>
-                    <TreePalm className="size-8 text-secondary" />
-                  </span>
-                  Leisure Parks
-                </p>
-                <ul className="list-disc list-outside text-slate-800 max-w-3xl pl-5">
-                  <li>Golf Course</li>
-                  <li>Mt. Malarayat</li>
-                  <li>The Farm at San Benito</li>
-                </ul>
-              </div>
-
-              <div className="flex flex-col gap-2 rounded-md p-4 ">
-                <p className="flex items-center gap-2 text-xl font-bold">
-                  {" "}
-                  <span>
-                    <ShoppingCart className="size-8 text-secondary" />
-                  </span>
-                  Malls and Shopping
-                </p>
-                <ul className="list-disc list-outside text-slate-800 max-w-3xl pl-5">
-                  <li>Fiesta Mall</li>
-                  <li>S&R Membership Shopping</li>
-                  <li>SM City Lipa</li>
-                  <li>Robinsons Place Lipa</li>
-                  <li>Lipa City Public Market</li>
-                  <li>Puregold Lipa</li>
-                  <li>Big Ben Complex</li>
-                </ul>
-              </div>
-
-              <div className="flex flex-col gap-2 rounded-md p-4 ">
-                <p className="flex items-center gap-2 text-xl font-bold">
-                  {" "}
-                  <span>
-                    <Landmark className="size-8 text-secondary" />
-                  </span>
-                  Common Landmarks
-                </p>
-                <ul className="list-disc list-outside text-slate-800 max-w-3xl pl-5">
-                  <li>Metropolitan Cathedral of Saint Sebastian</li>
-                  <li>Iglesia ni Cristo</li>
-                  <li>Lipa City Hall</li>
-                  <li>Lipa Fire Station</li>
-                </ul>
-              </div>
+              {(project[0]?.project?.landmarks ?? []).map((group, idx) => {
+                  const items = group.items ?? group.landmarks ?? [];
+                  return (
+                    <div key={idx} className="flex flex-col gap-2 rounded-md p-4">
+                      <p className="flex items-center gap-2 text-xl font-bold">
+                        <span>
+                          {landmarkIcon.find((icon) => icon.category === group.category)?.icon && createElement(landmarkIcon.find((icon) => icon.category === group.category)?.icon as any, { className: "size-8 text-secondary" })}
+                        </span>
+                      
+                        {group.category}
+                      </p>
+                      <ul className="list-disc list-outside text-slate-800 max-w-3xl pl-5">
+                        {items.map((item: string, i: number) => (
+                          <li key={`${idx}-${i}`}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  );
+                }
+              )}
             </div>
           </span>
         </section>
+        </ScrollReveal>
 
-        <section
-          id="models"
-          className="flex flex-col items-start px-8 md:px-16 lg:px-44 xl:px-64 justify-center py-16 space-y-8 scroll-mt-24"
-        >
+        <ScrollReveal delay={200}>
+          <section
+            id="models"
+            className="flex flex-col items-start px-8 md:px-16 lg:px-44 xl:px-64 justify-center py-16 space-y-8 scroll-mt-24"
+          >
           <span className="flex flex-col gap-8 w-full">
             <h1 className="text-4xl font-bold">House Models</h1>
-
-            <ModelCard />
-            <ModelCard />
-            <ModelCard />
+            {project[0]?.models?.length > 0 &&
+              project[0].models.map((model) => (
+                <ModelCard
+                  key={model.id}
+                  photoUrl={model.details?.photoUrl ?? ""}
+                  modelName={model.modelName}
+                  description={model.details?.description ?? ""}
+                  bedrooms={model.details?.livingRoom ?? 0}
+                  bathrooms={model.details?.bathroom ?? 0}
+                  carports={model.details?.carport ?? 0}
+                  livingAndDining={model.details?.livingRoom ?? 0}
+                  kitchen={model.details?.kitchen ?? 0}
+                />
+              ))}
           </span>
         </section>
+        </ScrollReveal>
 
-        <section className="relative z-10 flex flex-col lg:flex-row justify-between items-start px-8 md:px-16 lg:px-44 xl:px-64 gap-8 py-16">
+        <ScrollReveal delay={250}>
+          <section className="relative z-10 flex flex-col lg:flex-row justify-between items-start px-8 md:px-16 lg:px-44 xl:px-64 gap-8 py-16">
           <div className="w-full">
             <div className="flex items-center justify-between bg-linear-to-r from-primary-fg to-blue-950 text-white p-8 rounded-t-lg">
               <span>
@@ -395,8 +419,10 @@ function ProjectDetailsPage() {
             </div>
           </div>
         </section>
+        </ScrollReveal>
 
-        <div className="relative overflow-hidden" id="contact">
+        <ScrollReveal delay={300}>
+          <div className="relative overflow-hidden" id="contact">
           {/* Background Image with Gradient Overlay */}
           <div className="absolute inset-0 z-0">
             <Image
@@ -453,6 +479,7 @@ function ProjectDetailsPage() {
             </div>
           </section>
         </div>
+        </ScrollReveal>
       </main>
       <footer>
         <Footer />

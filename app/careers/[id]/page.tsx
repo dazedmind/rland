@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import PageBanner from "@/components/PageBanner";
@@ -16,13 +16,62 @@ import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { FileUpload } from "@/components/ui/file-upload";
 import CareerCard from "@/components/CareerCard";
+import CareerDetailsSkeleton from "@/components/layout/skeleton/CareerDetailsSkeleton";
+import { ArrowLeft, MoveLeft } from "lucide-react";
+import Link from "next/link";
+import { toast } from "sonner";
 
 export const runtime = 'edge';
 
-function AboutUs() {
+type Career = {
+  id: number;
+  position: string;
+  location: string;
+  jobDescription: string;
+  purpose: string;
+  responsibilities: string;
+  qualifications: string;
+  requiredSkills: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+const EMPTY_FORM_DATA = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone: '',
+  position: '',
+  location: '',
+  resume: null,
+  coverLetter: null,
+};
+
+function CareerDetailsPage({
+  params,
+}: {
+  params: Promise<{ id: string }> | { id: string };
+}) {
+
+  useEffect(() => {
+    if (params && typeof (params as Promise<{ id: string }>).then === "function") {
+      (params as Promise<{ id: string }>).then((p) => setId(p.id));
+    } else {
+      setId((params as { id: string }).id);
+    }
+  }, [params]);
+
+  const [id, setId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [career, setCareer] = useState<Career | null>(null);
+
   // Define state to hold a File object or null
   const [coverLetter, setCoverLetter] = useState<File | null>(null);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
+
+  const [formData, setFormData] = useState(EMPTY_FORM_DATA);
 
   // Type the ref for an HTMLInputElement
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -49,16 +98,57 @@ function AboutUs() {
     }
   };
 
-  const jobListing = [
-    {
-      id: 1,
-      position: "Marketing Support Associate / Site Officer",
-      location: "Angeles City, Pampanga",
-      description: "Responsible for over-all marketing related activities of the project — events, traditional and digital initiatives, public relations and research.",
-      datePosted: "Feb 12, 2026",
-    },
-  ];
-  
+  useEffect(() => {
+    if (!id) return;
+    setLoading(true);
+    const fetchCareer = async () => {
+      setError(null);
+      try {
+        const response = await fetch(`/api/careers/${id}`);
+        if (!response.ok) {
+          if (response.status === 404) {
+            setError("Career not found");
+          } else {
+            setError("Failed to load career");
+          }
+          setCareer(null);
+          return;
+        }
+        const data = await response.json();
+        setCareer(data);
+      } catch (err) {
+        console.error("Error fetching career:", err);
+        setError("Failed to load career");
+        setCareer(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCareer();
+  }, [id]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('/api/job_inquiry', {
+        method: 'POST',
+        body: JSON.stringify({ ...formData, position: career?.position || '' }),
+      });
+      if (response.ok) {
+        toast.success('Job inquiry submitted successfully');
+        setFormData(EMPTY_FORM_DATA);
+        setResumeFile(null);
+        setCoverLetter(null);
+      } else {
+        toast.error('Failed to submit job inquiry');
+      }
+    }
+    catch (error) {
+      console.error("Error submitting job inquiry:", error);
+    }
+  }
+
   return (
     <div className="mt-30">
       <header>
@@ -71,20 +161,29 @@ function AboutUs() {
       />
       <main className="flex flex-col lg:flex-row justify-start items-start px-8 md:px-24 xl:px-44 gap-8 py-16">
         {/* ABOUT US SECTION */}
+
+        {!loading ? (
         <section className="flex flex-col items-start justify-center space-y-8 w-full lg:w-2/3">
+          <Link
+            href="/careers"
+            className="flex items-center gap-2 text-primary"
+          >
+            {" "}
+            <ArrowLeft className="size-4" /> Back to Careers
+          </Link>
+
           <span className="flex flex-col gap-4">
             <span>
                 <h1 className="text-4xl font-bold">
-                MARKETING SUPPORT ASSOCIATE / SITE OFFICER
+                  {career?.position}
                 </h1>
-                <p className="text-lg font-bold text-secondary">Angeles City, Pampanga</p>
+                <p className="text-lg font-bold text-secondary">{career?.location}</p>
             </span>
 
 
             <h2 className="text-2xl font-bold">Purpose and Scope</h2>
             <p className="leading-relaxed">
-                Responsible for over-all marketing related activities of the project — events, traditional and digital initiatives, public relations and research.
-   
+                {career?.purpose}
             </p>
 
             <h2 className="text-2xl font-bold">
@@ -92,93 +191,30 @@ function AboutUs() {
             </h2>
 
             <ul className="list-disc list-outside space-y-3 text-slate-800 max-w-3xl marker:text-blue-600 pl-5">
-              <li>
-                Leads the implementation of project marketing activities and
-                sales-generating events.
-              </li>
-              <li>
-                Assist the Marketing Support Lead in implementing marketing
-                campaigns and strategies for the project.
-              </li>
-              <li>In-charge with local partnerships and sponsorships</li>
-              <li>In-charge with local PR networks and publications</li>
-              <li>
-                Ensures availability of marketing materials (OOH, posters,
-                flyers, brochures, digital, etc.) and selling tools of the
-                project.
-              </li>
-              <li>
-                Outsource and coordinate with suppliers for production of
-                marketing materials and events
-              </li>
-              <li>
-                Conducts competitors scan and market research for new and
-                updated information.
-              </li>
-              <li>Responsible for all ingress / egress exhibits and events.</li>
-              <li>
-                Keeps accurate inventory and accountability list of all
-                marketing materials and collaterals.
-              </li>
-              <li>
-                Monitors that all marketing collaterals are correct and within
-                branding guidelines prior to production and distribution to the
-                sales team.
-              </li>
-              <li>
-                Regularly check the project and activation sites if properly
-                cleaned and well maintained. Arranges for repairs if necessary.
-              </li>
-              <li>
-                Responsible for on-time processing of payments and liquidations
-                to suppliers.
-              </li>
-              <li>
-                Assists in daily administrative tasks to ensure smooth flow and
-                coordination of the project's activities.
-              </li>
-              <li>
-                Coordinates with other departments with project inquiries and
-                concerns.
-              </li>
-              <li>
-                Assists the Marketing Support Lead in monthly budget monitoring.
-              </li>
+                {career?.responsibilities.split('\n').map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
             </ul>
 
             <h2 className="text-2xl font-bold">Qualifications:</h2>
 
             <ol className="list-decimal list-outside space-y-3 text-slate-800 max-w-3xl pl-5">
-              <li>
-                Candidate must possess at least Bachelor's/College Degree in
-                Business Administration/Management/Marketing, Mass Communication
-                or any related course
-              </li>
-              <li>
-                Preferably at least I year working experience in related field
-                is required for this position
-              </li>
-              <li>Must be residing in Angeles City, or nearby</li>
-              <li>Must be willing to do fieldwork and weekend activities</li>
-              <li>
-                Able to effectively and timely perform tasks with minimal
-                supervision
-              </li>
-              <li>Required Skills:</li>
-              <ul className="list-disc list-outside space-y-3 text-slate-800 max-w-3xl marker:text-blue-600 pl-5">
-                <li>Good communication and interpersonal skills</li>
-                <li>Good written and verbal communication skills</li>
-                <li>Good organizational and time management skills</li>
-                <li>Good attention to detail</li>
-                <li>Good problem-solving skills</li>
-                <li>Good decision-making skills</li>
-              </ul>
+              {career?.qualifications.split('\n').map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
             </ol>
+
+            <h2 className="text-2xl font-bold">Required Skills:</h2>
+            <ul className="list-disc list-outside space-y-3 text-slate-800 max-w-3xl marker:text-blue-600 pl-5">
+              {career?.requiredSkills.split('\n').map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
+            </ul>
           </span>
 
           <Dialog>
             <DialogTrigger className="bg-primary text-white rounded-md w-fit p-2 px-4 font-bold cursor-pointer">
-              Apply Now
+              Submit Application
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
@@ -193,25 +229,25 @@ function AboutUs() {
                   <Input
                     type="text"
                     placeholder="Position"
-                    value="Marketing Support Associate / Site Officer"
+                    value={career?.position || ''}
                     disabled
                   />
                 </Field>
                 <Field>
                   <FieldLabel>First Name</FieldLabel>
-                  <Input type="text" placeholder="First Name" />
+                  <Input type="text" placeholder="First Name" value={formData.firstName} onChange={(e) => setFormData({ ...formData, firstName: e.target.value })} />
                 </Field>
                 <Field>
                   <FieldLabel>Last Name</FieldLabel>
-                  <Input type="text" placeholder="Last Name" />
+                  <Input type="text" placeholder="Last Name" value={formData.lastName} onChange={(e) => setFormData({ ...formData, lastName: e.target.value })} />
                 </Field>
                 <Field>
                   <FieldLabel>Email</FieldLabel>
-                  <Input type="email" placeholder="Email" />
+                  <Input type="email" placeholder="Email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
                 </Field>
                 <Field>
                   <FieldLabel>Phone</FieldLabel>
-                  <Input type="tel" placeholder="Phone" />
+                  <Input type="tel" placeholder="Phone" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })}  />
                 </Field>
 
                 <Field className="col-span-2">
@@ -236,13 +272,16 @@ function AboutUs() {
               <Button
                 size="lg"
                 className="bg-primary text-white rounded-md w-full p-2 px-4 font-bold cursor-pointer"
+                onClick={(e) => handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>)}
               >
                 Submit Application
               </Button>
             </DialogContent>
           </Dialog>
         </section>
-
+        ) : (
+          <CareerDetailsSkeleton />
+        )}
 
         <section className="flex flex-col items-start justify-center space-y-8 w-full lg:w-1/3">
           <div className="space-y-4 w-full">
@@ -251,9 +290,7 @@ function AboutUs() {
             <div className="w-full h-px bg-border"></div>
 
             <div className="w-full grid grid-cols-1 gap-4">
-              {jobListing.map((job) => (
-                <CareerCard key={job.id} position={job.position} location={job.location} datePosted={job.datePosted} description={job.description} id={job.id} />
-              ))}
+                <CareerCard limit={3}/>
             </div>
           </div>
         </section>
@@ -265,4 +302,4 @@ function AboutUs() {
   );
 }
 
-export default AboutUs;
+export default CareerDetailsPage;

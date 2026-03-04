@@ -6,6 +6,7 @@ import CookieConsentBanner from "@/components/analytics/CookieConsentBanner";
 import GoogleTagManager from "@/components/analytics/GoogleTagManager";
 import GoogleAnalyticsWrapper from "@/components/analytics/GoogleAnalyticsWrapper";
 import { ConsentProvider } from "@/components/analytics/ConsentProvider";
+import ScrollToTop from "@/components/utils/ScrollToTop";
 
 const figtree = Figtree({
   variable: "--font-figtree",
@@ -38,6 +39,7 @@ export default function RootLayout({
         className={`${figtree.variable} ${geistMono.variable} antialiased`}
       >
         <ConsentProvider>
+          <ScrollToTop />
           <GoogleAnalyticsWrapper gaId={GA_MEASUREMENT_ID as string} />
           <GoogleTagManager gtmId={GA_MEASUREMENT_ID as string} />
           <UtilityWrapper>

@@ -5,9 +5,51 @@ import { Input } from "@/components/ui/input";
 import rlandLogo from "@/public/rland-logo-white.png";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import { toast } from "sonner";
+import { z } from "zod";
 
 
 function Footer() {
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const validateEmail = (email: string) => {
+    const validation = z.object({
+      email: z.string().email(),
+    });
+    const validated = validation.safeParse({ email });
+    return validated.success;
+  }
+
+  const handleSubscribe = async () => {
+    if (!validateEmail(email)) {
+      toast.error('Please enter a valid email');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        body: JSON.stringify({ email }),
+      });
+      if (response.ok) {
+        toast.success('Subscribed to newsletter successfully');
+        setEmail('');
+      } else {
+        const error = await response.json();
+        toast.error(error.error);
+      }
+    }
+    catch (error) {
+      console.error("Error subscribing to newsletter:", error);
+      toast.error('Failed to subscribe to newsletter');
+    }
+    finally {
+      setLoading(false);
+    }
+  }
   return (
     <div className="flex flex-col-reverse lg:flex-row items-center justify-between h-auto lg:h-120 p-6 md:p-16 bg-primary-fg gap-8">
       {/* LEFT */}
@@ -83,6 +125,8 @@ function Footer() {
                 type="email"
                 placeholder="Enter your email"
                 className="w-full p-2 pl-10 rounded-md bg-input text-black"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
@@ -90,6 +134,7 @@ function Footer() {
               variant="default"
               size="lg"
               className="bg-secondary text-white rounded-md"
+              onClick={handleSubscribe}
             >
               Subscribe
             </Button>

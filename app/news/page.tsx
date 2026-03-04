@@ -8,38 +8,7 @@ import NewsCard from "@/components/NewsCard";
 import aeMeadowUnit from "@/public/ae-meadow-unit.jpg";
 import aeValleyUnit from "@/public/ae-valley-unit.jpg";
 import MobileNavBar from "@/components/MobileNavBar";
-
-// Mock Data for the articles
-const newsArticles = [
-  {
-    id: 1,
-    category: "Announcements",
-    title: "R Land Breaks Ground on New Eco-Friendly Residential Project",
-    date: "Feb 10, 2026",
-    excerpt:
-      "The latest development aims to integrate sustainable architecture with modern living...",
-    image: aeMeadowUnit,
-  },
-  {
-    id: 2,
-    category: "Events",
-    title: "R Land Breaks Ground on New Eco-Friendly Residential Project",
-    date: "Feb 14, 2026",
-    excerpt:
-      "The latest development aims to integrate sustainable architecture with modern living...",
-    image: aeValleyUnit,
-  },
-  {
-    id: 3,
-    category: "Blog",
-    title: "R Land Breaks Ground on New Eco-Friendly Residential Project",
-    date: "Feb 14, 2026",
-    excerpt:
-      "The latest development aims to integrate sustainable architecture with modern living...",
-    image: aeValleyUnit,
-  },
-  // Add more mock items here...
-];
+import NewsCardList from "@/components/layout/NewsCardList";
 
 function NewsPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -67,31 +36,7 @@ function NewsPage() {
         {/* FEATURED STORY SECTION */}
         <section className="px-8 md:px-16 xl:px-44 py-16">
           <h2 className="text-3xl font-bold mb-4 ">Featured Story</h2>
-          <div className="group relative grid grid-cols-1 lg:grid-cols-2 gap-10 items-center overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-50 hover:shadow-md transition-all duration-300">
-            <div className="relative h-64 lg:h-full min-h-[400px] overflow-hidden">
-              {/* Replace with real Image component */}
-              <div className="w-full h-full bg-neutral-300 animate-pulse" />
-            </div>
-            <div className="p-8 flex flex-col gap-4">
-              <span className="text-secondary font-bold uppercase tracking-widest text-sm">
-                Announcement
-              </span>
-              <h1 className="text-4xl font-bold leading-tight">
-                R Land Development Named Developer of the Year 2026
-              </h1>
-              <p className="text-neutral-600 leading-relaxed">
-                We are proud to announce that R Land has been recognized for its
-                commitment to sustainable growth and innovative community design
-                at the International Real Estate Awards...
-              </p>
-              <Link
-                href="/news/featured"
-                className="mt-4 font-bold text-primary flex items-center gap-2 hover:gap-4 transition-all"
-              >
-                Read Full Story <span>→</span>
-              </Link>
-            </div>
-          </div>
+          <NewsCard />
         </section>
 
         {/* NEWS FEED SECTION */}
@@ -114,19 +59,7 @@ function NewsPage() {
           </div>
 
           {/* Grid of News Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {newsArticles.map((article) => (
-              <NewsCard
-                key={article.id}
-                articleImage={article.image}
-                articleTitle={article.title}
-                articleCategory={article.category}
-                articleDate={article.date}
-                articleExcerpt={article.excerpt}
-                articleID={article.id}
-              />
-            ))}
-          </div>
+          <NewsCardList />
         </section>
       </main>
 

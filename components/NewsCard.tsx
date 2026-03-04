@@ -1,53 +1,64 @@
-import React from "react";
-import Image, { StaticImageData } from "next/image";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import NewsCardSkeleton from "@/components/layout/skeleton/NewsCardSkeleton";
 
-function NewsCard({
-  articleImage,
-  articleTitle,
-  articleCategory,
-  articleDate,
-  articleExcerpt,
-  articleID,
-}: {
-  articleImage: StaticImageData;
-  articleTitle: string;
-  articleCategory: string;
-  articleDate: string;
-  articleExcerpt: string;
-  articleID: number;
-}) {
+function NewsCard() {
+  const [articles, setArticles] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchArticles = async () => {
+    try {
+      const response = await fetch("/api/articles");
+      const data = await response.json();
+      setArticles(data);
+    } catch (error) {
+      console.error("[GET /api/articles]", error);
+      setArticles([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchArticles();
+  }, []);
+
+  if (loading) {
+    return <NewsCardSkeleton />;
+  }
+
+  if (articles.length === 0) {
+    return <div>No articles found</div>;
+  }
+  
   return (
-    <div
-      key={articleID}
-      className="flex flex-col bg-white rounded-xl overflow-hidden border border-neutral-100 shadow-sm hover:shadow-md transition-shadow"
-    >
-      <div className="h-48 bg-neutral-200">
+    <div className="group relative grid grid-cols-1 lg:grid-cols-2 gap-10 items-center overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-50 hover:shadow-md transition-all duration-300">
+      <div className="relative h-64 lg:h-full min-h-[400px] overflow-hidden">
+        {/* Replace with real Image component */}
         <Image
-          src={articleImage}
-          alt={articleTitle}
-          width={300}
-          height={100}
-          className="object-cover w-full h-full"
+          src={articles[0]?.photoUrl}
+          alt={articles[0]?.headline}
+          width={1000}
+          height={1000}
+          className="w-full h-full object-cover aspect-video"
         />
-      </div>{" "}
-      {/* Image Placeholder */}
-      <div className="p-6 flex flex-col">
-        <div className="flex justify-between items-center mb-3">
-          <span className="text-xs font-bold text-secondary uppercase">
-            {articleCategory}
-          </span>
-          <span className="text-xs text-neutral-400">{articleDate}</span>
-        </div>
-        <h3 className="text-xl font-bold mb-3 line-clamp-2">{articleTitle}</h3>
-        <p className="text-sm text-neutral-600 mb-6 line-clamp-3">
-          {articleExcerpt}
+      </div>
+      <div className="p-8 flex flex-col gap-4">
+        <span className="text-secondary font-bold uppercase tracking-widest text-sm">
+          {articles[0]?.type}
+        </span>
+        <h1 className="text-4xl font-bold leading-tight">
+          {articles[0]?.headline}
+        </h1>
+        <p className="text-neutral-600 leading-relaxed">
+          {articles[0]?.body.substring(0, 200)}...
         </p>
         <Link
-          href={`/news/${articleID}`}
-          className="bg-transparent text-primary px-4 py-2 rounded-full text-center mt-auto font-semibold text-sm border border-primary hover:bg-primary hover:text-white hover:border-primary transition-all duration-300"
+          href="/news/featured"
+          className="mt-4 font-bold text-primary flex items-center gap-2 hover:gap-4 transition-all"
         >
-          Read More
+          Read Full Story <span>→</span>
         </Link>
       </div>
     </div>

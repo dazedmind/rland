@@ -1,16 +1,29 @@
 import { ChevronDownIcon, Search } from "lucide-react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Slider } from "./ui/slider";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
-function HouseSearchBar({ className }: { className?: string }) {
-  const minPrice = 1000000;
-  const maxPrice = 5000000;
-  const [location, setLocation] = useState<string>("");
+const minPrice = 1000000;
+const maxPrice = 10000000;
 
-  const [priceRange, setPriceRange] = useState<number[]>([minPrice, maxPrice]);
+type HouseSearchBarProps = {
+  className?: string;
+  initialLocation?: string;
+  initialPriceRange?: [number, number];
+};
+
+function HouseSearchBar({ className, initialLocation = "", initialPriceRange }: HouseSearchBarProps) {
+  const [location, setLocation] = useState<string>(initialLocation);
+  const [priceRange, setPriceRange] = useState<number[]>(
+    initialPriceRange ?? [minPrice, maxPrice]
+  );
+
+  useEffect(() => {
+    if (initialLocation) setLocation(initialLocation);
+    if (initialPriceRange) setPriceRange(initialPriceRange);
+  }, [initialLocation, initialPriceRange]);
 
   const handlePriceChange = (value: number[]) => {
     setPriceRange(value);
@@ -51,21 +64,16 @@ function HouseSearchBar({ className }: { className?: string }) {
         <select
           name="location"
           id="location"
+          value={location}
           className="w-full h-12 text-sm bg-input text-black outline-none border-none rounded-md px-2 border-2 border-neutral-200"
           onChange={(e) => handleLocationChange(e.target.value)}
         >
           <option value="">Select Location</option>
-          {locations.map((location) => {
-            return (
-                <option
-                  key={location.value}
-                  className="text-sm rounded-md"
-                  value={location.value}
-                >
-                  {location.value}
-                </option>
-            );
-          })}
+          {locations.map((loc) => (
+            <option key={loc.value} className="text-sm rounded-md" value={loc.value}>
+              {loc.value}
+            </option>
+          ))}
         </select>
       </div>
 

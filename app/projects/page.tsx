@@ -1,21 +1,35 @@
 "use client";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
-import arcoeResidencesLogo from "@/public/project-logo/ar-logo-white.png";
-import arcoeEstatesLogo from "@/public/project-logo/ae-logo-white.png";
-import arAerialView from "@/public/ar-aerial.png";
-import aeAerialView from "@/public/ae-aerial.png";
-import ProjectCard from "@/components/ProjectCard";
-import PageBanner from "@/components/PageBanner";
+import arPlatinumUnit from "@/public/ar-platinum-unit.jpg";
 import MobileNavBar from "@/components/MobileNavBar";
-import { useState } from "react";
-import Link from "next/link";
+import { useEffect, useState } from "react";
+import ScrollReveal from "@/components/ui/ScrollReveal";
+import ProjectList from "@/components/layout/ProjectList";
+import Image from "next/image";
+import { GoStarFill } from "react-icons/go";
 
 function ProjectsPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [projects, setProjects] = useState([]);
+
+  const fetchProjects = async () => {
+    try {
+      const response = await fetch("/api/projects");
+      const data = await response.json();
+      setProjects(data);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+      setProjects([]);
+    }
+  };
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
 
   return (
-    <div className="pt-20 md:pt-30">
+    <div className="bg-white min-h-screen">
       <header>
         <NavBar
           isScrolled={true}
@@ -25,59 +39,80 @@ function ProjectsPage() {
         <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       </header>
 
-      {/* PAGE BANNER */}
-      <PageBanner
-        title="R Land Projects"
-        description="View current and upcoming developments of distinction and innovation."
-        breadcrumb="Projects"
-      />
-
       <main>
-        {/* ABOUT US SECTION */}
-        <section className="flex flex-col items-start px-8 md:px-16 xl:px-44 justify-center py-16 space-y-8">
-          <span className="flex flex-col gap-4">
-            <h1 className="text-4xl font-bold text-primary">
-              R Land's Projects
-            </h1>
+        {/* HERO SECTION */}
+        <section className=" min-h-[90dvh] px-8 md:px-16 xl:px-44  flex items-center justify-center lg:justify-center overflow-hidden  bg-linear-to-r from-primary to-blue-950 pt-20 bg-">
+          {/* <ScrollReveal className="w-full"> */}
 
-            <p className="leading-relaxed">
-              With Real Estate as the core business of R Land, the company gives
-              impetus to master-planning to project sales operation founded in
-              flexible and adaptive architectural designs, innovative marketing
-              strategies and competitive financial structures – ready to cater
-              to realty necessities of the market. These are the foundations of
-              R Land as one of the future major companies to partake in
-              answering the housing backlog of the country.
-            </p>
-          </span>
+          <div className="flex flex-col-reverse md:flex-row items-center relative justify-center md:justify-between gap-8 w-full container z-10">
+            <div className="py-12 lg:py-24 text-center lg:text-left flex flex-col gap-8">
+              <span>
+                <h1 className="text-5xl lg:text-6xl font-medium text-white leading-tight">
+                  Our <span className="text-secondary font-bold">Projects</span>
+                </h1>
+                <p className="text-blue-100 text-lg lg:text-xl lg:mx-0">
+                  Explore our portfolio of projects and find the perfect one for
+                  you.
+                </p>
+              </span>
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center gap-4 pb-16 w-full ">
-            <Link href="/projects/1">
-              <ProjectCard
-                projectLogo={arcoeResidencesLogo}
-                projectImage={arAerialView}
-                projectName="Arcoe Residences"
-                projectLocation="Lipa City, Batangas"
-                projectStatus="Pre-selling"
-              />
-            </Link>
-            <ProjectCard
-              projectLogo={arcoeEstatesLogo}
-              projectImage={aeAerialView}
-              projectName="Arcoe Estates"
-              projectLocation="Angeles City, Pampanga"
-              projectStatus="Under Construction"
-            />
+            <div className="flex items-center justify-center md:justify-end w-full relative">
+              {/* The Circle Container */}
+              <div className="w-full max-w-[300px] md:max-w-[400px] aspect-square rounded-full bg-primary-fg overflow-hidden border-8 border-primary-fg shadow-2xl relative">
+                <Image
+                  src={arPlatinumUnit}
+                  alt="Project 1"
+                  width={600}
+                  height={600}
+                  className="w-full h-full object-cover"
+                />
+              </div>
 
-            <ProjectCard
-              projectLogo={arcoeResidencesLogo}
-              projectImage={arAerialView}
-              projectName="Heroes' Town"
-              projectLocation="Cavite"
-              projectStatus="Coming Soon"
-            />
+              {/* Fixed at Lower Right */}
+              <span className="absolute bottom-8 right-0 lg:right-[-5%] translate-y-1 bg-primary-fg p-4 rounded-xl flex items-center gap-4 z-20">
+                <GoStarFill className="size-8 md:size-10 text-secondary" />
+                <span className="flex flex-col pr-4">
+                  <h1 className="text-xl md:text-xl font-bold text-white whitespace-nowrap">
+                    Arcoe Residences
+                  </h1>
+                  <p className="text-xs md:text-sm text-blue-100 italic">
+                    Lipa City, Batangas
+                  </p>
+                </span>
+              </span>
+            </div>
           </div>
+          {/* </ScrollReveal>      */}
         </section>
+
+        <ScrollReveal>
+          {/* ABOUT US SECTION */}
+          <section
+            id="projects"
+            className="flex flex-col items-start px-8 md:px-16 xl:px-44 justify-center py-16 space-y-8"
+          >
+            <span className="flex flex-col gap-4">
+              <h1 className="text-4xl font-bold text-primary">
+                R Land's Projects
+              </h1>
+
+              <p className="leading-relaxed">
+                With Real Estate as the core business of R Land, the company
+                gives impetus to master-planning to project sales operation
+                founded in flexible and adaptive architectural designs,
+                innovative marketing strategies and competitive financial
+                structures – ready to cater to realty necessities of the market.
+                These are the foundations of R Land as one of the future major
+                companies to partake in answering the housing backlog of the
+                country.
+              </p>
+            </span>
+
+            {/* PROJECT LIST */}
+            <ProjectList />
+          </section>
+        </ScrollReveal>
       </main>
       <footer>
         <Footer />

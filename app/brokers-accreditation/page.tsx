@@ -2,178 +2,203 @@
 import React, { useState } from "react";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import MobileNavBar from "@/components/MobileNavBar";
+import ScrollReveal from "@/components/ui/ScrollReveal";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import brokerHero from "@/public/brokers-hero.png";
-import PageBanner from "@/components/PageBanner";
-import MobileNavBar from "@/components/MobileNavBar";
 import Link from "next/link";
+import { 
+  CheckCircle2, 
+  ShieldCheck, 
+  Zap,
+  Lightbulb
+} from "lucide-react";
 
 function BrokersAccreditation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const scrollToSection = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
-    <div className="pt-20 md:pt-30">
+    <div className="bg-white min-h-screen">
       <header>
-        <NavBar 
-          isScrolled={true} 
-          isMenuOpen={isMenuOpen} 
-          setIsMenuOpen={setIsMenuOpen} 
-        />
+        <NavBar isScrolled={true} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
         <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       </header>
+
       <main>
-        {/* PAGE BANNER */}
-        <PageBanner
-          title="Brokers Accreditation"
-          description="Learn about the benefits and process of joining our exclusive network."
-          breadcrumb="Brokers Accreditation"
-        />
-
-        {/* ABOUT US SECTION */}
-        <section className="flex flex-col items-start px-8 md:px-16 lg:px-16 xl:px-80 justify-center py-16 space-y-8">
-          <span className="flex flex-col gap-2 justify-center w-full">
-            <h1 className="text-4xl font-bold text-primary">
-              Broker's Accreditation Requirements
-            </h1>
-
-            <p className="text-sm md:text-base leading-relaxed text-muted-foreground">
-              Joining our exclusive network begins by meeting a few key
-              qualifications. These standards help us maintain a trusted
-              community of professionals, ensuring you benefit from premium
-              support, exclusive listings, and a reputable partnership.
-            </p>
-
-            <div className="flex flex-col items-center justify-center space-y-4">
-              <Accordion
-                className="w-full"
-                type="single"
-                collapsible
-                defaultValue="item-1"
-              >
-                <AccordionItem value="item-1">
-                  <AccordionTrigger>General Requirements</AccordionTrigger>
-                  <AccordionContent>
-                    <ul className="flex flex-col gap-2 px-4 pt-4">
-                      <li>
-                        a. Photocopy of PRC Broker&apos;s License (latest/ back
-                        to back)
-                      </li>
-                      <li>b. Photocopy of PRC Certificate of Registration</li>
-                      <li>c. Photocopy of the HLURB Registration (if any)</li>
-                      <li>d. Photocopy of AMLC Certificate of Registration</li>
-                      <li>e. 2 pcs ID picture (1X1), white background;</li>
-                      <li>
-                        f. Duly signed Broker Accreditation Agreement (to be
-                        signed upon submission of requirements)
-                      </li>
-                      <li>
-                        g. Completely filled-out Broker Accreditation Form
-                        (refer to attached file)
-                      </li>
-                      <li>h. Photocopy of Official Receipt</li>
-                    </ul>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-
-              <Accordion
-                className="w-full"
-                type="single"
-                collapsible
-                defaultValue="item-4"
-              >
-                <AccordionItem value="item-1">
-                  <AccordionTrigger>
-                    Other Requirements (For Corporation):
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <ul className="flex flex-col gap-2 px-4 pt-4">
-                      <li>
-                        a. Board resolution authorizing a representative to
-                        apply for accreditation from the company & appointing a
-                        representative to get checks and transact with R Land
-                        Development, Inc;
-                      </li>
-                      <li>
-                        b. Photocopy of Articles of Incorporation and By-Laws
-                      </li>
-                      <li>c. Photocopy of current GIS received by SEC</li>
-                    </ul>
-                  </AccordionContent>
-                </AccordionItem>
-
-                <AccordionItem value="item-2">
-                  <AccordionTrigger>
-                    Other Requirements (For Partnership):
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <ul className="flex flex-col gap-2 py-2 px-4">
-                      <li>
-                        a. Photocopy of Certificate of Registration of
-                        Partnership with SEC
-                      </li>
-                      <li>b. Photocopy of Articles of Partnership with SEC</li>
-                    </ul>
-                  </AccordionContent>
-                </AccordionItem>
-
-                <AccordionItem value="item-3">
-                  <AccordionTrigger>
-                    Other Requirements (For Sole Proprietorship):
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <ul className="flex flex-col gap-2 py-2 px-4">
-                      <li>
-                        a. Photocopy of DTI Business Name Registration (if any)
-                      </li>
-                      <li>b. Photocopy of Business Permit</li>
-                      <li>c. Tax Identification Number (TIN)</li>
-                      <li>d. Certificate of BIR Registration</li>
-                    </ul>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-
-              <div className="flex bg-linear-to-t from-white to-neutral-200 border-border border-2 rounded-lg w-full px-0 md:px-8 lg:px-24">
-                <Image
-                  src={brokerHero}
-                  alt="Broker Accreditation"
-                  className="hidden md:block h-auto"
-                  width={300}
-                  height={300}
-                />
-                <span className="p-6 md:px-2 flex flex-col justify-center gap-2">
-                  <span>
-                    <h1 className="text-2xl lg:text-3xl font-bold">
-                      Ready to Become a Broker?
-                    </h1>
-                    <p className="text-sm">
-                      Gain access to exclusive listings, premium support, and a
-                      network designed for your success.
-                    </p>
-                  </span>
-                  
-                  <Link href="https://docs.google.com/forms/d/e/1FAIpQLSdUjoDri-j4l73hE-TMSBxOp1gpFLJx0z3J6H76jQNZ4KpByw/viewform" target="_blank">
-                    <Button className="bg-secondary w-full text-white rounded-md">
-                     Apply Now
-                    </Button>
-                  </Link>
-             
+        {/* HERO SECTION */}
+        <section className=" min-h-[90dvh] flex items-center justify-center lg:justify-start overflow-hidden  bg-linear-to-r from-primary to-blue-950 pt-20">
+          <div className="container px-8 md:px-16 xl:px-44  z-10 flex gap-12 items-center relative">
+            <ScrollReveal>
+              <div className="py-12 lg:py-24 text-center lg:text-left flex flex-col gap-8">
+                <span>
+                  <h1 className="text-5xl lg:text-6xl font-medium text-white leading-tight">
+                    Broker&apos;s Accreditation <span className="text-secondary font-bold">Program</span>
+                  </h1>
+                  <p className="text-blue-100 text-lg lg:text-xl max-w-xl mx-auto lg:mx-0">
+                    Join our Broker's Accreditation Program and gain exclusive access to premium listings and a community built for success.
+                  </p>
                 </span>
+                
+           
+                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                  <Button 
+                    size="lg"
+                    className="bg-secondary hover:bg-secondary/90 text-white px-10 py-6 text-lg rounded-full"
+                    asChild
+                  >
+                    <Link href="https://docs.google.com/forms/..." target="_blank">
+                      Apply Now
+                    </Link>
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="lg"
+                    className="text-white border-white/30 hover:bg-white/10 px-10 py-6 text-lg rounded-full"
+                    onClick={() => scrollToSection("requirements")}
+                  >
+                    View Checklist
+                  </Button>
+                </div>
+              </div>
+            </ScrollReveal>
+          
+          </div>
+        </section>
+
+        {/* TRUST BAR */}
+        <div className="bg-linear-to-tr from-slate-50 to-slate-100 border-y border-slate-100 py-8">
+          <div className="container mx-auto px-6 flex flex-wrap justify-center gap-12 lg:gap-24 opacity-60 grayscale">
+             <div className="flex items-center gap-2 font-bold text-primary"><ShieldCheck /> SEC REGISTERED</div>
+             <div className="flex items-center gap-2 font-bold text-primary"><Zap /> FAST PAYOUTS</div>
+             <div className="flex items-center gap-2 font-bold text-primary"><CheckCircle2 /> PRC ACCREDITED</div>
+          </div>
+        </div>
+
+        {/* REQUIREMENTS SECTION */}
+        <section id="requirements" className="py-24">
+          <div className="container mx-auto px-8 md:px-16 lg:px-24 xl:px-44">
+            <div className="flex flex-col xl:flex-row gap-16">
+              
+              {/* LEFT: CONTENT */}
+              <div className="xl:w-1/3 space-y-6">
+                <h2 className="text-4xl font-bold text-primary">Accreditation Requirements</h2>
+                <p className="text-slate-500 leading-relaxed">
+                  To maintain the highest standards of professional service, we require our partners to provide the following documentation. 
+                </p>
+                <div className="p-6 bg-secondary/5 rounded-2xl border border-secondary/10">
+                  <h4 className="font-bold text-primary mb-2 flex items-center gap-2">
+                    <Lightbulb size={18} className="text-secondary" />Tips
+                  </h4>
+                  <p className="text-sm text-slate-600">Ensure all photocopies are clear and ID pictures have a white background for faster approval.</p>
+                </div>
+              </div>
+
+              {/* RIGHT: COMPLETE ACCORDION LIST */}
+              <div className="xl:w-2/3">
+                <Accordion type="single" collapsible defaultValue="item-1" className="space-y-4">
+                  
+                  <AccordionItem value="item-1" className="rounded-xl p-0 bg-white overflow-hidden">
+                    <AccordionTrigger className="hover:no-underline font-bold text-xl py-6">
+                      General Requirements
+                    </AccordionTrigger>
+                    <AccordionContent className="p-6">
+                      <ul className="grid grid-cols-1 gap-4 text-slate-600">
+                        <li className="flex items-start gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-secondary flex-none"/> a. Photocopy of PRC Broker's License (latest/ back to back)</li>
+                        <li className="flex items-start gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-secondary flex-none"/> b. Photocopy of PRC Certificate of Registration</li>
+                        <li className="flex items-start gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-secondary flex-none"/> c. Photocopy of the HLURB Registration (if any)</li>
+                        <li className="flex items-start gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-secondary flex-none"/> d. Photocopy of AMLC Certificate of Registration</li>
+                        <li className="flex items-start gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-secondary flex-none"/> e. 2 pcs ID picture (1X1), white background</li>
+                        <li className="flex items-start gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-secondary flex-none"/> f. Duly signed Broker Accreditation Agreement (to be signed upon submission)</li>
+                        <li className="flex items-start gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-secondary flex-none"/> g. Completely filled-out Broker Accreditation Form</li>
+                        <li className="flex items-start gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-secondary flex-none"/> h. Photocopy of Official Receipt</li>
+                      </ul>
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="item-2" className="rounded-xl p-0 bg-white overflow-hidden">
+                    <AccordionTrigger className="hover:no-underline font-bold text-xl py-6 text-left">
+                      For Corporations
+                    </AccordionTrigger>
+                    <AccordionContent className="p-6">
+                      <ul className="space-y-4 text-slate-600">
+                        <li className="flex items-start gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-secondary flex-none"/> a. Board resolution authorizing a representative to apply for accreditation and appointing a representative to get checks and transact with R Land Development, Inc.</li>
+                        <li className="flex items-start gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-secondary flex-none"/> b. Photocopy of Articles of Incorporation and By-Laws</li>
+                        <li className="flex items-start gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-secondary flex-none"/> c. Photocopy of current GIS received by SEC</li>
+                      </ul>
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="item-3" className="rounded-xl p-0 bg-white overflow-hidden">
+                    <AccordionTrigger className="hover:no-underline font-bold text-xl py-6 text-left">
+                      For Partnerships
+                    </AccordionTrigger>
+                    <AccordionContent className="p-6">
+                      <ul className="space-y-4 text-slate-600">
+                        <li className="flex items-start gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-secondary flex-none"/> a. Photocopy of Certificate of Registration of Partnership with SEC</li>
+                        <li className="flex items-start gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-secondary flex-none"/> b. Photocopy of Articles of Partnership with SEC</li>
+                      </ul>
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="item-4" className="rounded-xl p-0 bg-white overflow-hidden">
+                    <AccordionTrigger className="hover:no-underline font-bold text-xl py-6 text-left">
+                      For Sole Proprietorship
+                    </AccordionTrigger>
+                    <AccordionContent className="p-6">
+                      <ul className="space-y-4 text-slate-600">
+                        <li className="flex items-start gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-secondary flex-none"/> a. Photocopy of DTI Business Name Registration (if any)</li>
+                        <li className="flex items-start gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-secondary flex-none"/> b. Photocopy of Business Permit</li>
+                        <li className="flex items-start gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-secondary flex-none"/> c. Tax Identification Number (TIN)</li>
+                        <li className="flex items-start gap-3"><div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-secondary flex-none"/> d. Certificate of BIR Registration</li>
+                      </ul>
+                    </AccordionContent>
+                  </AccordionItem>
+
+                </Accordion>
               </div>
             </div>
-          </span>
+          </div>
+        </section>
+
+        {/* FINAL CTA SECTION */}
+        <section className="pb-24 px-8 md:px-16 lg:px-24 xl:px-20">
+          <ScrollReveal>
+            <div className="max-w-7xl mx-auto bg-slate-50 rounded-xl overflow-hidden flex flex-col md:flex-row items-stretch border border-border">
+              <div className="md:w-1/3 bg-neutral-200 relative min-h-[300px]">
+                <Image 
+                  src={brokerHero} 
+                  alt="Join Us" 
+                  fill 
+                  className="object-cover transition-all duration-700"
+                />
+              </div>
+              <div className="md:w-2/3 p-10 lg:p-20 flex flex-col justify-center gap-6">
+                <h2 className="text-3xl lg:text-5xl font-bold text-primary leading-tight">
+                  Ready to Become an Accredited Broker?
+                </h2>
+                <p className="text-slate-600 text-lg">
+                  Gain access to exclusive listings, premium support, and a network designed specifically for your professional growth.
+                </p>
+                <div className="pt-4">
+                  <Button size="lg" className="bg-secondary text-white rounded-full px-12 py-8 text-xl shadow-lg hover:shadow-secondary/40 transition-all" asChild>
+                    <Link href="https://docs.google.com/forms/..." target="_blank">
+                      Submit Your Application
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
         </section>
       </main>
-      <footer>
-        <Footer />
-      </footer>
+
+      <Footer />
     </div>
   );
 }

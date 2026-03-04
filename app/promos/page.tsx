@@ -5,6 +5,7 @@ import PageBanner from "@/components/PageBanner";
 import MobileNavBar from "@/components/MobileNavBar";
 import { useState } from "react";
 import PromoCard from "@/components/PromoCard";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 import promo1 from "@/public/promo-sample.png";
 
 function PromosPage() {
@@ -29,6 +30,7 @@ function PromosPage() {
       />
 
       <main>
+        <ScrollReveal>
         {/* ABOUT US SECTION */}
         <section className="flex flex-col items-start px-8 md:px-16 xl:px-44 justify-center py-16 space-y-8">
           <span className="flex flex-col gap-4">
@@ -59,6 +61,7 @@ function PromosPage() {
             </div>
           </span>
         </section>
+        </ScrollReveal>
       </main>
       <footer>
         <Footer />

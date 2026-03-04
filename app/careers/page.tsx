@@ -7,6 +7,7 @@ import { ArrowDown, ArrowRight, ChevronDownIcon } from "lucide-react";
 import { Field, FieldLabel } from "@/components/ui/field";
 import CareerCard from "@/components/CareerCard";
 import { Button } from "@/components/ui/button";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 function CareersPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -67,23 +68,33 @@ function CareersPage() {
         <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       </header>
 
-      <div className="flex flex-col gap-4 items-start justify-center px-8 md:px-16 xl:px-44 h-dvh bg-linear-to-r from-primary to-blue-950 pt-20 md:pt-30">
-        <span>
-          <h1 className="text-4xl lg:text-5xl font-bold text-secondary">
-            Careers at <span className="text-white">R Land</span>
-          </h1>
-          <p className="text-sm lg:text-lg text-muted">
-            Here at R Land we are always looking for talented and passionate
-            individuals to join our team.
-          </p>
-        </span>
+      <section className=" min-h-[90dvh] flex items-center justify-center lg:justify-start overflow-hidden bg-linear-to-r from-primary to-blue-950 pt-20">
+          <div className="container px-8 md:px-16 xl:px-44  z-10 flex gap-12 items-center relative">
+            <ScrollReveal>
+              <div className="py-12 lg:py-24 text-center lg:text-left flex flex-col gap-8">
+                <span>
+                  <h1 className="text-5xl lg:text-6xl font-medium text-white leading-tight">
+                    Careers at <span className="text-secondary font-bold">R Land</span>
+                  </h1>
+                  <p className="text-blue-100 text-lg lg:text-xl lg:mx-0">
+                    Here at R Land we are always looking for talented and passionate individuals to join our team.
+                  </p>
+                </span>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                  <Button 
+                    size="lg"
+                    className="bg-secondary hover:bg-secondary/90 text-white px-10 py-6 text-lg rounded-full"
+                    onClick={() => scrollToSection("jobs")}
+                  >
+                    See Available Jobs <ArrowDown className="w-4 h-4 animate-bounce" />
+                  </Button>
+                </div>
+              </div>
 
-        <span>
-          <Button onClick={() => scrollToSection("jobs")} className="bg-primary text-white rounded-md w-fit">
-            See Available Jobs <ArrowDown className="w-4 h-4 animate-bounce" />
-          </Button>
-        </span>
-      </div>
+      
+            </ScrollReveal>
+          </div>
+        </section>
       
       <main>
         {/* JOBS SECTION */}
@@ -124,16 +135,7 @@ function CareersPage() {
 
             {/* CARDS */}
             <div className="w-full grid grid-cols-1 gap-4">
-              {jobListing.map((job) => (
-                <CareerCard
-                  key={job.id}
-                  position={job.position}
-                  location={job.location}
-                  datePosted={job.datePosted}
-                  description={job.description}
-                  id={job.id}
-                />
-              ))}
+              <CareerCard />
             </div>
           </div>
         </section>
