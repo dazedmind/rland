@@ -1,9 +1,9 @@
 "use client";
 import React, { useState, useMemo } from "react";
-import NavBar from "@/components/NavBar";
-import Footer from "@/components/Footer";
-import PageBanner from "@/components/PageBanner";
-import MobileNavBar from "@/components/MobileNavBar";
+import NavBar from "@/components/layout/NavBar";
+import Footer from "@/components/layout/Footer";
+import PageBanner from "@/components/layout/PageBanner";
+import MobileNavBar from "@/components/layout/MobileNavBar";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { ChevronDownIcon, RotateCcw } from "lucide-react";
@@ -410,7 +410,8 @@ function LoanCalculatorPage() {
                   <Button
                     onClick={handleClear}
                     variant="outline"
-                    className="flex-1 bg-input  rounded-md "
+                    size="sm"
+                    className="w-full text-foreground"
                   >
                     {" "}
                     <RotateCcw className="w-4 h-4" /> Clear

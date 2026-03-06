@@ -209,3 +209,25 @@ select {
     opacity: 1;
   }
 }
+
+.accordion-content {
+  overflow: hidden;
+}
+
+.accordion-content[data-state="open"] {
+  animation: accordion-down 0.3s ease-out forwards;
+}
+
+.accordion-content[data-state="closed"] {
+  animation: accordion-up 0.3s ease-out forwards;
+}
+
+@keyframes accordion-down {
+  from { height: 0; opacity: 0; }
+  to { height: var(--radix-accordion-content-height); opacity: 1; }
+}
+
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); opacity: 1; }
+  to { height: 0; opacity: 0; }
+}

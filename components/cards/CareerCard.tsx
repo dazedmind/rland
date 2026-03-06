@@ -1,9 +1,9 @@
 import { Clock, MapPin } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { dateFormatter } from "@/app/utils/dateFormatter";
-import CareerListSkeleton from "./layout/skeleton/CareerListSkeleton";
+import CareerListSkeleton from "../layout/skeleton/CareerListSkeleton";
 
 type Career = {
   id: number;
@@ -58,7 +58,7 @@ function CareerCard({ limit }: { limit?: number }) {
               </p>
 
               <Link href={`/careers/${career.id}`}>
-                <Button className="bg-primary text-white rounded-md w-fit">
+                <Button size="sm" variant="primary" className="w-full lg:w-fit text-white">
                   Apply Now
                 </Button>
               </Link>

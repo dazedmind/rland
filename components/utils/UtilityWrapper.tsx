@@ -46,8 +46,8 @@ function UtilityWrapper({ children }: { children: React.ReactNode }) {
   return (
     <div>
       {isMounted && isScrolled && (
-        <button onClick={handleScrollToTop} className="flex flex-row items-center gap-2 bg-secondary rounded-full p-2 px-4 fixed bottom-8 right-8 z-50 cursor-pointer shadow-lg">
-          <ArrowUp className="size-8 text-primary-fg" strokeWidth={3} />
+        <button onClick={handleScrollToTop} className="flex flex-row items-center justify-center gap-2 w-15 h-15 bg-primary hover:bg-primary/90 text-white rounded-full fixed bottom-8 right-8 z-50 cursor-pointer shadow-lg">
+          <ArrowUp className="size-8 text-white" strokeWidth={3} />
         </button>
       )}
       {children}

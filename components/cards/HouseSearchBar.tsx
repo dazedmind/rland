@@ -1,6 +1,6 @@
 import { ChevronDownIcon, Search } from "lucide-react";
 import React, { useState, useEffect } from "react";
-import { Slider } from "./ui/slider";
+import { Slider } from "../ui/slider";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";

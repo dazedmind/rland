@@ -1,9 +1,9 @@
 "use client";
 import { useState, useEffect, use, createElement } from "react";
-import NavBar from "@/components/NavBar";
-import Footer from "@/components/Footer";
-import PageBanner from "@/components/PageBanner";
-import MobileNavBar from "@/components/MobileNavBar";
+import NavBar from "@/components/layout/NavBar";
+import Footer from "@/components/layout/Footer";
+import PageBanner from "@/components/layout/PageBanner";
+import MobileNavBar from "@/components/layout/MobileNavBar";
 import {
   Hospital,
   House,
@@ -22,12 +22,11 @@ import {
 } from "lucide-react";
 import arAerialView from "@/public/ar-aerial.png";
 import Image from "next/image";
-import ModelCard from "@/components/ModelCard";
+import ModelCard from "@/components/cards/ModelCard";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import ContactForm from "@/components/layout/ContactForm";
 import contactBg from "@/public/contact-bg.png";
-import arcoeResidencesLogo from "@/public/project-logo/ar-logo.png";
 import { ProjectDetails, getMinMaxArea, getPriceRange } from "@/app/utils/types";
 import ProjectDetailsSkeleton from "@/components/layout/skeleton/ProjectDetailsSkeleton";
 import ScrollReveal from "@/components/ui/ScrollReveal";
@@ -232,7 +231,7 @@ function ProjectDetailsPage({
           <span className="flex flex-col gap-4">
 
             <div className="py-8">
-              <Image src={arcoeResidencesLogo} alt="Arcoe Residences Logo" width={300} height={300} className="rounded-xl object-contain" />
+              <Image src={project[0]?.project?.logoUrl ?? ""} alt="Project Logo" width={300} height={300} className="rounded-xl object-contain" />
             </div>
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
               <span className="flex flex-col">
@@ -242,7 +241,7 @@ function ProjectDetailsPage({
 
               <span>
                 <Link
-                  href="https://maps.app.goo.gl/h3sYX7hSRMicJyuj8"
+                  href={project[0]?.project?.mapLink ?? ""}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -298,8 +297,8 @@ function ProjectDetailsPage({
 
           <div className="w-full h-80 bg-neutral-200 rounded-xl">
             <Image
-              src={arAerialView}
-              alt="Arcoe Residences Aerial View"
+              src={project[0]?.project?.photoUrl ?? (null as any)}
+              alt="Project Aerial View"
               width={500}
               height={500}
               className="rounded-xl object-cover h-full w-full"
@@ -402,7 +401,7 @@ function ProjectDetailsPage({
               </span>
 
               <span>
-                <Button onClick={() => scrollToSection("contact")}>
+                <Button size="sm" variant="default" onClick={() => scrollToSection("contact")}>
                   Reserve Now
                 </Button>
               </span>

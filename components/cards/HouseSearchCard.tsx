@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import Link from "next/link";
 import { Fullscreen, GalleryVerticalEnd } from "lucide-react";
 import aeMeadowUnit from "@/public/ae-meadow-unit.jpg";

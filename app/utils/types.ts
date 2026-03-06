@@ -37,6 +37,8 @@ export type ProjectBase = {
   projectName: string;
   location: string | null;
   photoUrl: string | null;
+  logoUrl: string | null;
+  mapLink: string | null;
   type: string;
   description?: string | null;
   amenities: string[];

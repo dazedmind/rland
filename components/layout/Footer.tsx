@@ -132,8 +132,8 @@ function Footer() {
 
             <Button
               variant="default"
-              size="lg"
-              className="bg-secondary text-white rounded-md"
+              size="sm"
+              className="text-white"
               onClick={handleSubscribe}
             >
               Subscribe

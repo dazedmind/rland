@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import NavBar from "@/components/NavBar";
-import Footer from "@/components/Footer";
+import NavBar from "@/components/layout/NavBar";
+import Footer from "@/components/layout/Footer";
 import aboutUsImage from "@/public/ae-meadow-unit.jpg";
 import Image from "next/image";
 import {
@@ -12,45 +12,57 @@ import {
   Target,
   Trophy,
   Users,
+  ArrowRight,
 } from "lucide-react";
-import PageBanner from "@/components/PageBanner";
-import MobileNavBar from "@/components/MobileNavBar";
+import PageBanner from "@/components/layout/PageBanner";
+import MobileNavBar from "@/components/layout/MobileNavBar";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+
 const companyValues = [
   {
-    icon: <Users className="size-16 text-secondary" strokeWidth={1} />,
+    icon: <Users className="size-10" strokeWidth={1.5} />,
     title: "Teamwork",
     description:
       "We believe in the exponential power of minds working together to achieve greater outcomes.",
   },
   {
-    icon: <Trophy className="size-16 text-secondary" strokeWidth={1} />,
+    icon: <Trophy className="size-10" strokeWidth={1.5} />,
     title: "Competence",
     description:
       "We constantly strive for excellence, to be the best we can be in business and in life.",
   },
   {
-    icon: <Star className="size-16 text-secondary" strokeWidth={1} />,
+    icon: <Star className="size-10" strokeWidth={1.5} />,
     title: "Confidence",
     description:
       "We trust in our abilities and empower our people to take bold steps toward innovation.",
   },
   {
-    icon: <ShieldCheck className="size-16 text-secondary" strokeWidth={1} />,
+    icon: <ShieldCheck className="size-10" strokeWidth={1.5} />,
     title: "Integrity",
     description:
       "Honesty and transparency are at the core of everything we do, building trust with every action.",
   },
   {
-    icon: <HeartHandshake className="size-16 text-secondary" strokeWidth={1} />,
+    icon: <HeartHandshake className="size-10" strokeWidth={1.5} />,
     title: "Commitment",
     description:
       "Our customers are our priority; we are dedicated to delivering value that exceeds expectations.",
   },
 ];
 
+const stats = [
+  { value: "3+", label: "Active Projects" },
+  { value: "500+", label: "Families Housed" },
+  { value: "10+", label: "Years of Experience" },
+  { value: "2", label: "Cities Served" },
+];
+
 function AboutUs() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <div className="pt-20 md:pt-30">
       <header>
@@ -61,163 +73,231 @@ function AboutUs() {
         />
         <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       </header>
-      {/* PAGE BANNER */}
-      <PageBanner
+
+      {/* <PageBanner
         title="About R Land"
         description="Learn more about R Land and our mission"
         breadcrumb="About Us"
-      />
-      <main>
-        {/* ABOUT US SECTION */}
-        <section className="flex flex-col items-start p-8 md:p-16 lg:px-16 xl:px-80 justify-center py-16 gap-8">
+      /> */}
+
+      <main className="flex flex-col">
+        {/* ── HERO INTRO ── */}
+        <section className="px-8 md:px-16 xl:px-44 py-20 lg:py-30">
           <ScrollReveal>
-            <div className="flex flex-col md:flex-row items-center gap-4 py-16">
-              <span className="flex flex-col gap-4 w-full md:w-1/2">
-                <h1 className="text-4xl font-bold text-primary">
+            <div className="flex flex-col lg:flex-row items-center gap-12">
+
+              {/* Text */}
+              <div className="flex flex-col gap-6 w-full lg:w-1/2">
+                <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
+                  Who We Are
+                </p>
+                <h1 className="text-4xl md:text-5xl font-bold text-primary leading-tight">
                   Rooted in Nature,{" "}
-                  <span className="text-secondary">
+                  <span className="text-secondary font-serif italic">
                     Designed for the Future
                   </span>
                 </h1>
-
-                <p className="leading-relaxed">
+                <p className="leading-relaxed text-neutral-600">
                   R Land Development Inc., a subsidiary of RMR Capital Inc., is
                   dedicated to transforming landscapes into thriving centers of
                   growth. The company is committed to creating
                   thoughtfully-designed communities that lead to new
                   opportunities and a promising future.
-                  <br />
-                  <br />
-                  Guided by the motto "Our Bright Future Together," R Land
-                  focuses on improving land and enriching lives through
+                </p>
+                <p className="leading-relaxed text-neutral-600">
+                  Guided by the motto{" "}
+                  <span className="font-semibold text-primary">
+                    "Our Bright Future Together,"
+                  </span>{" "}
+                  R Land focuses on improving land and enriching lives through
                   responsible and sustainable real estate projects that offer
                   exceptional living experiences.
                 </p>
-              </span>
-              <div className="w-full md:w-1/2 h-80 bg-neutral-200 rounded-xl">
+                <Link href="/projects">
+                  <Button size="lg" variant="default">
+                    Explore Our Projects <ArrowRight className="size-4" />
+                  </Button>
+                </Link>
+              </div>
+
+              {/* Image */}
+              <div className="w-full lg:w-1/2 relative">
+                <div className=" w-full h-full rounded-2xl" />
                 <Image
                   src={aboutUsImage}
-                  alt="R Land Logo"
-                  width={500}
+                  alt="R Land Property"
+                  width={700}
                   height={500}
-                  className="rounded-xl object-cover h-full w-full"
+                  className="rounded-2xl object-cover w-full h-96 relative z-10 shadow-xl"
                 />
               </div>
             </div>
           </ScrollReveal>
+        </section>
 
+        {/* ── STATS BAND ── */}
+        <section className="bg-linear-to-r from-primary to-blue-950 py-14 px-8 md:px-16 xl:px-44">
           <ScrollReveal>
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-col md:flex-row justify-start gap-4">
-                <span className="flex flex-col items-center w-full md:w-1/2 text-center border-border border-2 rounded-xl p-6 bg-linear-to-t from-primary to-blue-950">
-                  <Target
-                    className="size-16 text-secondary"
-                    strokeWidth={0.5}
-                  />
-                  <h1 className="text-4xl font-bold text-secondary">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
+              {stats.map((stat) => (
+                <div key={stat.label} className="flex flex-col gap-1">
+                  <span className="text-4xl md:text-5xl font-black text-secondary">
+                    {stat.value}
+                  </span>
+                  <span className="text-sm text-white/70 uppercase tracking-wider">
+                    {stat.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </ScrollReveal>
+        </section>
+
+        {/* ── MISSION & PROMISE ── */}
+        <section className="px-8 md:px-16 xl:px-44 py-20 bg-neutral-50">
+          <ScrollReveal>
+            <div className="flex flex-col gap-8">
+              <div className="flex flex-col gap-2">
+                <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
+                  Our Foundation
+                </p>
+                <h2 className="text-4xl font-bold text-primary">
+                  What Drives Us
+                </h2>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Mission */}
+                <div className="group flex flex-col gap-4 rounded-2xl p-8 bg-linear-to-br from-primary to-blue-950 text-white overflow-hidden relative">
+                  <div className="flex items-center justify-center w-14 h-14 rounded-full bg-white/10 border border-white/20">
+                    <Target className="size-7 text-secondary" strokeWidth={1.5} />
+                  </div>
+                  <h3 className="text-3xl font-bold text-secondary">
                     Our Mission
-                  </h1>
-                  <p className="leading-snug text-white">
+                  </h3>
+                  <p className="leading-relaxed text-white/85 text-sm">
                     We provide housing arrangements that offer functionality,
                     prestige, and value for money that suit the needs,
                     aspirations, and constantly changing lifestyle of the
                     Filipino family.
                   </p>
-                </span>
+                </div>
 
-                <span className="flex flex-col items-center w-full md:w-1/2 text-center border-border border-2 rounded-xl p-6 bg-linear-to-t from-primary to-blue-950">
-                  <Ribbon
-                    className="size-16 text-secondary"
-                    strokeWidth={0.5}
-                  />
-                  <h1 className="text-4xl font-bold text-secondary">
+                {/* Promise */}
+                <div className="group flex flex-col gap-4 rounded-2xl p-8 bg-linear-to-br from-primary to-blue-950 text-white overflow-hidden relative">
+                  <div className="flex items-center justify-center w-14 h-14 rounded-full bg-white/10 border border-white/20">
+                    <Ribbon className="size-7 text-secondary" strokeWidth={1.5} />
+                  </div>
+                  <h3 className="text-3xl font-bold text-secondary">
                     Our Promise
-                  </h1>
-                  <p className="leading-snug text-white">
+                  </h3>
+                  <p className="leading-relaxed text-white/85 text-sm">
                     We aim to be the preferred real estate developer in the
                     country by continuously providing innovative and
                     well-designed houses which entail future ties of family and
                     community together.
                   </p>
-                </span>
+                </div>
               </div>
             </div>
           </ScrollReveal>
+        </section>
 
+        {/* ── STORY SECTION ── */}
+        <section className="px-8 md:px-16 xl:px-44 py-20">
           <ScrollReveal>
-            <div className="flex flex-col items-center gap-8 justify-between py-16">
-              <span className="flex flex-col gap-4">
-                <h1 className="text-4xl font-bold">
-                  Life&apos;s Mark of Progress, Developments Echoing in Time
-                </h1>
+            <div className="flex flex-col lg:flex-row-reverse items-center gap-12">
 
-                <p className="leading-relaxed">
+              {/* Text */}
+              <div className="flex flex-col gap-6 w-full lg:w-1/2">
+                <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
+                  Our Story
+                </p>
+                <h2 className="text-4xl font-bold text-primary">
+                  Life&apos;s Mark of Progress,{" "}
+                  <span className="text-secondary">
+                    Developments Echoing in Time
+                  </span>
+                </h2>
+                <p className="leading-relaxed text-neutral-600">
                   Coherence of Design, Style of Simplicity, and Distinction of
-                  Craftsmanship, which serve as the foundation for creating
-                  refined living spaces, leisure areas, and commercial
-                  developments. These principles are central to R Land's vision
-                  for their future projects.
-                  <br />
-                  <br />
+                  Craftsmanship serve as the foundation for creating refined
+                  living spaces, leisure areas, and commercial developments.
+                  These principles are central to R Land's vision for future
+                  projects.
+                </p>
+                <p className="leading-relaxed text-neutral-600">
                   R Land is characterized by its integration of green spaces and
                   community harmony, offering tranquil sanctuaries with scenic
                   views. The company also focuses on designing commercial spaces
                   that cater to the evolving needs of modern professionals and
                   growing families.
-                  <br />
-                  <br />
-                  Arcoe Residences located in Lipa City, offers a picturesque
-                  view of Mount Malarayat, and boasts of its cool climate
-                  similar to Baguio and Tagaytay. This unique blend of
-                  attributes makes Arcoe Residences a lifestyle choice that
-                  brings the charm of country living to the city.
                 </p>
-              </span>
-
-              <div className="w-full h-80 bg-neutral-200 rounded-xl">
-                <Image
-                  src={aboutUsImage}
-                  alt="R Land Logo"
-                  width={500}
-                  height={500}
-                  className="rounded-xl object-cover h-full w-full"
-                />
+                <p className="leading-relaxed text-neutral-600">
+                  Arcoe Residences, located in Lipa City, offers a picturesque
+                  view of Mount Malarayat and boasts a cool climate similar to
+                  Baguio and Tagaytay — a lifestyle choice that brings the charm
+                  of country living to the city.
+                </p>
               </div>
 
-              <span className="flex flex-col gap-4">
-                <p className="leading-relaxed">
-                  R Land aims to provide well-designed living spaces surrounded
-                  by nature that nurture homes, promote community bonds, and
-                  create lasting memories. The mission is to address the
-                  country's housing needs while helping individuals achieve
-                  their dream homes.
-                </p>
-              </span>
+              {/* Image */}
+              <div className="w-full lg:w-1/2 relative">
+                <div className="rounded-2xl" />
+                <Image
+                  src={aboutUsImage}
+                  alt="R Land Community"
+                  width={700}
+                  height={500}
+                  className="rounded-2xl object-cover w-full h-96 relative z-10 shadow-xl"
+                />
+              </div>
             </div>
           </ScrollReveal>
+        </section>
 
+        {/* ── VALUES ── */}
+        <section className="px-8 md:px-16 xl:px-44 py-20 bg-neutral-50">
           <ScrollReveal>
-            {/* COMPANY VALUES */}
-            <div className="flex flex-col gap-6 w-full pb-8">
-              <h1 className="text-4xl font-bold">Our Values</h1>
+            <div className="flex flex-col gap-10">
+              <div className="flex flex-col gap-2">
+                <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
+                  What We Stand For
+                </p>
+                <h2 className="text-4xl font-bold text-primary">
+                  Our Values
+                </h2>
+                <p className="text-neutral-600 max-w-xl">
+                  These five pillars define how we operate, build, and serve our
+                  communities every day.
+                </p>
+              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                 {companyValues.map((value) => (
                   <div
                     key={value.title}
-                    className="group relative flex flex-col justify-end gap-2 border-border border rounded-xl p-6 h-50 bg-linear-to-t from-white to-neutral-100 text-secondary hover:shadow-lg transition-all duration-500 cursor-default overflow-hidden"
+                    className="group relative flex flex-col justify-between gap-4 border border-border rounded-2xl p-6 bg-white hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-default overflow-hidden"
                   >
-                    {/* Icon Container */}
-                    <div className="opacity-100 group-hover:opacity-0 group-hover:-translate-y-4 transition-all duration-500 ease-in-out transform">
-                      {value.icon}
+                    {/* Decorative bg icon */}
+                    <span className="absolute -bottom-4 -right-4 text-neutral-100 group-hover:text-primary/10 transition-colors duration-300">
+                      <div className="size-20 [&>svg]:size-20 [&>svg]:stroke-[0.5] opacity-60">
+                        {value.icon}
+                      </div>
+                    </span>
+
+                    {/* Icon circle */}
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-secondary/5 border border-secondary text-secondary shrink-0">
+                      <div className="[&>svg]:size-6 [&>svg]:stroke-[1.5] [&>svg]:text-secondary">
+                        {value.icon}
+                      </div>
                     </div>
 
-                    {/* Text Content */}
-                    <div className="flex flex-col gap-2">
-                      <h2 className="text-2xl font-bold text-primary transition-all duration-500 group-hover:-translate-y-2">
+                    <div className="flex flex-col gap-2 z-10">
+                      <h3 className="text-xl font-bold text-primary">
                         {value.title}
-                      </h2>
-                      <p className="text-sm leading-snug text-muted-foreground opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-32 transition-all duration-500 ease-in-out">
+                      </h3>
+                      <p className="text-sm leading-snug text-neutral-500">
                         {value.description}
                       </p>
                     </div>
@@ -227,7 +307,29 @@ function AboutUs() {
             </div>
           </ScrollReveal>
         </section>
+
+        {/* ── CTA BAND ── */}
+        <section className="px-8 md:px-16 xl:px-44 py-20">
+          <ScrollReveal>
+          <div className="p-8 md:p-12 rounded-xl bg-primary text-white flex flex-col md:flex-row items-center justify-between gap-8 overflow-hidden relative w-full">
+               <div className="relative z-10 space-y-2">
+                  <h3 className="text-2xl font-bold">Ready to find your place in our community?</h3>
+                  <p className="text-primary-foreground/80">Contact us today to learn more about our properties and how we can help you find your perfect home.</p>
+               </div>
+               <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
+               <Button variant="outline" size="lg" className="w-full md:w-auto text-white hover:bg-white/10 hover:text-white shadow-lg">
+                    Explore Projects
+                  </Button>
+                  <Button variant="default" size="lg" className="w-full md:w-auto text-white transition-colors shadow-lg">
+                    Get In Touch
+                  </Button>
+               </div>
+            </div>
+          </ScrollReveal>
+        </section>
+
       </main>
+
       <footer>
         <Footer />
       </footer>

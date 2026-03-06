@@ -1,8 +1,8 @@
 "use client";
-import NavBar from "@/components/NavBar";
-import Footer from "@/components/Footer";
-import PageBanner from "@/components/PageBanner";
-import MobileNavBar from "@/components/MobileNavBar";
+import NavBar from "@/components/layout/NavBar";
+import Footer from "@/components/layout/Footer";
+import PageBanner from "@/components/layout/PageBanner";
+import MobileNavBar from "@/components/layout/MobileNavBar";
 import { useState } from "react";
 import arcoeResidencesLogo from "@/public/project-logo/ar-logo.png";
 import Image from "next/image";

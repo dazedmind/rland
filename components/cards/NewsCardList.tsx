@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { dateFormatter } from "@/app/utils/dateFormatter";
-import NewsCardListSkeleton from "./skeleton/NewsCardListSkeleton";
+import NewsCardListSkeleton from "../layout/skeleton/NewsCardListSkeleton";
+import { Button } from "../ui/button";
 
 function NewsCardList() {
   const [articles, setArticles] = useState([]);
@@ -36,9 +37,9 @@ function NewsCardList() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
       {articles.slice(0, 3).map((article: any) => (
-          <div key={article.id} className="flex flex-col bg-white rounded-xl overflow-hidden border border-neutral-100 shadow-sm hover:shadow-md transition-shadow">
+          <div key={article.id} className="flex flex-col bg-white rounded-xl overflow-hidden border border-border hover:shadow-md transition-shadow">
             <div className="h-48 bg-neutral-200 relative">
-              <div className="bg-linear-to-t from-white via-white/20 to-transparent w-full h-full absolute"></div>
+              {/* <div className="bg-linear-to-t from-white via-white/20 to-transparent w-full h-full absolute"></div> */}
               <Image
                 src={article.photoUrl}
                 alt={article.headline}
@@ -66,9 +67,10 @@ function NewsCardList() {
               </p>
               <Link
                 href={`/news/${article.id}`}
-                className="bg-primary text-white px-4 py-2 rounded-full text-center mt-auto font-semibold text-sm border border-primary hover:bg-primary/90 hover:text-white hover:border-primary transition-all duration-300"
               >
-                Read More
+                <Button variant="outline" size="sm" className="w-full text-primary hover:bg-primary hover:text-white border-primary/30 transition-all ease-in-out duration-300">
+                    Read
+                </Button>
               </Link>
             </div>
           </div>

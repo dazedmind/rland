@@ -5,6 +5,7 @@ import rlandLogo from "@/public/rland-logo.png";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
+import { Button } from "../ui/button";
 
 interface NavBarProps {
   isScrolled: boolean;
@@ -76,9 +77,9 @@ function NavBar({ isScrolled, isMenuOpen, setIsMenuOpen }: NavBarProps) {
               );
             })}
             
-            <button onClick={() => window.location.href = "/reservation"} className="bg-primary text-white px-4 py-2 rounded-md cursor-pointer hover:bg-primary/90 transition-colors">
+            <Button size="sm" variant="primary" onClick={() => window.location.href = "/reservation"}>
               Reserve Now
-            </button>
+            </Button>
           </div>
 
           <div className="lg:hidden">

@@ -111,7 +111,7 @@ function FeaturedProjectCard() {
         return (
           <div
             key={unit.id}
-            className="group relative w-full bg-white rounded-lg overflow-hidden border border-border hover:shadow-sm transition-all duration-500"
+            className="group relative w-full bg-white rounded-xl overflow-hidden border border-border hover:shadow-sm transition-all duration-500"
           >
             {/* IMAGE SECTION */}
             <div className="relative overflow-hidden aspect-video">
@@ -131,9 +131,9 @@ function FeaturedProjectCard() {
               )}
 
               {/* Floating Price Tag */}
-              <div className="absolute top-4 left-4 backdrop-blur-md bg-linear-to-br from-secondary to-yellow-600 px-3 py-1.5 rounded-lg shadow-sm z-10">
-                <p className="text-sm font-bold text-white uppercase tracking-tight">
-                  {formatPrice(unit.sellingPrice)}
+              <div className="absolute top-4 left-4 backdrop-blur-md bg-secondary/80 border border-secondary/50 px-3 py-1.5 rounded-full shadow-sm z-10">
+                <p className="text-xs font-semibold text-white tracking-tight">
+                  Starts at {formatPrice(unit.sellingPrice)}
                 </p>
               </div>
 
@@ -163,8 +163,9 @@ function FeaturedProjectCard() {
               </div>
               <Link href={`/projects/${project.id}?inventory=${unit.inventoryCode}`}>
                 <Button
-                  variant="default"
-                  className="w-full rounded-full bg-primary hover:bg-primary/90 text-white py-4 font-semibold transition-all active:scale-95"
+                  variant="primary"
+                  size="sm"
+                  className="w-full"
                 >
                   Explore Unit
                 </Button>

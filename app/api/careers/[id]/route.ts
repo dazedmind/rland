@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { careers } from '@/db/schema';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import { requireApiKey } from '@/lib/api-auth';
 
 export async function GET(
@@ -22,7 +22,7 @@ export async function GET(
     const result = await db
       .select()
       .from(careers)
-      .where(eq(careers.id, careerId))
+      .where(and(eq(careers.id, careerId), eq(careers.status, 'hiring')))
       .limit(1);
 
     const career = result[0] ?? null;

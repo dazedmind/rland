@@ -1,13 +1,13 @@
 "use client";
-import NavBar from "@/components/NavBar";
-import Footer from "@/components/Footer";
-import MobileNavBar from "@/components/MobileNavBar";
+import NavBar from "@/components/layout/NavBar";
+import Footer from "@/components/layout/Footer";
+import MobileNavBar from "@/components/layout/MobileNavBar";
 import { useState, Suspense, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import HouseSearchCard, { type SearchModelItem } from "@/components/HouseSearchCard";
+import HouseSearchCard, { type SearchModelItem } from "@/components/cards/HouseSearchCard";
 import Link from "next/link";
-import HouseSearchBar from "@/components/HouseSearchBar";
+import HouseSearchBar from "@/components/cards/HouseSearchBar";
 import SearchResultsSkeleton from "@/components/layout/skeleton/SearchResultsSkeleton";
 
 const formatCurrency = (amount: number) => {

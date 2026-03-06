@@ -1,4 +1,4 @@
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { Maximize2, Bed, Bath, Car, LandPlot, Utensils, Image as ImageIcon } from "lucide-react";
 import Image from "next/image";
 
@@ -77,11 +77,11 @@ function ModelCard({
         </div>
 
         {/* CTA */}
-        <div className="flex items-center justify-center p-4 sm:border-l border-border shrink-0">
+        <div className="flex items-center justify-center bg-primary hover:bg-primary-fg cursor-pointer p-4 sm:border-l border-border shrink-0 transition-all duration-300">
           <Button
             variant="ghost"
             size="lg"
-            className="text-primary gap-2 whitespace-nowrap"
+            className="text-white hover:text-white"
           >
             View More Details <Maximize2 className="size-4" />
           </Button>

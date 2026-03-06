@@ -6,9 +6,8 @@ import {
   boolean,
   timestamp,
   integer,
-  uuid,
-  serial,
   unique,
+  serial,
   jsonb,
 } from 'drizzle-orm/pg-core'
 
@@ -217,10 +216,6 @@ export const inquiry = pgTable('inquiry', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
 })
 
-/**
- * projects — real estate project listings
- */
-
 export const projects = pgTable('projects', {
   id:          text('id').primaryKey(),
   projectCode: text('project_code').notNull().unique(),
@@ -230,6 +225,8 @@ export const projects = pgTable('projects', {
   stage:       inventoryStageEnum('stage'),
   type:        inventoryTypeEnum('type').notNull(),
   photoUrl:    text('photo_url'),
+  logoUrl:     text('logo_url'),
+  mapLink:     text('map_link'),
   accentColor: text('accent_color'),
   description: text('description'),
   amenities: jsonb('amenities').notNull().default([]),
@@ -274,7 +271,6 @@ export const projectInventory = pgTable('project_inventory', {
   uniqueBlockLot: unique().on(t.projectId, t.block, t.lot),
 }))
 
-
 /**
  * job_inquiry — job application submissions
  */
@@ -308,7 +304,6 @@ export const careers = pgTable('careers', {
   updatedAt:      timestamp('updated_at').notNull().defaultNow(),
 })
 
-
 /**
  * newsletter — email subscriptions
  */
@@ -339,6 +334,22 @@ export const campaigns = pgTable('campaigns', {
 })
 
 /**
+ * promos — promotional banners/deals
+ */
+export const promos = pgTable('promos', {
+  id:          serial('id').primaryKey(),
+  title:       text('title').notNull(),
+  description: text('description'),
+  imageUrl:    text('image_url'),
+  linkUrl:     text('link_url'),
+  status:      text('status').notNull().default('draft'),
+  startDate:   timestamp('start_date'),
+  endDate:     timestamp('end_date'),
+  createdAt:   timestamp('created_at').notNull().defaultNow(),
+  updatedAt:   timestamp('updated_at').notNull().defaultNow(),
+})
+
+/**
  * articles — news and blog posts
  */
 export const articles = pgTable('articles', {
@@ -349,7 +360,7 @@ export const articles = pgTable('articles', {
   tags:        text('tags').array().notNull().default([]),
   type:        articleTypeEnum('type').notNull(),
   photoUrl:    text('photo_url'),
-  isFeatured:  boolean('is_featured').notNull().default(false),
+  isFeatured:    boolean('is_featured').notNull().default(false),
   createdAt:   timestamp('created_at').notNull().defaultNow(),
   updatedAt:   timestamp('updated_at').notNull().defaultNow(),
 })

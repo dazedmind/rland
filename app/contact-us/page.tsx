@@ -1,18 +1,53 @@
 "use client";
 import React from "react";
-import NavBar from "@/components/NavBar";
-import Footer from "@/components/Footer";
-import PageBanner from "@/components/PageBanner";
+import NavBar from "@/components/layout/NavBar";
+import Footer from "@/components/layout/Footer";
+import PageBanner from "@/components/layout/PageBanner";
 import ContactForm from "@/components/layout/ContactForm";
-import { Phone, Mail } from "lucide-react";
-import MobileNavBar from "@/components/MobileNavBar";
+import { Phone, Mail, Copy, Check } from "lucide-react";
+import MobileNavBar from "@/components/layout/MobileNavBar";
 import { useState } from "react";
 import Image from "next/image";
 import contactBg from "@/public/contact-bg.png";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 function ContactUs() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCopiedPhone, setIsCopiedPhone] = useState(false);
+  const [isCopiedEmail, setIsCopiedEmail] = useState(false);
 
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success("Copied to clipboard");
+    setIsCopiedPhone(true);
+    setIsCopiedEmail(true);
+    setTimeout(() => {
+      toast.dismiss();
+      setIsCopiedPhone(false);
+      setIsCopiedEmail(false);
+    }, 1000);
+  };
+
+  const handleCopyEmail = (email: string) => {
+    navigator.clipboard.writeText(email);
+    toast.success("Copied to clipboard");
+    setIsCopiedEmail(true);
+    setTimeout(() => {
+      toast.dismiss();
+      setIsCopiedEmail(false);
+    }, 1000);
+  };
+
+  const handleCopyPhone = (phone: string) => {
+    navigator.clipboard.writeText(phone);
+    toast.success("Copied to clipboard");
+    setIsCopiedPhone(true);
+    setTimeout(() => {
+      toast.dismiss();
+      setIsCopiedPhone(false);
+    }, 1000);
+  };
   return (
     <div className="pt-20 md:pt-30">
       <header>
@@ -66,14 +101,59 @@ function ContactUs() {
                 <span>
                   <p>You may also reach us at:</p>
                   <ul className="flex flex-wrap items-start justify-start gap-2 space-y-2 py-2 ">
-                    <li className="flex flex-row items-center justify-center gap-2 bg-neutral-100 rounded-full p-1 px-3">
-                      <Phone className="w-4 h-4 text-primary" />
-                      <p>(02) 7752 2789</p>
-                    </li>
-                    <li className="flex flex-row items-center justify-center gap-2 bg-neutral-100 rounded-full p-1 px-3">
-                      <Mail className="w-4 h-4 text-primary" />
-                      <p>moreinfo@rland.ph</p>
-                    </li>
+                    <Button
+                      variant="ghost"
+                      size="xs"
+                      onClick={() => handleCopyPhone("(02) 7752 2789")}
+                      className="group min-w-[160px] justify-center text-primary bg-primary/10 hover:bg-primary/10 hover:text-primary border-primary border rounded-full overflow-hidden"
+                    >
+                      {/* Default state */}
+                      <span
+                        className={`flex items-center gap-1.5 transition-all duration-300 ${isCopiedPhone ? "opacity-0 -translate-y-3 absolute" : "opacity-100 translate-y-0"}`}
+                      >
+                        <Phone className="size-4 shrink-0" strokeWidth={2} />
+                        <p>(02) 7752 2789</p>
+                        <Copy
+                          className="size-4 shrink-0 w-0 overflow-hidden group-hover:w-4 opacity-0 group-hover:opacity-100 transition-all duration-200"
+                          strokeWidth={2}
+                        />{" "}
+                      </span>
+
+                      {/* Copied state */}
+                      <span
+                        className={`flex items-center gap-1.5 transition-all duration-300 ${isCopiedPhone ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3 absolute"}`}
+                      >
+                        <Check className="size-4 shrink-0" strokeWidth={2} />
+                        <p>Copied!</p>
+                      </span>
+                    </Button>
+
+                    <Button
+                      variant="ghost"
+                      size="xs"
+                      onClick={() => handleCopyEmail("moreinfo@rland.ph")}
+                      className="group min-w-[175px] justify-center text-primary bg-primary/10 hover:bg-primary/10 hover:text-primary border-primary border rounded-full overflow-hidden"
+                    >
+                      {/* Default state */}
+                      <span
+                        className={`flex items-center gap-1.5 transition-all duration-300 ${isCopiedEmail ? "opacity-0 -translate-y-3 absolute" : "opacity-100 translate-y-0"}`}
+                      >
+                        <Mail className="size-4 shrink-0" strokeWidth={2} />
+                        <p>moreinfo@rland.ph</p>
+                        <Copy
+                          className="size-4 shrink-0 w-0 overflow-hidden group-hover:w-4 opacity-0 group-hover:opacity-100 transition-all duration-200"
+                          strokeWidth={2}
+                        />
+                      </span>
+
+                      {/* Copied state */}
+                      <span
+                        className={`flex items-center gap-1.5 transition-all duration-300 ${isCopiedEmail ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3 absolute"}`}
+                      >
+                        <Check className="size-4 shrink-0" strokeWidth={2} />
+                        <p>Copied!</p>
+                      </span>
+                    </Button>
                   </ul>
                 </span>
               </div>

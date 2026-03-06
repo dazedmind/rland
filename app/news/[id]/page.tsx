@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import NavBar from "@/components/NavBar";
-import Footer from "@/components/Footer";
-import MobileNavBar from "@/components/MobileNavBar";
+import NavBar from "@/components/layout/NavBar";
+import Footer from "@/components/layout/Footer";
+import MobileNavBar from "@/components/layout/MobileNavBar";
 import Link from "next/link";
 import NewsArticleSkeleton from "@/components/layout/skeleton/NewsArticleSkeleton";
 import { MoveLeft, Calendar, Share2, ArrowLeft } from "lucide-react";

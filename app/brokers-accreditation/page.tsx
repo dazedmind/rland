@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import NavBar from "@/components/NavBar";
-import Footer from "@/components/Footer";
-import MobileNavBar from "@/components/MobileNavBar";
+import NavBar from "@/components/layout/NavBar";
+import Footer from "@/components/layout/Footer";
+import MobileNavBar from "@/components/layout/MobileNavBar";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
@@ -49,7 +49,6 @@ function BrokersAccreditation() {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                   <Button 
                     size="lg"
-                    className="bg-secondary hover:bg-secondary/90 text-white px-10 py-6 text-lg rounded-full"
                     asChild
                   >
                     <Link href="https://docs.google.com/forms/..." target="_blank">
@@ -59,7 +58,7 @@ function BrokersAccreditation() {
                   <Button 
                     variant="outline" 
                     size="lg"
-                    className="text-white border-white/30 hover:bg-white/10 px-10 py-6 text-lg rounded-full"
+                    className="text-white"
                     onClick={() => scrollToSection("requirements")}
                   >
                     View Checklist
@@ -178,7 +177,7 @@ function BrokersAccreditation() {
                   className="object-cover transition-all duration-700"
                 />
               </div>
-              <div className="md:w-2/3 p-10 lg:p-20 flex flex-col justify-center gap-6">
+              <div className="md:w-2/3 p-8 lg:p-12 xl:p-18 flex flex-col justify-center gap-6">
                 <h2 className="text-3xl lg:text-5xl font-bold text-primary leading-tight">
                   Ready to Become an Accredited Broker?
                 </h2>
@@ -186,7 +185,12 @@ function BrokersAccreditation() {
                   Gain access to exclusive listings, premium support, and a network designed specifically for your professional growth.
                 </p>
                 <div className="pt-4">
-                  <Button size="lg" className="bg-secondary text-white rounded-full px-12 py-8 text-xl shadow-lg hover:shadow-secondary/40 transition-all" asChild>
+                  <Button 
+                    variant="default"
+                    size="lg"
+                    className="hover:shadow-lg hover:shadow-secondary/40 transition-all w-full"
+                    asChild
+                  >
                     <Link href="https://docs.google.com/forms/..." target="_blank">
                       Submit Your Application
                     </Link>

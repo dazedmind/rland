@@ -1,11 +1,11 @@
 "use client";
-import NavBar from "@/components/NavBar";
-import Footer from "@/components/Footer";
+import NavBar from "@/components/layout/NavBar";
+import Footer from "@/components/layout/Footer";
 import arPlatinumUnit from "@/public/ar-platinum-unit.jpg";
-import MobileNavBar from "@/components/MobileNavBar";
+import MobileNavBar from "@/components/layout/MobileNavBar";
 import { useEffect, useState } from "react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import ProjectList from "@/components/layout/ProjectList";
+import ProjectList from "@/components/cards/ProjectList";
 import Image from "next/image";
 import { GoStarFill } from "react-icons/go";
 
@@ -44,7 +44,7 @@ function ProjectsPage() {
         <section className=" min-h-[90dvh] px-8 md:px-16 xl:px-44  flex items-center justify-center lg:justify-center overflow-hidden  bg-linear-to-r from-primary to-blue-950 pt-20 bg-">
           {/* <ScrollReveal className="w-full"> */}
 
-          <div className="flex flex-col-reverse md:flex-row items-center relative justify-center md:justify-between gap-8 w-full container z-10">
+          <div className="flex flex-col-reverse md:flex-row items-center relative justify-center md:justify-between gap-8 w-full container z-10 py-16">
             <div className="py-12 lg:py-24 text-center lg:text-left flex flex-col gap-8">
               <span>
                 <h1 className="text-5xl lg:text-6xl font-medium text-white leading-tight">
@@ -109,8 +109,11 @@ function ProjectsPage() {
               </p>
             </span>
 
-            {/* PROJECT LIST */}
-            <ProjectList />
+            <div className="w-full">
+              {/* PROJECT LIST */}
+              <ProjectList />
+            </div>
+        
           </section>
         </ScrollReveal>
       </main>

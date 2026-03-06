@@ -1,55 +1,16 @@
 "use client";
-import NavBar from "@/components/NavBar";
-import Footer from "@/components/Footer";
-import MobileNavBar from "@/components/MobileNavBar";
+import NavBar from "@/components/layout/NavBar";
+import Footer from "@/components/layout/Footer";
+import MobileNavBar from "@/components/layout/MobileNavBar";
 import { useState } from "react";
 import { ArrowDown, ArrowRight, ChevronDownIcon } from "lucide-react";
 import { Field, FieldLabel } from "@/components/ui/field";
-import CareerCard from "@/components/CareerCard";
+import CareerCard from "@/components/cards/CareerCard";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
 function CareersPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const jobListing = [
-    {
-      id: 1,
-      position: "Marketing Support Associate / Site Officer",
-      location: "Angeles City, Pampanga",
-      description:
-        "Responsible for over-all marketing related activities of the project — events, traditional and digital initiatives, public relations and research.",
-      datePosted: "Feb 12, 2026",
-      department: "Marketing",
-    },
-    {
-      id: 2,
-      position: "Property Management - Maintenance Staff",
-      location: "Lipa City, Batangas and Angeles City, Pampanga",
-      description:
-        "Responsible for over-all marketing related activities of the project — events, traditional and digital initiatives, public relations and research.",
-      datePosted: "Feb 12, 2026",
-      department: "Property Management",
-    },
-    {
-      id: 3,
-      position: "HR & Admin Specialist",
-      location: "Quezon City, Metro Manila (Head Office)",
-      description:
-        "Responsible for over-all marketing related activities of the project — events, traditional and digital initiatives, public relations and research.",
-      datePosted: "Feb 12, 2026",
-      department: "HR & Admin",
-    },
-    {
-      id: 4,
-      position: "Property Management - Maintenance Staff",
-      location: "Lipa City, Batangas and Angeles City, Pampanga",
-      description:
-        "Responsible for over-all marketing related activities of the project — events, traditional and digital initiatives, public relations and research.",
-      datePosted: "Feb 12, 2026",
-      department: "Property Management",
-    },
-  ];
 
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);

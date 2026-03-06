@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import ProjectCard from "../ProjectCard";
-import arcoeResidencesLogo from "@/public/project-logo/ar-logo-white.png";
-import arAerialView from "@/public/ar-aerial.png";
+import ProjectCard from "./ProjectCard";
 import ScrollReveal from "../ui/ScrollReveal";
 import { developmentStage } from "@/lib/types";
-import ProjectListSkeleton from "./skeleton/ProjectListSkeleton";
+import ProjectListSkeleton from "../layout/skeleton/ProjectListSkeleton";
 import Link from "next/link";
 
-function ProjectList() {
+function ProjectList({ limit }: { limit?: number }) {
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState([]);
 
@@ -16,7 +14,7 @@ function ProjectList() {
       const response = await fetch("/api/projects");
       const data = await response.json();
       console.log("Projects fetched successfully:", data);
-      setProjects(data);
+      setProjects(data.slice(0, limit ?? data.length));
     } catch (error) {
       console.error("Error fetching projects:", error);
       setProjects([]);
@@ -30,10 +28,10 @@ function ProjectList() {
   }, []);
 
   const accentColor = {
-    blue: "bg-linear-to-t from-primary to-blue-950",
+    blue: "bg-linear-to-t from-blue-950 to-primary",
     yellow: "bg-linear-to-t from-secondary to-yellow-600",
-    amber: "bg-linear-to-t from-amber-800 to-amber-950",
-    orange: "bg-linear-to-t from-orange-600 to-orange-950",
+    amber: "bg-linear-to-t from-amber-950 to-amber-800",
+    orange: "bg-linear-to-t from-orange-950 to-orange-600",
     green: "bg-linear-to-t from-green-600 to-green-950",
     purple: "bg-linear-to-t from-purple-600 to-purple-950",
     red: "bg-linear-to-t from-red-600 to-red-950",
@@ -54,14 +52,15 @@ function ProjectList() {
         {projects.map((project: any) => (
           <Link key={project.id} href={`/projects/${project.id}`}>
             <ProjectCard
-              projectImage={arAerialView}
+              projectImage={project.photoUrl}
               projectName={project.projectName}
               projectLocation={project.location}
               projectStatus={
                 developmentStage[project.stage as keyof typeof developmentStage]
               }
-              projectLogo={arcoeResidencesLogo}
+              projectLogo={project.logoUrl}
               projectAccent={accentColor[project.accentColor as keyof typeof accentColor] ?? accentColor.blue}
+              projectId={project.id}
             />
           </Link>
         ))}

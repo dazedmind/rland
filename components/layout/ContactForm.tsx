@@ -4,7 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
-import { ChevronDownIcon, Loader2 } from "lucide-react";
+import { ArrowUp, ChevronDownIcon, Loader2, Send, SendHorizontal } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -232,8 +232,8 @@ function ContactForm() {
         </Field>
 
         <div className="flex justify-end items-center w-full col-span-2">
-          <Button type="submit" disabled={loading} onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>)}>
-            {loading ? `${<Loader2 className="w-4 h-4 animate-spin" />} Sending...` : `Send Message`}
+          <Button variant="default" size="sm" className="w-fit px-6" type="submit" disabled={loading} onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>)}>
+            {loading ? `${<Loader2 className="w-4 h-4 animate-spin" />} Sending...` : `Send Message`} <ArrowUp className="size-5" strokeWidth={2} />
           </Button>
         </div>
       </div>

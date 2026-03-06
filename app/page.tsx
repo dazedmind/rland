@@ -6,24 +6,24 @@ import philecoLogo from "@/public/phileco-logo.png";
 import rmrLogo from "@/public/rmr-logo.png";
 import hcptLogo from "@/public/hcpt-logo.png";
 import r2Logo from "@/public/r2-logo.png";
-import FeaturedProjectCard from "@/components/layout/FeaturedProjectCard";
+import FeaturedProjectCard from "@/components/cards/FeaturedProjectCard";
 import { ArrowRight, Mail, Phone } from "lucide-react";
 import ContactForm from "@/components/layout/ContactForm";
-import NavBar from "@/components/NavBar";
-import MobileNavBar from "@/components/MobileNavBar";
+import NavBar from "@/components/layout/NavBar";
+import MobileNavBar from "@/components/layout/MobileNavBar";
 import { Button } from "@/components/ui/button";
-import Footer from "@/components/Footer";
+import Footer from "@/components/layout/Footer";
 import arGoldUnit from "@/public/ar-gold-unit.jpg";
 import arPlatinumUnit from "@/public/ar-platinum-unit.jpg";
 import aeValleyUnit from "@/public/ae-valley-unit.jpg";
 import aeMeadowUnit from "@/public/ae-meadow-unit.jpg";
-import NewsCard from "@/components/layout/NewsCardList";
+import NewsCard from "@/components/cards/NewsCardList";
 import platinumUnit from "@/public/platinum-unit-nobg.png";
-import HouseSearchBar from "@/components/HouseSearchBar";
+import HouseSearchBar from "@/components/cards/HouseSearchBar";
 import Link from "next/link";
 import contactBg from "@/public/contact-bg.png";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import ProjectList from "@/components/layout/ProjectList";
+import ProjectList from "@/components/cards/ProjectList";
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -124,7 +124,7 @@ export default function Home() {
               </span>
               <Button
                 size="lg"
-                className="bg-secondary hover:bg-secondary/90 text-white px-10 py-6 text-lg rounded-full"
+                variant="default"
                 asChild
               >
                 <Link href="/projects">Explore Projects</Link>
@@ -144,7 +144,7 @@ export default function Home() {
         </section>
 
         <ScrollReveal>
-          <div className="flex flex-col text-center items-center justify-center py-24 gap-16 px-8 md:24 xl:px-44">
+          <div className="flex flex-col items-center justify-center py-24 gap-16 px-8 md:24 xl:px-44">
             <span className="flex flex-col items-center justify-center">
               <h1 className="text-4xl font-bold text-primary text-center lg:text-left">
                 Our Bright Future Together
@@ -155,17 +155,19 @@ export default function Home() {
               </p>
             </span>
 
-            <div className="w-full">
-              <ProjectList />
-            </div>
+            <div className="w-full flex flex-col items-center gap-6">
+              <ProjectList limit={3} />
 
-            <Button
-              variant="secondary"
-              size="lg"
-              className="flex items-center gap-2 bg-secondary text-white px-4 py-2 rounded-full cursor-pointer"
+              {/* <Button
+              variant="ghost"
+              size="sm"
+              className="text-primary hover:text-accent-foreground"
             >
               View More Projects <ArrowRight className="w-4 h-4" />
-            </Button>
+            </Button> */}
+            </div>
+
+          
           </div>
         </ScrollReveal>
 
@@ -311,10 +313,10 @@ export default function Home() {
 
               <Link href="/news">
                 <Button
-                  variant="secondary"
-                  className="bg-secondary text-white px-4 py-2 rounded-full cursor-pointer flex items-center gap-2"
+                  variant="ghost"
+                  className="text-secondary hover:bg-none hover:text-secondary-fg border-secondary/30 font-bold rounded-full transition-all ease-in-out duration-300"
                 >
-                    More News <ArrowRight className="w-4 h-4" />
+                  More News <ArrowRight className="size-5" strokeWidth={2} />
                 </Button>
               </Link>
             </div>
@@ -396,16 +398,18 @@ export default function Home() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="  px-4 py-2 rounded-md"
+                  className="text-white hover:bg-white hover:text-primary"
+                  asChild
                 >
-                  Contact Sales
+                  <Link href="/contact-us">Contact Sales</Link>
                 </Button>
+
                 <Button
                   variant="default"
                   size="lg"
-                  className="bg-secondary text-white rounded-md"
+                  asChild
                 >
-                  Reserve Now
+                  <Link href="/reservation">Reserve Now</Link>
                 </Button>
               </span>
             </div>

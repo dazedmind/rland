@@ -1,14 +1,11 @@
 "use client";
 import { useState } from "react";
-import NavBar from "@/components/NavBar";
-import Footer from "@/components/Footer";
-import PageBanner from "@/components/PageBanner";
-import Link from "next/link";
-import NewsCard from "@/components/NewsCard";
-import aeMeadowUnit from "@/public/ae-meadow-unit.jpg";
-import aeValleyUnit from "@/public/ae-valley-unit.jpg";
-import MobileNavBar from "@/components/MobileNavBar";
-import NewsCardList from "@/components/layout/NewsCardList";
+import NavBar from "@/components/layout/NavBar";
+import Footer from "@/components/layout/Footer";
+import PageBanner from "@/components/layout/PageBanner";
+import FeaturedNewsCard from "@/components/cards/FeaturedNewsCard";
+import MobileNavBar from "@/components/layout/MobileNavBar";
+import NewsCardList from "@/components/cards/NewsCardList";
 
 function NewsPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,8 +32,8 @@ function NewsPage() {
       <main>
         {/* FEATURED STORY SECTION */}
         <section className="px-8 md:px-16 xl:px-44 py-16">
-          <h2 className="text-3xl font-bold mb-4 ">Featured Story</h2>
-          <NewsCard />
+          <h2 className="text-2xl font-bold mb-4 text-primary uppercase">Featured Story</h2>
+          <FeaturedNewsCard />
         </section>
 
         {/* NEWS FEED SECTION */}

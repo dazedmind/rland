@@ -1,8 +1,8 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import NavBar from "@/components/NavBar";
-import Footer from "@/components/Footer";
-import PageBanner from "@/components/PageBanner";
+import NavBar from "@/components/layout/NavBar";
+import Footer from "@/components/layout/Footer";
+import PageBanner from "@/components/layout/PageBanner";
 import {
   Dialog,
   DialogContent,
@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { FileUpload } from "@/components/ui/file-upload";
-import CareerCard from "@/components/CareerCard";
+import CareerCard from "@/components/cards/CareerCard";
 import CareerDetailsSkeleton from "@/components/layout/skeleton/CareerDetailsSkeleton";
 import { ArrowLeft, MoveLeft } from "lucide-react";
 import Link from "next/link";
@@ -154,11 +154,11 @@ function CareerDetailsPage({
       <header>
         <NavBar isScrolled={true} />
       </header>
-      <PageBanner
+      {/* <PageBanner
         title="Career Details"
         description="View current and upcoming developments of distinction and innovation."
         breadcrumb="Careers / Details"
-      />
+      /> */}
       <main className="flex flex-col lg:flex-row justify-start items-start px-8 md:px-24 xl:px-44 gap-8 py-16">
         {/* ABOUT US SECTION */}
 
@@ -213,7 +213,7 @@ function CareerDetailsPage({
           </span>
 
           <Dialog>
-            <DialogTrigger className="bg-primary text-white rounded-md w-fit p-2 px-4 font-bold cursor-pointer">
+            <DialogTrigger className="bg-primary text-white rounded-full w-fit p-2 px-6 font-bold cursor-pointer">
               Submit Application
             </DialogTrigger>
             <DialogContent>
