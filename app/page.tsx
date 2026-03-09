@@ -298,7 +298,7 @@ export default function Home() {
               <span className="flex flex-row items-center justify-center gap-4 w-full lg:w-auto">
                 <Button
                   variant="outline"
-                  size="lg"
+                  size="sm"
                   className="flex-1 md:w-fit text-white hover:bg-white hover:text-primary"
                   asChild
                 >
@@ -307,7 +307,7 @@ export default function Home() {
 
                 <Button
                   variant="default"
-                  size="lg"
+                  size="sm"
                   asChild
                   className="flex-1 md:w-fit"
                 >

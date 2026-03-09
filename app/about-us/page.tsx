@@ -325,14 +325,14 @@ function AboutUs() {
               <div className="flex flex-col md:flex-row gap-4 w-full lg:w-auto">
                 <Button
                   variant="outline"
-                  size="lg"
+                  size="sm"
                   className="lg:w-auto text-white hover:bg-white/10 hover:text-white shadow-lg"
                 >
                   Explore Projects
                 </Button>
                 <Button
                   variant="default"
-                  size="lg"
+                  size="sm"
                   className="lg:w-auto text-white transition-colors shadow-lg"
                 >
                   Get In Touch

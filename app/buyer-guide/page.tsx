@@ -392,7 +392,7 @@ function BuyerGuidePage() {
 
         {/* BOTTOM CTA */}
         <section className="px-8 md:px-16 xl:px-44 py-16 bg-neutral-50">
-          <div className="p-8 md:p-12 rounded-md bg-primary text-white flex flex-col md:flex-row items-center justify-between gap-8 overflow-hidden relative w-full">
+          <div className="p-6 md:p-8 rounded-md bg-primary text-white flex flex-col md:flex-row items-center justify-between gap-8 overflow-hidden relative w-full">
             <div className="relative z-10 space-y-2">
               <h3 className="text-2xl font-bold">
                 Ready to Take the First Step?
@@ -405,7 +405,7 @@ function BuyerGuidePage() {
             <div className="relative z-10 w-full md:w-auto">
               <Button
                 variant="default"
-                size="lg"
+                size="sm"
                 className="w-full md:w-auto text-white"
               >
                 Reserve Now

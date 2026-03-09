@@ -103,7 +103,7 @@ function FeaturedNewsCard() {
         <p className="text-sm md:text-base text-neutral-600 leading-relaxed transition-all duration-500">
           {currentArticle?.body.substring(0, 200)}...
         </p>
-        <Button size="sm" variant="outline" className="hover:text-primary-fg w-fit" asChild>
+        <Button size="sm" variant="ghost" className="hover:text-primary-fg w-fit" asChild>
           <Link
           href={`/news/${currentArticle?.slug || currentArticle?._id}`}
           className="mt-4 font-bold text-primary flex items-center gap-2 hover:gap-4 transition-all"

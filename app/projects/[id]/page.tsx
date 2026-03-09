@@ -220,7 +220,7 @@ function ProjectDetailsPage({
           <span className="flex flex-col gap-4">
 
             <div className="py-4">
-              <Image src={project[0]?.project?.logoUrl ?? ""} alt="Project Logo" width={300} height={300} className="rounded-xl object-contain" />
+              <Image src={project[0]?.project?.logoUrl ?? ""} alt="Project Logo" width={300} height={300} className="rounded-md object-contain" />
             </div>
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
               <span className="flex flex-col">
@@ -234,7 +234,7 @@ function ProjectDetailsPage({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <button className="bg-neutral-100 px-4 py-2 rounded-lg text-black text-sm border-border border hover:bg-neutral-300 flex items-center gap-2 cursor-pointer">
+                  <button className="bg-neutral-100 px-4 py-2 rounded-md text-black text-sm border-border border hover:bg-neutral-300 flex items-center gap-2 cursor-pointer">
                     <img src="/google-maps-icon.png" alt="Google Maps Icon" className="h-6 w-auto" />
                     View on Google Maps 
                   </button>
@@ -246,7 +246,7 @@ function ProjectDetailsPage({
               {project[0]?.project?.description}
             </p>
 
-            <div className="flex flex-col md:flex-row gap-4 w-full border-border border-2 rounded-lg p-6 scroll-mt-24">
+            <div className="flex flex-col md:flex-row gap-4 w-full border-border border-2 rounded-md p-6 scroll-mt-24">
               <div className="w-full md:w-1/3">
                 <h1 className="text-2xl font-bold">Project Specifications</h1>
               </div>
@@ -304,7 +304,7 @@ function ProjectDetailsPage({
                 alt={project[0]?.project?.projectName ?? "Project"}
               />
             ) : (
-              <div className="w-full h-80 bg-neutral-200 rounded-xl" />
+              <div className="w-full h-80 bg-neutral-200 rounded-md" />
             );
           })()}
         </section>
@@ -344,7 +344,7 @@ function ProjectDetailsPage({
               {(project[0]?.project?.landmarks ?? []).map((group, idx) => {
                   const items = group.items ?? group.landmarks ?? [];
                   return (
-                    <div key={idx} className="flex flex-col gap-2 rounded-md p-4">
+                    <div key={idx} className="flex flex-col gap-2 rounded-sm p-4">
                       <p className="flex items-center gap-2 text-xl font-bold">
                         <span>
                           {landmarkIcon.find((icon) => icon.category === group.category)?.icon && createElement(landmarkIcon.find((icon) => icon.category === group.category)?.icon as any, { className: "size-8 text-secondary" })}
@@ -394,7 +394,7 @@ function ProjectDetailsPage({
         <ScrollReveal delay={250}>
           <section className="relative z-10 flex flex-col lg:flex-row justify-between items-start px-8 md:px-16 lg:px-44 xl:px-64 gap-8 py-16">
           <div className="w-full">
-            <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-linear-to-r from-primary-fg to-blue-950 text-white p-8 rounded-t-lg">
+            <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-linear-to-r from-primary-fg to-blue-950 text-white p-8 rounded-t-md">
               <span className="w-full md:w-auto">
                 <h1 className="text-2xl font-bold">Found the perfect home?</h1>
                 <p className="leading-relaxed text-neutral-200">
@@ -409,7 +409,7 @@ function ProjectDetailsPage({
                 </Button>
               </span>
             </div>
-            <div className="flex flex-col gap-2 bg-primary text-white p-8 rounded-b-lg">
+            <div className="flex flex-col gap-2 bg-primary text-white p-8 rounded-b-md">
               <p className="text-lg font-bold">{project[0]?.project?.projectName}:</p>
               <p>Sampaguita St., Brgy. Munting Pulo, Lipa City, Batangas</p>
               <p>

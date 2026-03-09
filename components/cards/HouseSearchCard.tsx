@@ -95,7 +95,7 @@ function HouseSearchCard({ price, unit, modelCard }: HouseSearchCardProps) {
     : "#";
 
   return (
-    <div className="flex flex-col lg:flex-row w-full justify-between border border-border rounded-xl overflow-hidden bg-white hover:shadow-md transition-all duration-300">
+    <div className="flex flex-col lg:flex-row w-full justify-between border border-border rounded-md overflow-hidden bg-white hover:shadow-md transition-all duration-300">
 
       <div className="flex flex-col md:flex-row">
         {/* LEFT — image */}

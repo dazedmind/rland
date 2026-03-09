@@ -70,7 +70,7 @@ function ProjectsPage() {
               </div>
 
               {/* Fixed at Lower Right */}
-              <span className="absolute bottom-8 right-0 lg:right-[-5%] translate-y-1 bg-primary-fg/80 p-4 rounded-xl flex items-center gap-4 z-20 shadow-xl">
+              <span className="absolute bottom-8 right-0 lg:right-[-5%] translate-y-1 bg-primary-fg/80 p-4 rounded-md flex items-center gap-4 z-20 shadow-xl">
                 <GoStarFill className="size-8 md:size-10 text-secondary" />
                 <span className="flex flex-col pr-4">
                   <h1 className="text-xl md:text-xl font-bold text-white whitespace-nowrap">

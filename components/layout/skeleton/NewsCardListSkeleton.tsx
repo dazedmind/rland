@@ -6,7 +6,7 @@ function NewsCardListSkeleton() {
       {[1, 2, 3].map((i) => (
         <div
           key={i}
-          className="flex flex-col bg-white rounded-xl overflow-hidden border border-neutral-100 shadow-sm"
+          className="flex flex-col bg-white rounded-md overflow-hidden border border-neutral-100 shadow-sm"
         >
           <div className="h-48 bg-neutral-200 animate-pulse" />
           <div className="p-6 flex flex-col gap-3">

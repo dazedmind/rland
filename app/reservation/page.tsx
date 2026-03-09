@@ -68,7 +68,7 @@ function ReservationPage() {
               Limited availability. Start your reservation and lock in pre-construction advantages.
             </p>
           </span>
-          <div className="flex flex-col gap-4 w-full rounded-lg p-6">
+          <div className="flex flex-col gap-4 w-full rounded-md p-6">
             {/* 1st STEP: PROJECT SELECTION */}
             <div className="flex items-center gap-2">
               <span className="bg-primary p-2 rounded-full text-white text-2xl font-bold w-10 h-10 flex items-center justify-center">
@@ -87,7 +87,7 @@ function ReservationPage() {
             <div className="flex flex-col md:flex-row justify-around items-center gap-4">
               <button
                 onClick={() => handleSelectProject("arcoe-residences")}
-                className="flex items-center justify-center w-full h-50 focus:bg-blue-400/50 focus:border-blue-900 bg-neutral-100 border border-border rounded-xl hover:shadow-md transition-all duration-300 cursor-pointer group"
+                className="flex items-center justify-center w-full h-50 focus:bg-blue-400/50 focus:border-blue-900 bg-neutral-100 border border-border rounded-md hover:shadow-md transition-all duration-300 cursor-pointer group"
               >
                 <Image
                   src={arcoeResidencesLogo}
@@ -100,7 +100,7 @@ function ReservationPage() {
 
               <button
                 onClick={() => handleSelectProject("arcoe-estates")}
-                className="flex items-center justify-center w-full h-50 focus:bg-amber-400/50 focus:border-amber-900 bg-neutral-100 border border-border rounded-xl hover:shadow-md transition-all duration-300 cursor-pointer group"
+                className="flex items-center justify-center w-full h-50 focus:bg-amber-400/50 focus:border-amber-900 bg-neutral-100 border border-border rounded-md hover:shadow-md transition-all duration-300 cursor-pointer group"
               >
                 <Image
                   src={arcoeEstatesLogo}
@@ -113,7 +113,7 @@ function ReservationPage() {
 
               <button
                 onClick={() => handleSelectProject("hero-town")}
-                className="flex items-center justify-center w-full h-50 focus:bg-orange-400/50 focus:border-orange-900 bg-neutral-100 border border-border rounded-xl hover:shadow-md transition-all duration-300 cursor-pointer group"
+                className="flex items-center justify-center w-full h-50 focus:bg-orange-400/50 focus:border-orange-900 bg-neutral-100 border border-border rounded-md hover:shadow-md transition-all duration-300 cursor-pointer group"
               >
                 <Image
                   src={arcoeEstatesLogo}
