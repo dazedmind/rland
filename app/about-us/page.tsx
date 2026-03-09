@@ -14,7 +14,6 @@ import {
   Users,
   ArrowRight,
 } from "lucide-react";
-import PageBanner from "@/components/layout/PageBanner";
 import MobileNavBar from "@/components/layout/MobileNavBar";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Link from "next/link";
@@ -275,7 +274,7 @@ function AboutUs() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 {companyValues.map((value) => (
                   <div
                     key={value.title}
@@ -313,8 +312,8 @@ function AboutUs() {
         {/* ── CTA BAND ── */}
         <section className="px-8 md:px-16 xl:px-44 py-20">
           <ScrollReveal>
-            <div className="p-8 md:p-12 rounded-xl bg-primary text-white flex flex-col lg:flex-row items-center justify-between gap-8 overflow-hidden relative w-full">
-              <div className="relative z-10 space-y-2 w-full lg:w-1/2">
+            <div className="p-8 md:p-12 rounded-xl bg-primary text-white flex flex-col lg:flex-row items-center justify-between gap-8 overflow-hidden relative">
+              <div className="relative z-10 space-y-2 w-full lg:w-2/3">
                 <h3 className="text-2xl font-bold">
                   Ready to find your place in our community?
                 </h3>
@@ -323,18 +322,18 @@ function AboutUs() {
                   can help you find your perfect home.
                 </p>
               </div>
-              <div className="flex gap-4 w-full lg:w-auto">
+              <div className="flex flex-col md:flex-row gap-4 w-full lg:w-auto">
                 <Button
                   variant="outline"
                   size="lg"
-                  className=" md:w-fit text-white hover:bg-white/10 hover:text-white shadow-lg"
+                  className="lg:w-auto text-white hover:bg-white/10 hover:text-white shadow-lg"
                 >
                   Explore Projects
                 </Button>
                 <Button
                   variant="default"
                   size="lg"
-                  className=" md:w-fit text-white transition-colors shadow-lg"
+                  className="lg:w-auto text-white transition-colors shadow-lg"
                 >
                   Get In Touch
                 </Button>

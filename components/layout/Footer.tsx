@@ -1,11 +1,11 @@
-import { Mail, Phone, MailIcon, MapPin } from "lucide-react";
+import { Mail, Phone, MailIcon, MapPin, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FaFacebook, FaLinkedin, FaInstagram, FaYoutube } from "react-icons/fa";
 import { Input } from "@/components/ui/input";
 import rlandLogo from "@/public/rland-logo-white.png";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -13,6 +13,7 @@ import { z } from "zod";
 function Footer() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const validateEmail = (email: string) => {
     const validation = z.object({
@@ -50,6 +51,18 @@ function Footer() {
       setLoading(false);
     }
   }
+  
+  const handleResize = () => {
+    setIsMobile(window.innerWidth < 768);
+  }
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    handleResize();
+  }, []);
 
   const footerLinks = [
     {category: "Company", links: [
@@ -135,8 +148,8 @@ function Footer() {
         {/* NEWSLETTER */}
         <div className="bg-primary rounded-md p-6 text-white flex flex-col gap-4 w-auto">
           <span>
-            <h2 className="text-2xl font-bold">Subscribe to our newsletter</h2>
-            <p className="leading-relaxed text-neutral-200">
+            <h2 className="text-xl font-bold">Subscribe to our newsletter</h2>
+            <p className="text-sm leading-relaxed text-neutral-200">
               Be the first to receive news, offers, and hear about project
               updates
             </p>
@@ -148,7 +161,7 @@ function Footer() {
               <Input
                 type="email"
                 placeholder="Enter your email"
-                className="w-full p-2 pl-10 rounded-md bg-input text-black"
+                className="w-full p-2 pl-10 h-12 rounded-md bg-input text-black"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -157,10 +170,10 @@ function Footer() {
             <Button
               variant="default"
               size="sm"
-              className="text-white"
+              className="text-white h-12"
               onClick={handleSubscribe}
             >
-              Subscribe
+              {isMobile ? <Bell className="size-5" strokeWidth={2}/> : <span>Subscribe</span>}
             </Button>
           </span>
         </div>
