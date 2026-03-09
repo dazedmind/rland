@@ -3,7 +3,7 @@ import NavBar from "@/components/layout/NavBar";
 import Footer from "@/components/layout/Footer";
 import MobileNavBar from "@/components/layout/MobileNavBar";
 import { useState } from "react";
-import { ArrowDown, ArrowRight, ChevronDownIcon } from "lucide-react";
+import { ArrowDown, ChevronDownIcon } from "lucide-react";
 import { Field, FieldLabel } from "@/components/ui/field";
 import CareerCard from "@/components/cards/CareerCard";
 import { Button } from "@/components/ui/button";
@@ -44,7 +44,7 @@ function CareersPage() {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                   <Button 
                     size="lg"
-                    className="bg-secondary hover:bg-secondary/90 text-white px-10 py-6 text-lg rounded-full"
+                    variant="default"
                     onClick={() => scrollToSection("jobs")}
                   >
                     See Available Jobs <ArrowDown className="w-4 h-4 animate-bounce" />
@@ -70,7 +70,7 @@ function CareersPage() {
                   <FieldLabel>Department</FieldLabel>
                   <div className="relative">
                     <ChevronDownIcon className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500" />
-                    <select className="w-full h-10 text-sm text-black rounded-md px-3 border border-neutral-300 appearance-none bg-white">
+                    <select className="w-full h-10 text-sm text-black rounded-md px-3 appearance-none">
                       <option value={6}>Marketing</option>
                       <option value={12}>Property Management</option>
                       <option value={18}>HR & Admin</option>
@@ -83,7 +83,7 @@ function CareersPage() {
                   <FieldLabel>Location</FieldLabel>
                   <div className="relative">
                     <ChevronDownIcon className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500" />
-                    <select className="w-full h-10 text-sm text-black rounded-md px-3 border border-neutral-300 appearance-none bg-white">
+                    <select className="w-full h-10 text-sm text-black rounded-md px-3 ppearance-none">
                       <option value={6}>Angeles City, Pampanga</option>
                       <option value={12}>Lipa City, Batangas</option>
                       <option value={18}>Quezon City, Metro Manila</option>

@@ -65,7 +65,7 @@ function HouseSearchBar({ className, initialLocation = "", initialPriceRange }: 
           name="location"
           id="location"
           value={location}
-          className="w-full h-12 text-sm bg-input text-black outline-none border-none rounded-md px-2 border-2 border-neutral-200"
+          className="w-full h-12 text-sm text-black outline-none border-none rounded-md px-2 bg-transparent appearance-none"
           onChange={(e) => handleLocationChange(e.target.value)}
         >
           <option value="">Select Location</option>

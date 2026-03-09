@@ -279,11 +279,11 @@ function BuyerGuidePage() {
                   based on your preferred unit and financing scheme.
                 </p>
               </div>
-              <Link href="/loan-calculator" className="shrink-0">
+              <Link href="/loan-calculator" className="shrink-0 w-full md:w-fit">
                 <Button
                   variant="outline"
                   size="sm"
-                  className="text-white hover:bg-white hover:text-primary"
+                  className="w-full md:w-fit text-white hover:bg-white hover:text-primary"
                 >
                   Try Loan Calculator
                 </Button>

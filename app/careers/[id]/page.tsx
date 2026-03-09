@@ -2,7 +2,6 @@
 import { useState, useRef, useEffect } from "react";
 import NavBar from "@/components/layout/NavBar";
 import Footer from "@/components/layout/Footer";
-import PageBanner from "@/components/layout/PageBanner";
 import {
   Dialog,
   DialogContent,
@@ -17,9 +16,9 @@ import { Input } from "@/components/ui/input";
 import { FileUpload } from "@/components/ui/file-upload";
 import CareerCard from "@/components/cards/CareerCard";
 import CareerDetailsSkeleton from "@/components/layout/skeleton/CareerDetailsSkeleton";
-import { ArrowLeft, MoveLeft } from "lucide-react";
-import Link from "next/link";
+import { ArrowUpFromLine } from "lucide-react";
 import { toast } from "sonner";
+import BackButton from "@/components/layout/BackButton";
 
 export const runtime = 'edge';
 
@@ -150,28 +149,18 @@ function CareerDetailsPage({
   }
 
   return (
-    <div className="mt-30">
+    <div className="pt-20 md:pt-30">
       <header>
         <NavBar isScrolled={true} />
       </header>
-      {/* <PageBanner
-        title="Career Details"
-        description="View current and upcoming developments of distinction and innovation."
-        breadcrumb="Careers / Details"
-      /> */}
+  
       <main className="flex flex-col lg:flex-row justify-start items-start px-8 md:px-24 xl:px-44 gap-8 py-16">
-        {/* ABOUT US SECTION */}
-
+        {/* CAREER DETAILS SECTION */}
         {!loading ? (
         <section className="flex flex-col items-start justify-center space-y-8 w-full lg:w-2/3">
-          <Link
-            href="/careers"
-            className="flex items-center gap-2 text-primary"
-          >
-            {" "}
-            <ArrowLeft className="size-4" /> Back to Careers
-          </Link>
-
+          
+          <BackButton href="/careers" mainPageName="Careers" />
+          
           <span className="flex flex-col gap-4">
             <span>
                 <h1 className="text-4xl font-bold">
@@ -213,8 +202,8 @@ function CareerDetailsPage({
           </span>
 
           <Dialog>
-            <DialogTrigger className="bg-primary text-white rounded-full w-fit p-2 px-6 font-bold cursor-pointer">
-              Submit Application
+            <DialogTrigger className="flex items-center gap-2 bg-primary text-white rounded-md w-fit p-2 px-4 font-bold cursor-pointer">
+              <ArrowUpFromLine className="size-5" /> Submit Application
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
@@ -270,8 +259,8 @@ function CareerDetailsPage({
               </div>
 
               <Button
-                size="lg"
-                className="bg-primary text-white rounded-md w-full p-2 px-4 font-bold cursor-pointer"
+                size="sm"
+                variant="primary"
                 onClick={(e) => handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>)}
               >
                 Submit Application

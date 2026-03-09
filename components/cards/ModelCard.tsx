@@ -63,7 +63,7 @@ function ModelCard({
       <div className="flex flex-col sm:flex-row items-stretch">
 
         {/* Specs */}
-        <div className="flex flex-wrap divide-x divide-border border-b sm:border-b-0 border-border flex-1">
+        <div className="flex overflow-x-auto divide-x divide-border border-b sm:border-b-0 border-border flex-1">
           {specs.map(({ icon: Icon, value, label }) => (
             <div
               key={label}

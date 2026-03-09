@@ -33,23 +33,24 @@ function BrokersAccreditation() {
       <main>
         {/* HERO SECTION */}
         <section className=" min-h-[90dvh] flex items-center justify-center lg:justify-start overflow-hidden  bg-linear-to-r from-primary to-blue-950 pt-20">
-          <div className="container px-8 md:px-16 xl:px-44  z-10 flex gap-12 items-center relative">
+          <div className="container px-8 md:px-16 xl:px-44 z-10 flex gap-12 items-center relative">
             <ScrollReveal>
               <div className="py-12 lg:py-24 text-center lg:text-left flex flex-col gap-8">
-                <span>
-                  <h1 className="text-5xl lg:text-6xl font-medium text-white leading-tight">
+                <span className="space-y-4">
+                  <h1 className="text-5xl lg:text-6xl font-medium text-white">
                     Broker&apos;s Accreditation <span className="text-secondary font-bold">Program</span>
                   </h1>
-                  <p className="text-blue-100 text-lg lg:text-xl max-w-xl mx-auto lg:mx-0">
+                  <p className="leading-relaxed text-neutral-200 max-w-xl mx-auto lg:mx-0">
                     Join our Broker's Accreditation Program and gain exclusive access to premium listings and a community built for success.
                   </p>
                 </span>
                 
            
-                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <div className="flex gap-4 justify-center lg:justify-start w-full lg:w-fit">
                   <Button 
                     size="lg"
                     asChild
+                    className="flex-1 md:w-fit"
                   >
                     <Link href="https://docs.google.com/forms/..." target="_blank">
                       Apply Now
@@ -58,7 +59,7 @@ function BrokersAccreditation() {
                   <Button 
                     variant="outline" 
                     size="lg"
-                    className="text-white"
+                    className="text-white flex-1 md:w-fit"
                     onClick={() => scrollToSection("requirements")}
                   >
                     View Checklist
@@ -103,7 +104,7 @@ function BrokersAccreditation() {
                 <Accordion type="single" collapsible defaultValue="item-1" className="space-y-4">
                   
                   <AccordionItem value="item-1" className="rounded-xl p-0 bg-white overflow-hidden">
-                    <AccordionTrigger className="hover:no-underline font-bold text-xl py-6">
+                    <AccordionTrigger className="hover:no-underline font-bold text-xl py-4">
                       General Requirements
                     </AccordionTrigger>
                     <AccordionContent className="p-6">
@@ -121,7 +122,7 @@ function BrokersAccreditation() {
                   </AccordionItem>
 
                   <AccordionItem value="item-2" className="rounded-xl p-0 bg-white overflow-hidden">
-                    <AccordionTrigger className="hover:no-underline font-bold text-xl py-6 text-left">
+                    <AccordionTrigger className="hover:no-underline font-bold text-xl py-4 text-left">
                       For Corporations
                     </AccordionTrigger>
                     <AccordionContent className="p-6">
@@ -134,7 +135,7 @@ function BrokersAccreditation() {
                   </AccordionItem>
 
                   <AccordionItem value="item-3" className="rounded-xl p-0 bg-white overflow-hidden">
-                    <AccordionTrigger className="hover:no-underline font-bold text-xl py-6 text-left">
+                    <AccordionTrigger className="hover:no-underline font-bold text-xl py-4 text-left">
                       For Partnerships
                     </AccordionTrigger>
                     <AccordionContent className="p-6">
@@ -146,7 +147,7 @@ function BrokersAccreditation() {
                   </AccordionItem>
 
                   <AccordionItem value="item-4" className="rounded-xl p-0 bg-white overflow-hidden">
-                    <AccordionTrigger className="hover:no-underline font-bold text-xl py-6 text-left">
+                    <AccordionTrigger className="hover:no-underline font-bold text-xl py-4 text-left">
                       For Sole Proprietorship
                     </AccordionTrigger>
                     <AccordionContent className="p-6">
@@ -177,11 +178,11 @@ function BrokersAccreditation() {
                   className="object-cover transition-all duration-700"
                 />
               </div>
-              <div className="md:w-2/3 p-8 lg:p-12 xl:p-18 flex flex-col justify-center gap-6">
-                <h2 className="text-3xl lg:text-5xl font-bold text-primary leading-tight">
+              <div className="md:w-2/3 p-8 lg:p-12 xl:p-18 flex flex-col justify-center gap-2">
+                <h2 className="text-3xl lg:text-5xl font-bold text-primary">
                   Ready to Become an Accredited Broker?
                 </h2>
-                <p className="text-slate-600 text-lg">
+                <p className="leading-relaxed text-neutral-600">
                   Gain access to exclusive listings, premium support, and a network designed specifically for your professional growth.
                 </p>
                 <div className="pt-4">

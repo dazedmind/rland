@@ -1,7 +1,6 @@
 "use client";
 import NavBar from "@/components/layout/NavBar";
 import Footer from "@/components/layout/Footer";
-import PageBanner from "@/components/layout/PageBanner";
 import MobileNavBar from "@/components/layout/MobileNavBar";
 import { useState } from "react";
 import arcoeResidencesLogo from "@/public/project-logo/ar-logo.png";
@@ -9,12 +8,11 @@ import Image from "next/image";
 import arcoeEstatesLogo from "@/public/project-logo/ae-logo.png";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft, ChevronDownIcon } from "lucide-react";
+import { ChevronDownIcon } from "lucide-react";
 import Link from "next/link";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -25,12 +23,11 @@ import {
 } from "@/components/ui/dialog";
 import {
   Table,
-  TableHeader,
   TableBody,
   TableRow,
-  TableHead,
   TableCell,
 } from "@/components/ui/table";
+import BackButton from "@/components/layout/BackButton";
 
 function ReservationPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -63,13 +60,7 @@ function ReservationPage() {
         {/* RESERVATION SECTION */}
         <section className="flex flex-col items-start px-8 md:px-16 lg:px-24 xl:px-64 justify-center space-y-8">
           <span>
-            <Link
-              href="/"
-              className="flex items-center gap-2 text-primary"
-            >
-              {" "}
-              <ArrowLeft className="size-4" /> Back to Home
-            </Link>
+            <BackButton href="/" mainPageName="Home" />
           </span>
           <span className="flex flex-col gap-2">
             <h1 className="text-4xl font-bold text-primary">Reserve your dream home today</h1>
@@ -223,7 +214,7 @@ function ReservationPage() {
               </span>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4">
               <span className="grid grid-cols-2 gap-4">
                 <Field>
                   <FieldLabel>First Name</FieldLabel>
@@ -260,9 +251,7 @@ function ReservationPage() {
                     className="w-full p-2 rounded-md text-black"
                   />
                 </Field>
-              </span>
-              <span>
-                <Field className="h-full">
+                <Field className="h-full col-span-2">
                   <FieldLabel>Message</FieldLabel>
                   <Textarea
                     placeholder="Enter Message"
@@ -275,7 +264,7 @@ function ReservationPage() {
         </section>
 
         <section className="flex flex-col items-start px-8 md:px-16 lg:px-24 xl:px-64 justify-center space-y-8">
-          <div className="flex justify-between items-center w-full">
+          <div className="flex justify-between items-center w-full px-6">
             <Field orientation="horizontal">
               <Checkbox id="terms-checkbox-basic" name="terms-checkbox-basic" />
               <p className="w-full text-xs md:text-sm">

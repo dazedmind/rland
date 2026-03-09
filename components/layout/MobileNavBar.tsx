@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { PanelRightClose, X } from "lucide-react";
+import { PanelRightClose } from "lucide-react";
 import rlandLogo from "@/public/rland-logo.png";
 
 interface MobileNavBarProps {
@@ -28,7 +28,7 @@ function MobileNavBar({ isMenuOpen, setIsMenuOpen }: MobileNavBarProps) {
     { name: "Loan Calculator", href: "/loan-calculator" },
     { name: "Buyer's Guide", href: "/buyer-guide" },
     { name: "Promos", href: "/promos" },
-    { name: "Broker's Login", href: "/broker-login" },
+    { name: "Broker's Login", href: "/" },
     { name: "Careers", href: "/careers" },
   ];
 
@@ -71,7 +71,7 @@ function MobileNavBar({ isMenuOpen, setIsMenuOpen }: MobileNavBarProps) {
         {/* Navigation Content */}
         <div className="flex flex-col h-[calc(100%-88px)] overflow-y-auto">
           {/* Main Links */}
-          <nav className="flex flex-col p-4 space-y-1">
+          <nav className="flex flex-col p-4">
             {mainLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
@@ -81,7 +81,7 @@ function MobileNavBar({ isMenuOpen, setIsMenuOpen }: MobileNavBarProps) {
                   onClick={() => setIsMenuOpen(false)}
                   className={`px-4 py-3 rounded-lg transition-all duration-200 ${
                     isActive
-                      ? "bg-primary text-white font-semibold"
+                      ? "underline decoration-2 decoration-secondary underline-offset-8 text-primary font-semibold"
                       : "text-neutral-700 hover:bg-neutral-100 font-medium"
                   }`}
                 >
@@ -99,16 +99,19 @@ function MobileNavBar({ isMenuOpen, setIsMenuOpen }: MobileNavBarProps) {
             <p className="px-4 py-2 text-xs font-semibold text-neutral-400 uppercase tracking-wider">
               Quick Links
             </p>
-            {utilityLinks.map((link) => (
+            {utilityLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsMenuOpen(false)}
-                className="px-4 py-2 text-sm text-neutral-600 hover:text-primary hover:bg-neutral-50 rounded-lg transition-all duration-200"
+                className={`px-4 py-2 text-sm text-neutral-600 hover:text-primary hover:bg-neutral-50 rounded-lg transition-all duration-200 ${isActive ? ' text-primary font-semibold' : 'text-neutral-700 hover:bg-neutral-100 font-medium'}`}
               >
                 {link.name}
               </Link>
-            ))}
+            );
+            })}
           </nav>
 
           {/* Reserve Now Button */}

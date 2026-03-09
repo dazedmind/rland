@@ -85,7 +85,6 @@ function AboutUs() {
         <section className="px-8 md:px-16 xl:px-44 py-20 lg:py-30">
           <ScrollReveal>
             <div className="flex flex-col lg:flex-row items-center gap-12">
-
               {/* Text */}
               <div className="flex flex-col gap-6 w-full lg:w-1/2">
                 <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
@@ -115,7 +114,7 @@ function AboutUs() {
                 </p>
                 <Link href="/projects">
                   <Button size="lg" variant="default">
-                    Explore Our Projects <ArrowRight className="size-4" />
+                    Explore Our Projects <ArrowRight className="size-5" />
                   </Button>
                 </Link>
               </div>
@@ -170,7 +169,10 @@ function AboutUs() {
                 {/* Mission */}
                 <div className="group flex flex-col gap-4 rounded-2xl p-8 bg-linear-to-br from-primary to-blue-950 text-white overflow-hidden relative">
                   <div className="flex items-center justify-center w-14 h-14 rounded-full bg-white/10 border border-white/20">
-                    <Target className="size-7 text-secondary" strokeWidth={1.5} />
+                    <Target
+                      className="size-7 text-secondary"
+                      strokeWidth={1.5}
+                    />
                   </div>
                   <h3 className="text-3xl font-bold text-secondary">
                     Our Mission
@@ -186,7 +188,10 @@ function AboutUs() {
                 {/* Promise */}
                 <div className="group flex flex-col gap-4 rounded-2xl p-8 bg-linear-to-br from-primary to-blue-950 text-white overflow-hidden relative">
                   <div className="flex items-center justify-center w-14 h-14 rounded-full bg-white/10 border border-white/20">
-                    <Ribbon className="size-7 text-secondary" strokeWidth={1.5} />
+                    <Ribbon
+                      className="size-7 text-secondary"
+                      strokeWidth={1.5}
+                    />
                   </div>
                   <h3 className="text-3xl font-bold text-secondary">
                     Our Promise
@@ -207,7 +212,6 @@ function AboutUs() {
         <section className="px-8 md:px-16 xl:px-44 py-20">
           <ScrollReveal>
             <div className="flex flex-col lg:flex-row-reverse items-center gap-12">
-
               {/* Text */}
               <div className="flex flex-col gap-6 w-full lg:w-1/2">
                 <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
@@ -264,9 +268,7 @@ function AboutUs() {
                 <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
                   What We Stand For
                 </p>
-                <h2 className="text-4xl font-bold text-primary">
-                  Our Values
-                </h2>
+                <h2 className="text-4xl font-bold text-primary">Our Values</h2>
                 <p className="text-neutral-600 max-w-xl">
                   These five pillars define how we operate, build, and serve our
                   communities every day.
@@ -311,23 +313,35 @@ function AboutUs() {
         {/* ── CTA BAND ── */}
         <section className="px-8 md:px-16 xl:px-44 py-20">
           <ScrollReveal>
-          <div className="p-8 md:p-12 rounded-xl bg-primary text-white flex flex-col md:flex-row items-center justify-between gap-8 overflow-hidden relative w-full">
-               <div className="relative z-10 space-y-2">
-                  <h3 className="text-2xl font-bold">Ready to find your place in our community?</h3>
-                  <p className="text-primary-foreground/80">Contact us today to learn more about our properties and how we can help you find your perfect home.</p>
-               </div>
-               <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
-               <Button variant="outline" size="lg" className="w-full md:w-auto text-white hover:bg-white/10 hover:text-white shadow-lg">
-                    Explore Projects
-                  </Button>
-                  <Button variant="default" size="lg" className="w-full md:w-auto text-white transition-colors shadow-lg">
-                    Get In Touch
-                  </Button>
-               </div>
+            <div className="p-8 md:p-12 rounded-xl bg-primary text-white flex flex-col lg:flex-row items-center justify-between gap-8 overflow-hidden relative w-full">
+              <div className="relative z-10 space-y-2 w-full lg:w-1/2">
+                <h3 className="text-2xl font-bold">
+                  Ready to find your place in our community?
+                </h3>
+                <p className="text-primary-foreground/80">
+                  Contact us today to learn more about our properties and how we
+                  can help you find your perfect home.
+                </p>
+              </div>
+              <div className="flex gap-4 w-full lg:w-auto">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className=" md:w-fit text-white hover:bg-white/10 hover:text-white shadow-lg"
+                >
+                  Explore Projects
+                </Button>
+                <Button
+                  variant="default"
+                  size="lg"
+                  className=" md:w-fit text-white transition-colors shadow-lg"
+                >
+                  Get In Touch
+                </Button>
+              </div>
             </div>
           </ScrollReveal>
         </section>
-
       </main>
 
       <footer>

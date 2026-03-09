@@ -21,7 +21,7 @@ function PromoCard({
   return (
     <div className="flex flex-col md:flex-row gap-2 border-border border rounded-lg w-full h-full">
         {/* Image container - fixed square aspect ratio */}
-        <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/5 aspect-square shrink-0 rounded-l-md overflow-hidden">
+        <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/5 aspect-square shrink-0 rounded-t-md md:rounded-t-none md:rounded-l-md overflow-hidden">
             <Image src={image} alt={title} width={256} height={256} className="w-full h-full object-cover" />
         </div>
         {/* Content container */}
@@ -35,8 +35,8 @@ function PromoCard({
     
                 <p className="text-sm leading-relaxed text-muted-foreground">{description}</p>
             </div>
-            <Link href={`/promos/${id}`}>
-                <Button size="lg" variant="primary" className="w-full lg:w-fit">
+            <Link href={`/promos`}>
+                <Button size="sm" variant="primary" className="w-full lg:w-fit">
                     Claim Promo
                 </Button>
             </Link>

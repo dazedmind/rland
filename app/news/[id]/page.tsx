@@ -7,9 +7,11 @@ import Footer from "@/components/layout/Footer";
 import MobileNavBar from "@/components/layout/MobileNavBar";
 import Link from "next/link";
 import NewsArticleSkeleton from "@/components/layout/skeleton/NewsArticleSkeleton";
-import { MoveLeft, Calendar, Share2, ArrowLeft } from "lucide-react";
+import { MoveLeft, Calendar, Share } from "lucide-react";
 import { dateFormatter } from "@/app/utils/dateFormatter";
 import { renderMarkdown } from "@/app/utils/markdown";
+import { Button } from "@/components/ui/button";
+import BackButton from "@/components/layout/BackButton";
 
 type Article = {
   id: number;
@@ -110,13 +112,7 @@ function NewsArticlePage({
           <div className="max-w-4xl mx-auto">
             <div className="flex flex-col gap-6 mb-6">
               <span>
-                <Link
-                  href="/news"
-                  className="flex items-center gap-2 text-primary"
-                >
-                  {" "}
-                  <ArrowLeft className="size-4" /> Back to News
-                </Link>
+                <BackButton href="/news" mainPageName="News" />
               </span>
 
             </div>
@@ -126,11 +122,12 @@ function NewsArticlePage({
                 {article.headline}
               </h1>
               <div className="flex flex-wrap items-center gap-6 text-sm text-neutral-500 border-b border-neutral-100 pb-6">
+              
+                <span className="px-3 py-1 bg-secondary/80 text-white rounded-full font-bold text-xs uppercase">
+                  {article.type}
+                </span>
                 <span className="flex items-center gap-2">
                   <Calendar size={16} /> {dateFormatter(article.publishDate)}
-                </span>
-                <span className="px-3 py-1 bg-secondary/10 text-secondary rounded-full font-bold text-xs uppercase">
-                  {article.type}
                 </span>
               </div>
 
@@ -167,9 +164,9 @@ function NewsArticlePage({
                     </span>
                   ))}
                 </div>
-                <button className="flex items-center gap-2 text-primary font-bold hover:opacity-70 transition-opacity">
-                  <Share2 size={20} /> Share Article
-                </button>
+                <Button variant="ghost" className="flex items-center gap-2 text-primary font-bold hover:opacity-70 transition-opacity">
+                  <Share size={20} /> Share Article
+                </Button>
               </div>
             </article>
           </div>

@@ -2,7 +2,6 @@
 import { useState, useEffect, use, createElement } from "react";
 import NavBar from "@/components/layout/NavBar";
 import Footer from "@/components/layout/Footer";
-import PageBanner from "@/components/layout/PageBanner";
 import MobileNavBar from "@/components/layout/MobileNavBar";
 import {
   Hospital,
@@ -14,23 +13,19 @@ import {
   ShoppingCart,
   Landmark,
   TreePalm,
-  ArrowLeft,
-  MapPin,
-  Mail,
-  Phone,
   Building,
 } from "lucide-react";
-import arAerialView from "@/public/ar-aerial.png";
 import Image from "next/image";
 import ModelCard from "@/components/cards/ModelCard";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import ContactForm from "@/components/layout/ContactForm";
-import contactBg from "@/public/contact-bg.png";
 import { ProjectDetails, getMinMaxArea, getPriceRange } from "@/app/utils/types";
 import ProjectDetailsSkeleton from "@/components/layout/skeleton/ProjectDetailsSkeleton";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { priceFormatter } from "@/app/utils/priceFormatter";
+import ContactSection from "@/components/layout/ContactSection";
+import ProjectImageCarousel from "@/components/ProjectImageCarousel";
+import BackButton from "@/components/layout/BackButton";
 
 export const runtime = "edge";
 
@@ -220,17 +215,11 @@ function ProjectDetailsPage({
             id="specification"
           >
           <span>
-            <Link
-              href="/projects"
-              className="flex items-center gap-2 text-primary"
-            >
-              {" "}
-              <ArrowLeft className="size-4" /> Back to Projects
-            </Link>
+            <BackButton href="/projects" mainPageName="Projects" />
           </span>
           <span className="flex flex-col gap-4">
 
-            <div className="py-8">
+            <div className="py-4">
               <Image src={project[0]?.project?.logoUrl ?? ""} alt="Project Logo" width={300} height={300} className="rounded-xl object-contain" />
             </div>
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
@@ -253,57 +242,71 @@ function ProjectDetailsPage({
               </span>
             </div>
 
-            <p className="leading-relaxed">
+            <p className="leading-relaxed text-neutral-600">
               {project[0]?.project?.description}
             </p>
 
-            <div className="flex flex-col md:flex-row gap-4 w-full border-border border-2 rounded-lg p-8 scroll-mt-24">
-              <div className="w-1/3">
+            <div className="flex flex-col md:flex-row gap-4 w-full border-border border-2 rounded-lg p-6 scroll-mt-24">
+              <div className="w-full md:w-1/3">
                 <h1 className="text-2xl font-bold">Project Specifications</h1>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:w-2/3">
                 <div className="flex flex-row items-center gap-2">
-                  <House className="size-10 text-neutral-400" />
+                  <House className="size-10 text-neutral-400 shrink-0" strokeWidth={1.5} />
                   <span>
                     <p className="text-sm text-neutral-500">Type</p>
-                    <p className="text-xl font-bold">{typeMap[project[0]?.project?.type as keyof typeof typeMap]}</p>
+                    <p className="text-xl font-medium">{typeMap[project[0]?.project?.type as keyof typeof typeMap]}</p>
                   </span>
                 </div>
                 <div className="flex flex-row items-center gap-2">
-                  <LandPlotIcon className="size-10 text-neutral-400" />
+                  <LandPlotIcon className="size-10 text-neutral-400 shrink-0" strokeWidth={1.5} />
                   <span>
                     <p className="text-sm text-neutral-500">Lot Area</p>
-                    <p className="text-xl font-bold">{minLot} – {maxLot} sqm ±</p>
+                    <p className="text-xl font-medium">{minLot} – {maxLot} sqm ±</p>
                   </span>
                 </div>
                 <div className="flex flex-row items-center gap-2">
-                  <PhilippinePeso className="size-10 text-neutral-400" />
+                  <PhilippinePeso className="size-10 text-neutral-400 shrink-0" strokeWidth={1.5} />
                   <span>
                     <p className="text-sm text-neutral-500">Price Range</p>
-                    <p className="text-xl font-bold">{priceFormatter(minPrice)} – {priceFormatter(maxPrice)}</p>
+                    <p className="text-xl font-medium">{priceFormatter(minPrice)} – {priceFormatter(maxPrice)}</p>
                   </span>
                 </div>
                 <div className="flex flex-row items-center gap-2">
-                  <Scan className="size-10 text-neutral-400" />
+                  <Scan className="size-10 text-neutral-400 shrink-0" strokeWidth={1.5} />
                   <span>
                     <p className="text-sm text-neutral-500">Floor Area</p>
-                    <p className="text-xl font-bold">{minFloor} – {maxFloor} sqm ±</p>
+                    <p className="text-xl font-medium">{minFloor} – {maxFloor} sqm ±</p>
                   </span>
                 </div>
               </div>
             </div>
           </span>
 
-          <div className="w-full h-80 bg-neutral-200 rounded-xl">
-            <Image
-              src={project[0]?.project?.photoUrl ?? (null as any)}
-              alt="Project Aerial View"
-              width={500}
-              height={500}
-              className="rounded-xl object-cover h-full w-full"
-            />
-          </div>
+          {(() => {
+            const projectPhoto = project[0]?.project?.photoUrl;
+            const modelPhotos = (project[0]?.models ?? [])
+              .map((m) => m.details?.photoUrl)
+              .filter((url): url is string => !!url);
+            const unique = projectPhoto
+              ? [projectPhoto, ...modelPhotos.filter((p) => p !== projectPhoto)]
+              : modelPhotos;
+            const images =
+              unique.length === 0
+                ? []
+                : unique.length === 1
+                  ? [unique[0], unique[0], unique[0]]
+                  : unique;
+            return images.length > 0 ? (
+              <ProjectImageCarousel
+                images={images}
+                alt={project[0]?.project?.projectName ?? "Project"}
+              />
+            ) : (
+              <div className="w-full h-80 bg-neutral-200 rounded-xl" />
+            );
+          })()}
         </section>
         </ScrollReveal>
 
@@ -391,23 +394,23 @@ function ProjectDetailsPage({
         <ScrollReveal delay={250}>
           <section className="relative z-10 flex flex-col lg:flex-row justify-between items-start px-8 md:px-16 lg:px-44 xl:px-64 gap-8 py-16">
           <div className="w-full">
-            <div className="flex items-center justify-between bg-linear-to-r from-primary-fg to-blue-950 text-white p-8 rounded-t-lg">
-              <span>
+            <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-linear-to-r from-primary-fg to-blue-950 text-white p-8 rounded-t-lg">
+              <span className="w-full md:w-auto">
                 <h1 className="text-2xl font-bold">Found the perfect home?</h1>
-                <p className="text-sm text-muted">
+                <p className="leading-relaxed text-neutral-200">
                   Make it yours. Secure your spot with a quick and easy
                   reservation.
                 </p>
               </span>
 
-              <span>
-                <Button size="sm" variant="default" onClick={() => scrollToSection("contact")}>
+              <span className="w-full md:w-auto">
+                <Button size="sm" variant="default" className="w-full" onClick={() => scrollToSection("contact")}>
                   Reserve Now
                 </Button>
               </span>
             </div>
             <div className="flex flex-col gap-2 bg-primary text-white p-8 rounded-b-lg">
-              <p className="text-lg font-bold">Arcoe Estates:</p>
+              <p className="text-lg font-bold">{project[0]?.project?.projectName}:</p>
               <p>Sampaguita St., Brgy. Munting Pulo, Lipa City, Batangas</p>
               <p>
                 Sales Office: Sampaguita St., Brgy. Munting Pulo, Lipa City,
@@ -421,63 +424,10 @@ function ProjectDetailsPage({
         </ScrollReveal>
 
         <ScrollReveal delay={300}>
-          <div className="relative overflow-hidden" id="contact">
-          {/* Background Image with Gradient Overlay */}
-          <div className="absolute inset-0 z-0">
-            <Image
-              src={contactBg}
-              alt="Contact Us"
-              width={1920}
-              height={1080}
-              className="absolute w-full h-full object-cover"
-            />
-            {/* Gradient Overlay - blends to white on the left */}
-            <div className="absolute inset-0 bg-linear-to-b from-white via-white/90 to-white" />
-          </div>
-
-          <section
-            id="contact"
-            className="relative z-10 flex flex-col lg:flex-row justify-between items-start px-8 md:px-16 lg:px-44 xl:px-64 gap-8 py-16"
-          >
-            {/* SECTION HEADER */}
-            <div className="flex flex-col xl:flex-row items-start w-full gap-4">
-              <div className="flex flex-col space-y-4 w-full xl:w-1/2">
-                <span>
-                  <h1 className="text-4xl md:text-5xl font-bold text-primary">
-                    Your next step in owning{" "}
-                    <span className="text-secondary font-serif italic">
-                      your dream home
-                    </span>{" "}
-                    starts{" "}
-                    <span className="text-secondary font-bold">here</span>
-                  </h1>
-                  <p className="text-base md:text-lg">
-                    Get in touch, and we'll handle the rest.
-                  </p>
-                </span>
-
-                <span>
-                  <p>You may also reach us at:</p>
-                  <ul className="flex flex-wrap items-start justify-start gap-2 space-y-2 py-2 ">
-                    <li className="flex flex-row items-center justify-center gap-2 bg-neutral-100 rounded-full p-1 px-3">
-                      <Phone className="w-4 h-4 text-primary" />
-                      <p>(02) 7752 2789</p>
-                    </li>
-                    <li className="flex flex-row items-center justify-center gap-2 bg-neutral-100 rounded-full p-1 px-3">
-                      <Mail className="w-4 h-4 text-primary" />
-                      <p>moreinfo@rland.ph</p>
-                    </li>
-                  </ul>
-                </span>
-              </div>
-
-              {/* Contact Card */}
-              <div className="w-full xl:w-1/2">
-                <ContactForm />
-              </div>
-            </div>
+          <section id="contact">
+            {/* CONTACT SECTION */}
+            <ContactSection />
           </section>
-        </div>
         </ScrollReveal>
       </main>
       <footer>

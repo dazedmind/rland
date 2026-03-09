@@ -5,7 +5,7 @@ import Footer from "@/components/layout/Footer";
 import PageBanner from "@/components/layout/PageBanner";
 import FeaturedNewsCard from "@/components/cards/FeaturedNewsCard";
 import MobileNavBar from "@/components/layout/MobileNavBar";
-import NewsCardList from "@/components/cards/NewsCardList";
+import NewsCard from "@/components/cards/NewsCard";
 
 function NewsPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -56,7 +56,7 @@ function NewsPage() {
           </div>
 
           {/* Grid of News Cards */}
-          <NewsCardList />
+          <NewsCard />
         </section>
       </main>
 

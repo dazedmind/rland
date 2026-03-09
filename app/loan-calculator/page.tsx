@@ -4,7 +4,6 @@ import NavBar from "@/components/layout/NavBar";
 import Footer from "@/components/layout/Footer";
 import PageBanner from "@/components/layout/PageBanner";
 import MobileNavBar from "@/components/layout/MobileNavBar";
-import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { ChevronDownIcon, RotateCcw } from "lucide-react";
 import {
@@ -17,7 +16,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 
-// Types
+// ── Types ──────────────────────────────────────────────────────────────────
 interface LoanInputs {
   totalContractPrice: number;
   reservationFee: number;
@@ -47,7 +46,7 @@ interface LoanResults {
   requiredMonthlyIncome: number;
 }
 
-// Calculation utilities
+// ── Calculation ────────────────────────────────────────────────────────────
 const calculateLoanResults = (inputs: LoanInputs): LoanResults => {
   const {
     totalContractPrice,
@@ -61,27 +60,18 @@ const calculateLoanResults = (inputs: LoanInputs): LoanResults => {
     interestRate,
   } = inputs;
 
-  // Calculate additional fees
   const vat = totalContractPrice * (vatPercentage / 100);
   const miscFees = totalContractPrice * (miscFeesPercentage / 100);
   const bankFees = totalContractPrice * (bankFeesPercentage / 100);
-
-  // Gross Total Contract Price
   const grossTotalContractPrice =
     totalContractPrice + vat + miscFees + bankFees;
-
-  // Down Payment calculations
   const downPayment = grossTotalContractPrice * (downPaymentPercentage / 100);
   const netDownPayment = downPayment - reservationFee;
   const monthlyDownPayment = netDownPayment / downPaymentTermsMonths;
-
-  // Loan calculations
   const loanAmount = grossTotalContractPrice - downPayment;
   const loanPeriodMonths = loanYears * 12;
   const monthlyInterestRate = interestRate / 100 / 12;
 
-  // Monthly Amortization using the loan payment formula
-  // M = P * [r(1+r)^n] / [(1+r)^n - 1]
   let monthlyAmortization = 0;
   if (monthlyInterestRate > 0) {
     const numerator =
@@ -92,7 +82,6 @@ const calculateLoanResults = (inputs: LoanInputs): LoanResults => {
     monthlyAmortization = loanAmount / loanPeriodMonths;
   }
 
-  // Required Monthly Income (typically 35% debt-to-income ratio)
   const requiredMonthlyIncome = monthlyAmortization / 0.35;
 
   return {
@@ -113,19 +102,15 @@ const calculateLoanResults = (inputs: LoanInputs): LoanResults => {
   };
 };
 
-// Currency formatter
-const formatCurrency = (amount: number): string => {
-  return new Intl.NumberFormat("en-PH", {
+const formatCurrency = (amount: number): string =>
+  new Intl.NumberFormat("en-PH", {
     style: "currency",
     currency: "PHP",
     minimumFractionDigits: 2,
   }).format(amount);
-};
 
 function LoanCalculatorPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  // Input states
   const [inputs, setInputs] = useState<LoanInputs>({
     totalContractPrice: 2000000,
     reservationFee: 50000,
@@ -138,37 +123,11 @@ function LoanCalculatorPage() {
     interestRate: 6.5,
   });
 
-  // Calculate results using useMemo for performance
   const results = useMemo(() => calculateLoanResults(inputs), [inputs]);
-  //   const [results, setResults] = useState<LoanResults>({
-  //     totalContractPrice: 0,
-  //     vat: 0,
-  //     miscFees: 0,
-  //     bankFees: 0,
-  //     grossTotalContractPrice: 0,
-  //     downPayment: 0,
-  //     reservationFee: 0,
-  //     netDownPayment: 0,
-  //     monthlyDownPayment: 0,
-  //     loanAmount: 0,
-  //     interestRate: 0,
-  //     loanPeriodMonths: 0,
-  //     monthlyAmortization: 0,
-  //     requiredMonthlyIncome: 0,
-  //   });
 
-  // Input change handler
   const handleInputChange = (field: keyof LoanInputs, value: number) => {
-    setInputs((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    setInputs((prev) => ({ ...prev, [field]: value }));
   };
-
-  //   const handleCalculate = () => {
-  //     const results = calculateLoanResults(inputs);
-  //     setResults(results);
-  //   };
 
   const handleClear = () => {
     setInputs({
@@ -182,25 +141,6 @@ function LoanCalculatorPage() {
       bankFeesPercentage: 1,
       interestRate: 6.5,
     });
-
-    inputs.totalContractPrice = 0;
-
-    // setResults({
-    //     totalContractPrice: 0,
-    //     vat: 0,
-    //     miscFees: 0,
-    //     bankFees: 0,
-    //     grossTotalContractPrice: 0,
-    //     downPayment: 0,
-    //     reservationFee: 0,
-    //     netDownPayment: 0,
-    //     monthlyDownPayment: 0,
-    //     loanAmount: 0,
-    //     interestRate: 0,
-    //     loanPeriodMonths: 0,
-    //     monthlyAmortization: 0,
-    //     requiredMonthlyIncome: 0,
-    // });
   };
 
   return (
@@ -213,328 +153,320 @@ function LoanCalculatorPage() {
         />
         <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       </header>
-      {/* PAGE BANNER */}
+
       <PageBanner
         title="Loan Calculator"
         description="This loan calculator helps estimate your monthly payments."
         breadcrumb="Loan Calculator"
       />
+
       <main>
-        {/* CALCULATOR SECTION */}
-        <section className="flex flex-col items-start px-8 md:px-16 xl:px-64  justify-center py-16 space-y-8">
-          <span className="flex flex-col gap-2">
-            <h1 className="text-4xl font-bold text-primary">Finance Your Future Home</h1>
-            <p className="text-sm md:text-base leading-relaxed text-muted-foreground">
-              This loan calculator helps estimate your monthly payments based on
-              your loan amount, interest rate, and payment terms.
-            </p>
-          </span>
-
-          <div className="flex flex-col lg:flex-row justify-between w-full gap-8">
-            {/* CALCULATOR INPUTS */}
+        <section className="flex flex-col items-start px-8 md:px-16 xl:px-44 justify-center py-16 space-y-8">
+          <div className="flex flex-col lg:flex-row justify-between w-full gap-16 items-start">
+            {/* ── LEFT: Inputs ── */}
             <div className="flex flex-col gap-4 w-full lg:w-2/5">
-              <h2 className="text-2xl font-semibold text-primary">
-                Loan Details
-              </h2>
+              <span className="flex flex-col gap-2">
+                <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
+                  Calculator
+                </p>
+                <h2 className="text-4xl font-bold text-primary">
+                  Loan Details
+                </h2>
+              </span>
 
-              <Field>
-                <FieldLabel>Total Contract Price (PHP)</FieldLabel>
-                <Input
-                  type="number"
-                  placeholder="Enter Contract Price"
-                  value={
-                    inputs.totalContractPrice === 0
-                      ? ""
-                      : inputs.totalContractPrice
-                  }
-                  //   min={0}
-                  onChange={(e) =>
-                    handleInputChange(
-                      "totalContractPrice",
-                      Number(e.target.value),
-                    )
-                  }
-                  className="w-full"
-                />
-              </Field>
-
-              <Field>
-                <FieldLabel>Reservation Fee (PHP)</FieldLabel>
-                <Input
-                  type="number"
-                  placeholder="Enter Reservation Fee"
-                  value={
-                    inputs.reservationFee === 0 ? "" : inputs.reservationFee
-                  }
-                  onChange={(e) =>
-                    handleInputChange("reservationFee", Number(e.target.value))
-                  }
-                  className="w-full"
-                />
-              </Field>
-
-              <Field>
-                <FieldLabel>Down Payment Percentage (%)</FieldLabel>
-                <div className="relative">
-                  <ChevronDownIcon className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500" />
-                  <select
-                    value={inputs.downPaymentPercentage}
-                    onChange={(e) =>
-                      handleInputChange(
-                        "downPaymentPercentage",
-                        Number(e.target.value),
-                      )
-                    }
-                    className="w-full h-10 text-sm text-black rounded-md px-3 border border-neutral-300 appearance-none bg-white"
-                  >
-                    <option value={10}>10%</option>
-                    <option value={15}>15%</option>
-                    <option value={20}>20%</option>
-                    <option value={25}>25%</option>
-                    <option value={30}>30%</option>
-                  </select>
-                </div>
-              </Field>
-
-              <Field>
-                <FieldLabel>Down Payment Terms (Months)</FieldLabel>
-                <div className="relative">
-                  <ChevronDownIcon className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500" />
-                  <select
-                    value={inputs.downPaymentTermsMonths}
-                    onChange={(e) =>
-                      handleInputChange(
-                        "downPaymentTermsMonths",
-                        Number(e.target.value),
-                      )
-                    }
-                    className="w-full h-10 text-sm text-black rounded-md px-3 border border-neutral-300 appearance-none bg-white"
-                  >
-                    <option value={6}>6 months</option>
-                    <option value={12}>12 months</option>
-                    <option value={18}>18 months</option>
-                    <option value={24}>24 months</option>
-                  </select>
-                </div>
-              </Field>
-
-              <Field>
-                <FieldLabel>Number of Years to Pay Loan</FieldLabel>
-                <div className="relative">
-                  <ChevronDownIcon className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500" />
-                  <select
-                    value={inputs.loanYears}
-                    onChange={(e) =>
-                      handleInputChange("loanYears", Number(e.target.value))
-                    }
-                    className="w-full h-10 text-sm text-black rounded-md px-3 border border-neutral-300 appearance-none bg-white"
-                  >
-                    <option value={5}>5 years</option>
-                    <option value={10}>10 years</option>
-                    <option value={15}>15 years</option>
-                    <option value={20}>20 years</option>
-                    <option value={25}>25 years</option>
-                    <option value={30}>30 years</option>
-                  </select>
-                </div>
-              </Field>
-
-              <Field>
-                <FieldLabel>Interest Rate (% per annum)</FieldLabel>
-                <Input
-                  type="number"
-                  step="0.1"
-                  placeholder="Enter Interest Rate"
-                  value={inputs.interestRate}
-                  onChange={(e) =>
-                    handleInputChange("interestRate", Number(e.target.value))
-                  }
-                  className="w-full"
-                />
-              </Field>
-
-              {/* Advanced Options */}
-              <div className="pt-4 border-t border-neutral-200">
-                <h3 className="text-lg font-semibold mb-3 text-neutral-700">
-                  Additional Fees (%)
-                </h3>
-
-                <Field>
-                  <FieldLabel>VAT (%)</FieldLabel>
+              <div className="flex flex-col gap-3 border border-border rounded-xl p-6">
+                {/* Text inputs */}
+                <div className="grid grid-cols-2 items-center gap-1.5">
+                  <label className="text-sm font-semibold text-primary">
+                    Total Contract Price (PHP)
+                  </label>
                   <Input
                     type="number"
-                    step="0.1"
-                    value={inputs.vatPercentage}
-                    onChange={(e) =>
-                      handleInputChange("vatPercentage", Number(e.target.value))
+                    placeholder="Enter Contract Price"
+                    value={
+                      inputs.totalContractPrice === 0
+                        ? ""
+                        : inputs.totalContractPrice
                     }
-                    className="w-full"
-                  />
-                </Field>
-
-                <Field>
-                  <FieldLabel>Miscellaneous Fees (%)</FieldLabel>
-                  <Input
-                    type="number"
-                    step="0.1"
-                    value={inputs.miscFeesPercentage}
                     onChange={(e) =>
                       handleInputChange(
-                        "miscFeesPercentage",
+                        "totalContractPrice",
                         Number(e.target.value),
                       )
                     }
                     className="w-full"
                   />
-                </Field>
+                </div>
 
-                <Field>
-                  <FieldLabel>Bank Fees (%)</FieldLabel>
+                <div className="grid grid-cols-2 items-center gap-1.5">
+                  <label className="text-sm font-semibold text-primary">
+                    Reservation Fee (PHP)
+                  </label>
                   <Input
                     type="number"
-                    step="0.1"
-                    value={inputs.bankFeesPercentage}
+                    placeholder="Enter Reservation Fee"
+                    value={
+                      inputs.reservationFee === 0 ? "" : inputs.reservationFee
+                    }
                     onChange={(e) =>
                       handleInputChange(
-                        "bankFeesPercentage",
+                        "reservationFee",
                         Number(e.target.value),
                       )
                     }
                     className="w-full"
                   />
-                </Field>
-              </div>
+                </div>
 
-              <span className="flex gap-4 justify-between w-full">
+                {/* Select fields */}
+                {[
+                  {
+                    label: "Down Payment Percentage (%)",
+                    field: "downPaymentPercentage" as keyof LoanInputs,
+                    options: [10, 15, 20, 25, 30].map((v) => ({
+                      value: v,
+                      label: `${v}%`,
+                    })),
+                  },
+                  {
+                    label: "Down Payment Terms (Months)",
+                    field: "downPaymentTermsMonths" as keyof LoanInputs,
+                    options: [6, 12, 18, 24].map((v) => ({
+                      value: v,
+                      label: `${v} months`,
+                    })),
+                  },
+                  {
+                    label: "Number of Years to Pay Loan",
+                    field: "loanYears" as keyof LoanInputs,
+                    options: [5, 10, 15, 20, 25, 30].map((v) => ({
+                      value: v,
+                      label: `${v} years`,
+                    })),
+                  },
+                ].map(({ label, field, options }) => (
+                  <div key={field} className="grid grid-cols-2 items-center gap-1.5">
+                    <label className="text-sm font-semibold text-primary">
+                      {label}
+                    </label>
+                    <div className="relative">
+                      <ChevronDownIcon className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500" />
+                      <select
+                        value={inputs[field] as number}
+                        onChange={(e) =>
+                          handleInputChange(field, Number(e.target.value))
+                        }
+                        className="w-full h-10 text-sm text-black rounded px-3 appearance-none"
+                      >
+                        {options.map((o) => (
+                          <option key={o.value} value={o.value}>
+                            {o.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                ))}
+
+                <div className="grid grid-cols-2 items-center gap-1.5">
+                  <label className="text-sm font-semibold text-primary">
+                    Interest Rate (% per annum)
+                  </label>
+                  <Input
+                    type="number"
+                    step="0.1"
+                    placeholder="Enter Interest Rate"
+                    value={inputs.interestRate}
+                    onChange={(e) =>
+                      handleInputChange("interestRate", Number(e.target.value))
+                    }
+                    className="w-full"
+                  />
+                </div>
+
+                {/* Additional Fees */}
+                <div className="pt-3 flex flex-col gap-3">
+                  <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
+                    Additional Fees (%)
+                  </p>
+                  {[
+                    {
+                      label: "VAT (%)",
+                      field: "vatPercentage" as keyof LoanInputs,
+                    },
+                    {
+                      label: "Miscellaneous Fees (%)",
+                      field: "miscFeesPercentage" as keyof LoanInputs,
+                    },
+                    {
+                      label: "Bank Fees (%)",
+                      field: "bankFeesPercentage" as keyof LoanInputs,
+                    },
+                  ].map(({ label, field }) => (
+                    <div key={field} className="grid grid-cols-2 items-center gap-1.5">
+                      <label className="text-sm font-semibold text-primary">
+                        {label}
+                      </label>
+                      <Input
+                        type="number"
+                        step="0.1"
+                        value={inputs[field] as number}
+                        onChange={(e) =>
+                          handleInputChange(field, Number(e.target.value))
+                        }
+                        className="w-full"
+                      />
+                    </div>
+                  ))}
+                </div>
+
                 {results.totalContractPrice > 0 && (
                   <Button
                     onClick={handleClear}
                     variant="outline"
                     size="sm"
-                    className="w-full text-foreground"
+                    className="w-full text-foreground mt-2"
                   >
-                    {" "}
-                    <RotateCcw className="w-4 h-4" /> Clear
+                    <RotateCcw className="w-4 h-4 mr-2" /> Clear
                   </Button>
                 )}
-              </span>
+              </div>
             </div>
 
-            {/* RESULTS TABLE */}
-            <div className="w-full lg:w-3/5">
-              <h2 className="text-2xl font-semibold mb-4 text-primary">
-                Payment Breakdown
-              </h2>
-              <div className="border border-neutral-200 rounded-lg overflow-hidden">
-                <Table>
+            {/* ── RIGHT: Results ── */}
+            <div className="w-full lg:w-3/5 flex flex-col gap-6">
+              {/* Summary cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="flex flex-col gap-2 border border-border rounded-xl p-6 bg-linear-to-br from-primary to-blue-950 text-white">
+                  <p className="font-semibold uppercase text-sm tracking-wider text-secondary">
+                    Monthly Down Payment
+                  </p>
+                  <p className="text-3xl font-bold">
+                    {formatCurrency(results.monthlyDownPayment)}
+                  </p>
+                  <p className="text-xs text-white/60">
+                    First {inputs.downPaymentTermsMonths} months
+                  </p>
+                </div>
+                <div className="flex flex-col gap-2 border border-border rounded-xl p-6 bg-linear-to-br from-primary to-blue-950 text-white">
+                  <p className="font-semibold uppercase text-sm tracking-wider text-secondary">
+                    Monthly Amortization
+                  </p>
+                  <p className="text-3xl font-bold">
+                    {formatCurrency(results.monthlyAmortization)}
+                  </p>
+                  <p className="text-xs text-white/60">
+                    After down payment period
+                  </p>
+                </div>
+              </div>
+
+              {/* Table */}
+              <span>
+                <h2 className="text-3xl font-bold text-primary">
+                  Payment Breakdown
+                </h2>
+              </span>
+
+              <div className="border border-border rounded-xl overflow-hidden">
+              <Table>
                   <TableHeader>
-                    <TableRow className="bg-neutral-50">
-                      <TableHead className="font-semibold text-neutral-900">
+                    <TableRow className="bg-neutral-50 hover:bg-neutral-50">
+                      <TableHead className="font-semibold text-neutral-500 uppercase text-xs tracking-wider py-3">
                         Description
                       </TableHead>
-                      <TableHead className="text-right font-semibold text-neutral-900">
+                      <TableHead className="text-right font-semibold text-neutral-500 uppercase text-xs tracking-wider py-3">
                         Amount
                       </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    <TableRow>
-                      <TableCell className="font-medium">
-                        Total Contract Price
-                      </TableCell>
-                      <TableCell className="text-right">
+
+                    {/* ── Group 1: Contract Price ── */}
+            
+                    <TableRow className="hover:bg-transparent">
+                      <TableCell className="text-sm font-bold text-primary py-2">Total Contract Price</TableCell>
+                      <TableCell className="text-right text-sm font-bold text-primary py-2">
                         {formatCurrency(results.totalContractPrice)}
                       </TableCell>
                     </TableRow>
-                    <TableRow className="bg-neutral-50">
-                      <TableCell className="pl-8 text-sm text-neutral-600">
-                        + VAT ({inputs.vatPercentage}%)
-                      </TableCell>
-                      <TableCell className="text-right text-sm">
-                        {formatCurrency(results.vat)}
-                      </TableCell>
+                    <TableRow className="hover:bg-transparent">
+                      <TableCell className="pl-6 text-sm text-neutral-400 py-2">+ VAT ({inputs.vatPercentage}%)</TableCell>
+                      <TableCell className="text-right text-sm text-neutral-400 py-2">{formatCurrency(results.vat)}</TableCell>
                     </TableRow>
-                    <TableRow className="bg-neutral-50">
-                      <TableCell className="pl-8 text-sm text-neutral-600">
-                        + Miscellaneous Fees ({inputs.miscFeesPercentage}%)
-                      </TableCell>
-                      <TableCell className="text-right text-sm">
-                        {formatCurrency(results.miscFees)}
-                      </TableCell>
+                    <TableRow className="hover:bg-transparent">
+                      <TableCell className="pl-6 text-sm text-neutral-400 py-2">+ Miscellaneous Fees ({inputs.miscFeesPercentage}%)</TableCell>
+                      <TableCell className="text-right text-sm text-neutral-400 py-2">{formatCurrency(results.miscFees)}</TableCell>
                     </TableRow>
-                    <TableRow className="bg-neutral-50">
-                      <TableCell className="pl-8 text-sm text-neutral-600">
-                        + Bank Fees ({inputs.bankFeesPercentage}%)
-                      </TableCell>
-                      <TableCell className="text-right text-sm">
-                        {formatCurrency(results.bankFees)}
-                      </TableCell>
+                    <TableRow className="hover:bg-transparent border-b border-border">
+                      <TableCell className="pl-6 text-sm text-neutral-400 py-2">+ Bank Fees ({inputs.bankFeesPercentage}%)</TableCell>
+                      <TableCell className="text-right text-sm text-neutral-400 py-2">{formatCurrency(results.bankFees)}</TableCell>
                     </TableRow>
-                    <TableRow className="bg-primary/10 font-semibold">
-                      <TableCell>Gross Total Contract Price</TableCell>
-                      <TableCell className="text-right">
+                    <TableRow className="hover:bg-transparent">
+                      <TableCell className="text-sm font-bold text-primary py-3">Gross Total Contract Price</TableCell>
+                      <TableCell className="text-right text-sm font-bold text-primary py-3">
                         {formatCurrency(results.grossTotalContractPrice)}
                       </TableCell>
                     </TableRow>
-                    <TableRow>
-                      <TableCell>
+
+                    <TableRow className="hover:bg-transparent">
+                      <TableCell className="text-sm text-neutral-600 py-2">
                         Down Payment ({inputs.downPaymentPercentage}%)
                       </TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className="text-right text-sm text-neutral-600 py-2">
                         {formatCurrency(results.downPayment)}
                       </TableCell>
                     </TableRow>
-                    <TableRow className="bg-neutral-50">
-                      <TableCell className="pl-8 text-sm text-neutral-600">
-                        - Reservation Fee
-                      </TableCell>
-                      <TableCell className="text-right text-sm">
+                    <TableRow className="hover:bg-transparent border-b border-border">
+                      <TableCell className="pl-6 text-sm text-neutral-400 py-2">− Reservation Fee</TableCell>
+                      <TableCell className="text-right text-sm text-neutral-400 py-2">
                         {formatCurrency(results.reservationFee)}
                       </TableCell>
                     </TableRow>
-                    <TableRow className="font-semibold">
-                      <TableCell>Net Down Payment</TableCell>
-                      <TableCell className="text-right">
+                    <TableRow className="hover:bg-transparent">
+                      <TableCell className="text-sm font-bold text-primary py-3">Net Down Payment</TableCell>
+                      <TableCell className="text-right text-sm font-bold text-primary py-3">
                         {formatCurrency(results.netDownPayment)}
                       </TableCell>
                     </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        Monthly Down Payment ({inputs.downPaymentTermsMonths}{" "}
-                        months)
+                    <TableRow className="hover:bg-transparent">
+                      <TableCell className="text-sm text-neutral-600 py-2">
+                        Monthly Down Payment ({inputs.downPaymentTermsMonths} months)
                       </TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className="text-right text-sm text-neutral-600 py-2">
                         {formatCurrency(results.monthlyDownPayment)}
                       </TableCell>
                     </TableRow>
-                    <TableRow className="bg-secondary/10 font-semibold">
-                      <TableCell>Loan Amount</TableCell>
-                      <TableCell className="text-right">
+                    
+                    <TableRow className="hover:bg-transparent">
+                      <TableCell className="text-sm text-neutral-600 py-2">Loan Amount</TableCell>
+                      <TableCell className="text-right text-sm text-neutral-600 py-2">
                         {formatCurrency(results.loanAmount)}
                       </TableCell>
                     </TableRow>
-                    <TableRow>
-                      <TableCell>Interest Rate</TableCell>
-                      <TableCell className="text-right">
+                    <TableRow className="hover:bg-transparent">
+                      <TableCell className="text-sm text-neutral-400 py-2">Interest Rate</TableCell>
+                      <TableCell className="text-right text-sm text-neutral-400 py-2">
                         {results.interestRate}% per annum
                       </TableCell>
                     </TableRow>
-                    <TableRow>
-                      <TableCell>Loan Period</TableCell>
-                      <TableCell className="text-right">
-                        {results.loanPeriodMonths} months ({inputs.loanYears}{" "}
-                        years)
+                    <TableRow className="hover:bg-transparent">
+                      <TableCell className="text-sm text-neutral-400 py-2">Loan Period</TableCell>
+                      <TableCell className="text-right text-sm text-neutral-400 py-2">
+                        {results.loanPeriodMonths} months ({inputs.loanYears} years)
                       </TableCell>
                     </TableRow>
-                    <TableRow className="bg-primary text-white font-bold text-lg">
-                      <TableCell>Monthly Amortization</TableCell>
-                      <TableCell className="text-right">
+
+                    {/* ── Totals ── */}
+                    <TableRow className="hover:bg-primary/90 bg-primary">
+                      <TableCell className="text-sm font-bold text-white py-4">Monthly Amortization</TableCell>
+                      <TableCell className="text-right text-sm font-bold text-white py-4">
                         {formatCurrency(results.monthlyAmortization)}
                       </TableCell>
                     </TableRow>
-                    <TableRow className="bg-neutral-100 font-semibold">
-                      <TableCell>Required Monthly Income</TableCell>
-                      <TableCell className="text-right">
+                    <TableRow className="hover:bg-transparent bg-neutral-50">
+                      <TableCell className="text-sm font-semibold text-neutral-600 py-4">Required Monthly Income</TableCell>
+                      <TableCell className="text-right text-sm font-semibold text-neutral-600 py-4">
                         {formatCurrency(results.requiredMonthlyIncome)}
                       </TableCell>
                     </TableRow>
@@ -542,44 +474,21 @@ function LoanCalculatorPage() {
                 </Table>
               </div>
 
-              {/* Summary Card */}
-              <div className="mt-6 p-6 bg-linear-to-br from-primary to-blue-900 text-white rounded-lg shadow-lg">
-                <h3 className="text-xl font-bold mb-4">Payment Summary</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-xs opacity-90">
-                      Monthly Down Payment (First{" "}
-                      {inputs.downPaymentTermsMonths} months)
-                    </p>
-                    <p className="text-2xl font-bold">
-                      {formatCurrency(results.monthlyDownPayment)}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-xs opacity-90">
-                      Monthly Amortization (After down payment)
-                    </p>
-                    <p className="text-2xl font-bold">
-                      {formatCurrency(results.monthlyAmortization)}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
               {/* Disclaimer */}
-              <div className="mt-4">
-                <p className="text-xs italic text-neutral-600">
-                  <strong>Note:</strong> This calculator provides estimates
-                  only. Actual loan terms, interest rates, and fees may vary
-                  based on your credit score, property type, and lender
-                  requirements. Please consult with our sales team for accurate
-                  quotations.
-                </p>
-              </div>
+              <p className="text-xs italic text-neutral-400 leading-relaxed">
+                <strong className="not-italic font-semibold text-neutral-500">
+                  Note:{" "}
+                </strong>
+                This calculator provides estimates only. Actual loan terms,
+                interest rates, and fees may vary based on your credit score,
+                property type, and lender requirements. Please consult with our
+                sales team for accurate quotations.
+              </p>
             </div>
           </div>
         </section>
       </main>
+
       <footer>
         <Footer />
       </footer>

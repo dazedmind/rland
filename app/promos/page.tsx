@@ -81,19 +81,19 @@ function PromosPage() {
                 </div>
               </span>
 
-              <div className="p-8 md:p-12 rounded-xl bg-primary text-white flex flex-col md:flex-row items-center justify-between gap-8 overflow-hidden relative w-full">
+              <div className="p-8 md:p-12 rounded-xl bg-primary text-white flex flex-col md:flex-row items-center justify-between gap-4 overflow-hidden relative w-full">
                 <div className="relative z-10 space-y-2">
                   <h3 className="text-2xl font-bold">
                     Don't miss out on future deals
                   </h3>
-                  <p className="text-primary-foreground/80">
+                  <p className="text-neutral-300">
                     Subscribe to get notified as soon as new promos drop.
                   </p>
                 </div>
                 <div className="relative z-10 w-full md:w-auto">
                   <Button
                     variant="default"
-                    size="lg"
+                    size="sm"
                     className="w-full md:w-auto text-white"
                   >
                     <Bell className="size-5" strokeWidth={3}/>

@@ -3,7 +3,8 @@ import React, { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import NewsCardSkeleton from "@/components/layout/skeleton/NewsCardSkeleton";
-import { ArrowLeftIcon, ArrowRightIcon, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "../ui/button";
 
 function FeaturedNewsCard() {
   const [articles, setArticles] = useState<any[]>([]);
@@ -52,7 +53,7 @@ function FeaturedNewsCard() {
   
   return (
     
-    <div className="group relative grid grid-cols-1 lg:grid-cols-2 gap-10 items-center overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-50 hover:shadow-md transition-all duration-300">
+    <div className="group relative grid grid-cols-1 lg:grid-cols-2 items-center overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-50 hover:shadow-md transition-all duration-300">
       <div className="absolute bottom-4 right-4 z-10 space-x-4">
       <span>
         <button className="cursor-pointer" onClick={() => setCurrentIndex(currentIndex - 1)} disabled={currentIndex === 0}>
@@ -66,7 +67,7 @@ function FeaturedNewsCard() {
       </span>
       </div>
 
-      <div className="relative h-64 lg:h-full min-h-[400px] overflow-hidden">
+      <div className="relative h-64 lg:h-full min-h-[300px] overflow-hidden">
         {/* Transitioning Image */}
         <Image
           key={currentArticle?._id} // Key ensures smooth re-render/animation on change
@@ -102,12 +103,14 @@ function FeaturedNewsCard() {
         <p className="text-neutral-600 leading-relaxed transition-all duration-500">
           {currentArticle?.body.substring(0, 200)}...
         </p>
-        <Link
+        <Button size="sm" variant="outline" className="hover:text-primary-fg w-fit" asChild>
+          <Link
           href={`/news/${currentArticle?.slug || currentArticle?._id}`}
           className="mt-4 font-bold text-primary flex items-center gap-2 hover:gap-4 transition-all"
         >
-          Read Full Story <span>→</span>
+          Read Full Story <ArrowRight className="size-5" />
         </Link>
+        </Button>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { careerStatusEnum, careers } from '@/db/schema';
+import { careers } from '@/db/schema';
 import { requireApiKey } from '@/lib/api-auth';
 import { desc, eq } from 'drizzle-orm';
 import { Career, CareerStatus } from '@/lib/types';

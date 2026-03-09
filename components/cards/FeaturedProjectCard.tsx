@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
+import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
-import { Bath, Bed, Car, LandPlot } from "lucide-react";
+import { Bath, Bed, Car, LandPlot, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -67,6 +68,37 @@ const formatPrice = (price: number) =>
 function FeaturedProjectCard() {
   const [items, setItems] = useState<FeaturedItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    align: "start",
+    containScroll: "trimSnaps",
+    dragFree: false,
+  });
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [scrollSnapCount, setScrollSnapCount] = useState(0);
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(false);
+
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+  const scrollTo = useCallback((index: number) => emblaApi?.scrollTo(index), [emblaApi]);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+    setScrollSnapCount(emblaApi.scrollSnapList().length);
+    setCanScrollPrev(emblaApi.canScrollPrev());
+    setCanScrollNext(emblaApi.canScrollNext());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on("select", onSelect);
+    return () => {
+      emblaApi.off("select", onSelect);
+    };
+  }, [emblaApi, onSelect]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -104,15 +136,20 @@ function FeaturedProjectCard() {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 items-center justify-center gap-4">
-      {allFeaturedUnits.map(({ unit, project }: any) => {
-        const imageUrl = unit.model.photoUrl ?? project.photoUrl ?? null;
-
-        return (
-          <div
-            key={unit.id}
-            className="group relative w-full bg-white rounded-xl overflow-hidden border border-border hover:shadow-sm transition-all duration-500"
-          >
+    <div className="flex flex-col gap-4 w-full">
+      <div className="relative">
+        <div className="overflow-hidden" ref={emblaRef}>
+          <div className="flex touch-pan-y -ml-4">
+            {allFeaturedUnits.map(({ unit, project }: any) => {
+              const imageUrl = unit.model.photoUrl ?? project.photoUrl ?? null;
+              return (
+                <div
+                  key={unit.id}
+                  className="flex-[0_0_100%] min-w-0 pl-4
+                    md:flex-[0_0_50%]
+                    lg:flex-[0_0_33.333%]"
+                >
+                  <div className="group relative w-full bg-white rounded-xl overflow-hidden border border-border hover:shadow-sm transition-all duration-500">
             {/* IMAGE SECTION */}
             <div className="relative overflow-hidden aspect-video">
               {imageUrl ? (
@@ -131,9 +168,9 @@ function FeaturedProjectCard() {
               )}
 
               {/* Floating Price Tag */}
-              <div className="absolute top-4 left-4 backdrop-blur-md bg-secondary/80 border border-secondary/50 px-3 py-1.5 rounded-full shadow-sm z-10">
-                <p className="text-xs font-semibold text-white tracking-tight">
-                  Starts at {formatPrice(unit.sellingPrice)}
+              <div className="absolute top-4 left-0 backdrop-blur-md bg-linear-to-t from-secondary to-yellow-600 px-3 py-1.5 rounded-r-xl shadow-sm z-10">
+                <p className="text-sm font-semibold text-white tracking-tight">
+                {unit.model.modelName} Unit
                 </p>
               </div>
 
@@ -154,12 +191,17 @@ function FeaturedProjectCard() {
                 <h3 className="text-lg font-bold text-neutral-800 line-clamp-1 group-hover:text-primary transition-colors duration-300">
                   {project.projectName}
                 </h3>
-                <p className="text-sm text-neutral-500 italic">
-                  {project.location ?? "-"}
+                <p className="text-sm text-neutral-500 flex items-center gap-1">
+                  <MapPin className="size-4" /> {project.location ?? "-"}
                 </p>
-                <p className="text-xs text-neutral-400 mt-1">
+                {/* <p className="text-xs text-neutral-400 mt-1">
                   {unit.model.modelName} Unit • Block {unit.block}, Lot {unit.lot}
-                </p>
+                </p> */}
+                <span className="flex flex-col mt-3">
+                  <p className="text-xs uppercase text-muted-foreground font-medium">Starts at</p>
+                  <p className="text-secondary text-2xl font-bold">{formatPrice(unit.sellingPrice)}</p>
+                </span>
+               
               </div>
               <Link href={`/projects/${project.id}?inventory=${unit.inventoryCode}`}>
                 <Button
@@ -171,9 +213,51 @@ function FeaturedProjectCard() {
                 </Button>
               </Link>
             </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        );
-      })}
+        </div>
+
+        {/* Arrows - hidden on mobile */}
+        <button
+          type="button"
+          onClick={scrollPrev}
+          disabled={!canScrollPrev}
+          className="absolute -left-20 top-1/2 -translate-y-1/2 z-10 hidden xl:flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-lg border border-border hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all"
+          aria-label="Previous"
+        >
+          <ChevronLeft className="size-6 text-neutral-800" />
+        </button>
+        <button
+          type="button"
+          onClick={scrollNext}
+          disabled={!canScrollNext}
+          className="absolute -right-20 top-1/2 -translate-y-1/2 z-10 hidden xl:flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-lg border border-border hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all"
+          aria-label="Next"
+        >
+          <ChevronRight className="size-6 text-neutral-800" />
+        </button>
+      </div>
+
+      {/* Indicators */}
+      {scrollSnapCount > 1 && (
+        <div className="flex justify-center gap-2">
+          {Array.from({ length: scrollSnapCount }, (_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => scrollTo(i)}
+              className={`h-2 rounded-full transition-all ${
+                i === selectedIndex ? "w-6 bg-primary" : "w-2 bg-neutral-300 hover:bg-neutral-400"
+              }`}
+              aria-label={`Go to slide ${i + 1}`}
+              aria-current={i === selectedIndex}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
