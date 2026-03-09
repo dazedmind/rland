@@ -51,7 +51,7 @@ function ProjectImageCarousel({ images, alt = "Project", className = "" }: Proje
   return (
     <div className={`flex flex-col gap-4 w-full ${className}`}>
       <div className="relative">
-        <div className="overflow-hidden rounded-xl" ref={emblaRef}>
+        <div className="overflow-hidden rounded-md" ref={emblaRef}>
           <div className="flex touch-pan-y -ml-4">
             {images.map((src, i) => (
               <div
@@ -60,7 +60,7 @@ function ProjectImageCarousel({ images, alt = "Project", className = "" }: Proje
                   md:flex-[0_0_50%]
                   lg:flex-[0_0_33.333%]"
               >
-                <div className="relative h-80 bg-neutral-200 rounded-xl overflow-hidden">
+                <div className="relative h-80 bg-neutral-200 rounded-md overflow-hidden">
                   <Image
                     src={src}
                     alt={`${alt} ${i + 1}`}

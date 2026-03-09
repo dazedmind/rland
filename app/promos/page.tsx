@@ -81,7 +81,7 @@ function PromosPage() {
                 </div>
               </span>
 
-              <div className="p-8 md:p-12 rounded-xl bg-primary text-white flex flex-col md:flex-row items-center justify-between gap-4 overflow-hidden relative w-full">
+              <div className="p-6 md:p-8 rounded-md bg-primary text-white flex flex-col md:flex-row items-center justify-between gap-4 overflow-hidden relative w-full">
                 <div className="relative z-10 space-y-2">
                   <h3 className="text-2xl font-bold">
                     Don't miss out on future deals

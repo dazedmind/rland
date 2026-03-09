@@ -174,7 +174,7 @@ function LoanCalculatorPage() {
                 </h2>
               </span>
 
-              <div className="flex flex-col gap-3 border border-border rounded-xl p-6">
+              <div className="flex flex-col gap-3 border border-border rounded-md p-6">
                 {/* Text inputs */}
                 <div className="grid grid-cols-2 items-center gap-1.5">
                   <label className="text-sm font-semibold text-primary">
@@ -337,7 +337,7 @@ function LoanCalculatorPage() {
             <div className="w-full lg:w-3/5 flex flex-col gap-6">
               {/* Summary cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="flex flex-col gap-2 border border-border rounded-xl p-6 bg-linear-to-br from-primary to-blue-950 text-white">
+                <div className="flex flex-col gap-2 border border-border rounded-md p-6 bg-linear-to-br from-primary to-blue-950 text-white">
                   <p className="font-semibold uppercase text-sm tracking-wider text-secondary">
                     Monthly Down Payment
                   </p>
@@ -348,7 +348,7 @@ function LoanCalculatorPage() {
                     First {inputs.downPaymentTermsMonths} months
                   </p>
                 </div>
-                <div className="flex flex-col gap-2 border border-border rounded-xl p-6 bg-linear-to-br from-primary to-blue-950 text-white">
+                <div className="flex flex-col gap-2 border border-border rounded-md p-6 bg-linear-to-br from-primary to-blue-950 text-white">
                   <p className="font-semibold uppercase text-sm tracking-wider text-secondary">
                     Monthly Amortization
                   </p>
@@ -368,7 +368,7 @@ function LoanCalculatorPage() {
                 </h2>
               </span>
 
-              <div className="border border-border rounded-xl overflow-hidden">
+              <div className="border border-border rounded-md overflow-hidden">
               <Table>
                   <TableHeader>
                     <TableRow className="bg-neutral-50 hover:bg-neutral-50">

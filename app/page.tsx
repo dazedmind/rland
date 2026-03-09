@@ -128,11 +128,11 @@ export default function Home() {
             <div className="flex flex-col gap-8 md:flex-row-reverse h-auto w-full bg-neutral-100 py-12 px-8 md:px-16 xl:px-44">
               {/* Image */}
               <div className="w-full lg:w-1/2">
-                <div className="h-100 bg-neutral-300 rounded-xl">
+                <div className="h-100 bg-neutral-300 rounded-md">
                   <Image
                     src={aeValleyUnit}
                     alt="R Land Logo"
-                    className="rounded-xl object-cover h-full"
+                    className="rounded-md object-cover h-full"
                   />
                 </div>
               </div>
@@ -266,7 +266,7 @@ export default function Home() {
               <Link href="/news">
                 <Button
                   variant="ghost"
-                  className="text-secondary hover:bg-none hover:text-secondary-fg border-secondary/30 font-bold rounded-full transition-all ease-in-out duration-300"
+                  className="text-secondary hover:text-secondary-fg font-bold rounded-full transition-all ease-in-out duration-300"
                 >
                   More <ArrowRight className="size-5" strokeWidth={2} />
                 </Button>

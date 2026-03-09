@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { Fullscreen, GalleryVerticalEnd } from "lucide-react";
+import { MapPin, GalleryVerticalEnd, LayoutTemplate } from "lucide-react";
 import aeMeadowUnit from "@/public/ae-meadow-unit.jpg";
 import floorPlan from "@/public/ground floor.jpg";
-import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 export type SearchUnit = {
@@ -32,7 +31,6 @@ export type SearchUnit = {
   } | null;
 };
 
-/** Grouped model card (one per model, starting price only) */
 export type SearchModelItem = {
   project: {
     id: string;
@@ -50,22 +48,19 @@ type HouseSearchCardProps = {
   /** @deprecated Use unit prop instead */
   price?: string;
   unit?: SearchUnit;
-  /** One card per model (Gold, Platinum, etc.) with starting price */
   modelCard?: SearchModelItem;
 };
 
 function HouseSearchCard({ price, unit, modelCard }: HouseSearchCardProps) {
-  const [cardView, setCardView] = useState<string>("default");
+  const [cardView, setCardView] = useState<"default" | "floorplan">("default");
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("en-PH", {
+  const formatCurrency = (amount: number) =>
+    new Intl.NumberFormat("en-PH", {
       style: "currency",
       currency: "PHP",
       maximumFractionDigits: 0,
     }).format(amount);
-  };
 
-  // Resolve display values from unit, modelCard, or legacy price
   const displayPrice = modelCard
     ? modelCard.startingPrice
     : unit
@@ -73,23 +68,24 @@ function HouseSearchCard({ price, unit, modelCard }: HouseSearchCardProps) {
       : price
         ? parseInt(price, 10)
         : 0;
-  const projectName = modelCard?.project.projectName ?? unit?.project.projectName ?? "Arcoe Estates";
-  const modelName = modelCard?.modelName ?? unit?.inventory.modelName ?? "Meadow Unit";
-  const location = modelCard?.project.location ?? unit?.project.location ?? "Angeles City, Pampanga";
-  const typeLabel =
+
+  const projectName   = modelCard?.project.projectName ?? unit?.project.projectName ?? "Arcoe Estates";
+  const modelName     = modelCard?.modelName ?? unit?.inventory.modelName ?? "Meadow Unit";
+  const location      = modelCard?.project.location ?? unit?.project.location ?? "Angeles City, Pampanga";
+  const typeLabel     =
     (modelCard?.project.type ?? unit?.project.type) === "houselot"
       ? "House & Lot"
       : (modelCard?.project.type ?? unit?.project.type) === "condo"
         ? "Condo"
         : "House & Lot";
-  const lotArea = modelCard?.details?.lotArea ?? unit?.details?.lotArea ?? 1000;
-  const floorArea = modelCard?.details?.floorArea ?? unit?.details?.floorArea ?? 1000;
-  const photoUrl =
+  const lotArea       = modelCard?.details?.lotArea ?? unit?.details?.lotArea ?? 1000;
+  const floorArea     = modelCard?.details?.floorArea ?? unit?.details?.floorArea ?? 1000;
+  const photoUrl      =
     modelCard?.details?.photoUrl ??
     unit?.details?.photoUrl ??
     (unit?.project ?? modelCard?.project)?.photoUrl ??
     null;
-  const projectId = modelCard?.project.id ?? unit?.project.id;
+  const projectId     = modelCard?.project.id ?? unit?.project.id;
   const inventoryCode = unit?.inventory.inventoryCode;
 
   const detailsUrl = projectId
@@ -99,145 +95,138 @@ function HouseSearchCard({ price, unit, modelCard }: HouseSearchCardProps) {
     : "#";
 
   return (
-    <div className="flex flex-col lg:flex-row w-full justify-between border-border border rounded-lg overflow-hidden bg-white">
-      {/* DETAILS PART - Using a grid container to hold both views in the same space */}
-      <div className="grid grid-cols-1 flex-1">
-        {/* DEFAULT VIEW */}
-        <div
-          className={cn(
-            "col-start-1 row-start-1 flex flex-row gap-4 p-4 transition-opacity duration-300",
-            cardView === "default"
-              ? "opacity-100 z-10"
-              : "opacity-0 z-0 pointer-events-none"
-          )}
-          style={{ minHeight: "220px" }}
-        >
-          <div className="shrink-0">
-            {photoUrl ? (
+    <div className="flex flex-col lg:flex-row w-full justify-between border border-border rounded-xl overflow-hidden bg-white hover:shadow-md transition-all duration-300">
+
+      <div className="flex flex-col md:flex-row">
+        {/* LEFT — image */}
+        <div className="relative w-full h-100 md:h-50 lg:h-auto md:w-[200px] lg:w-[200px] shrink-0 overflow-hidden bg-neutral-100">
+          <div className="grid grid-cols-1 w-full h-full">
+            {/* Unit photo */}
+            <div
+              className={cn(
+                "col-start-1 row-start-1 transition-opacity duration-300 w-full h-full",
+                cardView === "default" ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+              )}
+            >
               <Image
-                src={photoUrl}
+                src={photoUrl ?? aeMeadowUnit}
                 alt={modelName}
-                width={180}
-                height={180}
-                className="rounded-md object-cover aspect-square border-border border shadow-sm"
+                fill
+                className="object-cover"
               />
-            ) : (
-              <Image
-                src={aeMeadowUnit}
-                alt="Residential Icon"
-                width={180}
-                height={180}
-                className="rounded-md object-cover aspect-square border-border border shadow-sm"
-              />
-            )}
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <h1 className="text-2xl font-bold text-neutral-800">
-              {projectName}
-            </h1>
-            <p className="bg-primary px-2 py-0.5 rounded text-sm text-white font-bold w-fit">
-              {modelName}
-            </p>
-            <p className="text-sm text-muted-foreground">{location}</p>
-            <p className="text-sm text-muted-foreground">{typeLabel}</p>
-
-            <div className="mt-2 space-y-0.5">
-              <p className="text-sm text-muted-foreground">
-                <span className="font-bold text-foreground">Lot Area:</span>{" "}
-                {lotArea} sqm
-              </p>
-              <p className="text-sm text-muted-foreground">
-                <span className="font-bold text-foreground">Floor Area:</span>{" "}
-                {floorArea} sqm
-              </p>
             </div>
 
-            <button
-              onClick={() => setCardView("floorplan")}
-              className="mt-auto flex flex-row items-center gap-1 text-sm text-primary font-bold hover:underline"
+            {/* Floor plan */}
+            <div
+              className={cn(
+                "col-start-1 row-start-1 transition-opacity duration-300 w-full h-full",
+                cardView === "floorplan" ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+              )}
             >
-              <Fullscreen className="size-4" />
-              Show Floor Plan
-            </button>
+              <Image
+                src={floorPlan}
+                alt="Floor Plan"
+                fill
+                className="object-cover p-4"
+              />
+            </div>
           </div>
+
+          {/* Type badge */}
+          <div className="absolute top-3 left-0 z-20  bg-secondary px-2.5 py-1 rounded-r-lg">
+            <p className="text-[10px] tracking-[0.12em] uppercase font-semibold text-primary-foreground">
+              {typeLabel}
+            </p>
+          </div>
+
+          {/* Toggle button */}
+          <button
+            onClick={() => setCardView(cardView === "default" ? "floorplan" : "default")}
+            className="absolute bottom-3 right-3 z-20 flex items-center gap-1.5 bg-primary px-2.5 py-1.5 rounded-sm text-primary-foreground text-[11px] font-medium hover:bg-primary/80 transition-colors duration-200 cursor-pointer"
+          >
+            {cardView === "default"
+              ? <><LayoutTemplate className="size-3.5" /> Floor Plan</>
+              : <><GalleryVerticalEnd className="size-3.5" /> Unit Photo</>
+            }
+          </button>
         </div>
 
-        {/* FLOORPLAN VIEW */}
-        <div
-          className={cn(
-            "col-start-1 row-start-1 flex flex-row gap-4 p-4 transition-opacity duration-300",
-            cardView === "floorplan"
-              ? "opacity-100 z-10"
-              : "opacity-0 z-0 pointer-events-none"
-          )}
-        >
-          <div className="shrink-0">
-            <Image
-              src={floorPlan}
-              alt="Floor Plan"
-              width={180}
-              height={180}
-              className="rounded-md object-cover aspect-square border-border border shadow-sm"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <h1 className="text-2xl font-bold text-neutral-800">
-              {projectName}
-            </h1>
-            <p className="bg-primary px-2 py-0.5 rounded text-sm text-white font-bold w-fit">
-              {modelName}
-            </p>
-            <div className="max-w-[300px]">
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                <span className="font-bold text-foreground">Includes:</span> Living
-                Area, Dining Area, Kitchen, 2 T&B, Carport, Service Area
+        {/* MIDDLE — details */}
+        <div className="flex flex-col justify-between flex-1 p-6 gap-4">
+          <div className="flex flex-col gap-3">
+            {/* Project + model */}
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h2 className="text-xl font-bold text-primary leading-tight">{projectName}</h2>
+                <span className="text-[10px] tracking-[0.12em] uppercase font-semibold bg-primary text-white px-2 py-0.5 rounded-[3px]">
+                  {modelName}
+                </span>
+              </div>
+              <p className="text-sm text-neutral-500 flex items-center gap-1">
+                <MapPin className="size-3.5 shrink-0" />
+                {location}
               </p>
             </div>
 
-            <div className="mt-2">
-              <p className="text-sm text-muted-foreground">
-                <span className="font-bold text-foreground">GF Total Area:</span>{" "}
-                34.50 sqm
-              </p>
-              <p className="text-sm text-muted-foreground">
-                <span className="font-bold text-foreground">Floor Area:</span>{" "}
-                {floorArea} sqm
-              </p>
+            {/* Amber rule */}
+            <span className="block w-7 h-[1.5px] bg-amber-400" />
+
+            {/* Specs */}
+            <div className="flex flex-wrap gap-x-6 gap-y-1">
+              <div className="flex flex-col">
+                <p className="text-[10px] tracking-[0.12em] uppercase text-neutral-400 font-medium">Lot Area</p>
+                <p className="text-sm font-semibold text-primary">{lotArea} sqm</p>
+              </div>
+              <div className="flex flex-col">
+                <p className="text-[10px] tracking-[0.12em] uppercase text-neutral-400 font-medium">Floor Area</p>
+                <p className="text-sm font-semibold text-primary">{floorArea} sqm</p>
+              </div>
+              {cardView === "floorplan" && (
+                <div className="flex flex-col">
+                  <p className="text-[10px] tracking-[0.12em] uppercase text-neutral-400 font-medium">GF Total</p>
+                  <p className="text-sm font-semibold text-primary">34.50 sqm</p>
+                </div>
+              )}
             </div>
 
-            <button
-              onClick={() => setCardView("default")}
-              className="mt-auto flex flex-row items-center gap-1 text-sm text-primary font-bold hover:underline"
-            >
-              <GalleryVerticalEnd className="size-4" />
-              Show Unit Photo
-            </button>
+            {cardView === "floorplan" && (
+              <p className="text-xs text-neutral-500 leading-relaxed">
+                <span className="font-semibold text-neutral-700">Includes:</span>{" "}
+                Living Area, Dining Area, Kitchen, 2 T&B, Carport, Service Area
+              </p>
+            )}
+            {cardView === "default" && (
+                  <p className="text-xs text-neutral-500 leading-relaxed">
+                  <span className="font-semibold text-neutral-700">Amenities:</span>{" "}
+                  Swimming Pool, Basketball Court, Jogging Trail, Glamping Hub
+                </p>
+            )}
           </div>
         </div>
       </div>
 
-      {/* BLUE PART */}
-      <div className="flex flex-col justify-between bg-primary text-white p-6 w-full lg:w-[280px] shrink-0 lg:border-l border-white/10">
-        <div className="space-y-1">
-          <p className="text-xs uppercase tracking-wider opacity-80">
-            Price starts at
+
+      {/* RIGHT — price + CTA */}
+      <div className="flex flex-col md:flex-row lg:flex-col items-start md:items-center justify-between lg:items-start bg-primary text-white p-6 w-full lg:w-[220px] shrink-0 lg:border-l border-t lg:border-t-0 border-white/10 gap-4">
+      
+        <div className="flex flex-col gap-1">
+          <p className="text-[10px] tracking-[0.14em] uppercase text-white/60 font-medium">
+            {modelCard ? "Starts at" : "Price"}
           </p>
-          <p className="text-3xl font-bold text-secondary">
+          <p className="text-2xl font-bold text-secondary leading-tight">
             {formatCurrency(displayPrice)}
           </p>
-          <p className="text-[10px] leading-tight opacity-70">
-            Eligible for Loan and Installment Plan
-          </p>
+          <p className="text-xs text-neutral-300">Eligible for Loan and Installment Plan</p>
+
         </div>
 
-        <Link href={detailsUrl}>
+        <Link href={detailsUrl} className="w-full md:w-auto lg:w-full shrink-0">
           <Button
+            size="xs"
             variant="outline"
-            className="w-full mt-6 bg-transparent hover:bg-white hover:text-primary text-white border-white"
+            className="w-full md:w-auto bg-transparent hover:bg-white hover:text-primary text-white border-white/50 rounded-md"
           >
-            View Full Details
+            View Details
           </Button>
         </Link>
       </div>

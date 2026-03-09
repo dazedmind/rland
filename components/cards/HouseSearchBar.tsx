@@ -4,6 +4,7 @@ import { Slider } from "../ui/slider";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
 
 const minPrice = 1000000;
 const maxPrice = 10000000;
@@ -58,7 +59,7 @@ function HouseSearchBar({ className, initialLocation = "", initialPriceRange }: 
   };
 
   return (
-    <div className={cn("flex flex-col md:flex-row gap-8 bg-background rounded-lg p-4 z-20", className)}>
+    <div className={cn("flex flex-col md:flex-row gap-8 bg-background rounded-md p-4 z-20", className)}>
       <div className="relative w-full">
         <ChevronDownIcon className="text-black w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 z-30" />
         <select
@@ -99,9 +100,9 @@ function HouseSearchBar({ className, initialLocation = "", initialPriceRange }: 
         />
       </div>
 
-      <button onClick={handleSearch} className="flex justify-center items-center gap-2 bg-secondary text-white text-center px-3 py-2 rounded-lg cursor-pointer">
-        <Search className="w-6 h-6" /> <p className="block lg:hidden">Search</p>
-      </button>
+      <Button onClick={handleSearch} variant="secondary" size="icon-xl" className="flex w-full md:w-fit justify-center items-center gap-2 text-white text-center px-3 py-2 rounded-md cursor-pointer">
+        <Search className="size-5" /> <p className="block lg:hidden">Search</p>
+      </Button>
     </div>
   );
 }

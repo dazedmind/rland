@@ -53,7 +53,7 @@ function FeaturedNewsCard() {
   
   return (
     
-    <div className="group relative grid grid-cols-1 lg:grid-cols-2 items-center overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-50 hover:shadow-md transition-all duration-300">
+    <div className="group relative grid grid-cols-1 lg:grid-cols-2 items-center overflow-hidden rounded-md border border-neutral-200 bg-neutral-50 hover:shadow-md transition-all duration-300">
       <div className="absolute bottom-4 right-4 z-10 space-x-4">
       <span>
         <button className="cursor-pointer" onClick={() => setCurrentIndex(currentIndex - 1)} disabled={currentIndex === 0}>

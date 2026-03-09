@@ -25,9 +25,9 @@ function ProjectCard({
   projectId: number;
 }) {
   return (
-    <div className="flex flex-col w-full bg-neutral-50/50 border border-border rounded-xl hover:shadow-xs transition-all duration-300 cursor-pointer">
+    <div className="flex flex-col w-full bg-neutral-50/50 border border-border rounded-md hover:shadow-xs transition-all duration-300 cursor-pointer">
       {/* CARD */}
-      <div className={cn(`w-auto h-60 ${projectAccent} rounded-t-xl relative transition-all duration-300 cursor-pointer group`, className)}>
+      <div className={cn(`w-auto h-60 ${projectAccent} rounded-t-md relative transition-all duration-300 cursor-pointer group`, className)}>
         {projectLogo && (
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 group-hover:scale-110 transition-all duration-300">
             <Image src={projectLogo} alt={projectName} width={200} height={200} />
@@ -38,7 +38,7 @@ function ProjectCard({
           alt="Project Aerial View"
           width={100}
           height={100}
-          className="w-full h-full object-cover saturate-0 rounded-xl opacity-15"
+          className="w-full h-full object-cover saturate-0 rounded-md opacity-15"
         />
 
         <p className="absolute bottom-3 right-0 text-white font-bold bg-linear-to-r from-transparent to-yellow-600 rounded-l-sm px-3 p-1 w-fit uppercase text-xs">

@@ -125,7 +125,7 @@ function FeaturedProjectCard() {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 items-center justify-center gap-4">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="h-80 bg-neutral-200 rounded-lg animate-pulse" />
+          <div key={i} className="h-80 bg-neutral-200 rounded-md animate-pulse" />
         ))}
       </div>
     );
@@ -149,7 +149,7 @@ function FeaturedProjectCard() {
                     md:flex-[0_0_50%]
                     lg:flex-[0_0_33.333%]"
                 >
-                  <div className="group relative w-full bg-white rounded-xl overflow-hidden border border-border hover:shadow-sm transition-all duration-500">
+                  <div className="group relative w-full bg-white rounded-md overflow-hidden border border-border hover:shadow-sm transition-all duration-500">
             {/* IMAGE SECTION */}
             <div className="relative overflow-hidden aspect-video">
               {imageUrl ? (
@@ -168,7 +168,7 @@ function FeaturedProjectCard() {
               )}
 
               {/* Floating Price Tag */}
-              <div className="absolute top-4 left-0 backdrop-blur-md bg-linear-to-t from-secondary to-yellow-600 px-3 py-1.5 rounded-r-xl shadow-sm z-10">
+              <div className="absolute top-4 left-0 backdrop-blur-md bg-linear-to-t from-secondary to-yellow-600 px-3 py-1.5 rounded-r-md shadow-sm z-10">
                 <p className="text-sm font-semibold text-white tracking-tight">
                 {unit.model.modelName} Unit
                 </p>

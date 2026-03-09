@@ -1,4 +1,4 @@
-import { Mail, Phone, MailIcon, MapPin, Bell } from "lucide-react";
+import { Mail, Phone, MailIcon, MapPin, Bell, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FaFacebook, FaLinkedin, FaInstagram, FaYoutube } from "react-icons/fa";
 import { Input } from "@/components/ui/input";
@@ -172,8 +172,8 @@ function Footer() {
               size="sm"
               className="text-white h-12"
               onClick={handleSubscribe}
-            >
-              {isMobile ? <Bell className="size-5" strokeWidth={2}/> : <span>Subscribe</span>}
+            >{loading ? <Loader2 className="size-5 animate-spin" /> : (isMobile ? <Bell className="size-5" strokeWidth={2}/> : <span>Subscribe</span>)}
+              {/* {isMobile ? <Bell className="size-5" strokeWidth={2}/> : <span>Subscribe</span>} */}
             </Button>
           </span>
         </div>

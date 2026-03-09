@@ -233,7 +233,7 @@ function ContactForm() {
 
         <div className="flex justify-end items-center w-full col-span-2">
           <Button variant="default" size="sm" className="w-fit px-6" type="submit" disabled={loading} onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>)}>
-            {loading ? <span className="flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin" /> Sending...</span> : <span className="flex items-center gap-2">Send Message</span>} 
+            {loading ? <span className="flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin" /> Submitting...</span> : <span className="flex items-center gap-2">Submit</span>} 
           </Button>
         </div>
       </div>
