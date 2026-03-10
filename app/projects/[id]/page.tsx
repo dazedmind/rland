@@ -135,7 +135,7 @@ function ProjectDetailsPage({
 
   if (loading) {
     return (
-      <div className="pt-20 md:pt-30">
+      <div className="pt-15 md:pt-25">
         <header>
           <NavBar
             isScrolled={true}
@@ -159,7 +159,7 @@ function ProjectDetailsPage({
 
   if (error) {
     return (
-      <div className="pt-20 md:pt-30 min-h-screen flex flex-col items-center justify-center gap-4">
+      <div className="pt-15 md:pt-25 min-h-screen flex flex-col items-center justify-center gap-4">
         <header>
           <NavBar isScrolled={true} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
           <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
@@ -176,7 +176,7 @@ function ProjectDetailsPage({
   }
 
   return (
-    <div className="pt-20 md:pt-30">
+    <div className="pt-15 md:pt-25">
       <header>
         <NavBar
           isScrolled={true}

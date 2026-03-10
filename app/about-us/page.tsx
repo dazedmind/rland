@@ -63,7 +63,7 @@ function AboutUs() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <div className="pt-20 md:pt-30">
+    <div className="pt-15 md:pt-25">
       <header>
         <NavBar
           isScrolled={true}

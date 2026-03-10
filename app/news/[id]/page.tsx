@@ -74,7 +74,7 @@ function NewsArticlePage({
 
   if (loading) {
     return (
-      <div className="pt-20 md:pt-30">
+      <div className="pt-15 md:pt-25">
         <header>
           <NavBar isScrolled={true} />
           <MobileNavBar isMenuOpen={false} setIsMenuOpen={() => {}} />
@@ -89,7 +89,7 @@ function NewsArticlePage({
 
   if (error || !article) {
     return (
-      <div className="pt-20 md:pt-30 min-h-screen flex flex-col items-center justify-center gap-4 px-8">
+      <div className="pt-15 md:pt-25 min-h-screen flex flex-col items-center justify-center gap-4 px-8">
         <p className="text-neutral-600">{error ?? "Article not found"}</p>
         <Link
           href="/news"
@@ -102,7 +102,7 @@ function NewsArticlePage({
   }
 
   return (
-    <div className="pt-20 md:pt-30">
+    <div className="pt-15 md:pt-25">
       <header>
         <NavBar isScrolled={true} />
       </header>

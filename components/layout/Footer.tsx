@@ -95,7 +95,7 @@ function Footer() {
           <Image src={rlandLogo} alt="R Land Logo" width={200} height={200} />
           <span className="flex flex-col gap-2 text-neutral-200">
             <li className="flex flex-row items-start md:items-center gap-2">
-              <MapPin className="size-4 shrink-0" />
+              {/* <MapPin className="size-4 shrink-0" /> */}
               <p className="text-neutral-300">
                 5/F R-II Building, Malakas Street, Diliman, Quezon City, Metro
                 Manila, Philippines

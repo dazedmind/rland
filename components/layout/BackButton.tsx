@@ -1,16 +1,25 @@
-import Link from 'next/link'
-import React from 'react'
-import { ArrowLeft } from 'lucide-react'
+import Link from "next/link";
+import React from "react";
+import { ArrowLeft, ChevronLeft } from "lucide-react";
 
-function BackButton({ href, mainPageName }: { href: string, mainPageName: string }) {
+function BackButton({
+  href,
+  mainPageName,
+}: {
+  href: string;
+  mainPageName: string;
+}) {
   return (
-    <Link
-    href={href}
-    className="flex items-center gap-2 text-primary font-medium p-2 px-4 border border-border rounded-md w-fit hover:bg-primary/10 hover:text-primary transition-all duration-300 ease-in-out"
-  >
-    <ArrowLeft className="size-4" /> Back to {mainPageName}
-  </Link>
-  )
+    <span className="flex items-center gap-4">
+      <Link
+        href={href}
+        className="flex items-center gap-2 border border-primary bg-slate-100 hover:bg-primary hover:text-white rounded-full text-primary font-medium w-fit transition-all duration-300 ease-in-out p-1"
+      >
+        <ChevronLeft className="size-8" />
+      </Link>
+      <p className="text-lg font-medium text-primary">Back to {mainPageName}</p>
+    </span>
+  );
 }
 
-export default BackButton
+export default BackButton;

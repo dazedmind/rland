@@ -4,6 +4,7 @@ import NavBar from "@/components/layout/NavBar";
 import Footer from "@/components/layout/Footer";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -149,7 +150,7 @@ function CareerDetailsPage({
   }
 
   return (
-    <div className="pt-20 md:pt-30">
+    <div className="pt-15 md:pt-25">
       <header>
         <NavBar isScrolled={true} />
       </header>
@@ -205,14 +206,14 @@ function CareerDetailsPage({
             <DialogTrigger className="flex items-center gap-2 bg-primary text-white rounded-md w-fit p-2 px-4 font-bold cursor-pointer">
               <ArrowUpFromLine className="size-5" /> Submit Application
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent showCloseButton={false}>
               <DialogHeader>
                 <DialogTitle>Apply Now</DialogTitle>
                 <DialogDescription>
                   Fill out the form below to apply for the position.
                 </DialogDescription>
               </DialogHeader>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="w-full gap-4">
                 <Field className="col-span-2">
                   <FieldLabel>Position</FieldLabel>
                   <Input
@@ -222,23 +223,26 @@ function CareerDetailsPage({
                     disabled
                   />
                 </Field>
-                <Field>
-                  <FieldLabel>First Name</FieldLabel>
-                  <Input type="text" placeholder="First Name" value={formData.firstName} onChange={(e) => setFormData({ ...formData, firstName: e.target.value })} />
-                </Field>
-                <Field>
-                  <FieldLabel>Last Name</FieldLabel>
-                  <Input type="text" placeholder="Last Name" value={formData.lastName} onChange={(e) => setFormData({ ...formData, lastName: e.target.value })} />
-                </Field>
-                <Field>
-                  <FieldLabel>Email</FieldLabel>
-                  <Input type="email" placeholder="Email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
-                </Field>
-                <Field>
-                  <FieldLabel>Phone</FieldLabel>
-                  <Input type="tel" placeholder="Phone" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })}  />
-                </Field>
 
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mb-4">
+                  <Field>
+                    <FieldLabel>First Name</FieldLabel>
+                    <Input type="text" placeholder="First Name" value={formData.firstName} onChange={(e) => setFormData({ ...formData, firstName: e.target.value })} />
+                  </Field>
+                  <Field>
+                    <FieldLabel>Last Name</FieldLabel>
+                    <Input type="text" placeholder="Last Name" value={formData.lastName} onChange={(e) => setFormData({ ...formData, lastName: e.target.value })} />
+                  </Field>
+                  <Field>
+                    <FieldLabel>Email</FieldLabel>
+                    <Input type="email" placeholder="Email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+                  </Field>
+                  <Field>
+                    <FieldLabel>Phone</FieldLabel>
+                    <Input type="tel" placeholder="Phone" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })}  />
+                  </Field>
+                </div>
+       
                 <Field className="col-span-2">
                   <FieldLabel>Resume / CV</FieldLabel>
                   <FileUpload
@@ -257,14 +261,26 @@ function CareerDetailsPage({
                   />
                 </Field>
               </div>
-
-              <Button
-                size="sm"
-                variant="primary"
-                onClick={(e) => handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>)}
-              >
-                Submit Application
-              </Button>
+              <span className="flex gap-4 w-full">
+                <DialogClose asChild>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="flex-1 hover:text-primary"
+                >
+                  Cancel
+                </Button>
+                </DialogClose>
+                <Button
+                  size="sm"
+                  variant="primary"
+                  className="flex-1"
+                  onClick={(e) => handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>)}
+                >
+                  Submit Application
+                </Button>
+              </span>
+     
             </DialogContent>
           </Dialog>
         </section>
