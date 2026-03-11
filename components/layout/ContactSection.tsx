@@ -25,12 +25,12 @@ function ContactSection() {
         <div className="flex flex-col lg:flex-row items-center w-full gap-4">
           <div className="flex flex-col space-y-4 w-full lg:w-1/2">
             <span className="space-y-6">
-              <h1 className="text-4xl md:text-5xl font-bold text-primary">
+              <h1 className="text-4xl md:text-5xl text-primary">
                 Your next step in owning{" "}
-                <span className="text-secondary font-serif italic">
+                <span className="text-secondary font-bold">
                   your dream home
                 </span>{" "}
-                starts <span className="text-secondary font-bold">here</span>
+                starts <span className="text-primary font-bold">here</span>
               </h1>
               <p className="text-base md:text-lg max-w-md">
                 Get in touch, and we'll handle the rest. Our team is ready to

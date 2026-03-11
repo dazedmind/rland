@@ -91,7 +91,7 @@ function AboutUs() {
                 </p>
                 <h1 className="text-4xl md:text-5xl font-bold text-primary leading-tight">
                   Rooted in Nature,{" "}
-                  <span className="text-secondary font-serif italic">
+                  <span className="text-secondary">
                     Designed for the Future
                   </span>
                 </h1>
@@ -112,7 +112,7 @@ function AboutUs() {
                   exceptional living experiences.
                 </p>
                 <Link href="/projects">
-                  <Button size="lg" variant="default">
+                  <Button size="sm" variant="default">
                     Explore Our Projects <ArrowRight className="size-5" />
                   </Button>
                 </Link>

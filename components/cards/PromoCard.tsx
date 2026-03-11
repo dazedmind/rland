@@ -35,11 +35,6 @@ function PromoCard({
     
                 <p className="text-sm leading-relaxed text-muted-foreground">{description}</p>
             </div>
-            <Link href={`/promos`}>
-                <Button size="sm" variant="primary" className="w-full lg:w-fit">
-                    Claim Promo
-                </Button>
-            </Link>
         </span>
     </div>
   )

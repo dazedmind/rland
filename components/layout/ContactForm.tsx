@@ -7,6 +7,8 @@ import Link from "next/link";
 import { ChevronDownIcon, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import TextInput from "../ui/TextInput";
+import DropSelect from "../ui/DropSelect";
 
 const EMPTY_FORM_DATA = {
   firstName: '',
@@ -92,117 +94,73 @@ function ContactForm() {
   return (
     <div className="bg-white border border-neutral-200 rounded-lg p-6 md:p-6 w-full gap-4">
       <div className="grid grid-cols-2 gap-4">
-          <Field className="col-span-2 md:col-span-1">
-            <FieldLabel>First Name</FieldLabel>
-            <Input
-              name="firstName"
-              type="text"
-              placeholder="Enter First Name"
-              className="w-full p-2 rounded-md text-black"
-              onChange={handleChangeInput}
-              value={formData.firstName}
-            />
-          </Field>
-          <Field className="col-span-2 md:col-span-1">
-            <FieldLabel>Last Name</FieldLabel>
-            <Input
-              name="lastName"
-              type="text"
-              placeholder="Enter Last Name"
-              className="w-full p-2 rounded-md text-black"
-              onChange={handleChangeInput}
-              value={formData.lastName}
-            />
-          </Field>
+          <TextInput
+            label="First Name"
+            name="firstName"
+            type="text"
+            placeholder="Enter First Name"
+            onChange={handleChangeInput}
+            value={formData.firstName}
+          />
+          <TextInput
+            label="Last Name"
+            name="lastName"
+            type="text"
+            placeholder="Enter Last Name"
+            onChange={handleChangeInput}
+            value={formData.lastName}
+          />
 
-          <Field className="col-span-2 md:col-span-1">
-            <FieldLabel>Email</FieldLabel>
-            <Input
-              name="email"
-              type="email"
-              placeholder="Email"
-              className="w-full p-2 rounded-md text-black"
-              onChange={handleChangeInput}
-              value={formData.email}
-            />
-          </Field>
+          <TextInput
+            label="Email"
+            name="email"
+            type="email"
+            placeholder="Enter Email"
+            onChange={handleChangeInput}
+            value={formData.email}
+          />
+ 
+          <TextInput
+            label="Phone"
+            name="phone"
+            type="tel"
+            placeholder="+63 (920) 123-4567"
+            onChange={handleChangeInput}
+            value={formData.phone}
+          />
 
-          <Field className="col-span-2 md:col-span-1">
-            <FieldLabel>Phone</FieldLabel>
-            <Input
-              name="phone"
-              type="tel"
-              placeholder="+63 (920) 123-4567"
-              className="w-full p-2 rounded-md text-black"
-              onChange={handleChangeInput}
-              value={formData.phone}
-            />
-          </Field>
+          <DropSelect
+            label="Subject"
+            selectName="subject"
+            selectId="subject"
+            onChange={handleChangeInput}
+            value={formData.subject}
+          >
+            <option value="" disabled>Select a subject</option>
+            <option value="buying">Buying a Property</option>
+            <option value="assistance">Customer Care</option>
+            <option value="partnership">Business Partnership</option>
+            <option value="career">Career Opportunities</option>
+          </DropSelect>
 
-          <Field className="col-span-2 md:col-span-1">
-            <FieldLabel>Subject</FieldLabel>
-            <div className="relative">
-              <ChevronDownIcon className="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2" />
-              <select
-                name="subject"
-                id="subject"
-                className="w-full h-10 text-sm text-black rounded-md px-2"
-                onChange={handleChangeInput}
-                value={formData.subject}
-              >
-                <option value="" disabled>Select a subject</option>
-                <option className="text-sm" value="buying">
-                  Buying a Property
-                </option>
-                <option className="text-sm" value="assistance">
-                  Customer Care
-                </option>
-                <option className="text-sm" value="partnership">
-                  Business Partnership
-                </option>
-                <option className="text-sm" value="career">
-                  Career Opportunities
-                </option>
-              </select>
-            </div>
-          </Field>
-
-          <Field className="col-span-2 md:col-span-1">
-            <FieldLabel>Where did you hear about us?</FieldLabel>
-            <div className="relative">
-              <ChevronDownIcon className="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2" />
-              <select
-                name="source"
-                id="source"
-                className="w-full h-10 text-sm text-black rounded-md px-2"
-                onChange={handleChangeInput}
-                value={formData.source}
-              >
-                <option value="" disabled>Select a source</option>
-                <option className="text-sm rounded-md" value="facebook">
-                  Facebook
-                </option>
-                <option className="text-sm" value="instagram">
-                  Instagram
-                </option>
-                <option className="text-sm" value="linkedin">
-                  LinkedIn
-                </option>
-                <option className="text-sm" value="youtube">
-                  YouTube
-                </option>
-                <option className="text-sm" value="website">
-                  Website
-                </option>
-                <option className="text-sm" value="others">
-                  Other
-                </option>
-              </select>
-            </div>
-          </Field>
+        <DropSelect
+            label="Where did you hear about us?"
+            selectName="source"
+            selectId="source"
+            onChange={handleChangeInput}
+            value={formData.source}
+          >
+            <option value="" disabled>Select a source</option>
+            <option value="facebook">Facebook</option>
+            <option value="instagram">Instagram</option>
+            <option value="linkedin">LinkedIn</option>
+            <option value="youtube">YouTube</option>
+            <option value="website">Website</option>
+            <option value="others">Other</option>
+          </DropSelect>
 
         <Field className="col-span-2">
-          <FieldLabel>Message</FieldLabel>
+          <FieldLabel className="uppercase text-xs text-primary">Message</FieldLabel>
           <Textarea
             name="message"
             placeholder="Enter your message here..."

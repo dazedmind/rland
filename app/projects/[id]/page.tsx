@@ -26,6 +26,7 @@ import { priceFormatter } from "@/app/utils/priceFormatter";
 import ContactSection from "@/components/layout/ContactSection";
 import ProjectImageCarousel from "@/components/ProjectImageCarousel";
 import BackButton from "@/components/layout/BackButton";
+import { dateFormatter } from "@/app/utils/dateFormatter";
 
 export const runtime = "edge";
 
@@ -157,6 +158,13 @@ function ProjectDetailsPage({
   const { minLot, maxLot, minFloor, maxFloor } = getMinMaxArea(models);
   const { minPrice, maxPrice } = getPriceRange(inventory);
 
+  const specification = [
+    {id: "type", icon: House, label: "Type", value: typeMap[project[0]?.project?.type as keyof typeof typeMap]},
+    {id: "lotArea", icon: LandPlotIcon, label: "Lot Area", value: `${minLot} – ${maxLot} sqm ±`},
+    {id: "priceRange", icon: PhilippinePeso, label: "Price Range", value: `${priceFormatter(minPrice)} – ${priceFormatter(maxPrice)}`},
+    {id: "floorArea", icon: Scan, label: "Floor Area", value: `${minFloor} – ${maxFloor} sqm ±`},
+  ]
+
   if (error) {
     return (
       <div className="pt-15 md:pt-25 min-h-screen flex flex-col items-center justify-center gap-4">
@@ -217,10 +225,9 @@ function ProjectDetailsPage({
           <span>
             <BackButton href="/projects" mainPageName="Projects" />
           </span>
-          <span className="flex flex-col gap-4">
-
+          <span className="flex flex-col gap-4 w-full">
             <div className="py-4">
-              <Image src={project[0]?.project?.logoUrl ?? ""} alt="Project Logo" width={300} height={300} className="rounded-md object-contain" />
+              <Image src={project[0]?.project?.logoUrl ?? ""} alt="Project Logo" width={200} height={200} className="rounded-md object-contain" />
             </div>
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
               <span className="flex flex-col">
@@ -252,34 +259,15 @@ function ProjectDetailsPage({
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:w-2/3">
-                <div className="flex flex-row items-center gap-2">
-                  <House className="size-10 text-neutral-400 shrink-0" strokeWidth={1.5} />
-                  <span>
-                    <p className="text-sm text-neutral-500">Type</p>
-                    <p className="text-xl font-medium">{typeMap[project[0]?.project?.type as keyof typeof typeMap]}</p>
-                  </span>
-                </div>
-                <div className="flex flex-row items-center gap-2">
-                  <LandPlotIcon className="size-10 text-neutral-400 shrink-0" strokeWidth={1.5} />
-                  <span>
-                    <p className="text-sm text-neutral-500">Lot Area</p>
-                    <p className="text-xl font-medium">{minLot} – {maxLot} sqm ±</p>
-                  </span>
-                </div>
-                <div className="flex flex-row items-center gap-2">
-                  <PhilippinePeso className="size-10 text-neutral-400 shrink-0" strokeWidth={1.5} />
-                  <span>
-                    <p className="text-sm text-neutral-500">Price Range</p>
-                    <p className="text-xl font-medium">{priceFormatter(minPrice)} – {priceFormatter(maxPrice)}</p>
-                  </span>
-                </div>
-                <div className="flex flex-row items-center gap-2">
-                  <Scan className="size-10 text-neutral-400 shrink-0" strokeWidth={1.5} />
-                  <span>
-                    <p className="text-sm text-neutral-500">Floor Area</p>
-                    <p className="text-xl font-medium">{minFloor} – {maxFloor} sqm ±</p>
-                  </span>
-                </div>
+                {specification.map((spec) => (
+                  <div key={spec.id} className="flex flex-row items-center gap-2">
+                    <spec.icon className="size-8 text-neutral-400 shrink-0" strokeWidth={1.5} />
+                    <span>
+                      <p className="text-sm text-neutral-500">{spec.label}</p>
+                      <p className="text-lg lg:text-xl font-semibold">{spec.value}</p>
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           </span>
@@ -411,13 +399,12 @@ function ProjectDetailsPage({
             </div>
             <div className="flex flex-col gap-2 bg-primary text-white p-8 rounded-b-md">
               <p className="text-lg font-bold">{project[0]?.project?.projectName}:</p>
-              <p>Sampaguita St., Brgy. Munting Pulo, Lipa City, Batangas</p>
-              <p>
-                Sales Office: Sampaguita St., Brgy. Munting Pulo, Lipa City,
-                Batangas
-              </p>
-              <p>DHSUD LTS No: 769 & 770</p>
-              <p>Completion Date: February & March 2026</p>
+              <ul className="list-disc list-outside pl-5">
+                <li>Address: {project[0]?.project?.address ?? "N/A"}</li>
+                <li>Sales Office: {project[0]?.project?.salesOffice ?? "N/A"}</li>
+                <li>DHSUD LTS No: {project[0]?.project?.dhsudNumber ?? "N/A"}</li>
+                <li>Completion Date: {dateFormatter(project[0]?.project?.completionDate ?? "N/A")}</li>
+              </ul>
             </div>
           </div>
         </section>

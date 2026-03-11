@@ -50,27 +50,6 @@ export const leadStageEnum = pgEnum('lead_stage', [
   'closed_lost',
 ])
 
-export const leadNextActionEnum = pgEnum('lead_next_action', [
-  'call',
-  'message',
-  'email',
-  'followup',
-  'schedule_presentation',
-  'tripping',
-  'computation',
-  'reservation',
-  'documentation',
-])
-
-export const leadSourceEnum = pgEnum('lead_source', [
-  'ads',
-  'organic_fb',
-  'organic_ig',
-  'email',
-  'website',
-  'tiktok',
-])
-
 export const inquirySubjectEnum = pgEnum('inquiry_subject', [
   'buying',
   'assistance',
@@ -80,7 +59,9 @@ export const inquirySubjectEnum = pgEnum('inquiry_subject', [
 
 export const inquirySourceEnum = pgEnum('inquiry_source', [
   'facebook',
+  'instagram',
   'linkedin',
+  'tiktok',
   'youtube',
   'website',
   'others',
@@ -89,18 +70,21 @@ export const inquirySourceEnum = pgEnum('inquiry_source', [
 export const inventoryStatusEnum = pgEnum('inventory_status', [
   'sold',
   'available',
+  'on_hold'
 ])
 
 export const inventoryStageEnum = pgEnum('inventory_stage', [
   'pre_selling',
   'ongoing_development',
   'completed',
+  'coming_soon',
   'cancelled',
 ])
 
 export const inventoryTypeEnum = pgEnum('inventory_type', [
   'houselot',
   'condo',
+  'townhouse',
 ])
 
 export const brokerStatusEnum = pgEnum('broker_status', [
@@ -112,6 +96,8 @@ export const brokerStatusEnum = pgEnum('broker_status', [
 export const articleTypeEnum = pgEnum('article_type', [
   'news',
   'blog',
+  'announcement',
+  'event',
 ])
 
 export const mediaFormatEnum = pgEnum('format', [
@@ -155,27 +141,25 @@ export const newsletterStatusEnum = pgEnum('newsletter_status', [
   'unsubscribed',
 ])
 
-/**
- * leads — sales leads / prospects
- */
-export const leads = pgTable('leads', {
-  id:          integer('id').primaryKey(),
-  leadId:      text('lead_id').notNull(),
-  status:      leadStatusEnum('status').notNull().default('open'),
-  firstName:   text('first_name').notNull(),
-  lastName:    text('last_name').notNull(),
-  phone:       text('phone'),
-  email:       text('email'),
-  inquiryDate: date('inquiry_date').notNull(),
-  project:     text('project').notNull(),
-  profileLink: text('profile_link'),
-  stage:       leadStageEnum('stage').notNull().default('lead'),
-  nextAction:  leadNextActionEnum('next_action').notNull().default('call'),
-  source:      leadSourceEnum('source').notNull(),
-  notes:       text('notes').notNull(),
-  createdAt:   timestamp('created_at').notNull().defaultNow(),
-  updatedAt:   timestamp('updated_at').notNull().defaultNow(),
-})
+export const departmentEnum = pgEnum('department', [
+  'marketing',
+  'executive',
+  'engineering',
+  'design',
+  'hr',
+  'finance',
+  'it',
+  'legal',
+  'operations',
+  'customer_service',
+  'product'
+])
+
+export const activityStatusEnum = pgEnum('activity_status', [
+  'success',
+  'failed',
+])
+
 
 /**
  * reservation — property reservation records
@@ -229,6 +213,10 @@ export const projects = pgTable('projects', {
   mapLink:     text('map_link'),
   accentColor: text('accent_color'),
   description: text('description'),
+  dhsudNumber: text('dhsud_number'),
+  address: text('address'),
+  completionDate: date('completion_date'),
+  salesOffice: text('sales_office'),
   amenities: jsonb('amenities').notNull().default([]),
   landmarks: jsonb('landmarks').notNull().default([]),
   createdAt:   timestamp('created_at').notNull().defaultNow(),

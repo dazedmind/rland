@@ -7,7 +7,7 @@ import rmrLogo from "@/public/rmr-logo.png";
 import hcptLogo from "@/public/hcpt-logo.png";
 import r2Logo from "@/public/r2-logo.png";
 import FeaturedProjectCard from "@/components/cards/FeaturedProjectCard";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, MapPin } from "lucide-react";
 import NavBar from "@/components/layout/NavBar";
 import MobileNavBar from "@/components/layout/MobileNavBar";
 import { Button } from "@/components/ui/button";
@@ -163,40 +163,38 @@ export default function Home() {
 
             <div className="w-full">
               <div className="bg-primary p-3 w-full text-center text-white">
-                <h1 className="text-3xl font-bold">
+                <h1 className="text-2xl md:text-3xl font-bold">
                   Partners & Affiliated Companies
                 </h1>
               </div>
 
-              <div className="flex flex-row items-center justify-center overflow-x-scroll gap-8 md:gap-24 lg:gap-32 px-8 md:px-16 xl:px-44 py-8">
-                <Image
-                  src={rmrLogo}
-                  alt="RMR Logo"
-                  width={100}
-                  height={100}
-                  className="saturate-0 hover:saturate-100 transition-all w-12 md:w-16 lg:w-24 duration-300 cursor-pointer"
-                />
-                <Image
-                  src={philecoLogo}
-                  alt="Phileco Logo"
-                  width={160}
-                  height={100}
-                  className="saturate-0 hover:saturate-100 transition-all w-24 md:w-28 lg:w-32 duration-300 cursor-pointer"
-                />
-                <Image
-                  src={hcptLogo}
-                  alt="HCPT Logo"
-                  width={100}
-                  height={100}
-                  className="saturate-0 hover:saturate-100 transition-all w-12 md:w-16 lg:w-24 duration-300 cursor-pointer"
-                />
-                <Image
-                  src={r2Logo}
-                  alt="R2 Logo"
-                  width={100}
-                  height={100}
-                  className="saturate-0 hover:saturate-100 transition-all w-12 md:w-16 lg:w-24 duration-300 cursor-pointer"
-                />
+              {/* Desktop: static centered */}
+              <div className="hidden md:flex flex-row items-center justify-center gap-24 lg:gap-32 px-8 md:px-16 xl:px-44 py-8">
+                <Image src={rmrLogo} alt="RMR Logo" width={100} height={100} className="saturate-0 hover:saturate-100 transition-all w-16 lg:w-24 duration-300 cursor-pointer" />
+                <Image src={philecoLogo} alt="Phileco Logo" width={160} height={100} className="saturate-0 hover:saturate-100 transition-all w-28 lg:w-32 duration-300 cursor-pointer" />
+                <Image src={hcptLogo} alt="HCPT Logo" width={100} height={100} className="saturate-0 hover:saturate-100 transition-all w-16 lg:w-24 duration-300 cursor-pointer" />
+                <Image src={r2Logo} alt="R2 Logo" width={100} height={100} className="saturate-0 hover:saturate-100 transition-all w-16 lg:w-24 duration-300 cursor-pointer" />
+              </div>
+
+              {/* Mobile: infinite marquee */}
+              <div className="flex md:hidden overflow-hidden py-8">
+                {/* Single track animated as one unit */}
+                <div className="flex items-center" style={{ animation: "marquee 14s linear infinite", willChange: "transform" }}>
+                  {/* First set */}
+                  <div className="flex items-center gap-12 px-6">
+                    <Image src={rmrLogo} alt="RMR Logo" width={100} height={100} className="saturate-0 w-12 shrink-0 cursor-pointer" />
+                    <Image src={philecoLogo} alt="Phileco Logo" width={160} height={100} className="saturate-0 w-24 shrink-0 cursor-pointer" />
+                    <Image src={hcptLogo} alt="HCPT Logo" width={100} height={100} className="saturate-0 w-12 shrink-0 cursor-pointer" />
+                    <Image src={r2Logo} alt="R2 Logo" width={100} height={100} className="saturate-0 w-12 shrink-0 cursor-pointer" />
+                  </div>
+                  {/* Duplicate set — seamless continuation */}
+                  <div className="flex items-center gap-12 px-6" aria-hidden="true">
+                    <Image src={rmrLogo} alt="RMR Logo" width={100} height={100} className="saturate-0 w-12 shrink-0 cursor-pointer" />
+                    <Image src={philecoLogo} alt="Phileco Logo" width={160} height={100} className="saturate-0 w-24 shrink-0 cursor-pointer" />
+                    <Image src={hcptLogo} alt="HCPT Logo" width={100} height={100} className="saturate-0 w-12 shrink-0 cursor-pointer" />
+                    <Image src={r2Logo} alt="R2 Logo" width={100} height={100} className="saturate-0 w-12 shrink-0 cursor-pointer" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -223,9 +221,18 @@ export default function Home() {
         </ScrollReveal>
 
         <ScrollReveal>
-          <div className="flex flex-col lg:flex-row px-12 md:px-16 xl:px-44 gap-4 pt-12 lg:py-24 bg-primary text-white relative">
+          <div className="flex flex-col lg:flex-row px-12 md:px-16 xl:px-44 gap-4 pt-12 lg:py-24 bg-primary text-white relative overflow-hidden">
+            {/* Background subtle grid texture */}
+            <div
+              className="absolute inset-0 opacity-[0.04] pointer-events-none"
+              style={{
+                backgroundImage: `linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)`,
+                backgroundSize: "40px 40px",
+              }}
+            />
+
             {/* DETAILS SECTION */}
-            <div className="flex flex-col text-start gap-4 w-full lg:w-1/2 py-16">
+            <div className="flex flex-col text-center md:text-start gap-4 w-full lg:w-2xl py-16">
               <span className="space-y-2 z-10">
                 <h1 className="text-3xl lg:text-4xl font-bold">
                   Let's Find Available Home Near You
@@ -239,14 +246,101 @@ export default function Home() {
               <HouseSearchBar />
             </div>
 
-            {/* HOUSE IMAGE HERO SECTION */}
-            <Image
-              src={platinumUnit}
-              alt="Search Icon"
-              width={700}
-              height={600}
-              className="mx-auto w-full lg:w-1/2 lg:absolute bottom-0 right-0"
-            />
+            {/* HOUSE IMAGE HERO SECTION — desktop */}
+            <div className="hidden lg:block lg:absolute bottom-0 right-0 w-1/2 h-full pointer-events-none">
+
+              {/* Soft glow behind the house */}
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[420px] h-[280px] rounded-full bg-white/10 blur-3xl" />
+
+              {/* Floating badge: Starting price */}
+              <div
+                className="absolute top-12 left-8 z-20 flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-[6px] px-4 py-3 shadow-xl"
+                style={{ animation: "floatBadge 4s ease-in-out infinite" }}
+              >
+                <div className="flex flex-col">
+                  <span className="text-[10px] tracking-[0.15em] uppercase text-white/60 leading-none mb-1">
+                    Starting at
+                  </span>
+                  <span className="text-base font-bold text-white leading-none">₱1.2M</span>
+                </div>
+              </div>
+
+              {/* Floating badge: Units available */}
+              <div
+                className="absolute top-1/2 right-6 z-20 flex items-center gap-2 bg-[#c9a84c] rounded-[6px] px-4 py-3 shadow-xl"
+                style={{ animation: "floatBadge 4s ease-in-out 0.8s infinite" }}
+              >
+                <div className="flex flex-col">
+                  <span className="text-[10px] tracking-[0.15em] uppercase text-white/80 leading-none mb-1">
+                    Available
+                  </span>
+                  <span className="text-base font-bold text-white leading-none">24 Units</span>
+                </div>
+              </div>
+
+              {/* Floating badge: Location */}
+              <div
+                className="absolute bottom-18 left-6 z-20 flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-[6px] px-4 py-3 shadow-xl"
+                style={{ animation: "floatBadge 4s ease-in-out 1.6s infinite" }}
+              >
+                <MapPin className="size-4 text-secondary" />
+                <span className="text-sm font-medium text-white">Batangas, PH</span>
+              </div>
+
+              {/* House image */}
+              <Image
+                src={platinumUnit}
+                alt="Featured Property"
+                width={700}
+                height={600}
+                className="absolute bottom-0 right-0 w-full h-full object-contain object-bottom drop-shadow-2xl"
+              />
+            </div>
+
+            {/* Mobile image + badges */}
+            <div className="block lg:hidden relative w-full h-[300px]">
+              {/* Soft glow */}
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[280px] h-[160px] rounded-full bg-white/10 blur-3xl pointer-events-none" />
+
+              {/* Floating badge: Starting price */}
+              <div
+                className="absolute top-4 left-4 z-20 flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-[6px] px-3 py-2 shadow-xl"
+                style={{ animation: "floatBadge 4s ease-in-out infinite" }}
+              >
+                <div className="flex flex-col">
+                  <span className="text-[9px] tracking-[0.15em] uppercase text-white/60 leading-none mb-1">Starting at</span>
+                  <span className="text-sm font-bold text-white leading-none">₱1.2M</span>
+                </div>
+              </div>
+
+              {/* Floating badge: Units available */}
+              <div
+                className="absolute top-4 right-4 z-20 flex items-center gap-2 bg-[#c9a84c] rounded-[6px] px-3 py-2 shadow-xl"
+                style={{ animation: "floatBadge 4s ease-in-out 0.8s infinite" }}
+              >
+                <div className="flex flex-col">
+                  <span className="text-[9px] tracking-[0.15em] uppercase text-white/80 leading-none mb-1">Available</span>
+                  <span className="text-sm font-bold text-white leading-none">24 Units</span>
+                </div>
+              </div>
+
+              {/* Floating badge: Location */}
+              <div
+                className="absolute bottom-8 left-4 z-20 flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-[6px] px-3 py-2 shadow-xl"
+                style={{ animation: "floatBadge 4s ease-in-out 1.6s infinite" }}
+              >
+                <div className="w-2 h-2 rounded-full bg-[#c9a84c] shrink-0" />
+                <span className="text-xs font-medium text-white">Batangas, PH</span>
+              </div>
+
+              <Image
+                src={platinumUnit}
+                alt="Featured Property"
+                width={700}
+                height={600}
+                className="absolute inset-0 w-full h-full object-contain object-bottom drop-shadow-2xl"
+              />
+            </div>
           </div>
         </ScrollReveal>
 
@@ -281,9 +375,9 @@ export default function Home() {
           <ContactSection />
         </ScrollReveal>
 
-        <ScrollReveal>
           {/* BANNER */}
           <section className="flex flex-col items-center justify-center bg-primary py-24">
+            <ScrollReveal>
             <div className="flex flex-col items-center justify-center text-center gap-4 px-8 md:px-24 lg:px-44 text-white">
               <span className="flex flex-col gap-2 w-full text-center">
                 <h1 className="text-3xl lg:text-4xl font-bold">
@@ -313,10 +407,10 @@ export default function Home() {
                 >
                   <Link href="/reservation">Reserve Now</Link>
                 </Button>
-              </span>
-            </div>
+                </span>
+              </div>
+            </ScrollReveal>
           </section>
-        </ScrollReveal>
 
         <footer>
           <Footer />

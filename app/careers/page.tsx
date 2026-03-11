@@ -43,7 +43,7 @@ function CareersPage() {
                 </span>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                   <Button 
-                    size="lg"
+                    size="sm"
                     variant="default"
                     onClick={() => scrollToSection("jobs")}
                   >

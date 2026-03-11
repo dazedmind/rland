@@ -62,18 +62,17 @@ function ProjectList({ limit, type }: { limit?: number, type: string }) {
   }, [emblaApi, onSelect]);
 
   const accentColor = {
-    blue: "bg-linear-to-t from-blue-950 to-primary",
-    yellow: "bg-linear-to-t from-secondary to-yellow-600",
-    amber: "bg-linear-to-t from-amber-950 to-amber-800",
-    orange: "bg-linear-to-t from-orange-950 to-orange-600",
-    green: "bg-linear-to-t from-green-600 to-green-950",
-    purple: "bg-linear-to-t from-purple-600 to-purple-950",
-    red: "bg-linear-to-t from-red-600 to-red-950",
-    pink: "bg-linear-to-t from-pink-600 to-pink-950",
-    brown: "bg-linear-to-t from-brown-600 to-brown-950",
-    gray: "bg-linear-to-t from-gray-600 to-gray-950",
-    black: "bg-linear-to-t from-black to-black-950",
-    white: "bg-linear-to-t from-white to-white-950",
+    blue:   "bg-gradient-to-tr from-transparent via-primary/20 to-primary/20",
+    yellow: "bg-gradient-to-tr from-transparent via-secondary/20 to-secondary/20",
+    amber:  "bg-gradient-to-tr from-transparent via-amber-800/20 to-amber-800/20",
+    orange: "bg-gradient-to-tr from-transparent via-orange-600/20 to-orange-600/20",
+    green:  "bg-gradient-to-tr from-transparent via-green-950/20 to-green-950/20",
+    purple: "bg-gradient-to-tr from-transparent via-purple-950/20 to-purple-950/20",
+    red:    "bg-gradient-to-tr from-transparent via-red-950/20 to-red-950/20",
+    pink:   "bg-gradient-to-tr from-transparent via-pink-950/20 to-pink-950/20",
+    gray:   "bg-gradient-to-tr from-transparent via-gray-950/20 to-gray-950/20",
+    black:  "bg-gradient-to-tr from-transparent via-black/20 to-black/20",
+    white:  "bg-gradient-to-tr from-transparent via-white/20 to-white/20",
   };
 
   if (loading) {

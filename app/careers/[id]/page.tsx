@@ -20,8 +20,9 @@ import CareerDetailsSkeleton from "@/components/layout/skeleton/CareerDetailsSke
 import { ArrowUpFromLine } from "lucide-react";
 import { toast } from "sonner";
 import BackButton from "@/components/layout/BackButton";
+import { HiMail } from "react-icons/hi";
 
-export const runtime = 'edge';
+export const runtime = "edge";
 
 type Career = {
   id: number;
@@ -38,12 +39,12 @@ type Career = {
 };
 
 const EMPTY_FORM_DATA = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  phone: '',
-  position: '',
-  location: '',
+  firstName: "",
+  lastName: "",
+  email: "",
+  phone: "",
+  position: "",
+  location: "",
   resume: null,
   coverLetter: null,
 };
@@ -53,9 +54,11 @@ function CareerDetailsPage({
 }: {
   params: Promise<{ id: string }> | { id: string };
 }) {
-
   useEffect(() => {
-    if (params && typeof (params as Promise<{ id: string }>).then === "function") {
+    if (
+      params &&
+      typeof (params as Promise<{ id: string }>).then === "function"
+    ) {
       (params as Promise<{ id: string }>).then((p) => setId(p.id));
     } else {
       setId((params as { id: string }).id);
@@ -131,171 +134,204 @@ function CareerDetailsPage({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/job_inquiry', {
-        method: 'POST',
-        body: JSON.stringify({ ...formData, position: career?.position || '' }),
+      const response = await fetch("/api/job_inquiry", {
+        method: "POST",
+        body: JSON.stringify({ ...formData, position: career?.position || "" }),
       });
       if (response.ok) {
-        toast.success('Job inquiry submitted successfully');
+        toast.success("Job inquiry submitted successfully");
         setFormData(EMPTY_FORM_DATA);
         setResumeFile(null);
         setCoverLetter(null);
       } else {
-        toast.error('Failed to submit job inquiry');
+        toast.error("Failed to submit job inquiry");
       }
-    }
-    catch (error) {
+    } catch (error) {
       console.error("Error submitting job inquiry:", error);
     }
-  }
+  };
 
   return (
     <div className="pt-15 md:pt-25">
       <header>
         <NavBar isScrolled={true} />
       </header>
-  
+
       <main className="flex flex-col lg:flex-row justify-start items-start px-8 md:px-24 xl:px-44 gap-8 py-16">
         {/* CAREER DETAILS SECTION */}
         {!loading ? (
-        <section className="flex flex-col items-start justify-center space-y-8 w-full lg:w-2/3">
-          
-          <BackButton href="/careers" mainPageName="Careers" />
-          
-          <span className="flex flex-col gap-4">
-            <span>
-                <h1 className="text-4xl font-bold">
+          <section className="flex flex-col items-start justify-center space-y-8 w-full lg:w-2/3">
+            <BackButton href="/careers" mainPageName="Careers" />
+
+            <span className="flex flex-col gap-4">
+              <span>
+                <h1 className="text-3xl md:text-4xl font-bold text-primary">
                   {career?.position}
                 </h1>
-                <p className="text-lg font-bold text-secondary">{career?.location}</p>
-            </span>
+                <p className="text-lg font-bold text-secondary">
+                  {career?.location}
+                </p>
+              </span>
 
+              <h2 className="text-2xl font-bold">Purpose and Scope</h2>
+              <p className="leading-relaxed">{career?.purpose}</p>
 
-            <h2 className="text-2xl font-bold">Purpose and Scope</h2>
-            <p className="leading-relaxed">
-                {career?.purpose}
-            </p>
+              <h2 className="text-2xl font-bold">
+                Specific Duties and Responsibilities:
+              </h2>
 
-            <h2 className="text-2xl font-bold">
-              Specific Duties and Responsibilities:
-            </h2>
-
-            <ul className="list-disc list-outside space-y-3 text-slate-800 max-w-3xl marker:text-blue-600 pl-5">
-                {career?.responsibilities.split('\n').map((item, index) => (
+              <ul className="list-disc list-outside space-y-3 text-slate-800 max-w-3xl marker:text-blue-600 pl-5">
+                {career?.responsibilities.split("\n").map((item, index) => (
                   <li key={index}>{item}</li>
                 ))}
-            </ul>
+              </ul>
 
-            <h2 className="text-2xl font-bold">Qualifications:</h2>
+              <h2 className="text-2xl font-bold">Qualifications:</h2>
 
-            <ol className="list-decimal list-outside space-y-3 text-slate-800 max-w-3xl pl-5">
-              {career?.qualifications.split('\n').map((item, index) => (
-                <li key={index}>{item}</li>
-              ))}
-            </ol>
+              <ol className="list-decimal list-outside space-y-3 text-slate-800 max-w-3xl pl-5">
+                {career?.qualifications.split("\n").map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ol>
 
-            <h2 className="text-2xl font-bold">Required Skills:</h2>
-            <ul className="list-disc list-outside space-y-3 text-slate-800 max-w-3xl marker:text-blue-600 pl-5">
-              {career?.requiredSkills.split('\n').map((item, index) => (
-                <li key={index}>{item}</li>
-              ))}
-            </ul>
-          </span>
+              <h2 className="text-2xl font-bold">Required Skills:</h2>
+              <ul className="list-disc list-outside space-y-3 text-slate-800 max-w-3xl marker:text-blue-600 pl-5">
+                {career?.requiredSkills.split("\n").map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+            </span>
 
-          <Dialog>
-            <DialogTrigger className="flex items-center gap-2 bg-primary text-white rounded-md w-fit p-2 px-4 font-bold cursor-pointer">
-              <ArrowUpFromLine className="size-5" /> Submit Application
-            </DialogTrigger>
-            <DialogContent showCloseButton={false}>
-              <DialogHeader>
-                <DialogTitle>Apply Now</DialogTitle>
-                <DialogDescription>
-                  Fill out the form below to apply for the position.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="w-full gap-4">
-                <Field className="col-span-2">
-                  <FieldLabel>Position</FieldLabel>
-                  <Input
-                    type="text"
-                    placeholder="Position"
-                    value={career?.position || ''}
-                    disabled
-                  />
-                </Field>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mb-4">
-                  <Field>
-                    <FieldLabel>First Name</FieldLabel>
-                    <Input type="text" placeholder="First Name" value={formData.firstName} onChange={(e) => setFormData({ ...formData, firstName: e.target.value })} />
+            <Dialog>
+              <DialogTrigger className="flex items-center gap-2 bg-primary text-white rounded-md w-fit p-2 px-4 font-bold cursor-pointer">
+                <HiMail className="size-5" /> Submit Application
+              </DialogTrigger>
+              <DialogContent showCloseButton={false}>
+                <DialogHeader>
+                  <DialogTitle>Apply Now</DialogTitle>
+                  <DialogDescription>
+                    Fill out the form below to apply for the position.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="w-full gap-4">
+                  <Field className="col-span-2">
+                    <FieldLabel>Position</FieldLabel>
+                    <Input
+                      type="text"
+                      placeholder="Position"
+                      value={career?.position || ""}
+                      disabled
+                    />
                   </Field>
-                  <Field>
-                    <FieldLabel>Last Name</FieldLabel>
-                    <Input type="text" placeholder="Last Name" value={formData.lastName} onChange={(e) => setFormData({ ...formData, lastName: e.target.value })} />
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mb-4">
+                    <Field>
+                      <FieldLabel>First Name</FieldLabel>
+                      <Input
+                        type="text"
+                        placeholder="First Name"
+                        value={formData.firstName}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            firstName: e.target.value,
+                          })
+                        }
+                      />
+                    </Field>
+                    <Field>
+                      <FieldLabel>Last Name</FieldLabel>
+                      <Input
+                        type="text"
+                        placeholder="Last Name"
+                        value={formData.lastName}
+                        onChange={(e) =>
+                          setFormData({ ...formData, lastName: e.target.value })
+                        }
+                      />
+                    </Field>
+                    <Field>
+                      <FieldLabel>Email</FieldLabel>
+                      <Input
+                        type="email"
+                        placeholder="Email"
+                        value={formData.email}
+                        onChange={(e) =>
+                          setFormData({ ...formData, email: e.target.value })
+                        }
+                      />
+                    </Field>
+                    <Field>
+                      <FieldLabel>Phone</FieldLabel>
+                      <Input
+                        type="tel"
+                        placeholder="Phone"
+                        value={formData.phone}
+                        onChange={(e) =>
+                          setFormData({ ...formData, phone: e.target.value })
+                        }
+                      />
+                    </Field>
+                  </div>
+
+                  <Field className="col-span-2">
+                    <FieldLabel>Resume / CV</FieldLabel>
+                    <FileUpload
+                      file={resumeFile}
+                      onFileSelect={setResumeFile}
+                      onFileRemove={removeResumeFile}
+                    />
                   </Field>
-                  <Field>
-                    <FieldLabel>Email</FieldLabel>
-                    <Input type="email" placeholder="Email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
-                  </Field>
-                  <Field>
-                    <FieldLabel>Phone</FieldLabel>
-                    <Input type="tel" placeholder="Phone" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })}  />
+
+                  <Field className="col-span-2">
+                    <FieldLabel>Cover Letter</FieldLabel>
+                    <FileUpload
+                      file={coverLetter}
+                      onFileSelect={setCoverLetter}
+                      onFileRemove={removeFile}
+                    />
                   </Field>
                 </div>
-       
-                <Field className="col-span-2">
-                  <FieldLabel>Resume / CV</FieldLabel>
-                  <FileUpload
-                    file={resumeFile}
-                    onFileSelect={setResumeFile}
-                    onFileRemove={removeResumeFile}
-                  />
-                </Field>
-
-                <Field className="col-span-2">
-                  <FieldLabel>Cover Letter</FieldLabel>
-                  <FileUpload
-                    file={coverLetter}
-                    onFileSelect={setCoverLetter}
-                    onFileRemove={removeFile}
-                  />
-                </Field>
-              </div>
-              <span className="flex gap-4 w-full">
-                <DialogClose asChild>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="flex-1 hover:text-primary"
-                >
-                  Cancel
-                </Button>
-                </DialogClose>
-                <Button
-                  size="sm"
-                  variant="primary"
-                  className="flex-1"
-                  onClick={(e) => handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>)}
-                >
-                  Submit Application
-                </Button>
-              </span>
-     
-            </DialogContent>
-          </Dialog>
-        </section>
+                <span className="flex gap-4 w-full">
+                  <DialogClose asChild>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="flex-1 hover:text-primary"
+                    >
+                      Cancel
+                    </Button>
+                  </DialogClose>
+                  <Button
+                    size="sm"
+                    variant="primary"
+                    className="flex-1"
+                    onClick={(e) =>
+                      handleSubmit(
+                        e as unknown as React.FormEvent<HTMLFormElement>,
+                      )
+                    }
+                  >
+                    Submit Application
+                  </Button>
+                </span>
+              </DialogContent>
+            </Dialog>
+          </section>
         ) : (
           <CareerDetailsSkeleton />
         )}
 
         <section className="flex flex-col items-start justify-center space-y-8 w-full lg:w-1/3">
           <div className="space-y-4 w-full">
-            <h1 className="text-2xl font-bold text-primary">Latest Vacancies</h1>
-            
+            <h1 className="text-2xl font-bold text-primary">
+              Latest Vacancies
+            </h1>
+
             <div className="w-full h-px bg-border"></div>
 
             <div className="w-full grid grid-cols-1 gap-4">
-                <CareerCard limit={3}/>
+              <CareerCard limit={3} />
             </div>
           </div>
         </section>

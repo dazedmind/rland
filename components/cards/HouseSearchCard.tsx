@@ -222,7 +222,7 @@ function HouseSearchCard({ price, unit, modelCard }: HouseSearchCardProps) {
 
         <Link href={detailsUrl} className="w-full md:w-auto lg:w-full shrink-0">
           <Button
-            size="xs"
+            size="sm"
             variant="outline"
             className="w-full md:w-auto bg-transparent hover:bg-white hover:text-primary text-white border-white/50 rounded-md"
           >

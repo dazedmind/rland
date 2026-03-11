@@ -84,7 +84,7 @@ function Footer() {
     ]},
     {category: "Privacy", links: [
       {name: "Privacy Policy", href: "/privacy-policy"},
-      {name: "Terms of Use", href: "/terms-of-use"},
+      {name: "Terms of Use", href: "/privacy-policy"},
     ]},
   ]
   return (
@@ -161,7 +161,7 @@ function Footer() {
               <Input
                 type="email"
                 placeholder="Enter your email"
-                className="w-full p-2 pl-10 h-12 rounded-md bg-input text-black"
+                className="w-full p-2 pl-10 h-12 rounded-md bg-slate-200 text-black"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />

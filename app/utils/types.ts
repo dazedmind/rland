@@ -44,6 +44,10 @@ export type ProjectBase = {
   amenities: string[];
   landmarks?: LandmarkGroup[];
   accentColor?: string | null;
+  address?: string | null;
+  salesOffice?: string | null;
+  dhsudNumber?: string | null;
+  completionDate?: string | null;
 };
 
 export type ProjectInventory = {

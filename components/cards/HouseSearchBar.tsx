@@ -1,10 +1,11 @@
-import { ChevronDownIcon, Search } from "lucide-react";
+import { ChevronDownIcon, MapPin, Search } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { Slider } from "../ui/slider";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
 
 const minPrice = 1000000;
 const maxPrice = 10000000;
@@ -59,8 +60,9 @@ function HouseSearchBar({ className, initialLocation = "", initialPriceRange }: 
   };
 
   return (
-    <div className={cn("flex flex-col md:flex-row gap-8 bg-background rounded-md p-4 z-20", className)}>
-      <div className="relative w-full">
+    <div className={cn("flex flex-col md:flex-row gap-6 bg-background rounded-md p-4 z-20", className)}>
+      <div className="flex items-center gap-2 relative w-full">
+        <MapPin className="size-4 text-primary" />
         <ChevronDownIcon className="text-black w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 z-30" />
         <select
           name="location"
@@ -78,6 +80,9 @@ function HouseSearchBar({ className, initialLocation = "", initialPriceRange }: 
         </select>
       </div>
 
+      <Separator orientation="vertical" className="hidden md:block h-full bg-neutral-200" />
+      <Separator orientation="horizontal" className="w-full md:hidden bg-neutral-200" />
+      
       <div className="flex flex-col items-center gap-3 w-full">
         <div className="flex flex-row items-center justify-between gap-2 w-full">
           <span className="text-muted-foreground text-sm">
@@ -101,7 +106,7 @@ function HouseSearchBar({ className, initialLocation = "", initialPriceRange }: 
       </div>
 
       <Button onClick={handleSearch} variant="secondary" size="icon-xl" className="flex w-full md:w-fit justify-center items-center gap-2 text-white text-center px-3 py-2 rounded-md cursor-pointer">
-        <Search className="size-5" /> <p className="block lg:hidden">Search</p>
+        <Search className="size-5" /> <p className="block md:hidden">Search</p>
       </Button>
     </div>
   );

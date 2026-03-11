@@ -9,6 +9,7 @@ import HouseSearchCard, { type SearchModelItem } from "@/components/cards/HouseS
 import Link from "next/link";
 import HouseSearchBar from "@/components/cards/HouseSearchBar";
 import SearchResultsSkeleton from "@/components/layout/skeleton/SearchResultsSkeleton";
+import BackButton from "@/components/layout/BackButton";
 
 const formatCurrency = (amount: number) => {
   return new Intl.NumberFormat("en-PH", {
@@ -93,19 +94,15 @@ function SearchResults() {
   }
 
   return (
-    <section className="flex flex-col items-start px-8 md:px-16 xl:px-64 justify-center py-16 space-y-8">
-      <span>
-        <Link href="/" className="flex items-center gap-2 text-primary">
-          <ArrowLeft className="size-4" /> Back to Home
-        </Link>
-      </span>
+    <section className="flex flex-col items-start px-8 md:px-16 xl:px-64 justify-center py-16 pt-8 space-y-8">
+      <BackButton href="/" mainPageName="Home" />
       <span className="flex flex-col gap-4 w-full">
         <span className="flex flex-col gap-2">
-          <h1 className="text-4xl font-bold">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">
             Showing Residences in{" "}
             <span className="text-primary">{location}</span>
           </h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs md:text-sm text-muted-foreground">
             Price Range: {formatCurrency(priceRangeFormattedArray?.[0] ?? 0)} -{" "}
             {formatCurrency(priceRangeFormattedArray?.[1] ?? 0)}
             {total > 0 && (
@@ -175,7 +172,7 @@ function SearchBarWithParams() {
 
   return (
     <HouseSearchBar
-      className="w-full lg:w-1/2 my-12 shadow-lg"
+      className="w-full lg:w-1/2  shadow-lg"
       initialLocation={location}
       initialPriceRange={initialPriceRange}
     />
@@ -197,11 +194,13 @@ function SearchPage() {
       </header>
 
       <div className="flex flex-col items-start px-8 md:px-16 xl:px-44 justify-center h-auto bg-linear-to-br from-primary to-slate-900">
-        <span className="flex justify-center items-center gap-2 text-white w-full">
+        <span className="flex flex-col justify-center items-center p-4 gap-4 my-8 text-white w-full">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white">Find Your Dream Home</h1>
+
           <Suspense fallback={<div className="h-24 w-full lg:w-1/2 animate-pulse rounded-lg bg-neutral-200" />}>
-            <SearchBarWithParams />
-          </Suspense>
-        </span>
+             <SearchBarWithParams />
+            </Suspense>
+          </span>
       </div>
 
       <main>

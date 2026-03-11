@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Phone, Mail, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
+import { HiPhone, HiMail } from "react-icons/hi";
 
 export default function ContactCopyItems() {
   const [isCopiedPhone, setIsCopiedPhone] = useState(false);
@@ -33,8 +34,8 @@ export default function ContactCopyItems() {
         onClick={() => handleCopyPhone("(02) 7752 2789")}
         className="group flex flex-row items-center justify-center gap-2 rounded-full p-1 px-3 cursor-pointer"
       >
-        <span className="bg-secondary/10 border border-secondary p-2 rounded-full">
-          <Phone className="size-5 text-secondary stroke-2" />
+        <span className="bg-primary/5 border border-primary/40 p-2 rounded-full">
+          <HiPhone className="size-5 text-primary" />
         </span>
 
         <span className="relative h-6 flex items-center min-w-[150px]">
@@ -63,8 +64,8 @@ export default function ContactCopyItems() {
         onClick={() => handleCopyEmail("moreinfo@rland.ph")}
         className="group flex flex-row items-center justify-center gap-2 rounded-full p-1 px-3 cursor-pointer"
       >
-        <span className="bg-secondary/10 border border-secondary p-2 rounded-full">
-          <Mail className="size-5 text-secondary stroke-2" />
+        <span className="bg-primary/5 border border-primary/40 p-2 rounded-full">
+          <HiMail className="size-5 text-primary" />
         </span>
 
         <span className="relative h-6 flex items-center min-w-[145px]">

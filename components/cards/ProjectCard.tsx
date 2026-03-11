@@ -25,12 +25,20 @@ function ProjectCard({
   projectId: number;
 }) {
   return (
-    <div className="flex flex-col w-full bg-neutral-50/50 border border-border rounded-md hover:shadow-xs transition-all duration-300 cursor-pointer">
+    <div className="flex flex-col w-full bg-neutral-50/50 rounded-md border border-border hover:shadow-xs transition-all duration-300 cursor-pointer">
       {/* CARD */}
-      <div className={cn(`w-auto h-60 ${projectAccent} rounded-t-md relative transition-all duration-300 cursor-pointer group`, className)}>
+      <div className={cn(`w-auto h-60 ${projectAccent} rounded-t-md relative transition-all duration-300 cursor-pointer group overflow-hidden`, className)}>
         {projectLogo && (
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 group-hover:scale-110 transition-all duration-300">
-            <Image src={projectLogo} alt={projectName} width={200} height={200} />
+          <div className="absolute inset-0 flex items-center justify-center z-40 p-4 group-hover:scale-110 transition-transform duration-300">
+            <div className="relative w-full max-w-[200px] h-full max-h-[120px]">
+              <Image
+                src={projectLogo}
+                alt={projectName}
+                fill
+                className="object-contain object-center"
+                sizes="200px"
+              />
+            </div>
           </div>
         )}
         <Image
@@ -38,10 +46,10 @@ function ProjectCard({
           alt="Project Aerial View"
           width={100}
           height={100}
-          className="w-full h-full object-cover saturate-0 rounded-md opacity-15"
+          className="w-full h-full object-cover saturate-0 opacity-10"
         />
 
-        <p className="absolute bottom-3 right-0 text-white font-bold bg-linear-to-r from-transparent to-yellow-600 rounded-l-sm px-3 p-1 w-fit uppercase text-xs">
+        <p className="absolute bottom-3 right-0 text-white font-bold bg-linear-to-r from-transparent to-secondary px-3 p-1 w-fit uppercase text-xs">
           {projectStatus}
         </p>
       </div>

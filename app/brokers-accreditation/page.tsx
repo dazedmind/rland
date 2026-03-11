@@ -48,7 +48,7 @@ function BrokersAccreditation() {
            
                 <div className="flex gap-4 justify-center lg:justify-start w-full lg:w-fit">
                   <Button 
-                    size="lg"
+                    size="sm"
                     asChild
                     className="flex-1 md:w-fit"
                   >
@@ -58,7 +58,7 @@ function BrokersAccreditation() {
                   </Button>
                   <Button 
                     variant="outline" 
-                    size="lg"
+                    size="sm"
                     className="text-white flex-1 md:w-fit"
                     onClick={() => scrollToSection("requirements")}
                   >
@@ -72,11 +72,34 @@ function BrokersAccreditation() {
         </section>
 
         {/* TRUST BAR */}
-        <div className="bg-linear-to-tr from-slate-50 to-slate-100 border-y border-slate-100 py-8">
-          <div className="container mx-auto px-6 flex flex-wrap justify-center gap-12 lg:gap-24 opacity-60 grayscale">
-             <div className="flex items-center gap-2 font-bold text-primary"><ShieldCheck /> SEC REGISTERED</div>
-             <div className="flex items-center gap-2 font-bold text-primary"><Zap /> FAST PAYOUTS</div>
-             <div className="flex items-center gap-2 font-bold text-primary"><CheckCircle2 /> PRC ACCREDITED</div>
+        <div className="bg-linear-to-tr from-slate-50 to-slate-100 border-y border-slate-100 py-8 overflow-hidden">
+          {/* Desktop: static centered */}
+          <div className="hidden md:flex container mx-auto px-6 justify-center gap-24 opacity-60 grayscale">
+            <div className="flex items-center gap-2 font-bold text-primary"><ShieldCheck /> SEC REGISTERED</div>
+            <div className="flex items-center gap-2 font-bold text-primary"><Zap /> FAST PAYOUTS</div>
+            <div className="flex items-center gap-2 font-bold text-primary"><CheckCircle2 /> PRC ACCREDITED</div>
+          </div>
+
+          {/* Mobile: infinite marquee */}
+          <div className="flex md:hidden opacity-60 grayscale">
+            <div
+              className="flex shrink-0 gap-12 pr-12 animate-marquee"
+              style={{ animation: "marquee 12s linear infinite" }}
+            >
+              <div className="flex items-center gap-2 font-bold text-primary whitespace-nowrap"><ShieldCheck /> SEC REGISTERED</div>
+              <div className="flex items-center gap-2 font-bold text-primary whitespace-nowrap"><Zap /> FAST PAYOUTS</div>
+              <div className="flex items-center gap-2 font-bold text-primary whitespace-nowrap"><CheckCircle2 /> PRC ACCREDITED</div>
+            </div>
+            {/* Duplicate for seamless loop */}
+            <div
+              className="flex shrink-0 gap-12 pr-12 animate-marquee"
+              aria-hidden="true"
+              style={{ animation: "marquee 12s linear infinite" }}
+            >
+              <div className="flex items-center gap-2 font-bold text-primary whitespace-nowrap"><ShieldCheck /> SEC REGISTERED</div>
+              <div className="flex items-center gap-2 font-bold text-primary whitespace-nowrap"><Zap /> FAST PAYOUTS</div>
+              <div className="flex items-center gap-2 font-bold text-primary whitespace-nowrap"><CheckCircle2 /> PRC ACCREDITED</div>
+            </div>
           </div>
         </div>
 
@@ -91,7 +114,7 @@ function BrokersAccreditation() {
                 <p className="text-slate-500 leading-relaxed">
                   To maintain the highest standards of professional service, we require our partners to provide the following documentation. 
                 </p>
-                <div className="p-6 bg-secondary/5 rounded-md border border-secondary/10">
+                <div className="p-4 bg-secondary/5 rounded-md border border-secondary/10">
                   <h4 className="font-bold text-primary mb-2 flex items-center gap-2">
                     <Lightbulb size={18} className="text-secondary" />Tips
                   </h4>
@@ -188,8 +211,8 @@ function BrokersAccreditation() {
                 <div className="pt-4">
                   <Button 
                     variant="default"
-                    size="lg"
-                    className="hover:shadow-lg hover:shadow-secondary/40 transition-all w-full"
+                    size="sm"
+                    className="hover:shadow-lg hover:shadow-secondary/40 transition-all w-full md:w-fit"
                     asChild
                   >
                     <Link href="https://docs.google.com/forms/..." target="_blank">
