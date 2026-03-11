@@ -21,6 +21,7 @@ import { ArrowUpFromLine } from "lucide-react";
 import { toast } from "sonner";
 import BackButton from "@/components/layout/BackButton";
 import { HiMail } from "react-icons/hi";
+import TextInput from "@/components/ui/TextInput";
 
 export const runtime = "edge";
 
@@ -213,65 +214,60 @@ function CareerDetailsPage({
                     Fill out the form below to apply for the position.
                   </DialogDescription>
                 </DialogHeader>
-                <div className="w-full gap-4">
-                  <Field className="col-span-2">
-                    <FieldLabel>Position</FieldLabel>
-                    <Input
-                      type="text"
-                      placeholder="Position"
-                      value={career?.position || ""}
-                      disabled
-                    />
-                  </Field>
-
+                <div className="w-full gap-4 space-y-4">
+                  <TextInput
+                    label="Position"
+                    name="position"
+                    type="text"
+                    placeholder="Position"
+                    value={career?.position || ""}
+                    onChange={(e) =>
+                      setFormData({ ...formData, position: e.target.value })
+                    }
+                    disabled
+                  />
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mb-4">
-                    <Field>
-                      <FieldLabel>First Name</FieldLabel>
-                      <Input
-                        type="text"
-                        placeholder="First Name"
-                        value={formData.firstName}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            firstName: e.target.value,
-                          })
-                        }
-                      />
-                    </Field>
-                    <Field>
-                      <FieldLabel>Last Name</FieldLabel>
-                      <Input
-                        type="text"
-                        placeholder="Last Name"
-                        value={formData.lastName}
-                        onChange={(e) =>
-                          setFormData({ ...formData, lastName: e.target.value })
-                        }
-                      />
-                    </Field>
-                    <Field>
-                      <FieldLabel>Email</FieldLabel>
-                      <Input
-                        type="email"
-                        placeholder="Email"
-                        value={formData.email}
-                        onChange={(e) =>
-                          setFormData({ ...formData, email: e.target.value })
-                        }
-                      />
-                    </Field>
-                    <Field>
-                      <FieldLabel>Phone</FieldLabel>
-                      <Input
-                        type="tel"
-                        placeholder="Phone"
-                        value={formData.phone}
-                        onChange={(e) =>
-                          setFormData({ ...formData, phone: e.target.value })
-                        }
-                      />
-                    </Field>
+                    <TextInput
+                      label="First Name"
+                      name="firstName"
+                      type="text"
+                      placeholder="First Name"
+                      value={formData.firstName}
+                      onChange={(e) =>
+                        setFormData({ ...formData, firstName: e.target.value })
+                      }
+                    />
+                    <TextInput
+                      label="Last Name"
+                      name="lastName"
+                      type="text"
+                      placeholder="Last Name"
+                      value={formData.lastName}
+                      onChange={(e) =>
+                        setFormData({ ...formData, lastName: e.target.value })
+                      }
+                    />
+
+                    <TextInput
+                      label="Email"
+                      name="email"
+                      type="email"
+                      placeholder="Email"
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
+                    />
+                    <TextInput
+                      label="Phone"
+                      name="phone"
+                      type="tel"
+                      placeholder="Phone"
+                      value={formData.phone}
+                      onChange={(e) =>
+                        setFormData({ ...formData, phone: e.target.value })
+                      }
+                    />
                   </div>
 
                   <Field className="col-span-2">
@@ -280,15 +276,6 @@ function CareerDetailsPage({
                       file={resumeFile}
                       onFileSelect={setResumeFile}
                       onFileRemove={removeResumeFile}
-                    />
-                  </Field>
-
-                  <Field className="col-span-2">
-                    <FieldLabel>Cover Letter</FieldLabel>
-                    <FileUpload
-                      file={coverLetter}
-                      onFileSelect={setCoverLetter}
-                      onFileRemove={removeFile}
                     />
                   </Field>
                 </div>

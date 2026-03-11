@@ -47,12 +47,10 @@ function CareersPage() {
                     variant="default"
                     onClick={() => scrollToSection("jobs")}
                   >
-                    See Available Jobs <ArrowDown className="w-4 h-4 animate-bounce" />
+                    See Available Jobs
                   </Button>
                 </div>
               </div>
-
-      
             </ScrollReveal>
           </div>
         </section>

@@ -169,33 +169,13 @@ export default function Home() {
               </div>
 
               {/* Desktop: static centered */}
-              <div className="hidden md:flex flex-row items-center justify-center gap-24 lg:gap-32 px-8 md:px-16 xl:px-44 py-8">
-                <Image src={rmrLogo} alt="RMR Logo" width={100} height={100} className="saturate-0 hover:saturate-100 transition-all w-16 lg:w-24 duration-300 cursor-pointer" />
+              <div className="flex flex-row items-center justify-center gap-8 md:gap-24 lg:gap-32 px-8 md:px-16 xl:px-44 py-8">
+                <Image src={rmrLogo} alt="RMR Logo" width={100} height={100} className="saturate-0 hover:saturate-100 transition-all  w-12 md:w-16 lg:w-24 duration-300 cursor-pointer" />
                 <Image src={philecoLogo} alt="Phileco Logo" width={160} height={100} className="saturate-0 hover:saturate-100 transition-all w-28 lg:w-32 duration-300 cursor-pointer" />
-                <Image src={hcptLogo} alt="HCPT Logo" width={100} height={100} className="saturate-0 hover:saturate-100 transition-all w-16 lg:w-24 duration-300 cursor-pointer" />
-                <Image src={r2Logo} alt="R2 Logo" width={100} height={100} className="saturate-0 hover:saturate-100 transition-all w-16 lg:w-24 duration-300 cursor-pointer" />
+                <Image src={hcptLogo} alt="HCPT Logo" width={100} height={100} className="saturate-0 hover:saturate-100 transition-all w-12 md:w-16 lg:w-24 duration-300 cursor-pointer" />
+                <Image src={r2Logo} alt="R2 Logo" width={100} height={100} className="saturate-0 hover:saturate-100 transition-all w-12 md:w-16 lg:w-24 duration-300 cursor-pointer" />
               </div>
-
-              {/* Mobile: infinite marquee */}
-              <div className="flex md:hidden overflow-hidden py-8">
-                {/* Single track animated as one unit */}
-                <div className="flex items-center" style={{ animation: "marquee 14s linear infinite", willChange: "transform" }}>
-                  {/* First set */}
-                  <div className="flex items-center gap-12 px-6">
-                    <Image src={rmrLogo} alt="RMR Logo" width={100} height={100} className="saturate-0 w-12 shrink-0 cursor-pointer" />
-                    <Image src={philecoLogo} alt="Phileco Logo" width={160} height={100} className="saturate-0 w-24 shrink-0 cursor-pointer" />
-                    <Image src={hcptLogo} alt="HCPT Logo" width={100} height={100} className="saturate-0 w-12 shrink-0 cursor-pointer" />
-                    <Image src={r2Logo} alt="R2 Logo" width={100} height={100} className="saturate-0 w-12 shrink-0 cursor-pointer" />
-                  </div>
-                  {/* Duplicate set — seamless continuation */}
-                  <div className="flex items-center gap-12 px-6" aria-hidden="true">
-                    <Image src={rmrLogo} alt="RMR Logo" width={100} height={100} className="saturate-0 w-12 shrink-0 cursor-pointer" />
-                    <Image src={philecoLogo} alt="Phileco Logo" width={160} height={100} className="saturate-0 w-24 shrink-0 cursor-pointer" />
-                    <Image src={hcptLogo} alt="HCPT Logo" width={100} height={100} className="saturate-0 w-12 shrink-0 cursor-pointer" />
-                    <Image src={r2Logo} alt="R2 Logo" width={100} height={100} className="saturate-0 w-12 shrink-0 cursor-pointer" />
-                  </div>
-                </div>
-              </div>
+            
             </div>
           </div>
         </ScrollReveal>

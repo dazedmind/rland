@@ -104,7 +104,7 @@ function NewsCard({limit}: {limit?: number}) {
                         {dateFormatter(article.publishDate)}
                       </span>
                     </div>
-                    <h3 className="text-xl font-bold mb-3 line-clamp-2">
+                    <h3 className="text-xl font-bold mb-3 line-clamp-2 uppercase">
                       {article.headline}
                     </h3>
                     <p className="text-sm text-neutral-600 mb-6 line-clamp-3 flex-1">

@@ -10,7 +10,7 @@ import NewsCard from "@/components/cards/NewsCard";
 function NewsPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [filter, setFilter] = useState("All");
-  const categories = ["All", "Announcements", "Events", "Industry Trends"];
+  const categories = ["All", "Announcements", "News", "Blog"];
 
   return (
     <div className="pt-20 md:pt-30">

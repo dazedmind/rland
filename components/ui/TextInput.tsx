@@ -14,6 +14,7 @@ function TextInput({
   value,
   className,
   required = false,
+  disabled
 }: {
   label?: string;
   name: string;
@@ -23,6 +24,7 @@ function TextInput({
   value: string;
   className?: string;
   required?: boolean;
+  disabled?: boolean;
 }) {
   const [inputType, setInputType] = useState<string>(type);
 
@@ -39,6 +41,7 @@ function TextInput({
           className="w-full p-2 rounded-md text-black"
           onChange={onChange}
           value={value}
+          disabled={disabled}
         />
         {type === "password" && (
           <span className="absolute right-0 top-1/2 -translate-y-1/2 cursor-pointer z-10">

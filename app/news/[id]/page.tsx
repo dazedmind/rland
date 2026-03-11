@@ -118,7 +118,7 @@ function NewsArticlePage({
             </div>
 
             <article className="space-y-8">
-              <h1 className="text-4xl md:text-5xl font-bold leading-tight text-primary">
+              <h1 className="text-4xl font-bold leading-tight text-primary uppercase">
                 {article.headline}
               </h1>
               <div className="flex flex-wrap items-center gap-6 text-sm text-neutral-500 border-b border-neutral-100 pb-6">
@@ -148,11 +148,12 @@ function NewsArticlePage({
                 </div>
               )}
 
-              <div className="prose prose-lg max-w-none text-neutral-700 leading-relaxed space-y-6 whitespace-pre-wrap">
-                {/* {renderMarkdown(article.body)} */}
-                <div dangerouslySetInnerHTML={{ __html: article.body.trim() ? renderMarkdown(article.body) : "" }} />
-              </div>
-
+              <div
+                className="prose prose-lg prose-p:mb-2 prose-headings:mb-3 prose-headings:mt-6 prose-headings:first:mt-0 max-w-none text-neutral-700 leading-relaxed min-h-[500px] w-full rounded-md [&_h1]:text-xl [&_h1]:font-bold [&_h2]:text-lg [&_h2]:font-semibold [&_h3]:text-base [&_h3]:font-semibold [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-2 [&_li]:my-0.5 [&_strong]:font-semibold [&_em]:italic"
+                dangerouslySetInnerHTML={{
+                  __html: article.body.trim() ? renderMarkdown(article.body) : "",
+                }}
+              />
               <div className="mt-16 pt-8 border-t border-neutral-100 flex flex-wrap justify-between items-center gap-4">
                 <div className="flex flex-wrap gap-2">
                   {article.tags?.map((tag) => (

@@ -28,7 +28,7 @@ function MobileNavBar({ isMenuOpen, setIsMenuOpen }: MobileNavBarProps) {
     { name: "Loan Calculator", href: "/loan-calculator" },
     { name: "Buyer's Guide", href: "/buyer-guide" },
     { name: "Promos", href: "/promos" },
-    { name: "Broker's Login", href: "/" },
+    { name: "Broker's Login", href: "https://broker.rland.ph/login" },
     { name: "Careers", href: "/careers" },
   ];
 
