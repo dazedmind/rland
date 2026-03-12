@@ -260,6 +260,19 @@ export const projectInventory = pgTable('project_inventory', {
 }))
 
 /**
+ * project_gallery — photos for projects or specific house models
+ */
+export const projectGallery = pgTable('project_gallery', {
+  id:        text('id').primaryKey(),
+  projectId: text('project_id').notNull().references(() => projects.id, { onDelete: 'cascade' }),
+  modelId:   text('model_id').references(() => projectModels.id, { onDelete: 'cascade' }),
+  imageUrl:  text('image_url').notNull(),
+  caption:   text('caption'),
+  sortOrder: integer('sort_order').notNull().default(0),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+})
+
+/**
  * job_inquiry — job application submissions
  */
 export const jobInquiry = pgTable('job_inquiry', {

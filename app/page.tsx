@@ -186,9 +186,9 @@ export default function Home() {
             <div className="flex flex-row items-center justify-between">
               <span>
                 <h1 className="text-3xl font-bold text-primary">
-                  Explore Our Realm
+                  Featured Units
                 </h1>
-                <p className="leading-relaxed text-neutral-600">
+                <p className="text-sm md:text-base leading-relaxed text-muted-foreground">
                   Browse our diverse projects each offering a familiar and
                   comfort vibes
                 </p>
@@ -212,12 +212,12 @@ export default function Home() {
             />
 
             {/* DETAILS SECTION */}
-            <div className="flex flex-col text-center md:text-start gap-4 w-full lg:w-2xl py-16">
+            <div className="flex flex-col text-start gap-4 w-full lg:w-2xl py-16">
               <span className="space-y-2 z-10">
-                <h1 className="text-3xl lg:text-4xl font-bold">
+                <h1 className="text-4xl font-bold">
                   Let's Find Available Home Near You
                 </h1>
-                <p className="leading-relaxed text-neutral-200">
+                <p className="text-sm md:text-base leading-relaxed text-neutral-200">
                   Discover your dream home with our comprehensive listing of
                   available properties across the Philippines.
                 </p>
@@ -332,7 +332,7 @@ export default function Home() {
                 <h1 className="text-3xl font-bold text-primary">
                   Latest News
                 </h1>
-                <p className="leading-relaxed text-neutral-600">
+                <p className="text-sm md:text-base leading-relaxed text-muted-foreground">
                   Stay updated with the most recent news & blogs from R Land
                 </p>
               </span>

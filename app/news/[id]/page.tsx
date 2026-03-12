@@ -12,6 +12,7 @@ import { dateFormatter } from "@/app/utils/dateFormatter";
 import { renderMarkdown } from "@/app/utils/markdown";
 import { Button } from "@/components/ui/button";
 import BackButton from "@/components/layout/BackButton";
+import ShareModal from "@/components/modals/ShareModal";
 
 type Article = {
   id: number;
@@ -32,6 +33,7 @@ function NewsArticlePage({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [id, setId] = useState<string | null>(null);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
   useEffect(() => {
     if (params && typeof (params as Promise<{ id: string }>).then === "function") {
@@ -132,7 +134,7 @@ function NewsArticlePage({
               </div>
 
               {article.photoUrl ? (
-                <div className="relative w-full h-[400px] rounded-2xl overflow-hidden bg-neutral-200 shadow-inner">
+                <div className="relative w-full h-[400px] rounded-md overflow-hidden bg-neutral-200 shadow-inner">
                   <Image
                     src={article.photoUrl}
                     alt={article.headline}
@@ -141,7 +143,7 @@ function NewsArticlePage({
                   />
                 </div>
               ) : (
-                <div className="relative w-full h-[400px] rounded-2xl overflow-hidden bg-neutral-200 shadow-inner">
+                <div className="relative w-full h-[400px] rounded-md overflow-hidden bg-neutral-200 shadow-inner">
                   <div className="absolute inset-0 flex items-center justify-center text-neutral-400 italic">
                     [Article Image]
                   </div>
@@ -149,7 +151,7 @@ function NewsArticlePage({
               )}
 
               <div
-                className="prose prose-lg prose-p:mb-2 prose-headings:mb-3 prose-headings:mt-6 prose-headings:first:mt-0 max-w-none text-neutral-700 leading-relaxed min-h-[500px] w-full rounded-md [&_h1]:text-xl [&_h1]:font-bold [&_h2]:text-lg [&_h2]:font-semibold [&_h3]:text-base [&_h3]:font-semibold [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-2 [&_li]:my-0.5 [&_strong]:font-semibold [&_em]:italic"
+                className="prose prose-p:mb-2 prose-headings:mb-3 prose-headings:mt-6 prose-headings:first:mt-0 max-w-none text-neutral-700 leading-relaxed min-h-[500px] w-full rounded-md [&_h1]:text-xl [&_h1]:font-bold [&_h2]:text-lg [&_h2]:font-semibold [&_h3]:text-base [&_h3]:font-semibold [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-2 [&_li]:my-0.5 [&_strong]:font-semibold [&_em]:italic"
                 dangerouslySetInnerHTML={{
                   __html: article.body.trim() ? renderMarkdown(article.body) : "",
                 }}
@@ -165,9 +167,20 @@ function NewsArticlePage({
                     </span>
                   ))}
                 </div>
-                <Button variant="ghost" className="flex items-center gap-2 text-primary font-bold hover:opacity-70 transition-opacity">
+                <Button 
+                  variant="ghost" 
+                  className="flex items-center gap-2 text-primary font-bold hover:opacity-70 transition-opacity" 
+                  onClick={() => setIsShareModalOpen(true)}
+                >
                   <Share size={20} /> Share Article
                 </Button>
+
+                <ShareModal 
+                  isOpen={isShareModalOpen} 
+                  onClose={() => setIsShareModalOpen(false)} 
+                  url={window.location.href}
+                  title={article.headline}
+                />
               </div>
             </article>
           </div>

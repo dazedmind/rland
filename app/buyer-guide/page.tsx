@@ -129,7 +129,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
       onClick={() => setOpen(!open)}
     >
       <div className="flex items-center justify-between px-6 py-4 bg-neutral-50 hover:bg-neutral-100 transition-colors duration-200">
-        <h3 className="font-semibold text-primary text-sm md:text-base">
+        <h3 className="font-semibold text-primary text-md md:text-lg">
           {question}
         </h3>
         {open ? (
@@ -378,7 +378,7 @@ function BuyerGuidePage() {
               </p>
             </span>
 
-            <div className="flex flex-col gap-3 max-w-3xl">
+            <div className="flex flex-col gap-3">
               {faqs.map((faq) => (
                 <FAQItem
                   key={faq.question}

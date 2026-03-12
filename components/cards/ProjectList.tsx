@@ -7,6 +7,7 @@ import ScrollReveal from "../ui/ScrollReveal";
 import { developmentStage } from "@/lib/types";
 import ProjectListSkeleton from "../layout/skeleton/ProjectListSkeleton";
 import Link from "next/link";
+import { urlNameToSlug } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 function ProjectList({ limit, type }: { limit?: number, type: string }) {
@@ -95,7 +96,7 @@ function ProjectList({ limit, type }: { limit?: number, type: string }) {
                     md:flex-[0_0_50%]
                     lg:flex-[0_0_33.333%]"
                 >
-                  <Link href={`/projects/${project.id}`}>
+                  <Link href={`/projects/${urlNameToSlug(project.projectName)}`}>
                     <ProjectCard
                       projectImage={project.photoUrl}
                       projectName={project.projectName}
@@ -158,7 +159,7 @@ function ProjectList({ limit, type }: { limit?: number, type: string }) {
       {type === "grid" && (
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center gap-4 w-full ">
          {projects.map((project: any) => (
-           <Link key={project.id} href={`/projects/${project.id}`}>
+           <Link key={project.id} href={`/projects/${urlNameToSlug(project.projectName)}`}>
              <ProjectCard
                projectImage={project.photoUrl}
                projectName={project.projectName}

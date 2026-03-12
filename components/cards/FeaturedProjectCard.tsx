@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Bath, Bed, Car, LandPlot, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { urlNameToSlug } from "@/lib/utils";
 
 interface ProjectDetailProps {
   icon: React.ElementType;
@@ -203,7 +204,7 @@ function FeaturedProjectCard() {
                 </span>
                
               </div>
-              <Link href={`/projects/${project.id}?inventory=${unit.inventoryCode}`}>
+              <Link href={`/projects/${urlNameToSlug(project.projectName)}?inventory=${unit.inventoryCode}`}>
                 <Button
                   variant="primary"
                   size="sm"

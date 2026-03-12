@@ -5,7 +5,7 @@ import Footer from "@/components/layout/Footer";
 import PageBanner from "@/components/layout/PageBanner";
 import MobileNavBar from "@/components/layout/MobileNavBar";
 import { Input } from "@/components/ui/input";
-import { ChevronDownIcon, RotateCcw } from "lucide-react";
+import { ChevronDownIcon, RotateCcw, Trash2 } from "lucide-react";
 import {
   Table,
   TableHeader,
@@ -170,13 +170,13 @@ function LoanCalculatorPage() {
                   Calculator
                 </p>
                 <h2 className="text-4xl font-bold text-primary">
-                  Loan Details
+                  Enter Loan Details
                 </h2>
               </span>
 
               <div className="flex flex-col gap-3 border border-border rounded-md p-6">
                 {/* Text inputs */}
-                <div className="grid grid-cols-2 items-center gap-1.5">
+                <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-1.5">
                   <label className="text-sm font-semibold text-primary">
                     Total Contract Price (PHP)
                   </label>
@@ -198,7 +198,7 @@ function LoanCalculatorPage() {
                   />
                 </div>
 
-                <div className="grid grid-cols-2 items-center gap-1.5">
+                <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-1.5">
                   <label className="text-sm font-semibold text-primary">
                     Reservation Fee (PHP)
                   </label>
@@ -245,7 +245,7 @@ function LoanCalculatorPage() {
                     })),
                   },
                 ].map(({ label, field, options }) => (
-                  <div key={field} className="grid grid-cols-2 items-center gap-1.5">
+                  <div key={field} className="grid grid-cols-1 md:grid-cols-2 items-center gap-1.5">
                     <label className="text-sm font-semibold text-primary">
                       {label}
                     </label>
@@ -268,7 +268,7 @@ function LoanCalculatorPage() {
                   </div>
                 ))}
 
-                <div className="grid grid-cols-2 items-center gap-1.5">
+                <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-1.5">
                   <label className="text-sm font-semibold text-primary">
                     Interest Rate (% per annum)
                   </label>
@@ -303,7 +303,7 @@ function LoanCalculatorPage() {
                       field: "bankFeesPercentage" as keyof LoanInputs,
                     },
                   ].map(({ label, field }) => (
-                    <div key={field} className="grid grid-cols-2 items-center gap-1.5">
+                    <div key={field} className="grid grid-cols-1 md:grid-cols-2 items-center gap-1.5">
                       <label className="text-sm font-semibold text-primary">
                         {label}
                       </label>
@@ -325,9 +325,9 @@ function LoanCalculatorPage() {
                     onClick={handleClear}
                     variant="outline"
                     size="sm"
-                    className="w-full text-foreground mt-2"
+                    className="w-full text-primary mt-2 hover:text-destructive"
                   >
-                    <RotateCcw className="w-4 h-4 mr-2" /> Clear
+                    <Trash2 className="w-4 h-4" /> Clear
                   </Button>
                 )}
               </div>

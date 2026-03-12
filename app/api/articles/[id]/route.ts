@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { articles } from '@/db/schema';
-import { eq } from 'drizzle-orm';
+import { eq, or, sql } from 'drizzle-orm';
 import { requireApiKey } from '@/lib/api-auth';
 
 export async function GET(
@@ -15,14 +15,18 @@ export async function GET(
     const { id } = await params;
     const articleId = parseInt(id, 10);
 
-    if (isNaN(articleId)) {
-      return NextResponse.json({ error: 'Invalid article ID' }, { status: 400 });
-    }
-
+    // Resolve by id (if numeric) or by slug (headline: "Breaking News" -> "breaking-news")
     const result = await db
       .select()
       .from(articles)
-      .where(eq(articles.id, articleId))
+      .where(
+        isNaN(articleId)
+          ? sql`lower(replace(${articles.headline}, ' ', '-')) = ${id}`
+          : or(
+              eq(articles.id, articleId),
+              sql`lower(replace(${articles.headline}, ' ', '-')) = ${id}`
+            )
+      )
       .limit(1);
 
     const article = result[0] ?? null;

@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
+import { urlNameToSlug } from "@/lib/utils";
 import Image from "next/image";
 import NewsCardSkeleton from "@/components/layout/skeleton/NewsCardSkeleton";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
@@ -119,7 +120,7 @@ function FeaturedNewsCard() {
         </p>
    
         <Link
-          href={`/news/${currentArticle?.id}`}
+          href={`/news/${urlNameToSlug(currentArticle?.headline ?? "")}`}
           className="mt-4 py-2 font-bold text-primary flex items-center gap-2 hover:gap-4 transition-all"
         >
           Read Full Story <ArrowRight className="size-5" />

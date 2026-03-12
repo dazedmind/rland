@@ -36,7 +36,7 @@ const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
       <div
         ref={ref}
         className={cn(
-          "relative flex items-center justify-center gap-2 w-full rounded-md border-2 border-dashed border-border p-4 transition-all duration-300",
+          "relative flex items-center justify-center gap-2 w-full rounded-md border border-dashed border-border p-4 transition-all duration-300",
           !file ? "bg-background hover:bg-accent hover:text-accent-foreground cursor-pointer" : "bg-muted/50 border-solid",
           "has-[.delete-btn:hover]:bg-destructive/10 has-[.delete-btn:hover]:border-destructive/50",
           className
@@ -60,7 +60,7 @@ const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
         ) : (
           <div className="z-20 flex w-full items-center justify-between px-1">
             <div className="flex items-center gap-2 overflow-hidden">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded bg-primary/10">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center">
                 <FileText className="h-5 w-5 text-primary" />
               </div>
               <div className="flex flex-col overflow-hidden">
@@ -76,10 +76,10 @@ const FileUpload = React.forwardRef<HTMLDivElement, FileUploadProps>(
             <button
               type="button"
               onClick={handleRemove}
-              className="delete-btn group rounded-md p-2 transition-colors hover:bg-destructive/20"
+              className="delete-btn group rounded-md p-2 transition-colors"
               title="Remove file"
             >
-              <Trash2 className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-destructive" />
+              <Trash2 className="h-4 w-4 cursor-pointer text-muted-foreground transition-colors group-hover:text-destructive" />
             </button>
           </div>
         )}

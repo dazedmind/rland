@@ -17,7 +17,7 @@ function BackButton({
       >
         <ChevronLeft className="size-6" />
       </Link>
-      <p className="text-lg font-medium text-primary">Back to {mainPageName}</p>
+      <p className="text-base font-medium text-primary">Back to {mainPageName}</p>
     </span>
   );
 }

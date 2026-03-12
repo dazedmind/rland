@@ -19,14 +19,15 @@ import Image from "next/image";
 import ModelCard from "@/components/cards/ModelCard";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ProjectDetails, getMinMaxArea, getPriceRange } from "@/app/utils/types";
+import { ProjectDetails, ProjectModel, getMinMaxArea, getPriceRange } from "@/app/utils/types";
 import ProjectDetailsSkeleton from "@/components/layout/skeleton/ProjectDetailsSkeleton";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { priceFormatter } from "@/app/utils/priceFormatter";
 import ContactSection from "@/components/layout/ContactSection";
-import ProjectImageCarousel from "@/components/ProjectImageCarousel";
+import ProjectImageCarousel from "@/components/layout/ProjectImageCarousel";
 import BackButton from "@/components/layout/BackButton";
 import { dateFormatter } from "@/app/utils/dateFormatter";
+import ModelDetailsModal from "@/components/modals/ModelDetailsModal";
 
 export const runtime = "edge";
 
@@ -39,14 +40,15 @@ const sections = [
   { id: "contact", label: "Contact Us" },
 ];
 
-const landmarkIcon = [
+const landmarkIcon: { icon: React.ElementType; category: string }[] = [
   { icon: Hospital, category: "Hospitals" },
   { icon: School, category: "Schools" },
+  { icon: ShoppingCart, category: "Shops" },
   { icon: ShoppingCart, category: "Shopping Centers" },
   { icon: Landmark, category: "Landmarks" },
   { icon: TreePalm, category: "Leisure Parks" },
   { icon: Building, category: "Common Landmarks" },
-]
+];
 
 const typeMap = {
   houselot: "House & Lot",
@@ -64,6 +66,7 @@ function ProjectDetailsPage({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [project, setProject] = useState<ProjectDetails[]>([]);
+  const [selectedModel, setSelectedModel] = useState<ProjectModel | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -122,7 +125,7 @@ function ProjectDetailsPage({
           return;
         }
         const data = await res.json();
-        setProject(data?.project ? [{ project: data.project, models: data.models ?? [], inventory: data.featuredUnits ?? [] }] : []);
+        setProject(data?.project ? [{ project: data.project, models: data.models ?? [], inventory: data.featuredUnits ?? [], gallery: data.gallery ?? [] }] : []);
       } catch (error) {
         console.error("Error fetching project:", error);
         setError("Failed to load project");
@@ -323,32 +326,47 @@ function ProjectDetailsPage({
         <ScrollReveal delay={150}>
           <section
             id="landmarks"
-            className="flex flex-col items-start px-8 md:px-16 lg:px-44 xl:px-64 justify-center py-16 space-y-8 bg-neutral-100 scroll-mt-24"
+            className="flex flex-col items-start px-8 md:px-16 lg:px-44 xl:px-64 justify-center py-16 space-y-8 bg-neutral-50 scroll-mt-24"
           >
           <span className="flex flex-col gap-4 w-full">
             <h1 className="text-4xl font-bold">Nearby Landmarks</h1>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {(project[0]?.project?.landmarks ?? []).map((group, idx) => {
-                  const items = group.items ?? group.landmarks ?? [];
+              {(() => {
+                const raw = project[0]?.project?.landmarks;
+                const groups: { category: string; items: string[] }[] = [];
+                if (Array.isArray(raw)) {
+                  raw.forEach((g: { category: string; items?: string[]; landmarks?: string[] }) => {
+                    const items = g.items ?? g.landmarks ?? [];
+                    if (items.length > 0) groups.push({ category: g.category, items });
+                  });
+                } else if (raw && typeof raw === "object" && !Array.isArray(raw)) {
+                  Object.entries(raw).forEach(([category, items]) => {
+                    const arr = Array.isArray(items) ? items : [];
+                    if (arr.length > 0) groups.push({ category, items: arr });
+                  });
+                }
+                return groups.map(({ category, items }, idx) => {
+                  const Icon = landmarkIcon.find((i) => i.category === category)?.icon ?? Building;
                   return (
-                    <div key={idx} className="flex flex-col gap-2 rounded-sm p-4">
-                      <p className="flex items-center gap-2 text-xl font-bold">
-                        <span>
-                          {landmarkIcon.find((icon) => icon.category === group.category)?.icon && createElement(landmarkIcon.find((icon) => icon.category === group.category)?.icon as any, { className: "size-8 text-secondary" })}
-                        </span>
-                      
-                        {group.category}
-                      </p>
-                      <ul className="list-disc list-outside text-slate-800 max-w-3xl pl-5">
-                        {items.map((item: string, i: number) => (
-                          <li key={`${idx}-${i}`}>{item}</li>
-                        ))}
-                      </ul>
+                    <div key={`${category}-${idx}`}>
+                          <p className="flex items-center gap-2 p-4 rounded-md text-white text-xl font-medium bg-primary">
+                          <span>{createElement(Icon, { className: "size-8 text-white stroke-1" })}</span>
+                          {category}
+                        </p>
+                       
+                      <div className="flex flex-col gap-2 rounded-b-md p-4">
+                     
+                        <ul className="list-disc list-inside text-slate-800 max-w-3xl pl-3">
+                          {items.map((item, i) => (
+                            <li key={`${idx}-${i}`}>{item}</li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
                   );
-                }
-              )}
+                });
+              })()}
             </div>
           </span>
         </section>
@@ -373,6 +391,7 @@ function ProjectDetailsPage({
                   carports={model.details?.carport ?? 0}
                   livingAndDining={model.details?.livingRoom ?? 0}
                   kitchen={model.details?.kitchen ?? 0}
+                  onViewDetails={() => setSelectedModel(model)}
                 />
               ))}
           </span>
@@ -420,6 +439,15 @@ function ProjectDetailsPage({
       <footer>
         <Footer />
       </footer>
+
+      <ModelDetailsModal
+        model={selectedModel}
+        project={project[0]?.project ?? null}
+        inventory={inventory}
+        gallery={project[0]?.gallery ?? []}
+        isOpen={!!selectedModel}
+        onClose={() => setSelectedModel(null)}
+      />
     </div>
   );
 }

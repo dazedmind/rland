@@ -49,7 +49,17 @@ export type Project = {
     location: string;
     stage: DevelopmentStage;
     type: ProjectType;
-    photoUrl: string;
+    photoUrl?: string;
+    logoUrl?: string;
+    mapLink?: string;
+    accentColor?: string;
+    landmarks: LandmarkGroup[];
+    amenities: string[];
+    description?: string;
+    address?: string;
+    salesOffice?: string;
+    dhsudNumber?: string;
+    completionDate?: Date;
 }
 
 export type Promo = {
@@ -61,4 +71,10 @@ export type Promo = {
     status: string;
     startDate: Date;
     endDate: Date;
+}
+
+export type LandmarkGroup = {
+    category: string;
+    items?: string[];
+    landmarks?: string[];
 }

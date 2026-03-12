@@ -23,12 +23,17 @@ export type ProjectModel = {
   details: ProjectModelDetails | null;
 };
 
-/** Landmark category group (JSON format from DB) */
+/** Landmark category group (array format) */
 export type LandmarkGroup = {
   category: string;
   items?: string[];
   landmarks?: string[];
 };
+
+/** Landmarks can be array of groups OR object { [category]: string[] } */
+export type ProjectLandmarks =
+  | LandmarkGroup[]
+  | Record<string, string[]>;
 
 /** Project base info */
 export type ProjectBase = {
@@ -42,7 +47,7 @@ export type ProjectBase = {
   type: string;
   description?: string | null;
   amenities: string[];
-  landmarks?: LandmarkGroup[];
+  landmarks?: ProjectLandmarks;
   accentColor?: string | null;
   address?: string | null;
   salesOffice?: string | null;
@@ -70,6 +75,8 @@ export type ProjectDetails = {
   models: ProjectModel[];
   /** Inventory or featured units (used for price range) */
   inventory: (ProjectInventory | FeaturedInventoryUnit)[];
+  /** Gallery images from project_gallery (modelId null = project-level, else model-specific) */
+  gallery?: { imageUrl: string; modelId: string | null }[];
 };
 
 /** Inventory unit with model - for featured/search listings */

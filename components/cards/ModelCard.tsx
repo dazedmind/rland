@@ -11,6 +11,7 @@ function ModelCard({
   livingAndDining,
   kitchen,
   photoUrl,
+  onViewDetails,
 }: {
   modelName: string;
   description: string;
@@ -20,6 +21,7 @@ function ModelCard({
   livingAndDining: number;
   kitchen: number;
   photoUrl?: string | null;
+  onViewDetails?: () => void;
 }) {
   const specs = [
     { icon: Bed,      value: bedrooms,       label: "Bedrooms"        },
@@ -77,11 +79,17 @@ function ModelCard({
         </div>
 
         {/* CTA */}
-        <div className="flex items-center justify-center bg-primary hover:bg-primary-fg cursor-pointer p-4 sm:border-l border-border shrink-0 transition-all duration-300">
+        <div
+          className="flex items-center justify-center bg-primary hover:bg-primary-fg cursor-pointer p-4 sm:border-l border-border shrink-0 transition-all duration-300"
+          onClick={() => onViewDetails?.()}
+          role="button"
+          tabIndex={onViewDetails ? 0 : -1}
+          onKeyDown={(e) => e.key === "Enter" && onViewDetails?.()}
+        >
           <Button
             variant="ghost"
             size="lg"
-            className="text-white hover:text-white"
+            className="text-white hover:text-white pointer-events-none"
           >
             View More Details <Maximize2 className="size-4" />
           </Button>

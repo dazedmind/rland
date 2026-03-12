@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 import Link from "next/link";
+import { urlNameToSlug } from "@/lib/utils";
 import { dateFormatter } from "@/app/utils/dateFormatter";
 import NewsCardListSkeleton from "../layout/skeleton/NewsCardListSkeleton";
 import { Button } from "@/components/ui/button";
@@ -110,7 +111,7 @@ function NewsCard({limit}: {limit?: number}) {
                     <p className="text-sm text-neutral-600 mb-6 line-clamp-3 flex-1">
                       {article.body}
                     </p>
-                    <Link href={`/news/${article.id}`}>
+                    <Link href={`/news/${urlNameToSlug(article.headline)}`}>
                       <Button
                         variant="outline"
                         size="sm"

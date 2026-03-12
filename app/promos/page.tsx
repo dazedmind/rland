@@ -35,6 +35,10 @@ function PromosPage() {
     fetchPromos();
   }, []);
 
+  const scrollToSection = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div className="pt-20 md:pt-30">
       <header>
@@ -87,7 +91,7 @@ function PromosPage() {
                     Don't miss out on future deals
                   </h3>
                   <p className="text-neutral-300">
-                    Subscribe to get notified as soon as new promos drop.
+                    Subscribe to our newsletter and get notified as soon as new promos drop.
                   </p>
                 </div>
                 <div className="relative z-10 w-full md:w-auto">
@@ -95,6 +99,7 @@ function PromosPage() {
                     variant="default"
                     size="sm"
                     className="w-full md:w-auto text-white"
+                    onClick={() => scrollToSection("newsletter")}
                   >
                     <Bell className="size-5" strokeWidth={3}/>
                     Notify Me
@@ -107,7 +112,7 @@ function PromosPage() {
         </>
       )}
 
-      <footer>
+      <footer id="newsletter">
         <Footer />
       </footer>
     </div>
