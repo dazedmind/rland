@@ -163,7 +163,6 @@ export type Career = {
   location: Location;
   department: string;
   jobDescription: string;
-  purpose: string;
   responsibilities: string;
   qualifications: string;
   requiredSkills: string;
@@ -173,12 +172,9 @@ export type Career = {
 }
 
 export const location = {
-  'Quezon City (Main Office)': 'Quezon City (Main Office)',
-  'Metro Manila': 'Metro Manila',
-  'Cavite': 'Cavite',
-  'Laguna': 'Laguna',
-  'Batangas': 'Batangas',
-  'Pampanga': 'Pampanga',
+  'Quezon City (Head Office)': 'Quezon City (Head Office)',
+  'Lipa, Batangas': 'Lipa, Batangas',
+  'Angeles, Pampanga': 'Angeles, Pampanga',
 } as const;
 export type Location = (typeof location)[keyof typeof location];
 

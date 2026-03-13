@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { careers } from '@/db/schema';
-import { and, eq } from 'drizzle-orm';
+import { and, desc, eq } from 'drizzle-orm';
 import { requireApiKey } from '@/lib/api-auth';
+import { urlNameToSlug } from '@/lib/utils';
 
 export async function GET(
   request: NextRequest,
@@ -14,18 +15,27 @@ export async function GET(
   try {
     const { id } = await params;
     const careerId = parseInt(id, 10);
+    const isNumericId = !isNaN(careerId);
 
-    if (isNaN(careerId)) {
-      return NextResponse.json({ error: 'Invalid career ID' }, { status: 400 });
+    let career;
+
+    if (isNumericId) {
+      const result = await db
+        .select()
+        .from(careers)
+        .where(and(eq(careers.id, careerId), eq(careers.status, 'hiring')))
+        .limit(1);
+      career = result[0] ?? null;
+    } else {
+      // Lookup by slug (position converted to slug)
+      const slug = urlNameToSlug(id);
+      const allHiring = await db
+        .select()
+        .from(careers)
+        .where(eq(careers.status, 'hiring'))
+        .orderBy(desc(careers.createdAt));
+      career = allHiring.find((c) => urlNameToSlug(c.position) === slug) ?? null;
     }
-
-    const result = await db
-      .select()
-      .from(careers)
-      .where(and(eq(careers.id, careerId), eq(careers.status, 'hiring')))
-      .limit(1);
-
-    const career = result[0] ?? null;
 
     if (!career) {
       return NextResponse.json({ error: 'Career not found' }, { status: 404 });

@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { articles } from '@/db/schema';
-import { eq, or, sql } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import { requireApiKey } from '@/lib/api-auth';
+import { urlNameToSlug } from '@/lib/utils';
 
 export async function GET(
   request: NextRequest,
@@ -14,22 +15,25 @@ export async function GET(
   try {
     const { id } = await params;
     const articleId = parseInt(id, 10);
+    const isNumericId = !isNaN(articleId);
+    let article;
 
-    // Resolve by id (if numeric) or by slug (headline: "Breaking News" -> "breaking-news")
-    const result = await db
-      .select()
-      .from(articles)
-      .where(
-        isNaN(articleId)
-          ? sql`lower(replace(${articles.headline}, ' ', '-')) = ${id}`
-          : or(
-              eq(articles.id, articleId),
-              sql`lower(replace(${articles.headline}, ' ', '-')) = ${id}`
-            )
-      )
-      .limit(1);
-
-    const article = result[0] ?? null;
+      if (isNumericId) {
+        const result = await db
+          .select()
+          .from(articles)
+          .where(eq(articles.id, articleId))
+          .limit(1);
+        article = result[0] ?? null;
+      } else {
+        // Lookup by slug (position converted to slug)
+        const slug = urlNameToSlug(id);
+        const allArticles = await db
+          .select()
+          .from(articles)
+          .orderBy(desc(articles.createdAt));
+        article = allArticles.find((a) => urlNameToSlug(a.headline) === slug) ?? null;
+      }
 
     if (!article) {
       return NextResponse.json({ error: 'Article not found' }, { status: 404 });

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { dateFormatter } from "@/app/utils/dateFormatter";
 import CareerListSkeleton from "../layout/skeleton/CareerListSkeleton";
 import { department } from "@/app/utils/types";
+import { urlNameToSlug } from "@/lib/utils";
 
 type Career = {
   id: number;
@@ -84,6 +85,10 @@ function CareerCard({
     }
   };
 
+  const truncateDescription = (description: string) => {
+    return description.length > 200 ? description.slice(0, 200) + "..." : description;
+  }
+
   useEffect(() => {
     fetchCareerListing();
   }, [effectivePage, selectedDepartment, selectedLocation, excludeId, effectiveLimit]);
@@ -111,9 +116,9 @@ function CareerCard({
                 <Clock className="w-4 h-4" /> Posted: {dateFormatter(career.createdAt)}
               </p>
               <p className="text-sm text-neutral-500">
-                {career.jobDescription}
+                {truncateDescription(career.jobDescription)}
               </p>
-              <Link href={`/careers/${career.id}`}>
+              <Link href={`/careers/${urlNameToSlug(career.position)}`}>
                 <Button size="sm" variant="primary" className="w-full lg:w-fit text-white">
                   Apply Now
                 </Button>

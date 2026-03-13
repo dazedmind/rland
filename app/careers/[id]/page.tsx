@@ -17,7 +17,6 @@ type Career = {
   position: string;
   location: string;
   jobDescription: string;
-  purpose: string;
   responsibilities: string;
   qualifications: string;
   requiredSkills: string;
@@ -107,7 +106,7 @@ function CareerDetailsPage({
               </span>
 
               <h2 className="text-2xl font-bold">Purpose and Scope</h2>
-              <p className="leading-relaxed">{career?.purpose}</p>
+              <p className="leading-relaxed">{career?.jobDescription}</p>
 
               <h2 className="text-2xl font-bold">
                 Specific Duties and Responsibilities:
@@ -164,7 +163,7 @@ function CareerDetailsPage({
             <div className="w-full grid grid-cols-1 gap-4">
               <CareerCard
                 limit={3}
-                excludeId={id && !isNaN(parseInt(id, 10)) ? parseInt(id, 10) : undefined}
+                excludeId={career?.id}
               />
             </div>
           </div>

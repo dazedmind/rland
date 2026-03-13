@@ -1,4 +1,4 @@
-import { Input } from "@/components/ui/input";
+import { useRef } from "react";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -26,6 +26,7 @@ function ContactForm() {
   const [formData, setFormData] = useState(EMPTY_FORM_DATA);
   const [checkbox, setCheckbox] = useState(false);
   const [hcaptchaToken, setHcaptchaToken] = useState('');
+  const captchaRef = useRef<HCaptcha>(null);
 
   const handleHcaptchaError = (error: any) => {
     console.error('HCaptcha error:', error);
@@ -104,6 +105,8 @@ function ContactForm() {
         setFormData({
           ...EMPTY_FORM_DATA,
         });
+        captchaRef.current?.resetCaptcha();
+        setHcaptchaToken('');
       } else {
         toast.error('Failed to submit inquiry');
       }
@@ -219,6 +222,7 @@ function ContactForm() {
           onVerify={handleVerification}
           onExpire={handleExpiration}
           onError={handleHcaptchaError}
+          ref={captchaRef}
         />
 
         <div className="flex justify-end items-center w-full col-span-2">

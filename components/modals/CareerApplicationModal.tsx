@@ -21,7 +21,6 @@ type Career = {
   position: string;
   location: string;
   jobDescription: string;
-  purpose: string;
   responsibilities: string;
   qualifications: string;
   requiredSkills: string;

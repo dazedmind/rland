@@ -298,7 +298,6 @@ export const careers = pgTable('careers', {
   department:     departmentEnum('department').notNull().default('marketing'),
   location:       text('location').notNull(),
   jobDescription: text('job_description').notNull(),
-  purpose:        text('purpose').notNull(),
   responsibilities: text('responsibilities').notNull(),
   qualifications: text('qualifications').notNull(),
   requiredSkills: text('required_skills').notNull(),
