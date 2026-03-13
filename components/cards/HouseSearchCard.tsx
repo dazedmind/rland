@@ -99,7 +99,7 @@ function HouseSearchCard({ price, unit, modelCard }: HouseSearchCardProps) {
 
       <div className="flex flex-col md:flex-row">
         {/* LEFT — image */}
-        <div className="relative w-full h-100 md:h-50 lg:h-auto md:w-[200px] lg:w-[200px] shrink-0 overflow-hidden bg-neutral-100">
+        <div className="relative w-full aspect-square lg:h-auto md:w-[200px] lg:w-[200px] shrink-0 overflow-hidden bg-neutral-100">
           <div className="grid grid-cols-1 w-full h-full">
             {/* Unit photo */}
             <div

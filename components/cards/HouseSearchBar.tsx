@@ -80,9 +80,6 @@ function HouseSearchBar({ className, initialLocation = "", initialPriceRange }: 
         </select>
       </div>
 
-      <Separator orientation="vertical" className="hidden md:block h-full bg-neutral-200" />
-      <Separator orientation="horizontal" className="w-full md:hidden bg-neutral-200" />
-      
       <div className="flex flex-col items-center gap-3 w-full">
         <div className="flex flex-row items-center justify-between gap-2 w-full">
           <span className="text-muted-foreground text-sm">
