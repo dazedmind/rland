@@ -34,6 +34,7 @@ function NewsArticlePage({
   const [error, setError] = useState<string | null>(null);
   const [id, setId] = useState<string | null>(null);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     if (params && typeof (params as Promise<{ id: string }>).then === "function") {
@@ -106,7 +107,12 @@ function NewsArticlePage({
   return (
     <div className="pt-15 md:pt-25">
       <header>
-        <NavBar isScrolled={true} />
+        <NavBar
+          isScrolled={true}
+          isMenuOpen={isMenuOpen}
+          setIsMenuOpen={setIsMenuOpen}
+        />
+        <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       </header>
 
       <main>
@@ -119,8 +125,8 @@ function NewsArticlePage({
 
             </div>
 
-            <article className="space-y-8">
-              <h1 className="text-4xl font-bold leading-tight text-primary uppercase">
+            <article className="space-y-4">
+              <h1 className="text-2xl md:text-4xl font-bold leading-tight text-primary uppercase">
                 {article.headline}
               </h1>
               <div className="flex flex-wrap items-center gap-6 text-sm text-neutral-500 border-b border-neutral-100 pb-6">
@@ -134,7 +140,7 @@ function NewsArticlePage({
               </div>
 
               {article.photoUrl ? (
-                <div className="relative w-full h-[400px] rounded-md overflow-hidden bg-neutral-200 shadow-inner">
+                <div className="relative w-full md:h-[400px] aspect-video rounded-md overflow-hidden bg-neutral-200 shadow-inner">
                   <Image
                     src={article.photoUrl}
                     alt={article.headline}

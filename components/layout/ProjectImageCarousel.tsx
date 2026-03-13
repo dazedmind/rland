@@ -79,7 +79,7 @@ function ProjectImageCarousel({ images, alt = "Project", className = "" }: Proje
           type="button"
           onClick={scrollPrev}
           disabled={!canScrollPrev}
-          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white/90 shadow-lg hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+          className={`absolute -left-20 top-1/2 -translate-y-1/2 z-10 hidden xl:flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-lg border border-border hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all`}
           aria-label="Previous slide"
         >
           <ChevronLeft className="size-6 text-neutral-800" />
@@ -88,7 +88,7 @@ function ProjectImageCarousel({ images, alt = "Project", className = "" }: Proje
           type="button"
           onClick={scrollNext}
           disabled={!canScrollNext}
-          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white/90 shadow-lg hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+          className={`absolute -right-20 top-1/2 -translate-y-1/2 z-10 hidden xl:flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-lg border border-border hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all`}
           aria-label="Next slide"
         >
           <ChevronRight className="size-6 text-neutral-800" />

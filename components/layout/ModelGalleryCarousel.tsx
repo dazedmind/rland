@@ -95,12 +95,7 @@ function ModelGalleryCarousel({
           <div
             className={`overflow-hidden bg-white ${images.length > 1 ? "px-10" : ""}`}
           >
-            <div
-              className="flex items-center justify-center gap-2 overflow-x-auto pb-1 scrollbar-thin scroll-smooth"
-              style={{
-                scrollbarWidth: "thin",
-              }}
-            >
+            <div className="flex items-center justify-center gap-2 overflow-x-auto pb-1 scrollbar-hidden">
               {images.map((src, i) => (
                 <button
                   key={i}

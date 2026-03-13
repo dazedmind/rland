@@ -23,13 +23,6 @@ export type ProjectModel = {
   details: ProjectModelDetails | null;
 };
 
-/** Landmark category group (array format) */
-export type LandmarkGroup = {
-  category: string;
-  items?: string[];
-  landmarks?: string[];
-};
-
 /** Landmarks can be array of groups OR object { [category]: string[] } */
 export type ProjectLandmarks =
   | LandmarkGroup[]
@@ -46,7 +39,7 @@ export type ProjectBase = {
   mapLink: string | null;
   type: string;
   description?: string | null;
-  amenities: string[];
+  amenities: { photoUrl: string; name: string }[];
   landmarks?: ProjectLandmarks;
   accentColor?: string | null;
   address?: string | null;
@@ -133,3 +126,115 @@ export function getPriceRange(
     maxPrice: prices.length > 0 ? Math.max(...prices) : 0,
   };
 }
+
+export const developmentStage = {
+  pre_selling: 'Pre-selling',
+  ongoing_development: 'Ongoing Development',
+  completed: 'Completed',
+  cancelled: 'Cancelled',
+  coming_soon: 'Coming Soon',
+} as const;
+export type DevelopmentStage = (typeof developmentStage)[keyof typeof developmentStage];
+
+export const careerStatus = {
+  hiring: 'hiring',
+  closed: 'closed',
+  archived: 'archived',
+} as const;
+export type CareerStatus = (typeof careerStatus)[keyof typeof careerStatus];
+
+export const projectStatus = {
+  active: 'active',
+  inactive: 'inactive',
+  archived: 'archived',
+} as const;
+export type ProjectStatus = (typeof projectStatus)[keyof typeof projectStatus];
+
+export const projectType = {
+  residential: 'residential',
+  commercial: 'commercial',
+  industrial: 'industrial',
+} as const;
+export type ProjectType = (typeof projectType)[keyof typeof projectType];
+
+export type Career = {
+  id: number;
+  position: string;
+  location: Location;
+  department: string;
+  jobDescription: string;
+  purpose: string;
+  responsibilities: string;
+  qualifications: string;
+  requiredSkills: string;
+  status: CareerStatus;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export const location = {
+  'Quezon City (Main Office)': 'Quezon City (Main Office)',
+  'Metro Manila': 'Metro Manila',
+  'Cavite': 'Cavite',
+  'Laguna': 'Laguna',
+  'Batangas': 'Batangas',
+  'Pampanga': 'Pampanga',
+} as const;
+export type Location = (typeof location)[keyof typeof location];
+
+export const department = {
+  marketing: 'Sales & Marketing',
+  executive: 'Executive',
+  engineering: 'Engineering ',
+  design: 'Design & Architecture',
+  hr: 'Human Resources',
+  finance: 'Finance',
+  it: 'Information Technology',
+  legal: 'Legal',
+  operations: 'Operations',
+  customer_service: 'Customer Service',
+  product: 'Product Management',
+}
+
+export type Department = (typeof department)[keyof typeof department];
+
+
+export type Project = {
+  id: string;
+  projectCode: string;
+  projectName: string;
+  status: ProjectStatus;
+  location: string;
+  stage: DevelopmentStage;
+  type: ProjectType;
+  photoUrl?: string;
+  logoUrl?: string;
+  mapLink?: string;
+  accentColor?: string;
+  landmarks: LandmarkGroup[];
+  amenities: { photoUrl: string; name: string }[];
+  description?: string;
+  address?: string;
+  salesOffice?: string;
+  dhsudNumber?: string;
+  completionDate?: Date;
+}
+
+export type Promo = {
+  id: number;
+  title: string;
+  description: string;
+  imageUrl: string;
+  linkUrl: string;
+  status: string;
+  startDate: Date;
+  endDate: Date;
+}
+
+export type LandmarkGroup = {
+  category: string;
+  items?: string[];
+  landmarks?: string[];
+}
+
+export type ArticleType = 'news' | 'blog' | 'announcement' | 'event';

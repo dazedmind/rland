@@ -8,6 +8,7 @@ import BackButton from "@/components/layout/BackButton";
 import { HiMail } from "react-icons/hi";
 import CareerApplicationModal from "@/components/modals/CareerApplicationModal";
 import { Button } from "@/components/ui/button";
+import MobileNavBar from "@/components/layout/MobileNavBar";
 
 export const runtime = "edge";
 
@@ -46,6 +47,7 @@ function CareerDetailsPage({
   const [error, setError] = useState<string | null>(null);
   const [career, setCareer] = useState<Career | null>(null);
   const [isApplicationModalOpen, setIsApplicationModalOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -80,7 +82,12 @@ function CareerDetailsPage({
   return (
     <div className="pt-15 md:pt-25">
       <header>
-        <NavBar isScrolled={true} />
+        <NavBar
+          isScrolled={true}
+          isMenuOpen={isMenuOpen}
+          setIsMenuOpen={setIsMenuOpen}
+        />
+        <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       </header>
 
       <main className="flex flex-col lg:flex-row justify-start items-start px-8 md:px-24 xl:px-44 gap-8 py-16">
@@ -155,7 +162,10 @@ function CareerDetailsPage({
             <div className="w-full h-px bg-border"></div>
 
             <div className="w-full grid grid-cols-1 gap-4">
-              <CareerCard limit={3} />
+              <CareerCard
+                limit={3}
+                excludeId={id && !isNaN(parseInt(id, 10)) ? parseInt(id, 10) : undefined}
+              />
             </div>
           </div>
         </section>

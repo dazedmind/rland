@@ -3,14 +3,26 @@ import NavBar from "@/components/layout/NavBar";
 import Footer from "@/components/layout/Footer";
 import MobileNavBar from "@/components/layout/MobileNavBar";
 import { useState } from "react";
-import { ArrowDown, ChevronDownIcon } from "lucide-react";
-import { Field, FieldLabel } from "@/components/ui/field";
 import CareerCard from "@/components/cards/CareerCard";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import { location, department } from "@/app/utils/types";
+import DropSelect from "@/components/ui/DropSelect";
 
 function CareersPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedDepartment, setSelectedDepartment] = useState('');
+  const [page, setPage] = useState(1);
+
+  const handleDepartmentChange = (value: string) => {
+    setSelectedDepartment(value);
+    setPage(1);
+  };
+  const handleLocationChange = (value: string) => {
+    setSelectedLocation(value);
+    setPage(1);
+  };
 
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
@@ -64,37 +76,42 @@ function CareersPage() {
               <h2 className="text-3xl font-bold text-primary">Current Job Openings</h2>
 
               <span className="flex flex-row gap-4 w-full md:w-1/2 justify-end">
-                <Field>
-                  <FieldLabel>Department</FieldLabel>
-                  <div className="relative">
-                    <ChevronDownIcon className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500" />
-                    <select className="w-full h-10 text-sm text-black rounded-md px-3 appearance-none">
-                      <option value={6}>Marketing</option>
-                      <option value={12}>Property Management</option>
-                      <option value={18}>HR & Admin</option>
-                      <option value={24}>Other</option>
-                    </select>
-                  </div>
-                </Field>
+                <DropSelect
+                  label="Department"
+                  selectName="department"
+                  selectId="department"
+                  onChange={(e) => handleDepartmentChange(e.target.value)}
+                  value={selectedDepartment}
+                >
+                  <option value="">All Departments</option>
+                  {Object.entries(department).map(([key, label]) => (
+                    <option key={key} value={key}>{label}</option>
+                  ))}
+                </DropSelect>
 
-                <Field>
-                  <FieldLabel>Location</FieldLabel>
-                  <div className="relative">
-                    <ChevronDownIcon className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500" />
-                    <select className="w-full h-10 text-sm text-black rounded-md px-3 ppearance-none">
-                      <option value={6}>Angeles City, Pampanga</option>
-                      <option value={12}>Lipa City, Batangas</option>
-                      <option value={18}>Quezon City, Metro Manila</option>
-                      <option value={24}>Other</option>
-                    </select>
-                  </div>
-                </Field>
+                <DropSelect
+                  label="Location"
+                  selectName="location"
+                  selectId="location"
+                  onChange={(e) => handleLocationChange(e.target.value)}
+                  value={selectedLocation}
+                >
+                  <option value="">All Locations</option>
+                  {Object.entries(location).map(([key, label]) => (
+                    <option key={key} value={key}>{label}</option>
+                  ))}
+                </DropSelect>
               </span>
             </div>
 
             {/* CARDS */}
             <div className="w-full grid grid-cols-1 gap-4">
-              <CareerCard />
+              <CareerCard
+                page={page}
+                onPageChange={setPage}
+                selectedDepartment={selectedDepartment || undefined}
+                selectedLocation={selectedLocation || undefined}
+              />
             </div>
           </div>
         </section>

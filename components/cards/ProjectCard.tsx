@@ -48,8 +48,8 @@ function ProjectCard({
           height={100}
           className="w-full h-full object-cover saturate-0 opacity-10"
         />
-
-        <p className="absolute bottom-3 right-0 text-white font-bold bg-linear-to-r from-transparent to-secondary px-3 p-1 w-fit uppercase text-xs">
+        
+        <p className="absolute bottom-3 right-0 text-white font-bold bg-linear-to-r from-secondary/10 to-yellow-600 px-3 p-1.5 w-fit tracking-wide uppercase text-xs">
           {projectStatus}
         </p>
       </div>
@@ -58,6 +58,7 @@ function ProjectCard({
         <span>
           <h1 className="text-xl font-bold text-primary">{projectName}</h1>
           <p className="text-sm text-neutral-500 flex items-center gap-1"><MapPin className="size-4" /> {projectLocation}</p>
+        
         </span>
           <Button size="icon" variant="outline"
             className="hover:bg-transparent hover:text-primary"

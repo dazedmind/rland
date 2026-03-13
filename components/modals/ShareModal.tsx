@@ -52,7 +52,7 @@ const ShareModal = ({ url, title, isOpen, onClose }: ShareModalProps) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={handleClickOutside}>
-      <div className="bg-white rounded-lg p-6 w-full max-w-sm md:max-w-lg shadow-xl">
+      <div className="bg-white rounded-lg p-6 w-full max-w-xs md:max-w-sm shadow-xl">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-bold">Found this article useful? Share it with your friends!</h3>
         </div>

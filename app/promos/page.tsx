@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import PromoCard from "@/components/cards/PromoCard";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import promo1 from "@/public/promo-sample.png";
-import { Promo } from "@/lib/types";
+import { Promo } from "@/app/utils/types";
 import { dateFormatter } from "../utils/dateFormatter";
 import PromoPageSkeleton from "@/components/layout/skeleton/PromoPageSkeleton";
 import { Button } from "@/components/ui/button";

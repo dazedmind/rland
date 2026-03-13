@@ -18,6 +18,8 @@ import MobileNavBar from "@/components/layout/MobileNavBar";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import CountUp from '@/components/ui/CountUp'
 
 const companyValues = [
   {
@@ -53,15 +55,15 @@ const companyValues = [
 ];
 
 const stats = [
-  { value: "3+", label: "Active Projects" },
-  { value: "500+", label: "Families Housed" },
-  { value: "10+", label: "Years of Experience" },
-  { value: "2", label: "Cities Served" },
+  { value: 3, label: "Active Projects" },
+  { value: 500, label: "Families Housed" },
+  { value: 10, label: "Years of Experience" },
+  { value: 2, label: "Cities Served" },
 ];
 
 function AboutUs() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const router = useRouter();
   return (
     <div className="pt-15 md:pt-25">
       <header>
@@ -72,12 +74,6 @@ function AboutUs() {
         />
         <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       </header>
-
-      {/* <PageBanner
-        title="About R Land"
-        description="Learn more about R Land and our mission"
-        breadcrumb="About Us"
-      /> */}
 
       <main className="flex flex-col">
         {/* ── HERO INTRO ── */}
@@ -140,7 +136,15 @@ function AboutUs() {
               {stats.map((stat) => (
                 <div key={stat.label} className="flex flex-col gap-1">
                   <span className="text-4xl md:text-5xl font-black text-secondary">
-                    {stat.value}
+                    {/* <CountUp end={stat.value} /> */}
+                    <CountUp
+                      from={0}
+                      to={stat.value}
+                      separator=","
+                      direction="up"
+                      duration={1}
+                      className="count-up-text"
+                    />
                   </span>
                   <span className="text-sm text-white/70 uppercase tracking-wider">
                     {stat.label}
@@ -327,6 +331,7 @@ function AboutUs() {
                   variant="outline"
                   size="sm"
                   className="lg:w-auto text-white hover:bg-white/10 hover:text-white shadow-lg"
+                  onClick={() => router.push("/projects")}
                 >
                   Explore Projects
                 </Button>
@@ -334,6 +339,7 @@ function AboutUs() {
                   variant="default"
                   size="sm"
                   className="lg:w-auto text-white transition-colors shadow-lg"
+                  onClick={() => router.push("/contact-us")}
                 >
                   Get In Touch
                 </Button>

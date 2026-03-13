@@ -20,7 +20,7 @@ function ProjectDetailsSkeleton() {
 
         {/* Specification section */}
         <section className="flex flex-col gap-8 w-full pt-8">
-          <div className="h-48 w-120 bg-neutral-200 rounded-md animate-pulse" />
+          <div className="h-36 w-auto bg-neutral-200 rounded-md animate-pulse" />
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 w-full">
             <div className="space-y-2">
               <div className="h-10 w-64 bg-neutral-200 rounded animate-pulse" />

@@ -133,7 +133,7 @@ function HouseSearchCard({ price, unit, modelCard }: HouseSearchCardProps) {
           </div>
 
           {/* Type badge */}
-          <div className="absolute top-3 left-0 z-20  bg-secondary px-2.5 py-1 rounded-r-lg">
+          <div className="absolute top-3 left-0 z-20  bg-linear-to-t from-secondary to-yellow-600 px-2.5 py-1 rounded-r-lg">
             <p className="text-[10px] tracking-[0.12em] uppercase font-semibold text-primary-foreground">
               {typeLabel}
             </p>

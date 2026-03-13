@@ -71,14 +71,16 @@ function ModelDetailsModal({
   const modelGallery = gallery.filter(
     (g) => g.modelId === null || g.modelId === model?.id,
   );
+
+  const amenities = project?.amenities ?? [];
   const mainPhoto = model?.details?.photoUrl;
   const galleryPhotos = modelGallery.map((g) => g.imageUrl);
+
   const images = [...(mainPhoto ? [mainPhoto] : []), ...galleryPhotos];
 
   if (!model) return null;
 
   const details = model.details;
-  const amenities = project?.amenities ?? [];
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -108,7 +110,20 @@ function ModelDetailsModal({
           </div>
 
           {/* HOUSE MODEL DETAILS */}
-          <div className="space-y-6 w-full md:w-2/3 min-w-0">
+          <div className="space-y-4 w-full md:w-2/3 min-w-0">
+            {/* Pricing */}
+            {(minPrice > 0 || maxPrice > 0) && (
+              <div className="rounded-md">
+                  {/* <PhilippinePeso className="size-5 text-primary" /> */}
+                <span className="text-sm text-neutral-500">Starts at</span>
+                <p className="text-3xl font-bold text-primary">
+                  {minPrice === maxPrice
+                    ? priceFormatter(minPrice)
+                    : `${priceFormatter(minPrice)} – ${priceFormatter(maxPrice)}`}
+                </p>
+              </div>
+            )}
+            
             {/* Description */}
             {details?.description && (
               <div>
@@ -160,30 +175,15 @@ function ModelDetailsModal({
                 <div className="flex flex-wrap gap-2">
                   {amenities.map((a) => (
                     <span
-                      key={a}
+                      key={a.name}
                       className="px-3 py-1.5 bg-neutral-100 rounded-md text-sm font-medium text-neutral-700"
                     >
-                      {a}
+                      {a.name}
                     </span>
                   ))}
                 </div>
               </div>
-            )}
-
-            {/* Pricing */}
-            {(minPrice > 0 || maxPrice > 0) && (
-              <div className="rounded-md border border-border bg-primary/5 p-4">
-                <h3 className="text-lg font-bold text-neutral-800 mb-2 flex items-center gap-2">
-                  <PhilippinePeso className="size-5 text-primary" />
-                  Starts at
-                </h3>
-                <p className="text-xl font-bold text-primary">
-                  {minPrice === maxPrice
-                    ? priceFormatter(minPrice)
-                    : `${priceFormatter(minPrice)} – ${priceFormatter(maxPrice)}`}
-                </p>
-              </div>
-            )}
+            )}       
           </div>
         </div>
         <DialogFooter className="px-6 py-6 md:pb-6 md:pt-0">

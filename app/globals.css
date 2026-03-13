@@ -167,6 +167,7 @@ select {
   appearance: none;
   border-bottom: 1px solid var(--border) !important;
   outline: none !important;
+  /* padding: 0.5rem 1rem; */
 }
 
 @keyframes fade-in-up {

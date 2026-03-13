@@ -6,11 +6,12 @@ import PageBanner from "@/components/layout/PageBanner";
 import FeaturedNewsCard from "@/components/cards/FeaturedNewsCard";
 import MobileNavBar from "@/components/layout/MobileNavBar";
 import NewsCard from "@/components/cards/NewsCard";
+import { ArticleType } from "@/app/utils/types";
 
 function NewsPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [filter, setFilter] = useState("All");
-  const categories = ["All", "Announcements", "News", "Blog"];
+  const categories = ["All", "Announcement", "News", "Blog"];
 
   return (
     <div className="pt-20 md:pt-30">
@@ -56,7 +57,7 @@ function NewsPage() {
           </div>
 
           {/* Grid of News Cards */}
-          <NewsCard />
+          <NewsCard filterCategory={filter === "All" ? undefined : filter.toLowerCase() as ArticleType}/>
         </section>
       </main>
 

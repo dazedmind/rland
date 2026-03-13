@@ -4,11 +4,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
-import { ChevronDownIcon, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import TextInput from "../ui/TextInput";
 import DropSelect from "../ui/DropSelect";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 const EMPTY_FORM_DATA = {
   firstName: '',
@@ -24,6 +25,11 @@ function ContactForm() {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState(EMPTY_FORM_DATA);
   const [checkbox, setCheckbox] = useState(false);
+  const [hcaptchaToken, setHcaptchaToken] = useState('');
+
+  const handleHcaptchaError = (error: any) => {
+    console.error('HCaptcha error:', error);
+  };
 
   const validateForm = () => {
     const requiredFields = [
@@ -61,10 +67,27 @@ function ContactForm() {
     setCheckbox(!checkbox);
   };
 
+  const handleVerification = (hcaptchaToken: string) => {
+    setHcaptchaToken(hcaptchaToken);
+  };
+
+  const handleExpiration = () => {
+    console.log("hCaptcha expired");
+    setHcaptchaToken('');
+  };
+
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formData);
     setLoading(true);
+
+    if (!hcaptchaToken) {
+      toast.error('Please verify you are human');
+      setLoading(false);
+      return;
+    }
+
     const isValid = validateForm();
     if (!isValid) {
       setLoading(false);
@@ -190,6 +213,13 @@ function ContactForm() {
               </p>
             </Field>
         </Field>
+
+        <HCaptcha
+          sitekey='5f2a1b04-e718-4b58-9114-5e6ec12c87a2'
+          onVerify={handleVerification}
+          onExpire={handleExpiration}
+          onError={handleHcaptchaError}
+        />
 
         <div className="flex justify-end items-center w-full col-span-2">
           <Button variant="default" size="sm" className="w-fit px-6" type="submit" disabled={loading} onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>)}>

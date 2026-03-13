@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import ProjectCard from "./ProjectCard";
 import ScrollReveal from "../ui/ScrollReveal";
-import { developmentStage } from "@/lib/types";
+import { developmentStage } from "@/app/utils/types";
 import ProjectListSkeleton from "../layout/skeleton/ProjectListSkeleton";
 import Link from "next/link";
 import { urlNameToSlug } from "@/lib/utils";
@@ -63,17 +63,17 @@ function ProjectList({ limit, type }: { limit?: number, type: string }) {
   }, [emblaApi, onSelect]);
 
   const accentColor = {
-    blue:   "bg-gradient-to-tr from-transparent via-primary/20 to-primary/20",
-    yellow: "bg-gradient-to-tr from-transparent via-secondary/20 to-secondary/20",
-    amber:  "bg-gradient-to-tr from-transparent via-amber-800/20 to-amber-800/20",
-    orange: "bg-gradient-to-tr from-transparent via-orange-600/20 to-orange-600/20",
-    green:  "bg-gradient-to-tr from-transparent via-green-950/20 to-green-950/20",
+    blue:   "bg-gradient-to-tl from-transparent via-primary/20 to-primary/20",
+    yellow: "bg-gradient-to-tl from-transparent via-secondary/20 to-secondary/20",
+    amber:  "bg-gradient-to-tl from-transparent via-amber-800/20 to-amber-800/20",
+    orange: "bg-gradient-to-tl from-transparent via-orange-600/20 to-orange-600/20",
+    green:  "bg-gradient-to-tl from-transparent via-green-950/20 to-green-950/20",
     purple: "bg-gradient-to-tr from-transparent via-purple-950/20 to-purple-950/20",
-    red:    "bg-gradient-to-tr from-transparent via-red-950/20 to-red-950/20",
-    pink:   "bg-gradient-to-tr from-transparent via-pink-950/20 to-pink-950/20",
-    gray:   "bg-gradient-to-tr from-transparent via-gray-950/20 to-gray-950/20",
-    black:  "bg-gradient-to-tr from-transparent via-black/20 to-black/20",
-    white:  "bg-gradient-to-tr from-transparent via-white/20 to-white/20",
+    red:    "bg-gradient-to-tl from-transparent via-red-950/20 to-red-950/20",
+    pink:   "bg-gradient-to-tl from-transparent via-pink-950/20 to-pink-950/20",
+    gray:   "bg-gradient-to-tl from-transparent via-gray-950/20 to-gray-950/20",
+    black:  "bg-gradient-to-tl from-transparent via-black/20 to-black/20",
+    white:  "bg-gradient-to-tl from-transparent via-white/20 to-white/20",
   };
 
   if (loading) {

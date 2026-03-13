@@ -60,7 +60,7 @@ export default function Home() {
       </header>
 
       <main>
-        <section className="bg-neutral-400 h-screen ">
+        <section className="bg-neutral-400 h-screen">
           {/* VIDEO HERO SECTION */}
           <div className="h-screen w-full gradient-overlay">
             <div className="bg-black/50 z-20 w-full absolute top-0 left-0 h-screen flex flex-col text-center lg:text-left items-center lg:items-start justify-center text-white px-8 md:px-44 py-16 gap-4">
@@ -212,7 +212,7 @@ export default function Home() {
             />
 
             {/* DETAILS SECTION */}
-            <div className="flex flex-col text-start gap-4 w-full lg:w-2xl py-16">
+            <div className="flex flex-col text-start gap-4 w-full lg:w-2xl pt-8 md:py-16">
               <span className="space-y-2 z-10">
                 <h1 className="text-4xl font-bold">
                   Let's Find Available Home Near You

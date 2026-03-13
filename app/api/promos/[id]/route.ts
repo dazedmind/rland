@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { promos } from '@/db/schema';
 import { requireApiKey } from '@/lib/api-auth';
-import { desc, eq } from 'drizzle-orm';
-import { Promo } from '@/lib/types';
+import { eq } from 'drizzle-orm';
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> } ) {
   const authError = requireApiKey(request);

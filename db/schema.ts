@@ -15,6 +15,7 @@ import {
 // ENUMS
 // ─────────────────────────────────────────────
 
+
 export const userStatusEnum = pgEnum('user_status', [
   'active',
   'disabled',
@@ -294,6 +295,7 @@ export const jobInquiry = pgTable('job_inquiry', {
 export const careers = pgTable('careers', {
   id:             serial('id').primaryKey(),
   position:       text('position').notNull(),
+  department:     departmentEnum('department').notNull().default('marketing'),
   location:       text('location').notNull(),
   jobDescription: text('job_description').notNull(),
   purpose:        text('purpose').notNull(),

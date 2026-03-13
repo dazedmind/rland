@@ -3,7 +3,7 @@ import { db } from '@/lib/db';
 import { promos } from '@/db/schema';
 import { requireApiKey } from '@/lib/api-auth';
 import { desc } from 'drizzle-orm';
-import { Promo } from '@/lib/types';
+import { Promo } from '@/app/utils/types';
 
 export async function GET(request: NextRequest) {
   const authError = requireApiKey(request);

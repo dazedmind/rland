@@ -9,8 +9,9 @@ import { dateFormatter } from "@/app/utils/dateFormatter";
 import NewsCardListSkeleton from "../layout/skeleton/NewsCardListSkeleton";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArticleType } from "@/app/utils/types";
 
-function NewsCard({limit}: {limit?: number}) {
+function NewsCard({limit, filterCategory}: {limit?: number, filterCategory?: ArticleType}) {
   const [articles, setArticles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -76,8 +77,9 @@ function NewsCard({limit}: {limit?: number}) {
     <div className="flex flex-col gap-4 w-full">
       <div className="relative">
         <div className="overflow-hidden" ref={emblaRef}>
+          {displayArticles.filter((article: any) => filterCategory ? article.type.toLowerCase() === filterCategory.toLowerCase() : true).length > 0 ? (
           <div className="flex touch-pan-y -ml-4">
-            {displayArticles.map((article: any) => (
+            {displayArticles.filter((article: any) => filterCategory ? article.type.toLowerCase() === filterCategory.toLowerCase() : true).map((article: any) => (
               <div
                 key={article.id}
                 className="flex-[0_0_100%] min-w-0 pl-4
@@ -125,6 +127,12 @@ function NewsCard({limit}: {limit?: number}) {
               </div>
             ))}
           </div>
+
+          ):(
+            <div className="flex flex-col items-center justify-center h-[200px]">
+              <p className="text-neutral-900 text-xl">No articles found</p>
+            </div>
+          )}
         </div>
 
         {/* Arrows - hidden on mobile */}
@@ -132,7 +140,7 @@ function NewsCard({limit}: {limit?: number}) {
           type="button"
           onClick={scrollPrev}
           disabled={!canScrollPrev}
-          className="absolute -left-20 top-1/2 -translate-y-1/2 z-10 hidden xl:flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-lg border border-border hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all"
+          className={`absolute -left-20 top-1/2 -translate-y-1/2 z-10 hidden xl:flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-lg border border-border hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all`}
           aria-label="Previous"
         >
           <ChevronLeft className="size-6 text-neutral-800" />
@@ -141,17 +149,18 @@ function NewsCard({limit}: {limit?: number}) {
           type="button"
           onClick={scrollNext}
           disabled={!canScrollNext}
-          className="absolute -right-20 top-1/2 -translate-y-1/2 z-10 hidden xl:flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-lg border border-border hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all"
+          className={`absolute -right-20 top-1/2 -translate-y-1/2 z-10 hidden xl:flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-lg border border-border hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all`}
           aria-label="Next"
         >
           <ChevronRight className="size-6 text-neutral-800" />
         </button>
+
       </div>
 
       {/* Indicators */}
-      {scrollSnapCount > 1 && (
+      { displayArticles.filter((article: any) => filterCategory ? article.type.toLowerCase() === filterCategory.toLowerCase() : true).length > 0 && scrollSnapCount > 1 && (
         <div className="flex justify-center gap-2">
-          {Array.from({ length: scrollSnapCount }, (_, i) => (
+          {Array.from({ length: displayArticles.filter((article: any) => filterCategory ? article.type.toLowerCase() === filterCategory.toLowerCase() : true).length }, (_, i) => (
             <button
               key={i}
               type="button"
