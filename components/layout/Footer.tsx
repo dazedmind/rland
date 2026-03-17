@@ -63,9 +63,9 @@ function Footer() {
       {name: "Brokers Accreditation", href: "/brokers-accreditation"},
     ]},
     {category: "Projects", links: [
-      {name: "Arcoe Residences", href: "/arcoe-residences"},
-      {name: "Arcoe Estates", href: "/arcoe-estates"},
-      {name: "Brighter Mornings", href: "/brighter-mornings"},
+      {name: "Arcoe Residences", href: "/projects/arcoe-residences"},
+      {name: "Arcoe Estates", href: "/projects/arcoe-estates"},
+      {name: "Brighter Mornings", href: "/projects/brighter-mornings"},
     ]},
     {category: "Buyer", links: [
       {name: "Reservation", href: "/reservation"},

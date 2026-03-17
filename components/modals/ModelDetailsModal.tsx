@@ -4,6 +4,7 @@ import React from "react";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogFooter,
@@ -95,6 +96,9 @@ function ModelDetailsModal({
               {project?.projectName}
             </p>
           </DialogTitle>
+          <DialogDescription className="sr-only">
+            House model details, specifications, and pricing for {model.modelName} at {project?.projectName}
+          </DialogDescription>
         </DialogHeader>
 
         <div className="flex flex-col md:flex-row gap-6 md:gap-8 px-4 md:px-6 pb-6 overflow-y-auto flex-1">

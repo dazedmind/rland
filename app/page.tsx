@@ -106,17 +106,6 @@ export default function Home() {
 
             <div className="w-full flex flex-col items-center gap-6">
               <ProjectList type="carousel" />
-{/* 
-              <Button
-              variant="ghost"
-              size="sm"
-              className="text-primary hover:text-accent-foreground"
-              asChild
-            >
-              <Link href="/projects"> 
-                More Projects <ArrowRight className="w-4 h-4" />
-              </Link>
-            </Button> */}
             </div>
 
           
