@@ -5,7 +5,6 @@ import MobileNavBar from "@/components/layout/MobileNavBar";
 import { useState } from "react";
 import arcoeResidencesLogo from "@/public/project-logo/ar-logo.png";
 import Image from "next/image";
-import arcoeEstatesLogo from "@/public/project-logo/ae-logo.png";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { ChevronDownIcon } from "lucide-react";
@@ -28,15 +27,42 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import BackButton from "@/components/layout/BackButton";
+import { useQuery } from "@tanstack/react-query";
+import { type ProjectModel, type Project } from "@/app/utils/types";
+import DropSelect from "@/components/ui/DropSelect";
+
+async function fetchProjects(): Promise<Project> {
+  const response = await fetch("/api/projects");
+  if (!response.ok) throw new Error("Failed to fetch projects");
+  return response.json() as Promise<Project>;
+}
+
+async function fetchProjectModels(projectId: string): Promise<ProjectModel[]> {
+  const response = await fetch(`/api/projects/${projectId}/models`);
+  if (!response.ok) throw new Error("Failed to fetch project models");
+  return response.json() as Promise<ProjectModel[]>;
+}
 
 function ReservationPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const [selectedModel, setSelectedModel] = useState<string | null>(null);
 
   const handleSelectProject = (project: string) => {
     setSelectedProject(project);
   };
+  
+  const { data: projectData = null, isLoading } = useQuery({
+    queryKey: ["projects"],
+    queryFn: fetchProjects,
+  });
+
+  const { data: projectModels = [], isLoading: isLoadingModels } = useQuery({
+    queryKey: ["projectModels", selectedProject],
+    queryFn: () => fetchProjectModels(selectedProject ?? ""),
+    enabled: !!selectedProject,
+  });
 
   return (
     <div className="pt-20 md:pt-30">
@@ -48,13 +74,6 @@ function ReservationPage() {
         />
         <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       </header>
-
-      {/* PAGE BANNER */}
-      {/* <PageBanner
-        title="Reservation"
-        description="Limited availability. Start your reservation and lock in pre-construction advantages.."
-        breadcrumb="Reservation"
-      /> */}
 
       <main className="flex flex-col gap-8 py-16">
         {/* RESERVATION SECTION */}
@@ -85,69 +104,38 @@ function ReservationPage() {
             </div>
 
             <div className="flex flex-col md:flex-row justify-around items-center gap-4">
-              <button
-                onClick={() => handleSelectProject("arcoe-residences")}
-                className="flex items-center justify-center w-full h-50 focus:bg-blue-400/50 focus:border-blue-900 bg-neutral-100 border border-border rounded-md hover:shadow-md transition-all duration-300 cursor-pointer group"
-              >
-                <Image
-                  src={arcoeResidencesLogo}
-                  alt="Arcoe Residences Logo"
-                  width={150}
-                  height={150}
-                  className="object-contain group-hover:scale-110 transition-all duration-300"
-                />
-              </button>
-
-              <button
-                onClick={() => handleSelectProject("arcoe-estates")}
-                className="flex items-center justify-center w-full h-50 focus:bg-amber-400/50 focus:border-amber-900 bg-neutral-100 border border-border rounded-md hover:shadow-md transition-all duration-300 cursor-pointer group"
-              >
-                <Image
-                  src={arcoeEstatesLogo}
-                  alt="Arcoe Estates Logo"
-                  width={150}
-                  height={150}
-                  className="object-contain group-hover:scale-110 transition-all duration-300"
-                />
-              </button>
-
-              <button
-                onClick={() => handleSelectProject("hero-town")}
-                className="flex items-center justify-center w-full h-50 focus:bg-orange-400/50 focus:border-orange-900 bg-neutral-100 border border-border rounded-md hover:shadow-md transition-all duration-300 cursor-pointer group"
-              >
-                <Image
-                  src={arcoeEstatesLogo}
-                  alt="Arcoe Estates Logo"
-                  width={150}
-                  height={150}
-                  className="object-contain group-hover:scale-110 transition-all duration-300"
-                />
-              </button>
+              {projectData && Array.isArray(projectData) && projectData.map((project: Project) => (
+                <>
+                  <button
+                    key={project.id}
+                    onClick={() => handleSelectProject(project.id)}
+                    className="flex items-center justify-center w-full h-50 focus:bg-blue-400/50 focus:border-blue-900 bg-neutral-100 border border-border rounded-md hover:shadow-md transition-all duration-300 cursor-pointer group"
+                  >
+                    <Image
+                      src={project.logoUrl ?? arcoeResidencesLogo}
+                      alt={project.projectName}
+                      width={150}
+                      height={150}
+                      className="object-contain group-hover:scale-110 transition-all duration-300"
+                    />
+                  </button>
+                </>
+              ))}
             </div>
 
             {selectedProject && (
               <div className="grid grid-cols-3 gap-4">
-                <Field>
-                  <FieldLabel>Select Model</FieldLabel>
-                  <div className="relative">
-                    <ChevronDownIcon className="w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2" />
-                    <select
-                      name="project"
-                      id="project"
-                      className="w-full h-10 text-sm text-black rounded-md px-2"
-                    >
-                      <option className="text-sm rounded-md" value="1">
-                        Arcoe Residences
-                      </option>
-                      <option className="text-sm" value="2">
-                        Arcoe Estates
-                      </option>
-                      <option className="text-sm" value="3">
-                        Hero's Town
-                      </option>
-                    </select>
-                  </div>
-                </Field>
+                <DropSelect 
+                  label="Select Model"
+                  selectName="model"
+                  selectId="model"
+                  onChange={(e) => setSelectedModel(e.target.value)}
+                  value={selectedModel ?? undefined}
+                >
+                  {projectModels.map((model: ProjectModel) => (
+                    <option key={model.id} value={model.id}>{model.modelName}</option>
+                  ))}
+                </DropSelect>
 
                 <Field>
                   <FieldLabel>Select Block</FieldLabel>

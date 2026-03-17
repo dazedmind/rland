@@ -3,7 +3,8 @@ import NavBar from "@/components/layout/NavBar";
 import Footer from "@/components/layout/Footer";
 import PageBanner from "@/components/layout/PageBanner";
 import MobileNavBar from "@/components/layout/MobileNavBar";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import PromoCard from "@/components/cards/PromoCard";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import promo1 from "@/public/promo-sample.png";
@@ -13,27 +14,19 @@ import PromoPageSkeleton from "@/components/layout/skeleton/PromoPageSkeleton";
 import { Button } from "@/components/ui/button";
 import { Bell } from "lucide-react";
 
+async function fetchPromos(): Promise<Promo[]> {
+  const response = await fetch("/api/promos");
+  if (!response.ok) throw new Error("Failed to fetch promos");
+  return response.json();
+}
+
 function PromosPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [promos, setPromos] = useState<Promo[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
-  const fetchPromos = async () => {
-    try {
-      const response = await fetch("/api/promos");
-      const data = await response.json();
-      setPromos(data);
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Error fetching promos:", error);
-      setPromos([]);
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchPromos();
-  }, []);
+  const { data: promos = [], isLoading } = useQuery({
+    queryKey: ["promos"],
+    queryFn: fetchPromos,
+  });
 
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });

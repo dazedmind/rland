@@ -1,5 +1,6 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
+import { useMutation } from "@tanstack/react-query";
 import {
   Dialog,
   DialogClose,
@@ -13,21 +14,9 @@ import { Field, FieldLabel } from "@/components/ui/field";
 import { FileUpload } from "@/components/ui/file-upload";
 import { toast } from "sonner";
 import TextInput from "@/components/ui/TextInput";
+import { validateEmail, validatePhone, validateName } from "@/lib/form-validator";
 
 export const runtime = "edge";
-
-type Career = {
-  id: number;
-  position: string;
-  location: string;
-  jobDescription: string;
-  responsibilities: string;
-  qualifications: string;
-  requiredSkills: string;
-  status: string;
-  createdAt: string;
-  updatedAt: string;
-};
 
 const EMPTY_FORM_DATA = {
   firstName: "",
@@ -49,11 +38,6 @@ function CareerApplicationModal({
   onClose: () => void;
   jobPosition: string;
 }) {
-  const [id, setId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [career, setCareer] = useState<Career | null>(null);
-
   // Define state to hold a File object or null
   const [coverLetter, setCoverLetter] = useState<File | null>(null);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
@@ -71,18 +55,6 @@ function CareerApplicationModal({
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const resumeFileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Handle file removal
-  const removeFile = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    e.preventDefault();
-    e.stopPropagation(); // Prevent triggering the input click if nested
-    setCoverLetter(null);
-
-    // Reset the input value so the same file can be uploaded again
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  };
-
   const removeResumeFile = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
     e.stopPropagation();
@@ -92,56 +64,81 @@ function CareerApplicationModal({
     }
   };
 
-  useEffect(() => {
-    if (!id) return;
-    setLoading(true);
-    const fetchCareer = async () => {
-      setError(null);
-      try {
-        const response = await fetch(`/api/careers/${id}`);
-        if (!response.ok) {
-          if (response.status === 404) {
-            setError("Career not found");
-          } else {
-            setError("Failed to load career");
-          }
-          setCareer(null);
-          return;
-        }
-        const data = await response.json();
-        setCareer(data);
-      } catch (err) {
-        console.error("Error fetching career:", err);
-        setError("Failed to load career");
-        setCareer(null);
-      } finally {
-        setLoading(false);
+  const submitMutation = useMutation({
+    mutationFn: async (data: typeof formData) => {
+      const response = await fetch("/api/job_inquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.error || "Failed to submit job inquiry");
       }
-    };
-
-    fetchCareer();
-  }, [id]);
+      return response.json();
+    },
+    onSuccess: () => {
+      toast.success("Job inquiry submitted successfully. Please keep your lines open for further details.");
+      setFormData(EMPTY_FORM_DATA);
+      setResumeFile(null);
+      setCoverLetter(null);
+      onClose();
+    },
+    onError: (err: Error) => {
+      toast.error(err.message);
+    },
+  });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      const response = await fetch("/api/job_inquiry", {
-        method: "POST",
-        body: JSON.stringify(formData),
-      });
-      if (response.ok) {
-        toast.success("Job inquiry submitted successfully. Please keep your lines open for further details.");
-        setFormData(EMPTY_FORM_DATA);
-        setResumeFile(null);
-        setCoverLetter(null);
-        onClose();
-      } else {
-        toast.error("Failed to submit job inquiry");
-      }
-    } catch (error) {
-      console.error("Error submitting job inquiry:", error);
-    }
+    const isValid = handleValidateForm();
+    if (!isValid) return;
+    submitMutation.mutate(formData);
   };
+
+  const handleValidateForm = () => {
+    const requiredFields = [
+      { value: formData.firstName, label: "First Name" },
+      { value: formData.lastName, label: "Last Name" },
+      { value: formData.email, label: "Email" },
+      { value: formData.phone, label: "Phone Number" },
+    ];
+
+    if (!validateEmail(formData.email)) {
+      toast.error("Please enter a valid email address");
+      return false;
+    }
+
+    if (!validatePhone(formData.phone)) {
+      toast.error("Please enter a valid phone number");
+      return false;
+    }
+
+    const isValid = requiredFields.every((field: { value: string; label: string }) => field.value && field.value.trim() !== "");
+    if (!isValid) {
+      toast.error("Please fill out all required fields");
+      return false;
+    }
+
+    if (!validateName(formData.firstName)) {
+      toast.error("Please enter a valid first name");
+      return false;
+    }
+
+    if (!validateName(formData.lastName)) {
+      toast.error("Please enter a valid last name");
+      return false;
+    }
+
+    return true;
+  };
+
+  const closeForm = () => {
+    setFormData(EMPTY_FORM_DATA);
+    setResumeFile(null);
+    setCoverLetter(null);
+    onClose();
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -174,6 +171,7 @@ function CareerApplicationModal({
               onChange={(e) =>
                 setFormData({ ...formData, firstName: e.target.value })
               }
+              required
             />
             <TextInput
               label="Last Name"
@@ -184,6 +182,7 @@ function CareerApplicationModal({
               onChange={(e) =>
                 setFormData({ ...formData, lastName: e.target.value })
               }
+              required
             />
 
             <TextInput
@@ -195,16 +194,20 @@ function CareerApplicationModal({
               onChange={(e) =>
                 setFormData({ ...formData, email: e.target.value })
               }
+              validationType="email"
+              required
             />
             <TextInput
               label="Phone"
               name="phone"
               type="tel"
-              placeholder="Phone"
+              placeholder="Phone Number"
               value={formData.phone}
               onChange={(e) =>
                 setFormData({ ...formData, phone: e.target.value })
               }
+              validationType="phone"
+              required
             />
           </div>
 
@@ -223,6 +226,7 @@ function CareerApplicationModal({
               size="sm"
               variant="outline"
               className="flex-1 hover:text-primary"
+              onClick={closeForm}
             >
               Cancel
             </Button>
@@ -234,8 +238,9 @@ function CareerApplicationModal({
             onClick={(e) =>
               handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>)
             }
+            disabled={submitMutation.isPending}
           >
-            Submit Application
+            {submitMutation.isPending ? "Submitting..." : "Submit Application"}
           </Button>
         </span>
       </DialogContent>

@@ -4,6 +4,7 @@ import { careers } from '@/db/schema';
 import { and, desc, eq } from 'drizzle-orm';
 import { requireApiKey } from '@/lib/api-auth';
 import { urlNameToSlug } from '@/lib/utils';
+import redis from '@/lib/redisClient';
 
 export async function GET(
   request: NextRequest,
@@ -16,6 +17,14 @@ export async function GET(
     const { id } = await params;
     const careerId = parseInt(id, 10);
     const isNumericId = !isNaN(careerId);
+
+    const cacheKey = `career:${id}`;
+    try {
+      const cached = await redis.get(cacheKey);
+      if (cached) return NextResponse.json(JSON.parse(cached));
+    } catch (err) {
+      console.error('Redis GET Error:', err);
+    }
 
     let career;
 
@@ -39,6 +48,12 @@ export async function GET(
 
     if (!career) {
       return NextResponse.json({ error: 'Career not found' }, { status: 404 });
+    }
+
+    try {
+      await redis.set(cacheKey, JSON.stringify(career), { EX: 60 * 60 });
+    } catch (err) {
+      console.error('Redis SET Error:', err);
     }
 
     return NextResponse.json(career);

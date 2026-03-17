@@ -358,35 +358,35 @@ export default function Home() {
           {/* BANNER */}
           <section className="flex flex-col items-center justify-center bg-primary py-24">
             <ScrollReveal>
-            <div className="flex flex-col items-center justify-center text-center gap-4 px-8 md:px-24 lg:px-44 text-white">
-              <span className="flex flex-col gap-2 w-full text-center">
-                <h1 className="text-3xl lg:text-4xl font-bold">
-                  Ready to Settle on Your Dream Home?
-                </h1>
-                <p className="leading-relaxed text-neutral-200">
-                  Contact us today to learn more about our properties and how we
-                  can help you find your perfect home.
-                </p>
-              </span>
-       
-              <span className="flex flex-row items-center justify-center gap-4 w-full lg:w-auto">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="flex-1 md:w-fit text-white hover:bg-white hover:text-primary"
-                  asChild
-                >
-                  <Link href="/contact-us">Contact Sales</Link>
-                </Button>
+              <div className="flex flex-col items-center justify-center text-center gap-4 px-8 md:px-24 lg:px-44 text-white">
+                <span className="flex flex-col gap-2 w-full text-center">
+                  <h1 className="text-3xl lg:text-4xl font-bold">
+                    Ready to Settle on Your Dream Home?
+                  </h1>
+                  <p className="leading-relaxed text-neutral-200">
+                    Contact us today to learn more about our properties and how we
+                    can help you find your perfect home.
+                  </p>
+                </span>
+        
+                <span className="flex flex-row items-center justify-center gap-4 w-full lg:w-auto">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex-1 md:w-fit text-white hover:bg-white hover:text-primary"
+                    asChild
+                  >
+                    <Link href="/buyer-guide">Your Buying Guide</Link>
+                  </Button>
 
-                <Button
-                  variant="default"
-                  size="sm"
-                  asChild
-                  className="flex-1 md:w-fit"
-                >
-                  <Link href="/reservation">Reserve Now</Link>
-                </Button>
+                  <Button
+                    variant="default"
+                    size="sm"
+                    asChild
+                    className="flex-1 md:w-fit"
+                  >
+                    <Link href="/contact-us">Connect with Us</Link>
+                  </Button>
                 </span>
               </div>
             </ScrollReveal>

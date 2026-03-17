@@ -283,7 +283,6 @@ export const jobInquiry = pgTable('job_inquiry', {
   email:     text('email').notNull(),
   phone:     text('phone').notNull(),
   position:  text('position').notNull(),
-  location:  text('location').notNull(),
   resume:    text('resume'),
   coverLetter: text('cover_letter'),
   appliedAt: timestamp('applied_at').notNull().defaultNow(),

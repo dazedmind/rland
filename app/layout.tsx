@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Figtree, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import UtilityWrapper from "../components/utils/UtilityWrapper";
+import QueryProvider from "./providers/QueryProvider";
 import CookieConsentBanner from "@/components/analytics/CookieConsentBanner";
 import GoogleTagManager from "@/components/analytics/GoogleTagManager";
 import GoogleAnalyticsWrapper from "@/components/analytics/GoogleAnalyticsWrapper";
@@ -42,9 +43,11 @@ export default function RootLayout({
           <ScrollToTop />
           <GoogleAnalyticsWrapper gaId={GA_MEASUREMENT_ID as string} />
           <GoogleTagManager gtmId={GA_MEASUREMENT_ID as string} />
-          <UtilityWrapper>
-            {children}
-          </UtilityWrapper>
+            <QueryProvider>
+              <UtilityWrapper>
+                {children}
+              </UtilityWrapper>
+            </QueryProvider>
           <CookieConsentBanner />
         </ConsentProvider>
       </body>

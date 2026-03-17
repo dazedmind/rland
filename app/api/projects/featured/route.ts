@@ -3,6 +3,7 @@ import { db } from '@/lib/db';
 import { projectInventory, projects, projectModels } from '@/db/schema';
 import { eq, inArray } from 'drizzle-orm';
 import { requireApiKey } from '@/lib/api-auth';
+import redis from '@/lib/redisClient';
 
 export type ProjectModelWithDetails = {
   id: string;
@@ -36,6 +37,14 @@ export async function GET(request: NextRequest) {
   if (authError) return authError;
 
   try {
+    const cacheKey = 'projects:featured';
+    try {
+      const cached = await redis.get(cacheKey);
+      if (cached) return NextResponse.json(JSON.parse(cached));
+    } catch (err) {
+      console.error('Redis GET Error:', err);
+    }
+
     // 1. Fetch all featured inventory with model joined
     const featuredRows = await db
       .select({
@@ -109,6 +118,12 @@ export async function GET(request: NextRequest) {
         project: projectMap.get(projectId)!,
         featuredUnits,
       }));
+
+    try {
+      await redis.set(cacheKey, JSON.stringify(result), { EX: 3600 });
+    } catch (err) {
+      console.error('Redis SET Error:', err);
+    }
 
     return NextResponse.json(result);
   } catch (error) {

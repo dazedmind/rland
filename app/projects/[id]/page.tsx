@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect, use, createElement } from "react";
+import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import NavBar from "@/components/layout/NavBar";
 import Footer from "@/components/layout/Footer";
 import MobileNavBar from "@/components/layout/MobileNavBar";
@@ -27,7 +29,7 @@ import {
 } from "@/app/utils/types";
 import ProjectDetailsSkeleton from "@/components/layout/skeleton/ProjectDetailsSkeleton";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import { priceFormatter, shortPriceFormatter } from "@/app/utils/priceFormatter";
+import { shortPriceFormatter } from "@/app/utils/priceFormatter";
 import ContactSection from "@/components/layout/ContactSection";
 import ProjectImageCarousel from "@/components/layout/ProjectImageCarousel";
 import BackButton from "@/components/layout/BackButton";
@@ -68,10 +70,26 @@ function ProjectDetailsPage({
   const { id } = use(params as Promise<{ id: string }>);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("specification");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [project, setProject] = useState<ProjectDetails[]>([]);
   const [selectedModel, setSelectedModel] = useState<ProjectModel | null>(null);
+  const router = useRouter();
+
+  const { data: rawData, isLoading: loading, error: fetchError } = useQuery({
+    queryKey: ["project", id],
+    queryFn: async () => {
+      const res = await fetch(`/api/projects/${id}`);
+      if (!res.ok) {
+        if (res.status === 404) throw new Error("Project not found");
+        throw new Error("Failed to load project");
+      }
+      return res.json();
+    },
+    enabled: !!id,
+  });
+
+  const project: ProjectDetails[] = rawData?.project
+    ? [{ project: rawData.project, models: rawData.models ?? [], inventory: rawData.featuredUnits ?? [], gallery: rawData.gallery ?? [] }]
+    : [];
+  const error = fetchError?.message ?? null;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -117,41 +135,6 @@ function ProjectDetailsPage({
       });
     }
   };
-
-  useEffect(() => {
-    if (!id) return;
-    const fetchData = async () => {
-      try {
-        const res = await fetch(`/api/projects/${id}`);
-        if (!res.ok) {
-          if (res.status === 404) setError("Project not found");
-          else setError("Failed to load project");
-          setProject([]);
-          return;
-        }
-        const data = await res.json();
-        setProject(
-          data?.project
-            ? [
-                {
-                  project: data.project,
-                  models: data.models ?? [],
-                  inventory: data.featuredUnits ?? [],
-                  gallery: data.gallery ?? [],
-                },
-              ]
-            : [],
-        );
-      } catch (error) {
-        console.error("Error fetching project:", error);
-        setError("Failed to load project");
-        setProject([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [id]);
 
   if (loading) {
     return (
@@ -545,14 +528,14 @@ function ProjectDetailsPage({
                 </span>
 
                 <span className="w-full md:w-auto">
-                  <Button
-                    size="sm"
-                    variant="default"
-                    className="w-full"
-                    onClick={() => scrollToSection("contact")}
-                  >
-                    Reserve Now
-                  </Button>
+                  <Link href="/contact-us">
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                    >
+                      Contact Us
+                    </Button>
+                  </Link>
                 </span>
               </div>
               <div className="flex flex-col gap-2 bg-primary text-white px-8 py-6 rounded-b-md">

@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer";
 import PageBanner from "@/components/layout/PageBanner";
 import MobileNavBar from "@/components/layout/MobileNavBar";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   Search,
@@ -149,6 +150,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 
 function BuyerGuidePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <div className="pt-20 md:pt-30">
@@ -403,13 +405,14 @@ function BuyerGuidePage() {
               </p>
             </div>
             <div className="relative z-10 w-full md:w-auto">
-              <Button
-                variant="default"
-                size="sm"
-                className="w-full md:w-auto text-white"
-              >
-                Reserve Now
-              </Button>
+              <Link href="/contact-us">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                >
+                  Contact Us
+                </Button>
+              </Link>
             </div>
           </div>
         </section>

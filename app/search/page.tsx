@@ -2,8 +2,9 @@
 import NavBar from "@/components/layout/NavBar";
 import Footer from "@/components/layout/Footer";
 import MobileNavBar from "@/components/layout/MobileNavBar";
-import { useState, Suspense, useEffect } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft } from "lucide-react";
 import HouseSearchCard, { type SearchModelItem } from "@/components/cards/HouseSearchCard";
 import Link from "next/link";
@@ -21,18 +22,33 @@ const formatCurrency = (amount: number) => {
 
 const PER_PAGE = 5;
 
-// Separate component that uses useSearchParams
+type SearchResponse = { items: SearchModelItem[]; total: number; page: number; limit: number };
+
+async function fetchSearch(params: URLSearchParams): Promise<SearchResponse> {
+  const res = await fetch(`/api/search?${params.toString()}`);
+  if (!res.ok) throw new Error("Failed to fetch search results");
+  return res.json();
+}
+
 function SearchResults() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const location = searchParams.get("location");
+  const location = searchParams.get("location")?.trim() ?? "";
   const priceRange = searchParams.get("priceRange");
   const page = Math.max(parseInt(searchParams.get("page") || "1", 10), 1);
 
-  const [items, setItems] = useState<SearchModelItem[]>([]);
-  const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const params = new URLSearchParams({ location, limit: String(PER_PAGE), page: String(page) });
+  if (priceRange) params.set("priceRange", priceRange);
+
+  const { data, isLoading: loading, isError: isError } = useQuery({
+    queryKey: ["search", location, priceRange, page],
+    queryFn: () => fetchSearch(params),
+    enabled: !!location,
+  });
+
+  const items = Array.isArray(data?.items) ? data.items : [];
+  const total = data?.total ?? 0;
+  const error = isError;
 
   const priceRangeFormattedArray = priceRange
     ?.split(",")
@@ -42,45 +58,13 @@ function SearchResults() {
   const hasNext = page < totalPages;
   const hasPrev = page > 1;
 
-  useEffect(() => {
-    if (!location?.trim()) {
-      setLoading(false);
-      setItems([]);
-      setTotal(0);
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-
-    const params = new URLSearchParams({ location, limit: String(PER_PAGE), page: String(page) });
-    if (priceRange) params.set("priceRange", priceRange);
-
-    fetch(`/api/search?${params.toString()}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch search results");
-        return res.json();
-      })
-      .then((data) => {
-        setItems(Array.isArray(data?.items) ? data.items : []);
-        setTotal(data?.total ?? 0);
-      })
-      .catch((err) => {
-        console.error("Search error:", err);
-        setError("Failed to load search results");
-        setItems([]);
-        setTotal(0);
-      })
-      .finally(() => setLoading(false));
-  }, [location, priceRange, page]);
-
   const goToPage = (newPage: number) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("page", String(newPage));
     router.push(`/search?${params.toString()}`);
   };
 
-  if (!location?.trim()) {
+  if (!location) {
     return (
       <section className="flex flex-col items-start px-8 md:px-16 xl:px-64 justify-center py-16 space-y-8">
         <Link href="/" className="flex items-center gap-2 text-primary">

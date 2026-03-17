@@ -4,6 +4,7 @@ import { careers } from '@/db/schema';
 import { requireApiKey } from '@/lib/api-auth';
 import { and, desc, eq, ne, sql } from 'drizzle-orm';
 import type { Career, CareerStatus } from '@/app/utils/types';
+import redis from '@/lib/redisClient';
 
 const DEPARTMENT_VALUES = ['marketing', 'executive', 'engineering', 'design', 'hr', 'finance', 'it', 'legal', 'operations', 'customer_service', 'product'] as const;
 
@@ -21,6 +22,16 @@ export async function GET(request: NextRequest) {
   const offset = (page - 1) * limit;
 
   try {
+    const cacheKey = `careers:${request.nextUrl.searchParams.toString()}`;
+    
+    try {
+      const cached = await redis.get(cacheKey);
+      if (cached) return NextResponse.json(JSON.parse(cached));
+    } catch (err) {
+      console.error('Redis GET Error:', err);
+    }
+
+    // IF CACHE MISS, FETCH DATA FROM DATABASE
     const conditions = [eq(careers.status, status as CareerStatus)];
     if (departmentFilter && DEPARTMENT_VALUES.includes(departmentFilter as typeof DEPARTMENT_VALUES[number])) {
       conditions.push(eq(careers.department, departmentFilter as typeof DEPARTMENT_VALUES[number]));
@@ -45,6 +56,18 @@ export async function GET(request: NextRequest) {
 
     const total = countResult[0]?.count ?? 0;
     const totalPages = Math.ceil(total / limit);
+
+    try {
+      await redis.set(cacheKey, JSON.stringify({
+        data: careersList as Career[],
+        total,
+        page,
+        limit,
+        totalPages,
+      }), { EX: 60 * 60 });
+    } catch (err) {
+      console.error('Redis SET Error:', err);
+    }
 
     return NextResponse.json({
       data: careersList as Career[],

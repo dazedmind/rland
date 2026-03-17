@@ -1,4 +1,4 @@
-import { Mail, Phone, MailIcon, MapPin, Bell, Loader2 } from "lucide-react";
+import { Mail, Phone, MailIcon, Bell, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FaFacebook, FaLinkedin, FaInstagram, FaYoutube } from "react-icons/fa";
 import { Input } from "@/components/ui/input";
@@ -7,21 +7,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { z } from "zod";
-
+import { validateEmail } from "@/lib/form-validator";
 
 function Footer() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-
-  const validateEmail = (email: string) => {
-    const validation = z.object({
-      email: z.string().email(),
-    });
-    const validated = validation.safeParse({ email });
-    return validated.success;
-  }
 
   const handleSubscribe = async () => {
     if (!validateEmail(email)) {

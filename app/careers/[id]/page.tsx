@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import NavBar from "@/components/layout/NavBar";
 import Footer from "@/components/layout/Footer";
 import CareerCard from "@/components/cards/CareerCard";
@@ -25,11 +26,24 @@ type Career = {
   updatedAt: string;
 };
 
+async function fetchCareer(id: string): Promise<Career> {
+  const response = await fetch(`/api/careers/${id}`);
+  if (!response.ok) {
+    if (response.status === 404) throw new Error("Career not found");
+    throw new Error("Failed to load career");
+  }
+  return response.json();
+}
+
 function CareerDetailsPage({
   params,
 }: {
   params: Promise<{ id: string }> | { id: string };
 }) {
+  const [id, setId] = useState<string | null>(null);
+  const [isApplicationModalOpen, setIsApplicationModalOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   useEffect(() => {
     if (
       params &&
@@ -41,42 +55,15 @@ function CareerDetailsPage({
     }
   }, [params]);
 
-  const [id, setId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [career, setCareer] = useState<Career | null>(null);
-  const [isApplicationModalOpen, setIsApplicationModalOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  useEffect(() => {
-    if (!id) return;
-    setLoading(true);
-    const fetchCareer = async () => {
-      setError(null);
-      try {
-        const response = await fetch(`/api/careers/${id}`);
-        if (!response.ok) {
-          if (response.status === 404) {
-            setError("Career not found");
-          } else {
-            setError("Failed to load career");
-          }
-          setCareer(null);
-          return;
-        }
-        const data = await response.json();
-        setCareer(data);
-      } catch (err) {
-        console.error("Error fetching career:", err);
-        setError("Failed to load career");
-        setCareer(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCareer();
-  }, [id]);
+  const {
+    data: career,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["career", id],
+    queryFn: () => fetchCareer(id!),
+    enabled: !!id,
+  });
 
   return (
     <div className="pt-15 md:pt-25">
@@ -91,7 +78,12 @@ function CareerDetailsPage({
 
       <main className="flex flex-col lg:flex-row justify-start items-start px-8 md:px-24 xl:px-44 gap-8 py-16">
         {/* CAREER DETAILS SECTION */}
-        {!loading ? (
+        {error ? (
+          <section className="flex flex-col items-start justify-center space-y-8 w-full lg:w-2/3">
+            <BackButton href="/careers" mainPageName="Careers" />
+            <p className="text-destructive">{error.message}</p>
+          </section>
+        ) : !isLoading && career ? (
           <section className="flex flex-col items-start justify-center space-y-8 w-full lg:w-2/3">
             <BackButton href="/careers" mainPageName="Careers" />
 

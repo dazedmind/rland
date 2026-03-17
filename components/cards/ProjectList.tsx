@@ -1,18 +1,29 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import useEmblaCarousel from "embla-carousel-react";
 import ProjectCard from "./ProjectCard";
 import ScrollReveal from "../ui/ScrollReveal";
-import { developmentStage } from "@/app/utils/types";
+import { developmentStage, type Project } from "@/app/utils/types";
 import ProjectListSkeleton from "../layout/skeleton/ProjectListSkeleton";
 import Link from "next/link";
 import { urlNameToSlug } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-function ProjectList({ limit, type }: { limit?: number, type: string }) {
-  const [loading, setLoading] = useState(true);
-  const [projects, setProjects] = useState<any[]>([]);
+async function fetchProjects(): Promise<Project[]> {
+  const response = await fetch("/api/projects");
+  if (!response.ok) throw new Error("Failed to fetch projects");
+  return response.json();
+}
+
+function ProjectList({ limit, type }: { limit?: number; type: string }) {
+  const { data: allProjects = [], isLoading: loading } = useQuery({
+    queryKey: ["projects"],
+    queryFn: fetchProjects,
+  });
+  const projects = limit ? allProjects.slice(0, limit) : allProjects;
+
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     align: "start",
@@ -23,23 +34,6 @@ function ProjectList({ limit, type }: { limit?: number, type: string }) {
   const [scrollSnapCount, setScrollSnapCount] = useState(0);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
-
-  const fetchProjects = async () => {
-    try {
-      const response = await fetch("/api/projects");
-      const data = await response.json();
-      setProjects(data.slice(0, limit ?? data.length));
-    } catch (error) {
-      console.error("Error fetching projects:", error);
-      setProjects([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchProjects();
-  }, [limit]);
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
@@ -89,7 +83,7 @@ function ProjectList({ limit, type }: { limit?: number, type: string }) {
         <div className="relative">
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex touch-pan-y -ml-4">
-              {projects.map((project) => (
+              {projects.map((project: Project) => (
                 <div
                   key={project.id}
                   className="flex-[0_0_100%] min-w-0 pl-4
@@ -98,18 +92,18 @@ function ProjectList({ limit, type }: { limit?: number, type: string }) {
                 >
                   <Link href={`/projects/${urlNameToSlug(project.projectName)}`}>
                     <ProjectCard
-                      projectImage={project.photoUrl}
+                      projectImage={project.photoUrl ?? null}
                       projectName={project.projectName}
-                      projectLocation={project.location}
+                      projectLocation={project.location ?? ""}
                       projectStatus={
                         developmentStage[project.stage as keyof typeof developmentStage]
                       }
-                      projectLogo={project.logoUrl}
+                      projectLogo={project.logoUrl ?? null}
                       projectAccent={
                         accentColor[project.accentColor as keyof typeof accentColor] ??
                         accentColor.blue
                       }
-                      projectId={project.id}
+                      projectId={typeof project.id === "number" ? project.id : parseInt(String(project.id), 10) || 0}
                     />
                   </Link>
                 </div>
@@ -158,18 +152,18 @@ function ProjectList({ limit, type }: { limit?: number, type: string }) {
       </div>)}
       {type === "grid" && (
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center gap-4 w-full ">
-         {projects.map((project: any) => (
+         {projects.map((project: Project) => (
            <Link key={project.id} href={`/projects/${urlNameToSlug(project.projectName)}`}>
              <ProjectCard
-               projectImage={project.photoUrl}
+               projectImage={project.photoUrl ?? null}
                projectName={project.projectName}
-               projectLocation={project.location}
+               projectLocation={project.location ?? ""}
                projectStatus={
                  developmentStage[project.stage as keyof typeof developmentStage]
                }
-               projectLogo={project.logoUrl}
+               projectLogo={project.logoUrl ?? null}
                projectAccent={accentColor[project.accentColor as keyof typeof accentColor] ?? accentColor.blue}
-               projectId={project.id}
+               projectId={typeof project.id === "number" ? project.id : parseInt(String(project.id), 10) || 0}
              />
            </Link>
          ))}

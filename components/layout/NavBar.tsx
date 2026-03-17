@@ -21,7 +21,6 @@ function NavBar({ isScrolled, isMenuOpen, setIsMenuOpen }: NavBarProps) {
     { name: "Projects", href: "/projects" },
     { name: "Broker's Accreditation", href: "/brokers-accreditation" },
     { name: "News", href: "/news" },
-    { name: "Contact Us", href: "/contact-us" },
   ];
 
   const utilityLinks = [
@@ -77,8 +76,8 @@ function NavBar({ isScrolled, isMenuOpen, setIsMenuOpen }: NavBarProps) {
               );
             })}
             
-            <Button size="sm" variant="primary" onClick={() => window.location.href = "/reservation"}>
-              Reserve Now
+            <Button size="sm" variant="primary" onClick={() => window.location.href = "/contact-us"}>
+              Contact Us
             </Button>
           </div>
 

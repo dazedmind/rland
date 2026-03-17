@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import TextInput from "../ui/TextInput";
 import DropSelect from "../ui/DropSelect";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
+import { validateEmail, validatePhone, validateName } from "@/lib/form-validator";
 
 const EMPTY_FORM_DATA = {
   firstName: '',
@@ -40,14 +41,33 @@ function ContactForm() {
       { value: formData.subject, label: "Subject" },
       { value: formData.source, label: "Where did you hear about us?" },
     ];
-  
-    const missingField = requiredFields.find(field => !field.value || field.value.trim() === "");
-    
-    if (missingField) {
-      toast.error(`${missingField.label} is required`);
+
+    const isValid = requiredFields.every((field: { value: string; label: string }) => field.value && field.value.trim() !== "");
+    if (!isValid) {
+      toast.error('Please fill out all required fields');
       return false;
     }
-  
+
+    if (!validateEmail(formData.email)) {
+      toast.error('Please enter a valid email address');
+      return false;
+    }
+
+    if (!validatePhone(formData.phone)) {
+      toast.error('Please enter a valid phone number');
+      return false;
+    }
+
+    if (!validateName(formData.firstName)) {
+      toast.error('Please enter a valid first name');
+      return false;
+    }
+
+    if (!validateName(formData.lastName)) {
+      toast.error('Please enter a valid last name');
+      return false;
+    }
+
     if (!checkbox) {
       toast.error('You must agree to the terms and conditions');
       return false;
@@ -80,7 +100,6 @@ function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
     setLoading(true);
 
     if (!hcaptchaToken) {

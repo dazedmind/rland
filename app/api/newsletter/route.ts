@@ -4,8 +4,12 @@ import { newsletter } from '@/db/schema';
 import { requireApiKey } from '@/lib/api-auth';
 import { eq, max } from 'drizzle-orm';
 import { z } from 'zod';
+import { rateLimit, rateLimit429 } from '@/lib/rate-limit';
 
 export async function POST(request: NextRequest) {
+  const limitResult = await rateLimit(request, { keyPrefix: "newsletter" });
+  if (!limitResult.success) return rateLimit429(limitResult, 5);
+
   const authError = requireApiKey(request);
   if (authError) return authError;
 

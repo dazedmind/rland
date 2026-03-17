@@ -4,6 +4,7 @@ import { projectInventory, projects, projectModels, projectGallery } from '@/db/
 import { asc, eq, or, sql } from 'drizzle-orm';
 import { requireApiKey } from '@/lib/api-auth';
 import type { ProjectModel, FeaturedInventoryUnit } from '@/app/utils/types';
+import redis from '@/lib/redisClient';
 
 export async function GET(
   request: NextRequest,
@@ -15,7 +16,20 @@ export async function GET(
   try {
     const { id } = await params;
 
-    // 1. Fetch project by id or slug (project name: "Arcoe Residences" -> "arcoe-residences")
+    // 1. Cache Check
+    const cacheKey = `project:detail:${id}`;
+    try {
+      const cached = await redis.get(cacheKey);
+      if (cached) {
+        return NextResponse.json(JSON.parse(cached));
+      }
+    } catch (err) {
+      console.error('Redis GET Error:', err);
+    }
+
+    // --- CACHE MISS: DATABASE LOGIC START ---
+
+    // 2. Fetch project by id or slug
     const result = await db
       .select()
       .from(projects)
@@ -34,7 +48,7 @@ export async function GET(
 
     const projectId = project.id;
 
-    // 2. Fetch project gallery images (sorted by sortOrder), including modelId for filtering
+    // 3. Fetch project gallery images
     const galleryRows = await db
       .select({
         imageUrl: projectGallery.imageUrl,
@@ -50,16 +64,14 @@ export async function GET(
       modelId: r.modelId ?? null,
     }));
 
-    // 3. Fetch featured inventory units with their model joined
+    // 4. Fetch featured inventory units
     const featuredRows = await db
       .select({
-        // inventory fields
         inventoryId:   projectInventory.id,
         inventoryCode: projectInventory.inventoryCode,
         block:         projectInventory.block,
         lot:           projectInventory.lot,
         sellingPrice:  projectInventory.sellingPrice,
-        // model fields
         modelId:       projectModels.id,
         modelName:     projectModels.modelName,
         projectId:     projectModels.projectId,
@@ -74,9 +86,7 @@ export async function GET(
       })
       .from(projectInventory)
       .innerJoin(projectModels, eq(projectInventory.modelId, projectModels.id))
-      .where(
-        eq(projectInventory.projectId, projectId),
-      );
+      .where(eq(projectInventory.projectId, projectId));
 
     const featuredUnits: FeaturedInventoryUnit[] = featuredRows.map((row) => ({
       id:            row.inventoryId,
@@ -85,21 +95,20 @@ export async function GET(
       lot:           row.lot,
       sellingPrice:  row.sellingPrice,
       model: {
-        id:         row.modelId,
-        modelName:  row.modelName,
-        projectId:  row.projectId,
+        id:          row.modelId,
+        modelName:   row.modelName,
+        projectId:   row.projectId,
         description: row.description ?? "",
-        bathroom:   row.bathroom,
-        carport:    row.carport,
-        livingRoom: row.livingRoom,
-        kitchen:    row.kitchen,
-        lotArea:    row.lotArea,
-        floorArea:  row.floorArea,
-        photoUrl:   row.photoUrl,
+        bathroom:    row.bathroom,
+        carport:     row.carport,
+        livingRoom:  row.livingRoom,
+        kitchen:     row.kitchen,
+        lotArea:     row.lotArea,
+        floorArea:   row.floorArea,
+        photoUrl:    row.photoUrl,
       },
     }));
 
-    // Derive unique models for House Models section and min/max area
     const modelMap = new Map<string, ProjectModel>();
     for (const row of featuredRows) {
       if (!modelMap.has(row.modelId)) {
@@ -109,25 +118,33 @@ export async function GET(
           projectId:  row.projectId,
           details:    {
             description: row.description ?? "",
-            bathroom:   row.bathroom,
-            carport:    row.carport,
-            livingRoom: row.livingRoom,
-            kitchen:    row.kitchen,
-            lotArea:    row.lotArea,
-            floorArea:  row.floorArea,
-            photoUrl:   row.photoUrl,
+            bathroom:    row.bathroom,
+            carport:     row.carport,
+            livingRoom:  row.livingRoom,
+            kitchen:     row.kitchen,
+            lotArea:     row.lotArea,
+            floorArea:   row.floorArea,
+            photoUrl:    row.photoUrl,
           },
         });
       }
     }
     const models = Array.from(modelMap.values());
 
-    return NextResponse.json({ project, featuredUnits, models, gallery });
+    const finalData = { project, featuredUnits, models, gallery };
+
+    // --- CACHE MISS: DATABASE LOGIC END ---
+
+    // 5. Save to Redis
+    try {
+      await redis.set(cacheKey, JSON.stringify(finalData), { EX: 3600 });
+    } catch (err) {
+      console.error('Redis SET Error:', err);
+    }
+
+    return NextResponse.json(finalData);
   } catch (error) {
     console.error('[GET /api/projects/[id]]', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch project' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch project' }, { status: 500 });
   }
 }

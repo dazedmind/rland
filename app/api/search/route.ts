@@ -7,6 +7,8 @@ import {
 } from "@/db/schema";
 import { and, gte, lte, ilike, inArray, isNull, asc } from "drizzle-orm";
 import { requireApiKey } from "@/lib/api-auth";
+import redis from '@/lib/redisClient';
+import { rateLimit, rateLimit429 } from '@/lib/rate-limit';
 
 /** One card per model; only exposes starting price (no unit counts) */
 export type SearchModelItem = {
@@ -17,17 +19,32 @@ export type SearchModelItem = {
 };
 
 export async function GET(request: NextRequest) {
+  const limitResult = await rateLimit(request, {
+    keyPrefix: "search",
+    maxRequests: 60,
+    burstMax: 10,
+  });
+  if (!limitResult.success) return rateLimit429(limitResult, 60);
+
   const authError = requireApiKey(request);
   if (authError) return authError;
 
   const { searchParams } = new URL(request.url);
-  const location = searchParams.get("location");
+  const location = (searchParams.get("location") ?? "").trim().slice(0, 200);
   const priceRange = searchParams.get("priceRange");
   const limit = Math.min(Math.max(parseInt(searchParams.get("limit") || "5", 10), 1), 50);
   const page = Math.max(parseInt(searchParams.get("page") || "1", 10), 1);
   const offset = (page - 1) * limit;
 
-  if (!location?.trim()) {
+  const cacheKey = `search:${location}-${priceRange}-${limit}-${page}`;
+  try {
+    const cached = await redis.get(cacheKey);
+    if (cached) return NextResponse.json(JSON.parse(cached));
+  } catch (err) {
+    console.error('Redis GET Error:', err);
+  }
+
+  if (!location) {
     return NextResponse.json(
       { error: "Location is required" },
       { status: 400 }
@@ -124,6 +141,12 @@ export async function GET(request: NextRequest) {
     }
 
     const items = allItems.slice(offset, offset + limit);
+
+    try {
+      await redis.set(cacheKey, JSON.stringify({ items, total, page, limit }), { EX: 60 * 60 });
+    } catch (err) {
+      console.error('Redis SET Error:', err);
+    }
 
     return NextResponse.json({ items, total, page, limit });
   } catch (error) {
