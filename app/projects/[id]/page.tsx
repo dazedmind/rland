@@ -305,9 +305,9 @@ function ProjectDetailsPage({
                   {specification.map((spec) => (
                     <div
                       key={spec.id}
-                      className="flex flex-row items-center rounded-md bg-primary/10 p-4 gap-2"
+                      className="flex flex-row items-center rounded-full bg-primary/10 p-2 gap-2"
                     >
-                      <span className="p-2 bg-primary rounded-full">
+                      <span className="p-3 bg-primary rounded-full">
                         <spec.icon
                           className="size-6 text-white shrink-0"
                           strokeWidth={1.5}

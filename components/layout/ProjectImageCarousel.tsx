@@ -60,13 +60,13 @@ function ProjectImageCarousel({ images, alt = "Project", className = "" }: Proje
                   md:flex-[0_0_50%]
                   lg:flex-[0_0_33.333%]"
               >
-                <div className="relative h-80 bg-neutral-200 rounded-md overflow-hidden">
+                <div className="relative aspect-video bg-neutral-200 rounded-md overflow-hidden">
                   <Image
                     src={src}
                     alt={`${alt} ${i + 1}`}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33.333vw"
+                    // sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33.333vw"
                   />
                 </div>
               </div>

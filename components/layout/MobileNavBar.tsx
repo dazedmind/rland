@@ -21,7 +21,6 @@ function MobileNavBar({ isMenuOpen, setIsMenuOpen }: MobileNavBarProps) {
     { name: "Projects", href: "/projects" },
     { name: "Broker's Accreditation", href: "/brokers-accreditation" },
     { name: "News", href: "/news" },
-    { name: "Contact Us", href: "/contact-us" },
   ];
 
   const utilityLinks = [
@@ -117,7 +116,7 @@ function MobileNavBar({ isMenuOpen, setIsMenuOpen }: MobileNavBarProps) {
           {/* Reserve Now Button */}
           <div className="mt-auto p-4 border-t border-neutral-200">
             <button className="w-full bg-primary text-white px-4 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors shadow-sm">
-              Reserve Now
+              Contact Us
             </button>
           </div>
         </div>
