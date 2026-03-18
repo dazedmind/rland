@@ -53,7 +53,7 @@ function NavBar({ isScrolled, isMenuOpen, setIsMenuOpen }: NavBarProps) {
             <Image src={rlandLogo} alt="Logo" width={100} height={100} />
           </Link>
 
-          <div className="hidden lg:flex items-center gap-8 list-none uppercase">
+          <div className="hidden lg:flex items-center gap-8 list-none uppercase text-sm">
             {mainLinks.map((link) => {
               const isActive = pathname === link.href;
               

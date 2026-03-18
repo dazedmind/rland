@@ -143,17 +143,16 @@ export const newsletterStatusEnum = pgEnum('newsletter_status', [
 ])
 
 export const departmentEnum = pgEnum('department', [
-  'marketing',
-  'executive',
-  'engineering',
+  'construction',
   'design',
   'hr',
-  'finance',
   'it',
-  'legal',
-  'operations',
-  'customer_service',
-  'product'
+  'office_president',
+  'project_development',
+  'property_management',
+  'sales_admin',
+  'sales_marketing',
+  'sales_documentation',
 ])
 
 export const activityStatusEnum = pgEnum('activity_status', [
@@ -295,7 +294,7 @@ export const jobInquiry = pgTable('job_inquiry', {
 export const careers = pgTable('careers', {
   id:             serial('id').primaryKey(),
   position:       text('position').notNull(),
-  department:     departmentEnum('department').notNull().default('marketing'),
+  department:     departmentEnum('department').notNull(),
   location:       text('location').notNull(),
   jobDescription: text('job_description').notNull(),
   responsibilities: text('responsibilities').notNull(),

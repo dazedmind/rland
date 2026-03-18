@@ -181,17 +181,16 @@ export const location = {
 export type Location = (typeof location)[keyof typeof location];
 
 export const department = {
-  marketing: 'Sales & Marketing',
-  executive: 'Executive',
-  engineering: 'Engineering ',
+  construction: 'Construction Management',
   design: 'Design & Architecture',
   hr: 'Human Resources',
-  finance: 'Finance',
   it: 'Information Technology',
-  legal: 'Legal',
-  operations: 'Operations',
-  customer_service: 'Customer Service',
-  product: 'Product Management',
+  office_president: 'Office of the President',
+  project_development: 'Project Development',
+  property_management: 'Property Management',
+  sales_admin: 'Sales Admin',
+  sales_marketing: 'Sales & Marketing',
+  sales_documentation: 'Sales Documentation'
 }
 
 export type Department = (typeof department)[keyof typeof department];

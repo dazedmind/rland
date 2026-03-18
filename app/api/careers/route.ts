@@ -4,8 +4,7 @@ import { careers } from '@/db/schema';
 import { requireApiKey } from '@/lib/api-auth';
 import { and, desc, eq, ne, sql } from 'drizzle-orm';
 import type { Career, CareerStatus } from '@/app/utils/types';
-
-const DEPARTMENT_VALUES = ['marketing', 'executive', 'engineering', 'design', 'hr', 'finance', 'it', 'legal', 'operations', 'customer_service', 'product'] as const;
+import { department } from '@/app/utils/types';
 
 export async function GET(request: NextRequest) {
   const authError = requireApiKey(request);
@@ -22,8 +21,8 @@ export async function GET(request: NextRequest) {
 
   try {
     const conditions = [eq(careers.status, status as CareerStatus)];
-    if (departmentFilter && DEPARTMENT_VALUES.includes(departmentFilter as typeof DEPARTMENT_VALUES[number])) {
-      conditions.push(eq(careers.department, departmentFilter as typeof DEPARTMENT_VALUES[number]));
+    if (departmentFilter && Object.values(department).includes(departmentFilter as typeof department[keyof typeof department])) {
+      conditions.push(eq(careers.department, departmentFilter as keyof typeof department));
     }
     if (locationFilter) conditions.push(eq(careers.location, locationFilter));
     if (excludeId) {
