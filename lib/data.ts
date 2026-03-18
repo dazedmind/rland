@@ -1,8 +1,8 @@
+import { unstable_cache } from 'next/cache';
 import { db } from '@/lib/db';
 import { articles, careers } from '@/db/schema';
 import { projectInventory, projects, projectModels, projectGallery } from '@/db/schema';
-import { and, asc, eq, or } from 'drizzle-orm';
-import redis from '@/lib/redisClient';
+import { and, asc, desc, eq, or } from 'drizzle-orm';
 import type { ProjectModel, FeaturedInventoryUnit } from '@/app/utils/types';
 
 export type Career = {
@@ -39,58 +39,9 @@ export type ProjectDetailData = {
   gallery: { imageUrl: string; modelId: string | null }[];
 };
 
-export async function getCareer(id: string): Promise<Career | null> {
-  const cacheKey = `career:${id}`;
-  try {
-    const cached = await redis.get(cacheKey);
-    if (cached) return JSON.parse(cached) as Career;
-  } catch (err) {
-    console.error('Redis GET Error:', err);
-  }
-
-  const careerId = parseInt(id, 10);
-  const isNumericId = !isNaN(careerId);
-  let career;
-
-  if (isNumericId) {
-    const result = await db
-      .select()
-      .from(careers)
-      .where(and(eq(careers.id, careerId), eq(careers.status, 'hiring')))
-      .limit(1);
-    career = result[0] ?? null;
-  } else {
-    const result = await db
-      .select()
-      .from(careers)
-      .where(and(eq(careers.slug, id), eq(careers.status, 'hiring')))
-      .limit(1);
-    career = result[0] ?? null;
-  }
-
-  if (!career) return null;
-
-  try {
-    await redis.set(cacheKey, JSON.stringify(career), { EX: 60 * 60 });
-  } catch (err) {
-    console.error('Redis SET Error:', err);
-  }
-
-  return career as unknown as Career;
-}
-
-export async function getArticle(id: string): Promise<Article | null> {
-  const cacheKey = `article:${id}`;
-  try {
-    const cached = await redis.get(cacheKey);
-    if (cached) return JSON.parse(cached) as Article;
-  } catch (err) {
-    console.error('Redis GET Error:', err);
-  }
-
+async function fetchArticleById(id: string): Promise<Article | null> {
   const articleId = parseInt(id, 10);
   const isNumericId = !isNaN(articleId);
-  let article;
 
   if (isNumericId) {
     const result = await db
@@ -98,36 +49,51 @@ export async function getArticle(id: string): Promise<Article | null> {
       .from(articles)
       .where(eq(articles.id, articleId))
       .limit(1);
-    article = result[0] ?? null;
+    return (result[0] ?? null) as unknown as Article;
   } else {
     const result = await db
       .select()
       .from(articles)
       .where(eq(articles.slug, id))
       .limit(1);
-    article = result[0] ?? null;
+    return (result[0] ?? null) as unknown as Article;
   }
-
-  if (!article) return null;
-
-  try {
-    await redis.set(cacheKey, JSON.stringify(article), { EX: 3600 });
-  } catch (err) {
-    console.error('Redis SET Error:', err);
-  }
-
-  return article as unknown as Article;
 }
 
-export async function getProjectDetails(id: string): Promise<ProjectDetailData | null> {
-  const cacheKey = `project:detail:${id}`;
-  try {
-    const cached = await redis.get(cacheKey);
-    if (cached) return JSON.parse(cached) as ProjectDetailData;
-  } catch (err) {
-    console.error('Redis GET Error:', err);
-  }
+export const getArticle = unstable_cache(
+  fetchArticleById,
+  ['article'],
+  { revalidate: 3600 }
+);
 
+async function fetchCareerById(id: string): Promise<Career | null> {
+  const careerId = parseInt(id, 10);
+  const isNumericId = !isNaN(careerId);
+
+  if (isNumericId) {
+    const result = await db
+      .select()
+      .from(careers)
+      .where(and(eq(careers.id, careerId), eq(careers.status, 'hiring')))
+      .limit(1);
+    return (result[0] ?? null) as unknown as Career;
+  } else {
+    const result = await db
+      .select()
+      .from(careers)
+      .where(and(eq(careers.slug, id), eq(careers.status, 'hiring')))
+      .limit(1);
+    return (result[0] ?? null) as unknown as Career;
+  }
+}
+
+export const getCareer = unstable_cache(
+  fetchCareerById,
+  ['career'],
+  { revalidate: 3600 }
+);
+
+async function fetchProjectDetailsById(id: string): Promise<ProjectDetailData | null> {
   const result = await db
     .select()
     .from(projects)
@@ -221,13 +187,37 @@ export async function getProjectDetails(id: string): Promise<ProjectDetailData |
   }
   const models = Array.from(modelMap.values());
 
-  const finalData: ProjectDetailData = { project, featuredUnits, models, gallery };
-
-  try {
-    await redis.set(cacheKey, JSON.stringify(finalData), { EX: 3600 });
-  } catch (err) {
-    console.error('Redis SET Error:', err);
-  }
-
-  return finalData;
+  return { project, featuredUnits, models, gallery };
 }
+
+export const getProjectDetails = unstable_cache(
+  fetchProjectDetailsById,
+  ['project-detail'],
+  { revalidate: 7200 }
+);
+
+async function fetchArticlesList() {
+  return await db
+    .select()
+    .from(articles)
+    .orderBy(desc(articles.publishDate));
+}
+
+export const getArticlesList = unstable_cache(
+  fetchArticlesList,
+  ['articles-list'],
+  { revalidate: 3600 }
+);
+
+async function fetchProjectsList() {
+  return await db
+    .select()
+    .from(projects)
+    .orderBy(asc(projects.id));
+}
+
+export const getProjectsList = unstable_cache(
+  fetchProjectsList,
+  ['projects-list'],
+  { revalidate: 7200 }
+);

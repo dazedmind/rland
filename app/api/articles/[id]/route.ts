@@ -3,7 +3,6 @@ import { db } from '@/lib/db';
 import { articles } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import { requireApiKey } from '@/lib/api-auth';
-import redis from '@/lib/redisClient';
 
 export async function GET(
   request: NextRequest,
@@ -14,16 +13,6 @@ export async function GET(
 
   try {
     const { id } = await params;
-    
-    const cacheKey = `article:${id}`;
-    try {
-      const cached = await redis.get(cacheKey);
-      if (cached) return NextResponse.json(JSON.parse(cached), {
-        headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3600" },
-      });
-    } catch (err) {
-      console.error('Redis GET Error:', err);
-    }
 
     const articleId = parseInt(id, 10);
     const isNumericId = !isNaN(articleId);
@@ -47,12 +36,6 @@ export async function GET(
 
     if (!article) {
       return NextResponse.json({ error: 'Article not found' }, { status: 404 });
-    }
-
-    try {
-      await redis.set(cacheKey, JSON.stringify(article), { EX: 3600 });
-    } catch (err) {
-      console.error('Redis SET Error:', err);
     }
 
     return NextResponse.json(article, {

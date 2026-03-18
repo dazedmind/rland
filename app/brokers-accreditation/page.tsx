@@ -67,7 +67,6 @@ function BrokersAccreditation() {
                 </div>
               </div>
             </ScrollReveal>
-          
           </div>
         </section>
 

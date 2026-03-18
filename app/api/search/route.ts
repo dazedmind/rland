@@ -7,7 +7,6 @@ import {
 } from "@/db/schema";
 import { and, gte, lte, ilike, inArray, isNull, asc } from "drizzle-orm";
 import { requireApiKey } from "@/lib/api-auth";
-import redis from '@/lib/redisClient';
 import { rateLimit, rateLimit429 } from '@/lib/rate-limit';
 
 /** One card per model; only exposes starting price (no unit counts) */
@@ -36,16 +35,6 @@ export async function GET(request: NextRequest) {
   const page = Math.max(parseInt(searchParams.get("page") || "1", 10), 1);
   const offset = (page - 1) * limit;
 
-  const cacheKey = `search:${location}-${priceRange}-${limit}-${page}`;
-  try {
-    const cached = await redis.get(cacheKey);
-    if (cached) return NextResponse.json(JSON.parse(cached), {
-      headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3600" },
-    });
-  } catch (err) {
-    console.error('Redis GET Error:', err);
-  }
-
   if (!location) {
     return NextResponse.json(
       { error: "Location is required" },
@@ -65,7 +54,6 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // 1. Find projects matching location (case-insensitive)
     const locationPattern = `%${location}%`;
     const matchingProjects = await db
       .select()
@@ -80,7 +68,6 @@ export async function GET(request: NextRequest) {
 
     const projectIds = matchingProjects.map((p) => p.id);
 
-    // 2. Fetch all matching inventory (for grouping - no unit counts exposed)
     const inventoryWhere = and(
       inArray(projectInventory.projectId, projectIds),
       gte(projectInventory.sellingPrice, minPrice),
@@ -96,7 +83,6 @@ export async function GET(request: NextRequest) {
 
     const projectMap = new Map(matchingProjects.map((p) => [p.id, p]));
 
-    // 3. Fetch model details for all modelIds in matching inventory
     const modelIds = [...new Set(matchingInventory.map((i) => i.modelId))];
     const modelsList = await db
       .select()
@@ -104,7 +90,6 @@ export async function GET(request: NextRequest) {
       .where(inArray(projectModels.id, modelIds));
     const modelMap = new Map(modelsList.map((m) => [m.id, m]));
 
-    // 4. Group by (projectId, modelId); keep cheapest per model for price
     const groupKey = (p: string, m: string) => `${p}::${m}`;
     const modelGroupMap = new Map<
       string,
@@ -147,12 +132,6 @@ export async function GET(request: NextRequest) {
     }
 
     const items = allItems.slice(offset, offset + limit);
-
-    try {
-      await redis.set(cacheKey, JSON.stringify({ items, total, page, limit }), { EX: 60 * 60 });
-    } catch (err) {
-      console.error('Redis SET Error:', err);
-    }
 
     return NextResponse.json({ items, total, page, limit }, {
       headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3600" },

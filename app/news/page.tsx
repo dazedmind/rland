@@ -7,6 +7,7 @@ import FeaturedNewsCard from "@/components/cards/FeaturedNewsCard";
 import MobileNavBar from "@/components/layout/MobileNavBar";
 import NewsCard from "@/components/cards/NewsCard";
 import { ArticleType } from "@/app/utils/types";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 function NewsPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -32,10 +33,12 @@ function NewsPage() {
       
       <main>
         {/* FEATURED STORY SECTION */}
+        <ScrollReveal className="w-full">
         <section className="px-8 md:px-16 xl:px-44 py-16">
-          <h2 className="text-2xl font-bold mb-4 text-primary uppercase">Featured Story</h2>
-          <FeaturedNewsCard />
-        </section>
+            <h2 className="text-2xl font-bold mb-4 text-primary uppercase">Featured Story</h2>
+            <FeaturedNewsCard />
+          </section>
+        </ScrollReveal>
 
         {/* NEWS FEED SECTION */}
         <section className="px-8 md:px-16 xl:px-44 py-16 bg-neutral-50">
@@ -57,7 +60,9 @@ function NewsPage() {
           </div>
 
           {/* Grid of News Cards */}
-          <NewsCard filterCategory={filter === "All" ? undefined : filter.toLowerCase() as ArticleType}/>
+          <ScrollReveal className="w-full">
+            <NewsCard filterCategory={filter === "All" ? undefined : filter.toLowerCase() as ArticleType}/>
+          </ScrollReveal>
         </section>
       </main>
 

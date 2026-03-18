@@ -4,7 +4,6 @@ import { projectInventory, projects, projectModels, projectGallery } from '@/db/
 import { asc, eq, or } from 'drizzle-orm';
 import { requireApiKey } from '@/lib/api-auth';
 import type { ProjectModel, FeaturedInventoryUnit } from '@/app/utils/types';
-import redis from '@/lib/redisClient';
 
 export async function GET(
   request: NextRequest,
@@ -16,22 +15,6 @@ export async function GET(
   try {
     const { id } = await params;
 
-    // 1. Cache Check
-    const cacheKey = `project:detail:${id}`;
-    try {
-      const cached = await redis.get(cacheKey);
-      if (cached) {
-        return NextResponse.json(JSON.parse(cached), {
-          headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3600" },
-        });
-      }
-    } catch (err) {
-      console.error('Redis GET Error:', err);
-    }
-
-    // --- CACHE MISS: DATABASE LOGIC START ---
-
-    // 2. Fetch project by id or slug
     const result = await db
       .select()
       .from(projects)
@@ -45,45 +28,44 @@ export async function GET(
 
     const projectId = project.id;
 
-    // 3. Fetch project gallery images
-    const galleryRows = await db
-      .select({
-        imageUrl: projectGallery.imageUrl,
-        modelId: projectGallery.modelId,
-        sortOrder: projectGallery.sortOrder,
-      })
-      .from(projectGallery)
-      .where(eq(projectGallery.projectId, projectId))
-      .orderBy(asc(projectGallery.sortOrder));
+    const [galleryRows, featuredRows] = await Promise.all([
+      db
+        .select({
+          imageUrl: projectGallery.imageUrl,
+          modelId: projectGallery.modelId,
+          sortOrder: projectGallery.sortOrder,
+        })
+        .from(projectGallery)
+        .where(eq(projectGallery.projectId, projectId))
+        .orderBy(asc(projectGallery.sortOrder)),
+      db
+        .select({
+          inventoryId:   projectInventory.id,
+          inventoryCode: projectInventory.inventoryCode,
+          block:         projectInventory.block,
+          lot:           projectInventory.lot,
+          sellingPrice:  projectInventory.sellingPrice,
+          modelId:       projectModels.id,
+          modelName:     projectModels.modelName,
+          projectId:     projectModels.projectId,
+          description:   projectModels.description,
+          bathroom:      projectModels.bathroom,
+          carport:       projectModels.carport,
+          livingRoom:    projectModels.livingRoom,
+          kitchen:       projectModels.kitchen,
+          lotArea:       projectModels.lotArea,
+          floorArea:     projectModels.floorArea,
+          photoUrl:      projectModels.photoUrl,
+        })
+        .from(projectInventory)
+        .innerJoin(projectModels, eq(projectInventory.modelId, projectModels.id))
+        .where(eq(projectInventory.projectId, projectId)),
+    ]);
 
     const gallery = galleryRows.map((r) => ({
       imageUrl: r.imageUrl,
       modelId: r.modelId ?? null,
     }));
-
-    // 4. Fetch featured inventory units
-    const featuredRows = await db
-      .select({
-        inventoryId:   projectInventory.id,
-        inventoryCode: projectInventory.inventoryCode,
-        block:         projectInventory.block,
-        lot:           projectInventory.lot,
-        sellingPrice:  projectInventory.sellingPrice,
-        modelId:       projectModels.id,
-        modelName:     projectModels.modelName,
-        projectId:     projectModels.projectId,
-        description:   projectModels.description,
-        bathroom:      projectModels.bathroom,
-        carport:       projectModels.carport,
-        livingRoom:    projectModels.livingRoom,
-        kitchen:       projectModels.kitchen,
-        lotArea:       projectModels.lotArea,
-        floorArea:     projectModels.floorArea,
-        photoUrl:      projectModels.photoUrl,
-      })
-      .from(projectInventory)
-      .innerJoin(projectModels, eq(projectInventory.modelId, projectModels.id))
-      .where(eq(projectInventory.projectId, projectId));
 
     const featuredUnits: FeaturedInventoryUnit[] = featuredRows.map((row) => ({
       id:            row.inventoryId,
@@ -129,15 +111,6 @@ export async function GET(
     const models = Array.from(modelMap.values());
 
     const finalData = { project, featuredUnits, models, gallery };
-
-    // --- CACHE MISS: DATABASE LOGIC END ---
-
-    // 5. Save to Redis
-    try {
-      await redis.set(cacheKey, JSON.stringify(finalData), { EX: 3600 });
-    } catch (err) {
-      console.error('Redis SET Error:', err);
-    }
 
     return NextResponse.json(finalData, {
       headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3600" },

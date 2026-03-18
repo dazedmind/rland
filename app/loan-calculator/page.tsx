@@ -15,6 +15,7 @@ import {
   TableBody,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 interface LoanInputs {
@@ -161,6 +162,7 @@ function LoanCalculatorPage() {
       />
 
       <main>
+        <ScrollReveal className="w-full">
         <section className="flex flex-col items-start px-8 md:px-16 xl:px-44 justify-center py-16 space-y-8">
           <div className="flex flex-col lg:flex-row justify-between w-full gap-16 items-start">
             {/* ── LEFT: Inputs ── */}
@@ -487,6 +489,7 @@ function LoanCalculatorPage() {
             </div>
           </div>
         </section>
+        </ScrollReveal>
       </main>
 
       <footer>

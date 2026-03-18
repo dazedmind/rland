@@ -70,7 +70,7 @@ function MobileNavBar({ isMenuOpen, setIsMenuOpen }: MobileNavBarProps) {
         {/* Navigation Content */}
         <div className="flex flex-col h-[calc(100%-88px)] overflow-y-auto">
           {/* Main Links */}
-          <nav className="flex flex-col p-4">
+          <nav className="flex flex-col p-4 uppercase">
             {mainLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
@@ -95,7 +95,7 @@ function MobileNavBar({ isMenuOpen, setIsMenuOpen }: MobileNavBarProps) {
 
           {/* Utility Links */}
           <nav className="flex flex-col p-4 space-y-1">
-            <p className="px-4 py-2 text-xs font-semibold text-neutral-400 uppercase tracking-wider">
+            <p className="px-4 py-2 text-xs font-semibold text-neutral-400 tracking-wider">
               Quick Links
             </p>
             {utilityLinks.map((link) => {
@@ -105,7 +105,7 @@ function MobileNavBar({ isMenuOpen, setIsMenuOpen }: MobileNavBarProps) {
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsMenuOpen(false)}
-                className={`px-4 py-2 text-sm text-neutral-600 hover:text-primary hover:bg-neutral-50 rounded-lg transition-all duration-200 ${isActive ? ' text-primary font-semibold' : 'text-neutral-700 hover:bg-neutral-100 font-medium'}`}
+                className={`px-4 py-2 text-neutral-600 uppercase text-xs hover:text-primary hover:bg-neutral-50 rounded-lg transition-all duration-200 ${isActive ? ' text-primary font-semibold' : 'text-neutral-700 hover:bg-neutral-100 font-medium'}`}
               >
                 {link.name}
               </Link>
