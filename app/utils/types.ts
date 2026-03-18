@@ -33,6 +33,7 @@ export type ProjectBase = {
   id: string;
   projectCode: string;
   projectName: string;
+  slug: string;
   location: string | null;
   photoUrl: string | null;
   logoUrl: string | null;
@@ -160,6 +161,7 @@ export type ProjectType = (typeof projectType)[keyof typeof projectType];
 export type Career = {
   id: number;
   position: string;
+  slug: string;
   location: Location;
   department: string;
   jobDescription: string;
@@ -199,6 +201,7 @@ export type Project = {
   id: string;
   projectCode: string;
   projectName: string;
+  slug: string;
   status: ProjectStatus;
   location: string;
   stage: DevelopmentStage;

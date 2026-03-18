@@ -40,7 +40,9 @@ export async function GET(request: NextRequest) {
     const cacheKey = 'projects:featured';
     try {
       const cached = await redis.get(cacheKey);
-      if (cached) return NextResponse.json(JSON.parse(cached));
+      if (cached) return NextResponse.json(JSON.parse(cached), {
+        headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3600" },
+      });
     } catch (err) {
       console.error('Redis GET Error:', err);
     }
@@ -71,7 +73,9 @@ export async function GET(request: NextRequest) {
       .limit(4);
 
     if (featuredRows.length === 0) {
-      return NextResponse.json([]);
+      return NextResponse.json([], {
+        headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3600" },
+      });
     }
 
     const projectIds = [...new Set(featuredRows.map((r) => r.projectId))];
@@ -125,7 +129,9 @@ export async function GET(request: NextRequest) {
       console.error('Redis SET Error:', err);
     }
 
-    return NextResponse.json(result);
+    return NextResponse.json(result, {
+      headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3600" },
+    });
   } catch (error) {
     console.error('[GET /api/projects/featured]', error);
     return NextResponse.json(

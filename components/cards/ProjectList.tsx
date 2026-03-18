@@ -8,7 +8,6 @@ import ScrollReveal from "../ui/ScrollReveal";
 import { developmentStage, type Project } from "@/app/utils/types";
 import ProjectListSkeleton from "../layout/skeleton/ProjectListSkeleton";
 import Link from "next/link";
-import { urlNameToSlug } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 async function fetchProjects(): Promise<Project[]> {
@@ -60,7 +59,7 @@ function ProjectList({ limit, type }: { limit?: number; type: string }) {
     blue:   "bg-gradient-to-tl from-transparent via-primary/20 to-primary/20",
     yellow: "bg-gradient-to-tl from-transparent via-secondary/20 to-secondary/20",
     amber:  "bg-gradient-to-tl from-transparent via-amber-800/20 to-amber-800/20",
-    orange: "bg-gradient-to-tl from-transparent via-orange-600/20 to-orange-600/20",
+    orange: "bg-gradient-to-tl from-transparent via-orange-800/20 to-orange-800/20",
     green:  "bg-gradient-to-tl from-transparent via-green-950/20 to-green-950/20",
     purple: "bg-gradient-to-tr from-transparent via-purple-950/20 to-purple-950/20",
     red:    "bg-gradient-to-tl from-transparent via-red-950/20 to-red-950/20",
@@ -90,7 +89,7 @@ function ProjectList({ limit, type }: { limit?: number; type: string }) {
                     md:flex-[0_0_50%]
                     lg:flex-[0_0_33.333%]"
                 >
-                  <Link href={`/projects/${urlNameToSlug(project.projectName)}`}>
+                  <Link href={`/projects/${project.slug}`}>
                     <ProjectCard
                       projectImage={project.photoUrl ?? null}
                       projectName={project.projectName}
@@ -112,24 +111,28 @@ function ProjectList({ limit, type }: { limit?: number; type: string }) {
           </div>
 
           {/* Arrows - hidden on mobile */}
-          <button
-            type="button"
-            onClick={scrollPrev}
-            disabled={!canScrollPrev}
-            className="absolute -left-20 top-1/2 -translate-y-1/2 z-10 hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-lg border border-border hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all"
-            aria-label="Previous"
-          >
-            <ChevronLeft className="size-6 text-neutral-800" />
-          </button>
-          <button
-            type="button"
-            onClick={scrollNext}
-            disabled={!canScrollNext}
-            className="absolute -right-20 top-1/2 -translate-y-1/2 z-10 hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-lg border border-border hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all"
-            aria-label="Next"
-          >
-            <ChevronRight className="size-6 text-neutral-800" />
-          </button>
+          {projects.length > 3 && (
+            <>
+              <button
+                type="button"
+                onClick={scrollPrev}
+                disabled={!canScrollPrev}
+                className="absolute -left-20 top-1/2 -translate-y-1/2 z-10 hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-lg border border-border hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all"
+                aria-label="Previous"
+              >
+                <ChevronLeft className="size-6 text-neutral-800" />
+              </button>
+              <button
+                type="button"
+                onClick={scrollNext}
+                disabled={!canScrollNext}
+                className="absolute -right-20 top-1/2 -translate-y-1/2 z-10 hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-lg border border-border hover:bg-neutral-50 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all"
+                aria-label="Next"
+              >
+                <ChevronRight className="size-6 text-neutral-800" />
+              </button>
+            </>
+          )}
         </div>
 
         {/* Indicators */}
@@ -153,7 +156,7 @@ function ProjectList({ limit, type }: { limit?: number; type: string }) {
       {type === "grid" && (
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center gap-4 w-full ">
          {projects.map((project: Project) => (
-           <Link key={project.id} href={`/projects/${urlNameToSlug(project.projectName)}`}>
+           <Link key={project.id} href={`/projects/${project.slug}`}>
              <ProjectCard
                projectImage={project.photoUrl ?? null}
                projectName={project.projectName}

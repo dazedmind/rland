@@ -87,7 +87,7 @@ function ModelDetailsModal({
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         className="w-[calc(100%-2rem)] max-w-5xl max-h-[90vh] overflow-hidden flex flex-col p-0 gap-0"
-        showCloseButton={true}
+        showCloseButton={false}
       >
         <DialogHeader className="px-6 pt-6 pb-2 shrink-0 text-start">
           <DialogTitle className="text-2xl font-bold text-primary">

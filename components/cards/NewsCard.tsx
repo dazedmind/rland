@@ -5,12 +5,12 @@ import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
-import { urlNameToSlug } from "@/lib/utils";
 import { dateFormatter } from "@/app/utils/dateFormatter";
 import NewsCardListSkeleton from "../layout/skeleton/NewsCardListSkeleton";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ArticleType } from "@/app/utils/types";
+import { urlNameToSlug } from "@/lib/utils";
 
 const fetchArticles = async () => {
   const response = await fetch("/api/articles");
@@ -95,7 +95,7 @@ function NewsCard({ limit, filterCategory }: { limit?: number; filterCategory?: 
                       </div>
                       <h3 className="text-xl font-bold mb-3 line-clamp-2 uppercase">{article.headline}</h3>
                       <p className="text-sm text-neutral-600 mb-6 line-clamp-3 flex-1">{article.body}</p>
-                      <Link href={`/news/${urlNameToSlug(article.headline)}`}>
+                      <Link href={`/news/${article.slug}`}>
                         <Button variant="outline" size="sm" className="w-full text-primary hover:bg-primary hover:text-white border-primary/30 transition-all ease-in-out duration-300">
                           Read
                         </Button>

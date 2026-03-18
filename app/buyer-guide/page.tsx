@@ -20,6 +20,7 @@ import {
   ChevronUp,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
 const buyingSteps = [
   {
@@ -173,67 +174,72 @@ function BuyerGuidePage() {
       <main className="flex flex-col">
         {/* INTRO SECTION */}
         <section className="flex flex-col items-start px-8 md:px-16 xl:px-44 justify-center py-16 space-y-6">
-          <span className="flex flex-col gap-4 w-full">
-            <h1 className="text-4xl font-bold text-primary">
-              Your Journey to Homeownership Starts Here!
-            </h1>
-            <p className="leading-relaxed text-neutral-600 w-full">
-              Buying a home is one of the most significant decisions you will
-              ever make. At R Land Development Inc., we are committed to making
-              the process as clear, straightforward, and stress-free as
-              possible. This guide walks you through every step — from exploring
-              our communities to receiving the keys to your new home.
-            </p>
-          </span>
+          <ScrollReveal>
+            <span className="flex flex-col gap-4 w-full">
+              <h1 className="text-4xl font-bold text-primary">
+                Your Journey to Homeownership Starts Here!
+              </h1>
+              <p className="leading-relaxed text-neutral-600 w-full">
+                Buying a home is one of the most significant decisions you will
+                ever make. At R Land Development Inc., we are committed to making
+                the process as clear, straightforward, and stress-free as
+                possible. This guide walks you through every step — from exploring
+                our communities to receiving the keys to your new home.
+              </p>
+            </span>
+          </ScrollReveal>
         </section>
 
         {/* STEP-BY-STEP BUYING PROCESS */}
         <section className="px-8 md:px-16 xl:px-44 py-16 bg-neutral-50">
-          <div className="flex flex-col gap-10">
-            <span className="flex flex-col gap-2">
-              <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
-                Step-by-Step
-              </p>
-              <h2 className="text-4xl font-bold text-primary">
-                The Home Buying Process
-              </h2>
-              <p className="text-neutral-600 max-w-2xl">
-                Follow these six steps to guide you from browsing to moving in.
-              </p>
-            </span>
+          <ScrollReveal>
+            <div className="flex flex-col gap-10">
+              <span className="flex flex-col gap-2">
+                <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
+                  Step-by-Step
+                </p>
+                <h2 className="text-4xl font-bold text-primary">
+                  The Home Buying Process
+                </h2>
+                <p className="text-neutral-600 max-w-2xl">
+                  Follow these six steps to guide you from browsing to moving in.
+                </p>
+              </span>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {buyingSteps.map((item) => (
-                <div
-                  key={item.step}
-                  className="group relative flex flex-col gap-4 border border-border rounded-md p-6 bg-white hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
-                >
-                  {/* Step number accent */}
-                  <span className="absolute top-4 right-4 text-6xl font-black text-neutral-100 select-none group-hover:text-primary/10 transition-colors duration-300">
-                    {item.step}
-                  </span>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {buyingSteps.map((item) => (
+                  <div
+                    key={item.step}
+                    className="group relative flex flex-col gap-4 border border-border rounded-md p-6 bg-white hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+                  >
+                    {/* Step number accent */}
+                    <span className="absolute top-4 right-4 text-6xl font-black text-neutral-100 select-none group-hover:text-primary/10 transition-colors duration-300">
+                      {item.step}
+                    </span>
 
-                  {/* Icon */}
-                  <div className="flex items-center justify-center w-14 h-14 rounded-full bg-linear-to-br from-primary to-blue-950 text-white shrink-0">
-                    {item.icon}
+                    {/* Icon */}
+                    <div className="flex items-center justify-center w-14 h-14 rounded-full bg-linear-to-br from-primary to-blue-950 text-white shrink-0">
+                      {item.icon}
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <h3 className="text-lg font-bold text-primary">
+                        {item.title}
+                      </h3>
+                      <p className="text-sm text-neutral-600 leading-relaxed">
+                        {item.description}
+                      </p>
+                    </div>
                   </div>
-
-                  <div className="flex flex-col gap-2">
-                    <h3 className="text-lg font-bold text-primary">
-                      {item.title}
-                    </h3>
-                    <p className="text-sm text-neutral-600 leading-relaxed">
-                      {item.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          </ScrollReveal>
         </section>
 
         {/* PAYMENT OPTIONS SECTION */}
         <section className="px-8 md:px-16 xl:px-44 py-16">
+          <ScrollReveal>
           <div className="flex flex-col gap-10">
             <span className="flex flex-col gap-2">
               <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
@@ -267,9 +273,8 @@ function BuyerGuidePage() {
                     {option.description}
                   </p>
                 </div>
-              ))}
-            </div>
-
+                ))}
+              </div>
             {/* CTA to Loan Calculator */}
             <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-linear-to-r from-primary to-blue-950 rounded-md p-8 text-white">
               <div className="flex flex-col gap-1">
@@ -292,130 +297,140 @@ function BuyerGuidePage() {
               </Link>
             </div>
           </div>
+          </ScrollReveal>
+
         </section>
 
         {/* REQUIRED DOCUMENTS SECTION */}
         <section className="px-8 md:px-16 xl:px-44 py-16 bg-neutral-50">
-          <div className="flex flex-col gap-8">
-            <span className="flex flex-col gap-2">
-              <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
-                Documents
-              </p>
-              <h2 className="text-4xl font-bold text-primary">
-                What You'll Need
-              </h2>
-              <p className="text-neutral-600 max-w-2xl">
-                Prepare the following documents to ensure a smooth reservation
-                and processing experience.
-              </p>
-            </span>
+          <ScrollReveal>
+            <div className="flex flex-col gap-8">
+              <span className="flex flex-col gap-2">
+                <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
+                  Documents
+                </p>
+                <h2 className="text-4xl font-bold text-primary">
+                  What You'll Need
+                </h2>
+                <p className="text-neutral-600 max-w-2xl">
+                  Prepare the following documents to ensure a smooth reservation
+                  and processing experience.
+                </p>
+              </span>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* For Local Buyers */}
-              <div className="flex flex-col gap-4 border border-border rounded-md p-6 bg-white">
-                <h3 className="text-lg font-bold text-primary border-b border-border pb-3">
-                  For Local Buyers
-                </h3>
-                <ul className="flex flex-col gap-2 text-sm text-neutral-600">
-                  {[
-                    "2 valid government-issued IDs (front and back)",
-                    "Marriage certificate (if applicable)",
-                    "Latest 3 months payslips",
-                    "Certificate of Employment",
-                    "Income Tax Return (ITR) or BIR Form 2316",
-                    "Duly accomplished Reservation Form",
-                  ].map((doc) => (
-                    <li key={doc} className="flex items-start gap-2">
-                      <BadgeCheck className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
-                      <span>{doc}</span>
-                    </li>
-                  ))}
-                </ul>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* For Local Buyers */}
+                <div className="flex flex-col gap-4 border border-border rounded-md p-6 bg-white">
+                  <h3 className="text-lg font-bold text-primary border-b border-border pb-3">
+                    For Local Buyers
+                  </h3>
+                  <ul className="flex flex-col gap-2 text-sm text-neutral-600">
+                    {[
+                      "2 valid government-issued IDs (front and back)",
+                      "Marriage certificate (if applicable)",
+                      "Latest 3 months payslips",
+                      "Certificate of Employment",
+                      "Income Tax Return (ITR) or BIR Form 2316",
+                      "Duly accomplished Reservation Form",
+                    ].map((doc) => (
+                      <li key={doc} className="flex items-start gap-2">
+                        <BadgeCheck className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
+                        <span>{doc}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* For OFWs */}
+                <div className="flex flex-col gap-4 border border-border rounded-md p-6 bg-white">
+                  <h3 className="text-lg font-bold text-primary border-b border-border pb-3">
+                    For OFWs (Overseas Filipino Workers)
+                  </h3>
+                  <ul className="flex flex-col gap-2 text-sm text-neutral-600">
+                    {[
+                      "Valid passport and visa",
+                      "OFW Employment Contract (verified by POEA/DOLE)",
+                      "Certificate of Employment with Compensation",
+                      "3 months payslips or remittance records",
+                      "Special Power of Attorney (SPA) for authorized representative",
+                      "Valid government-issued ID of authorized representative",
+                    ].map((doc) => (
+                      <li key={doc} className="flex items-start gap-2">
+                        <BadgeCheck className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
+                        <span>{doc}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
 
-              {/* For OFWs */}
-              <div className="flex flex-col gap-4 border border-border rounded-md p-6 bg-white">
-                <h3 className="text-lg font-bold text-primary border-b border-border pb-3">
-                  For OFWs (Overseas Filipino Workers)
-                </h3>
-                <ul className="flex flex-col gap-2 text-sm text-neutral-600">
-                  {[
-                    "Valid passport and visa",
-                    "OFW Employment Contract (verified by POEA/DOLE)",
-                    "Certificate of Employment with Compensation",
-                    "3 months payslips or remittance records",
-                    "Special Power of Attorney (SPA) for authorized representative",
-                    "Valid government-issued ID of authorized representative",
-                  ].map((doc) => (
-                    <li key={doc} className="flex items-start gap-2">
-                      <BadgeCheck className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
-                      <span>{doc}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <p className="text-xs text-neutral-400">
+                * Document requirements may vary per payment scheme and project.
+                Our sales team will confirm the complete checklist upon your
+                reservation.
+              </p>
             </div>
-
-            <p className="text-xs text-neutral-400">
-              * Document requirements may vary per payment scheme and project.
-              Our sales team will confirm the complete checklist upon your
-              reservation.
-            </p>
-          </div>
+          </ScrollReveal>
         </section>
 
         {/* FAQ SECTION */}
         <section className="px-8 md:px-16 xl:px-44 py-16">
-          <div className="flex flex-col gap-8">
-            <span className="flex flex-col gap-2">
-              <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
-                FAQ
-              </p>
-              <h2 className="text-4xl font-bold text-primary">
-                Frequently Asked Questions
-              </h2>
-              <p className="text-neutral-600 max-w-2xl">
-                Have questions? Here are answers to some of the most common
-                inquiries from our buyers.
-              </p>
-            </span>
+          <ScrollReveal>
+            <div className="flex flex-col gap-8">
+              <span className="flex flex-col gap-2">
+                <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
+                  FAQ
+                </p>
+                <h2 className="text-4xl font-bold text-primary">
+                  Frequently Asked Questions
+                </h2>
+                <p className="text-neutral-600 max-w-2xl">
+                  Have questions? Here are answers to some of the most common
+                  inquiries from our buyers.
+                </p>
+              </span>
 
-            <div className="flex flex-col gap-3">
-              {faqs.map((faq) => (
-                <FAQItem
-                  key={faq.question}
-                  question={faq.question}
-                  answer={faq.answer}
-                />
-              ))}
+              <div className="flex flex-col gap-3">
+                {faqs.map((faq) => (
+                  <FAQItem
+                    key={faq.question}
+                    question={faq.question}
+                    answer={faq.answer}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
+          </ScrollReveal>
         </section>
 
         {/* BOTTOM CTA */}
         <section className="px-8 md:px-16 xl:px-44 py-16 bg-neutral-50">
-          <div className="p-6 md:p-8 rounded-md bg-primary text-white flex flex-col md:flex-row items-center justify-between gap-8 overflow-hidden relative w-full">
-            <div className="relative z-10 space-y-2">
-              <h3 className="text-2xl font-bold">
-                Ready to Take the First Step?
-              </h3>
-              <p className="text-primary-foreground/80">
-                Start your homeownership journey today. Reserve your unit or
-                reach out to our team for a personalized consultation.
-              </p>
+          <ScrollReveal>
+            <div className="p-6 md:p-8 rounded-md bg-primary text-white flex flex-col md:flex-row items-center justify-between gap-8 overflow-hidden relative w-full">
+              <div className="relative z-10 space-y-2">
+                <h3 className="text-2xl font-bold">
+                  Ready to Take the First Step?
+                </h3>
+                <p className="text-primary-foreground/80">
+                  Start your homeownership journey today. Reserve your unit or
+                  reach out to our team for a personalized consultation.
+                </p>
+              </div>
+              <div className="relative z-10 w-full md:w-auto">
+                <Link href="/contact-us">
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="w-full md:w-fit"
+                  >
+                    Contact Us
+                  </Button>
+                </Link>
+              </div>
             </div>
-            <div className="relative z-10 w-full md:w-auto">
-              <Link href="/contact-us">
-                <Button
-                  variant="secondary"
-                  size="sm"
-                >
-                  Contact Us
-                </Button>
-              </Link>
-            </div>
-          </div>
+          </ScrollReveal>
         </section>
+
       </main>
 
       <footer>

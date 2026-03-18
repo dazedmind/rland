@@ -137,7 +137,7 @@ function Footer() {
       {/* RIGHT */}
       <div className=" w-full h-full flex flex-col gap-8">
         {/* NEWSLETTER */}
-        <div className="bg-primary rounded-md p-6 text-white flex flex-col gap-4 w-auto">
+        <div className="bg-primary rounded-md p-6 mt-4 md:mt-0 text-white flex flex-col gap-4 w-auto">
           <span>
             <h2 className="text-xl font-bold">Subscribe to our newsletter</h2>
             <p className="text-sm leading-relaxed text-neutral-200">

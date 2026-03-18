@@ -72,7 +72,7 @@ function CareersPage() {
         <section id="jobs" className="flex flex-col items-start px-8 md:px-24 lg:px-44 xl:px-64 justify-center py-16 space-y-8">
           <div className="w-full flex flex-col gap-4">
             {/* HEADER */}
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
+            <div className="flex flex-col gap-4 md:flex-row items-start md:items-center justify-between">
               <h2 className="text-3xl font-bold text-primary">Current Job Openings</h2>
 
               <span className="flex flex-row gap-4 w-full md:w-1/2 justify-end">

@@ -46,6 +46,20 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      // Prevent 304 / stale cache for API and HTML - always revalidate
+      {
+        source: "/api/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store, no-cache, must-revalidate, proxy-revalidate",
+          },
+          {
+            key: "Pragma",
+            value: "no-cache",
+          },
+        ],
+      },
     ];
   },
 };

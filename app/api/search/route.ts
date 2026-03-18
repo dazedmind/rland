@@ -39,7 +39,9 @@ export async function GET(request: NextRequest) {
   const cacheKey = `search:${location}-${priceRange}-${limit}-${page}`;
   try {
     const cached = await redis.get(cacheKey);
-    if (cached) return NextResponse.json(JSON.parse(cached));
+    if (cached) return NextResponse.json(JSON.parse(cached), {
+      headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3600" },
+    });
   } catch (err) {
     console.error('Redis GET Error:', err);
   }
@@ -71,7 +73,9 @@ export async function GET(request: NextRequest) {
       .where(ilike(projects.location, locationPattern));
 
     if (matchingProjects.length === 0) {
-      return NextResponse.json({ items: [], total: 0, page, limit });
+      return NextResponse.json({ items: [], total: 0, page, limit }, {
+        headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3600" },
+      });
     }
 
     const projectIds = matchingProjects.map((p) => p.id);
@@ -137,7 +141,9 @@ export async function GET(request: NextRequest) {
     const total = allItems.length;
 
     if (total === 0) {
-      return NextResponse.json({ items: [], total: 0, page, limit });
+      return NextResponse.json({ items: [], total: 0, page, limit }, {
+        headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3600" },
+      });
     }
 
     const items = allItems.slice(offset, offset + limit);
@@ -148,7 +154,9 @@ export async function GET(request: NextRequest) {
       console.error('Redis SET Error:', err);
     }
 
-    return NextResponse.json({ items, total, page, limit });
+    return NextResponse.json({ items, total, page, limit }, {
+      headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3600" },
+    });
   } catch (error) {
     console.error("[GET /api/search]", error);
     return NextResponse.json(

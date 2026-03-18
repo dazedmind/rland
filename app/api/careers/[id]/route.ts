@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { careers } from '@/db/schema';
-import { and, desc, eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import { requireApiKey } from '@/lib/api-auth';
-import { urlNameToSlug } from '@/lib/utils';
 import redis from '@/lib/redisClient';
 
 export async function GET(
@@ -21,7 +20,9 @@ export async function GET(
     const cacheKey = `career:${id}`;
     try {
       const cached = await redis.get(cacheKey);
-      if (cached) return NextResponse.json(JSON.parse(cached));
+      if (cached) return NextResponse.json(JSON.parse(cached), {
+        headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3600" },
+      });
     } catch (err) {
       console.error('Redis GET Error:', err);
     }
@@ -36,14 +37,12 @@ export async function GET(
         .limit(1);
       career = result[0] ?? null;
     } else {
-      // Lookup by slug (position converted to slug)
-      const slug = urlNameToSlug(id);
-      const allHiring = await db
+      const result = await db
         .select()
         .from(careers)
-        .where(eq(careers.status, 'hiring'))
-        .orderBy(desc(careers.createdAt));
-      career = allHiring.find((c) => urlNameToSlug(c.position) === slug) ?? null;
+        .where(and(eq(careers.slug, id), eq(careers.status, 'hiring')))
+        .limit(1);
+      career = result[0] ?? null;
     }
 
     if (!career) {
@@ -56,7 +55,9 @@ export async function GET(
       console.error('Redis SET Error:', err);
     }
 
-    return NextResponse.json(career);
+    return NextResponse.json(career, {
+      headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3600" },
+    });
   } catch (error) {
     console.error('[GET /api/careers/[id]]', error);
     return NextResponse.json(

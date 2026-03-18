@@ -1,46 +1,37 @@
 "use client";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { urlNameToSlug } from "@/lib/utils";
 import Image from "next/image";
 import NewsCardSkeleton from "@/components/layout/skeleton/NewsCardSkeleton";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { urlNameToSlug } from "@/lib/utils";
+
+const fetchArticles = async () => {
+  const response = await fetch("/api/articles");
+  if (!response.ok) throw new Error("Failed to fetch articles");
+  const data = await response.json();
+  return Array.isArray(data) ? data.filter((a: { isFeatured?: boolean }) => a.isFeatured) : [];
+};
 
 function FeaturedNewsCard() {
-  const [articles, setArticles] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const fetchArticles = useCallback(async () => {
-    try {
-      const response = await fetch("/api/articles");
-      const data = await response.json();
-      const featured = data.filter((article: any) => article.isFeatured);
-      setArticles(featured);
-    } catch (error) {
-      console.error("[GET /api/articles]", error);
-      setArticles([]);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchArticles();
-  }, [fetchArticles]);
+  const { data: articles = [], isLoading } = useQuery({
+    queryKey: ["articles", "featured"],
+    queryFn: fetchArticles,
+  });
 
   // CAROUSEL LOGIC: Auto-swipe every 5 seconds
   useEffect(() => {
     if (articles.length <= 1) return;
-
     const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % articles.length);
+      setCurrentIndex((prev) => (prev + 1) % articles.length);
     }, 5000);
-
     return () => clearInterval(timer);
   }, [articles.length]);
 
-  if (loading) {
+  if (isLoading) {
     return <NewsCardSkeleton />;
   }
 
@@ -57,7 +48,7 @@ function FeaturedNewsCard() {
         <span>
           <button
             className="cursor-pointer"
-            onClick={() => setCurrentIndex(currentIndex - 1)}
+            onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
             disabled={currentIndex === 0}
           >
             <ChevronLeft className="w-6 h-6 text-primary hover:text-secondary transition-all duration-300" />
@@ -66,7 +57,7 @@ function FeaturedNewsCard() {
         <span>
           <button
             className="cursor-pointer"
-            onClick={() => setCurrentIndex(currentIndex + 1)}
+            onClick={() => setCurrentIndex((prev) => Math.min(articles.length - 1, prev + 1))}
             disabled={currentIndex === articles.length - 1}
           >
             <ChevronRight className="w-6 h-6 text-primary hover:text-secondary transition-all duration-300" />
@@ -120,7 +111,7 @@ function FeaturedNewsCard() {
         </p>
    
         <Link
-          href={`/news/${urlNameToSlug(currentArticle?.headline ?? "")}`}
+          href={`/news/${currentArticle?.slug ?? ""}`}
           className="mt-4 py-2 font-bold text-primary flex items-center gap-2 hover:gap-4 transition-all"
         >
           Read Full Story <ArrowRight className="size-5" />

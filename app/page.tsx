@@ -6,7 +6,7 @@ import philecoLogo from "@/public/phileco-logo.png";
 import rmrLogo from "@/public/rmr-logo.png";
 import hcptLogo from "@/public/hcpt-logo.png";
 import r2Logo from "@/public/r2-logo.png";
-import FeaturedProjectCard from "@/components/cards/FeaturedProjectCard";
+import FeaturedProjectList from "@/components/cards/FeaturedProjectList";
 import { ArrowRight, MapPin } from "lucide-react";
 import NavBar from "@/components/layout/NavBar";
 import MobileNavBar from "@/components/layout/MobileNavBar";
@@ -127,12 +127,12 @@ export default function Home() {
               </div>
 
               {/* Text */}
-              <span className="flex flex-col gap-4 w-full lg:w-1/2 ">
+              <span className="flex flex-col gap-4 px-4 w-full lg:w-1/2 ">
                 <span>
                   <h1 className="text-4xl font-bold text-primary">
                     About R Land
                   </h1>
-                  <p className="uppercase text-muted-foreground font-medium">Rooted in Nature, Designed for the Future</p>
+                  <p className="uppercase text-secondary font-medium">Rooted in Nature, Designed for the Future</p>
                 </span>
 
                 <p className="leading-relaxed text-neutral-600">
@@ -164,7 +164,6 @@ export default function Home() {
                 <Image src={hcptLogo} alt="HCPT Logo" width={100} height={100} className="saturate-0 hover:saturate-100 transition-all w-12 md:w-16 lg:w-24 duration-300 cursor-pointer" />
                 <Image src={r2Logo} alt="R2 Logo" width={100} height={100} className="saturate-0 hover:saturate-100 transition-all w-12 md:w-16 lg:w-24 duration-300 cursor-pointer" />
               </div>
-            
             </div>
           </div>
         </ScrollReveal>
@@ -185,7 +184,7 @@ export default function Home() {
             </div>
 
             {/* Featured Projects Card*/}
-            <FeaturedProjectCard />
+            <FeaturedProjectList />
           </div>
         </ScrollReveal>
 
@@ -362,7 +361,7 @@ export default function Home() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="flex-1 md:w-fit text-white hover:bg-white hover:text-primary"
+                    className="w-fit text-white hover:bg-white hover:text-primary"
                     asChild
                   >
                     <Link href="/buyer-guide">Your Buying Guide</Link>
@@ -372,9 +371,9 @@ export default function Home() {
                     variant="default"
                     size="sm"
                     asChild
-                    className="flex-1 md:w-fit"
+                    className="w-fit"
                   >
-                    <Link href="/contact-us">Connect with Us</Link>
+                    <Link href="/contact-us">Contact Sales</Link>
                   </Button>
                 </span>
               </div>

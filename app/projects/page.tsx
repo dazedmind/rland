@@ -71,7 +71,7 @@ function ProjectsPage() {
             <span className="flex flex-col gap-4">
               <h1 className="text-4xl font-bold text-primary">R Land's Projects</h1>
               <p className="leading-relaxed text-neutral-600">
-                With Real Estate as the core business of R Land...
+                With Real Estate as the core business of R Land, the company gives impetus to master-planning to project sales operation founded in flexible and adaptive architectural designs, innovative marketing strategies and competitive financial structures. These are the foundations of R Land as one of the future major companies to partake in answering the housing backlog of the country.
               </p>
             </span>
 

@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { Figtree, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import UtilityWrapper from "../components/utils/UtilityWrapper";
+import UtilityWrapper from "./providers/UtilityWrapper";
 import QueryProvider from "./providers/QueryProvider";
 import CookieConsentBanner from "@/components/analytics/CookieConsentBanner";
 import GoogleTagManager from "@/components/analytics/GoogleTagManager";
 import GoogleAnalyticsWrapper from "@/components/analytics/GoogleAnalyticsWrapper";
 import { ConsentProvider } from "@/components/analytics/ConsentProvider";
-import ScrollToTop from "@/components/utils/ScrollToTop";
+import ScrollToTop from "@/app/providers/ScrollToTop";
 
 const figtree = Figtree({
   variable: "--font-figtree",

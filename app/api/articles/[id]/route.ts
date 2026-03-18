@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { articles } from '@/db/schema';
-import { desc, eq } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { requireApiKey } from '@/lib/api-auth';
-import { urlNameToSlug } from '@/lib/utils';
 import redis from '@/lib/redisClient';
 
 export async function GET(
@@ -19,7 +18,9 @@ export async function GET(
     const cacheKey = `article:${id}`;
     try {
       const cached = await redis.get(cacheKey);
-      if (cached) return NextResponse.json(JSON.parse(cached));
+      if (cached) return NextResponse.json(JSON.parse(cached), {
+        headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3600" },
+      });
     } catch (err) {
       console.error('Redis GET Error:', err);
     }
@@ -36,12 +37,12 @@ export async function GET(
         .limit(1);
       article = result[0] ?? null;
     } else {
-      const slug = urlNameToSlug(id);
-      const allArticles = await db
+      const result = await db
         .select()
         .from(articles)
-        .orderBy(desc(articles.createdAt));
-      article = allArticles.find((a) => urlNameToSlug(a.headline) === slug) ?? null;
+        .where(eq(articles.slug, id))
+        .limit(1);
+      article = result[0] ?? null;
     }
 
     if (!article) {
@@ -54,7 +55,9 @@ export async function GET(
       console.error('Redis SET Error:', err);
     }
 
-    return NextResponse.json(article);
+    return NextResponse.json(article, {
+      headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3600" },
+    });
   } catch (error) {
     console.error('[GET /api/articles/[id]]', error);
     return NextResponse.json(

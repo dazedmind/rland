@@ -220,6 +220,7 @@ export const projects = pgTable('projects', {
   salesOffice: text('sales_office'),
   amenities: jsonb('amenities').notNull().default([]),
   landmarks: jsonb('landmarks').notNull().default([]),
+  slug:           text('slug').notNull().unique(),
   createdAt:   timestamp('created_at').notNull().defaultNow(),
   updatedAt:   timestamp('updated_at').notNull().defaultNow(),
 })
@@ -301,6 +302,7 @@ export const careers = pgTable('careers', {
   qualifications: text('qualifications').notNull(),
   requiredSkills: text('required_skills').notNull(),
   status:         careerStatusEnum('status').notNull().default('hiring'),
+  slug:           text('slug').notNull().unique(),
   createdAt:      timestamp('created_at').notNull().defaultNow(),
   updatedAt:      timestamp('updated_at').notNull().defaultNow(),
 })
@@ -362,6 +364,7 @@ export const articles = pgTable('articles', {
   type:        articleTypeEnum('type').notNull(),
   photoUrl:    text('photo_url'),
   isFeatured:    boolean('is_featured').notNull().default(false),
+  slug:          text('slug').notNull().unique(),
   createdAt:   timestamp('created_at').notNull().defaultNow(),
   updatedAt:   timestamp('updated_at').notNull().defaultNow(),
 })

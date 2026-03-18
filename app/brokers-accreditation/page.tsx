@@ -190,7 +190,7 @@ function BrokersAccreditation() {
         </section>
 
         {/* FINAL CTA SECTION */}
-        <section className="pb-24 px-8 md:px-16 lg:px-24 xl:px-20">
+        <section className="pb-8 md:pb-24 px-8 md:px-16 lg:px-24 xl:px-20">
           <ScrollReveal>
             <div className="max-w-7xl mx-auto bg-slate-50 rounded-md overflow-hidden flex flex-col md:flex-row items-stretch border border-border">
               <div className="md:w-1/3 bg-neutral-200 relative min-h-[300px]">

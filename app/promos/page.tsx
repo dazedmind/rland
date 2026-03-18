@@ -39,16 +39,16 @@ function PromosPage() {
         <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       </header>
 
+      <PageBanner
+        title="Promos"
+        description="View current and upcoming promos and discounts."
+        breadcrumb="Promos"
+      />
+
       {isLoading ? (
         <PromoPageSkeleton />
       ) : (
         <>
-          <PageBanner
-            title="Promos"
-            description="View current and upcoming promos and discounts."
-            breadcrumb="Promos"
-          />
-
           <main>
           <ScrollReveal>
             {/* ABOUT US SECTION */}

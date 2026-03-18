@@ -14,7 +14,9 @@ export async function GET(request: NextRequest) {
     const cacheKey = `promos`;
     try {
       const cached = await redis.get(cacheKey);
-      if (cached) return NextResponse.json(JSON.parse(cached));
+      if (cached) return NextResponse.json(JSON.parse(cached), {
+        headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3600" },
+      });
     } catch (err) {
       console.error('Redis GET Error:', err);
     }
@@ -26,7 +28,9 @@ export async function GET(request: NextRequest) {
       console.error('Redis SET Error:', err);
     }
 
-    return NextResponse.json(promosList as unknown as Promo[]);
+    return NextResponse.json(promosList as unknown as Promo[], {
+      headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3600" },
+    });
   } catch (error) {
     console.error('[GET /api/promos]', error);
     return NextResponse.json({ error: 'Failed to fetch promos list' }, { status: 500 });

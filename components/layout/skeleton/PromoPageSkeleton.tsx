@@ -4,12 +4,6 @@ import PromoListSkeleton from "./PromoListSkeleton";
 function PromoPageSkeleton() {
   return (
     <>
-      {/* Page banner skeleton */}
-      <div className="flex flex-col items-start px-8 md:px-16 xl:px-44 justify-center h-54 bg-neutral-200 animate-pulse">
-        <div className="h-10 w-48 bg-neutral-300 rounded animate-pulse" />
-        <div className="h-5 w-96 mt-2 bg-neutral-300 rounded animate-pulse" />
-      </div>
-
       <main>
         <section className="flex flex-col items-start px-8 md:px-16 xl:px-44 justify-center py-16 space-y-8">
           <span className="flex flex-col gap-4 w-full">

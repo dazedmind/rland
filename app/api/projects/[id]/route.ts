@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { projectInventory, projects, projectModels, projectGallery } from '@/db/schema';
-import { asc, eq, or, sql } from 'drizzle-orm';
+import { asc, eq, or } from 'drizzle-orm';
 import { requireApiKey } from '@/lib/api-auth';
 import type { ProjectModel, FeaturedInventoryUnit } from '@/app/utils/types';
 import redis from '@/lib/redisClient';
@@ -21,7 +21,9 @@ export async function GET(
     try {
       const cached = await redis.get(cacheKey);
       if (cached) {
-        return NextResponse.json(JSON.parse(cached));
+        return NextResponse.json(JSON.parse(cached), {
+          headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3600" },
+        });
       }
     } catch (err) {
       console.error('Redis GET Error:', err);
@@ -33,12 +35,7 @@ export async function GET(
     const result = await db
       .select()
       .from(projects)
-      .where(
-        or(
-          eq(projects.id, id),
-          sql`lower(replace(${projects.projectName}, ' ', '-')) = ${id}`
-        )
-      )
+      .where(or(eq(projects.id, id), eq(projects.slug, id)))
       .limit(1);
 
     const project = result[0] ?? null;
@@ -142,7 +139,9 @@ export async function GET(
       console.error('Redis SET Error:', err);
     }
 
-    return NextResponse.json(finalData);
+    return NextResponse.json(finalData, {
+      headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3600" },
+    });
   } catch (error) {
     console.error('[GET /api/projects/[id]]', error);
     return NextResponse.json({ error: 'Failed to fetch project' }, { status: 500 });

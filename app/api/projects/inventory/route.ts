@@ -21,7 +21,9 @@ export async function GET(request: NextRequest) {
     try {
       const cached = await redis.get(cacheKey);
       if (cached) {
-        return NextResponse.json(JSON.parse(cached));
+        return NextResponse.json(JSON.parse(cached), {
+          headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3600" },
+        });
       }
     } catch (redisError) {
       // If Redis fails, we just log it and continue to the DB 
@@ -43,7 +45,9 @@ export async function GET(request: NextRequest) {
       console.error('Redis SET Error:', redisError);
     }
 
-    return NextResponse.json(inventoryList);
+    return NextResponse.json(inventoryList, {
+      headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=3600" },
+    });
   } catch (error) {
     console.error('[GET /api/projects/inventory]', error);
     return NextResponse.json({ error: 'Failed to fetch inventory list' }, { status: 500 });

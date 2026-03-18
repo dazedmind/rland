@@ -5,7 +5,7 @@ import Link from "next/link";
 import { MapPin, GalleryVerticalEnd, LayoutTemplate } from "lucide-react";
 import aeMeadowUnit from "@/public/ae-meadow-unit.jpg";
 import floorPlan from "@/public/ground floor.jpg";
-import { cn, urlNameToSlug } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 export type SearchUnit = {
   inventory: {
@@ -20,6 +20,7 @@ export type SearchUnit = {
   project: {
     id: string;
     projectName: string;
+    slug: string;
     location: string | null;
     type: string;
     photoUrl?: string | null;
@@ -35,6 +36,7 @@ export type SearchModelItem = {
   project: {
     id: string;
     projectName: string;
+    slug: string;
     location: string | null;
     type: string;
     photoUrl?: string | null;
@@ -90,8 +92,8 @@ function HouseSearchCard({ price, unit, modelCard }: HouseSearchCardProps) {
 
   const detailsUrl = project
     ? inventoryCode
-      ? `/projects/${urlNameToSlug(project.projectName)}?inventory=${inventoryCode}`
-      : `/projects/${urlNameToSlug(project.projectName)}`
+      ? `/projects/${project.slug}?inventory=${inventoryCode}`
+      : `/projects/${project.slug}`
     : "#";
 
   return (
