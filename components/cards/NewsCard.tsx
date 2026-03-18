@@ -10,7 +10,6 @@ import NewsCardListSkeleton from "../layout/skeleton/NewsCardListSkeleton";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ArticleType } from "@/app/utils/types";
-import { urlNameToSlug } from "@/lib/utils";
 
 const fetchArticles = async () => {
   const response = await fetch("/api/articles");

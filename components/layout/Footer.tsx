@@ -68,7 +68,6 @@ function Footer() {
       {name: "Brighter Mornings", href: "/projects/brighter-mornings"},
     ]},
     {category: "Buyer", links: [
-      {name: "Reservation", href: "/reservation"},
       {name: "Contact Us", href: "/contact-us"},
       {name: "Buyer's Guide", href: "/buyer-guide"},
       {name: "Loan Calculator", href: "/loan-calculator"},

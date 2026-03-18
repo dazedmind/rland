@@ -5,42 +5,43 @@ import Image from "next/image";
 import NewsCardSkeleton from "@/components/layout/skeleton/NewsCardSkeleton";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { urlNameToSlug } from "@/lib/utils";
 
 const fetchArticles = async () => {
   const response = await fetch("/api/articles");
   if (!response.ok) throw new Error("Failed to fetch articles");
   const data = await response.json();
-  return Array.isArray(data) ? data.filter((a: { isFeatured?: boolean }) => a.isFeatured) : [];
+  return Array.isArray(data) ? data : [];
 };
 
 function FeaturedNewsCard() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const { data: articles = [], isLoading } = useQuery({
-    queryKey: ["articles", "featured"],
+    queryKey: ["articles"],
     queryFn: fetchArticles,
   });
 
+  const featuredArticles = articles.filter((a: { isFeatured?: boolean }) => a.isFeatured);
+
   // CAROUSEL LOGIC: Auto-swipe every 5 seconds
   useEffect(() => {
-    if (articles.length <= 1) return;
+    if (featuredArticles.length <= 1) return;
     const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % articles.length);
+      setCurrentIndex((prev) => (prev + 1) % featuredArticles.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, [articles.length]);
+  }, [featuredArticles.length]);
 
   if (isLoading) {
     return <NewsCardSkeleton />;
   }
 
-  if (articles.length === 0) {
+  if (featuredArticles.length === 0) {
     return <div>No articles found</div>;
   }
 
   // Active article based on carousel index
-  const currentArticle = articles[currentIndex];
+  const currentArticle = featuredArticles[currentIndex];
 
   return (
     <div className="group relative grid grid-cols-1 lg:grid-cols-2 items-center overflow-hidden rounded-md border border-neutral-200 bg-neutral-50 hover:shadow-md transition-all duration-300">
@@ -57,8 +58,8 @@ function FeaturedNewsCard() {
         <span>
           <button
             className="cursor-pointer"
-            onClick={() => setCurrentIndex((prev) => Math.min(articles.length - 1, prev + 1))}
-            disabled={currentIndex === articles.length - 1}
+            onClick={() => setCurrentIndex((prev) => Math.min(featuredArticles.length - 1, prev + 1))}
+            disabled={currentIndex === featuredArticles.length - 1}
           >
             <ChevronRight className="w-6 h-6 text-primary hover:text-secondary transition-all duration-300" />
           </button>
@@ -85,9 +86,9 @@ function FeaturedNewsCard() {
         )}
 
         {/* Pagination Indicators (Optional but helpful for carousels) */}
-        {articles.length > 1 && (
+        {featuredArticles.length > 1 && (
           <div className="absolute bottom-4 left-4 flex gap-2">
-            {articles.map((_, idx) => (
+            {featuredArticles.map((_, idx) => (
               <div
                 key={idx}
                 className={`h-1.5 rounded-full transition-all duration-300 ${
