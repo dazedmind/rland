@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   if (authError) return authError;
 
   try {
-    const cacheKey = `articles:list}`;
+    const cacheKey = `articles:list`;
     
     try {
       const cached = await redis.get(cacheKey);

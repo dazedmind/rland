@@ -3,8 +3,8 @@ import redis from "./redisClient";
 
 const FORM_MAX_PER_MINUTE = 5;
 const FORM_BURST_MAX = 3;
-const FORM_BURST_WINDOW_MS = 30_000; 
-const FORM_WINDOW_MS = 60_000; 
+const FORM_BURST_WINDOW_MS = 30_000;
+const FORM_WINDOW_MS = 60_000;
 
 export type RateLimitOptions = {
   maxRequests?: number;
@@ -20,12 +20,39 @@ export type RateLimitResult =
   | { success: false; error: string; retryAfter: number };
 
 function getIdentifier(request: Request, customId?: string): string {
-  return (
-    customId ??
+  if (customId) return customId;
+
+  const ip =
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    request.headers.get("x-real-ip") ??
-    "anonymous"
-  );
+    request.headers.get("x-real-ip");
+
+  if (!ip || ip === "::1" || ip === "127.0.0.1") {
+    if (process.env.NODE_ENV === "development") return "dev-local";
+    console.warn("[rate-limit] Could not determine client IP. Skipping rate limit.");
+    return "unknown";
+  }
+
+  return ip;
+}
+
+async function atomicIncrWithTTL(
+  key: string,
+  windowSec: number
+): Promise<{ count: number; ttl: number }> {
+  const luaScript = `
+    local count = redis.call('INCR', KEYS[1])
+    if count == 1 then
+      redis.call('EXPIRE', KEYS[1], ARGV[1])
+    end
+    local ttl = redis.call('TTL', KEYS[1])
+    return {count, ttl}
+  `;
+  const result = await redis.eval(luaScript, {
+    keys: [key],
+    arguments: [String(windowSec)],
+  }) as [number, number];
+
+  return { count: result[0], ttl: result[1] };
 }
 
 async function checkRedisRateLimit(
@@ -38,46 +65,32 @@ async function checkRedisRateLimit(
 ): Promise<RateLimitResult> {
   const now = Date.now();
 
-  // 1. Increment the counts
-  const currentCount = await redis.incr(id);
-  const currentBurstCount = await redis.incr(burstKey);
+  const windowSec = Math.ceil(windowMs / 1000);
+  const burstWindowSec = Math.ceil(burstWindowMs / 1000);
 
-  // 2. Ensure TTL is set (Self-healing logic)
-  // If this is a new key or somehow lost its TTL, set it now.
-  const ttl = await redis.ttl(id);
-  if (ttl < 0) {
-    await redis.expire(id, Math.ceil(windowMs / 1000));
-  }
+  const { count: currentCount, ttl: windowTtl } = await atomicIncrWithTTL(id, windowSec);
+  const { count: currentBurstCount, ttl: burstTtl } = await atomicIncrWithTTL(burstKey, burstWindowSec);
 
-  const bTtl = await redis.ttl(burstKey);
-  if (bTtl < 0) {
-    await redis.expire(burstKey, Math.ceil(burstWindowMs / 1000));
-  }
-
-  // 3. Check Burst Limit
   if (currentBurstCount > burstMax) {
-    const retry = bTtl > 0 ? bTtl : Math.ceil(burstWindowMs / 1000);
     return {
       success: false,
       error: "Too many requests. Please wait before submitting again.",
-      retryAfter: retry,
+      retryAfter: burstTtl > 0 ? burstTtl : burstWindowSec,
     };
   }
 
-  // 4. Check Sustained Limit
   if (currentCount > maxRequests) {
-    const retry = ttl > 0 ? ttl : Math.ceil(windowMs / 1000);
     return {
       success: false,
       error: "Too many submissions. Please try again later.",
-      retryAfter: retry,
+      retryAfter: windowTtl > 0 ? windowTtl : windowSec,
     };
   }
 
   return {
     success: true,
     remaining: Math.max(0, maxRequests - currentCount),
-    resetAt: now + (ttl > 0 ? ttl : Math.ceil(windowMs / 1000)) * 1000,
+    resetAt: now + (windowTtl > 0 ? windowTtl : windowSec) * 1000,
   };
 }
 
@@ -111,6 +124,11 @@ export async function rateLimit(
   } = options;
 
   const id = getIdentifier(request, customId);
+
+  if (id === "unknown") {
+    return { success: true, remaining: maxRequests, resetAt: Date.now() + windowMs };
+  }
+
   const baseKey = `ratelimit:${keyPrefix}:${id}`;
   const burstKey = `${baseKey}:burst`;
 

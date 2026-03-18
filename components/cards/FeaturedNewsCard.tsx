@@ -5,6 +5,7 @@ import Image from "next/image";
 import NewsCardSkeleton from "@/components/layout/skeleton/NewsCardSkeleton";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { Button } from "../ui/button";
 
 const fetchArticles = async () => {
   const response = await fetch("/api/articles");
@@ -112,10 +113,12 @@ function FeaturedNewsCard() {
         </p>
    
         <Link
-          href={`/news/${currentArticle?.slug ?? ""}`}
+          href={`/news/${currentArticle?.slug}`}
           className="mt-4 py-2 font-bold text-primary flex items-center gap-2 hover:gap-4 transition-all"
         >
-          Read Full Story <ArrowRight className="size-5" />
+          <Button variant="secondary" size="sm" className="w-fit">
+            Read Full Story
+          </Button>
         </Link> 
       </div>
     </div>

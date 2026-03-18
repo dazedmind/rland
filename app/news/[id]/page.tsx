@@ -1,14 +1,26 @@
 import React from "react";
 import Link from "next/link";
-
-export const revalidate = 3600; // ISR: revalidate every hour
+import type { Metadata } from "next";
 import { MoveLeft } from "lucide-react";
 import { getArticle } from "@/lib/data";
 import { ArticleView } from "@/components/views/ArticleView";
 
+export const revalidate = 3600; // ISR: revalidate every hour
+
 type Props = {
   params: Promise<{ id: string }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+  const article = await getArticle(id);
+
+  return {
+    title: article ? `${article.headline} | R Land Development Inc.` : "Article | R Land Development Inc.",
+    description: article ? `${article.body.replace(/\s+/g, " ").slice(0, 160)}...` : "News and updates from R Land Development Inc.",
+    keywords: ["news", "articles", "updates", article?.type ?? "news"],
+  };
+}
 
 export default async function NewsArticlePage({ params }: Props) {
   const { id } = await params;

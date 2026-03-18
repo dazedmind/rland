@@ -26,6 +26,10 @@ export type Article = {
   tags: string[];
   type: string;
   photoUrl: string | null;
+  slug: string;
+  isFeatured: boolean;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type ProjectDetailData = {
