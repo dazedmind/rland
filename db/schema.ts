@@ -405,3 +405,9 @@ export const mediaAssets = pgTable('media_assets', {
   format:    mediaFormatEnum('format'),
   createdAt: timestamp('created_at').notNull().defaultNow(),
 })
+
+export const developerToolsSettings = pgTable('developer_tools_settings', {
+  id:        text('id').primaryKey(),
+  value:     jsonb('value').notNull().default({}),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+})

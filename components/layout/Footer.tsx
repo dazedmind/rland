@@ -1,6 +1,6 @@
 import { Mail, Phone, MailIcon, Bell, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { FaFacebook, FaLinkedin, FaInstagram, FaYoutube } from "react-icons/fa";
+import { FaFacebook, FaLinkedin, FaInstagram, FaYoutube, FaTiktok } from "react-icons/fa";
 import { Input } from "@/components/ui/input";
 import rlandLogo from "@/public/rland-logo-white.png";
 import Image from "next/image";
@@ -8,11 +8,29 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { validateEmail } from "@/lib/form-validator";
+import { useQuery } from "@tanstack/react-query";
 
 function Footer() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+
+  const { data: socialLinks, isLoading: isSocialLinksLoading } = useQuery({
+    queryKey: ['site-settings'],
+    queryFn: () => fetch('/api/site-settings')
+      .then(res => res.json())
+      .then(data => data.data as {
+        facebookUrl: string;    // Changed from facebook
+        instagramUrl: string;   // Changed from instagram
+        youtubeUrl: string;     // ...and so on
+        linkedinUrl: string;
+        tiktokUrl: string;
+      }),
+  });
+
+  if (isSocialLinksLoading) {
+    return <div>Loading...</div>;
+  }
 
   const handleSubscribe = async () => {
     if (!validateEmail(email)) {
@@ -105,27 +123,31 @@ function Footer() {
         <div className="flex flex-col gap-4 text-white list-none pt-8">
           <span className="flex flex-row items-center gap-4">
             <li>
-              <a href="https://www.facebook.com/rland.ph" target="_blank">
+              <a href={socialLinks?.facebookUrl} target="_blank">
                 <FaFacebook className="size-6" />
               </a>
             </li>
             <li>
-              <a href="https://www.instagram.com/rland.ph/" target="_blank">
+              <a href={socialLinks?.instagramUrl} target="_blank">
                 <FaInstagram className="size-6" />
               </a>
             </li>
             <li>
-              <a href="https://www.youtube.com/@rlandtv" target="_blank">
+              <a href={socialLinks?.youtubeUrl} target="_blank">
                 <FaYoutube className="size-6" />
               </a>
             </li>
             <li>
-              <a href="https://www.linkedin.com/company/rlandph" target="_blank">
+              <a href={socialLinks?.linkedinUrl} target="_blank">
                 <FaLinkedin className="size-6" />
               </a>
             </li>
+            <li>
+              <a href={socialLinks?.tiktokUrl} target="_blank">
+                <FaTiktok className="size-6" />
+              </a>
+            </li>
           </span>
-
           <p>© 2026 R LAND DEVELOPMENT INC.</p>
         </div>
       </div>
