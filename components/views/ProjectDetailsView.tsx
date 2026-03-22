@@ -143,12 +143,17 @@ export function ProjectDetailsView({ data }: ProjectDetailsViewProps) {
   const unique = projectPhoto
     ? [projectPhoto, ...modelPhotos.filter((p) => p !== projectPhoto)]
     : modelPhotos;
-  const images =
+  const amenityItems = (project.amenities as { name?: string; photoUrl?: string }[] | null) ?? [];
+  const amenityImages = amenityItems
+    .filter((a): a is { name: string; photoUrl: string } => !!a.photoUrl)
+    .map((a) => ({ url: a.photoUrl, alt: a.name }));
+  const baseImages =
     unique.length === 0
       ? []
       : unique.length === 1
         ? [unique[0], unique[0], unique[0]]
         : unique;
+  const images = [...baseImages, ...amenityImages];
 
   const raw = project.landmarks;
   const groups: { category: string; items: string[] }[] = [];

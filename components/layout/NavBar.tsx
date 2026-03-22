@@ -32,7 +32,7 @@ function NavBar({ isScrolled, isMenuOpen, setIsMenuOpen }: NavBarProps) {
   ];
   
   return (
-    <div>      
+    <div>
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 shadow-xl ${isScrolled ? 'bg-white border-b-6 border-primary' : ''}`}>
         {/* UTILITY NAVIGATION */}
         <div className={`hidden md:flex items-center justify-end w-full text-sm p-4 px-16 transition-colors duration-300 ${isScrolled ? 'bg-neutral-100 text-black' : 'bg-neutral-100/10 text-white'}`}>

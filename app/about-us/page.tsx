@@ -277,32 +277,25 @@ function AboutUs() {
                   communities every day.
                 </p>
               </div>
-
+              
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 {companyValues.map((value) => (
                   <div
                     key={value.title}
-                    className="group relative flex flex-col justify-between gap-4 border border-border rounded-md p-6 bg-white hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-default overflow-hidden"
+                    className="group relative flex flex-col justify-between gap-4 border border-border rounded-md p-6 bg-linear-to-br from-primary to-blue-950 text-white hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-default overflow-hidden"
                   >
-                    {/* Decorative bg icon */}
-                    <span className="absolute -bottom-4 -right-4 text-neutral-100 group-hover:text-primary/10 transition-colors duration-300">
-                      <div className="size-20 [&>svg]:size-20 [&>svg]:stroke-[0.5] opacity-60">
-                        {value.icon}
-                      </div>
-                    </span>
-
                     {/* Icon circle */}
-                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-secondary/5 border border-secondary text-secondary shrink-0">
-                      <div className="[&>svg]:size-6 [&>svg]:stroke-[1.5] [&>svg]:text-secondary">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-secondary/5 border-2 border-secondary text-secondary shrink-0">
+                      <div className="[&>svg]:size-6 [&>svg]:text-secondary [&>svg]:stroke-2">
                         {value.icon}
                       </div>
                     </div>
 
                     <div className="flex flex-col gap-2 z-10">
-                      <h3 className="text-xl font-bold text-primary">
+                      <h3 className="text-xl font-bold text-secondary">
                         {value.title}
                       </h3>
-                      <p className="text-sm leading-snug text-neutral-500">
+                      <p className="text-sm leading-snug">
                         {value.description}
                       </p>
                     </div>

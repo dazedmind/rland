@@ -5,11 +5,18 @@ import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+export type CarouselImage = string | { url: string; alt?: string };
+
 type ProjectImageCarouselProps = {
-  images: string[];
+  images: CarouselImage[];
   alt?: string;
   className?: string;
 };
+
+function normalizeImage(img: CarouselImage): { url: string; alt: string } {
+  if (typeof img === "string") return { url: img, alt: "" };
+  return { url: img.url, alt: img.alt ?? "" };
+}
 
 function ProjectImageCarousel({ images, alt = "Project", className = "" }: ProjectImageCarouselProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -53,24 +60,28 @@ function ProjectImageCarousel({ images, alt = "Project", className = "" }: Proje
       <div className="relative">
         <div className="overflow-hidden rounded-md" ref={emblaRef}>
           <div className="flex touch-pan-y -ml-4">
-            {images.map((src, i) => (
-              <div
-                key={i}
-                className="flex-[0_0_100%] min-w-0 pl-4
-                  md:flex-[0_0_50%]
-                  lg:flex-[0_0_33.333%]"
-              >
-                <div className="relative aspect-video bg-neutral-200 rounded-md overflow-hidden">
-                  <Image
-                    src={src}
-                    alt={`${alt} ${i + 1}`}
-                    fill
-                    className="object-cover"
-                    // sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33.333vw"
-                  />
+            {images.map((img, i) => {
+              const { url, alt: imgAlt } = normalizeImage(img);
+              const effectiveAlt = imgAlt || `${alt} ${i + 1}`;
+              return (
+                <div
+                  key={i}
+                  className="flex-[0_0_100%] min-w-0 pl-4
+                    md:flex-[0_0_50%]
+                    lg:flex-[0_0_33.333%]"
+                >
+                  <div className="relative aspect-video bg-neutral-200 rounded-md overflow-hidden">
+                    <Image
+                      src={url}
+                      alt={effectiveAlt}
+                      fill
+                      className="object-cover"
+                      // sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33.333vw"
+                    />
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
