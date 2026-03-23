@@ -9,6 +9,11 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { validateEmail } from "@/lib/form-validator";
 import { useQuery } from "@tanstack/react-query";
+import {
+  getCachedSiteSettings,
+  setCachedSiteSettings,
+  type SiteSettingsSocialLinks,
+} from "@/lib/site-settings-cache";
 
 function Footer() {
   const [email, setEmail] = useState('');
@@ -17,15 +22,26 @@ function Footer() {
 
   const { data: socialLinks, isLoading: isSocialLinksLoading } = useQuery({
     queryKey: ['site-settings'],
-    queryFn: () => fetch('/api/site-settings')
-      .then(res => res.json())
-      .then(data => data.data as {
-        facebookUrl: string;
-        instagramUrl: string;
-        youtubeUrl: string;
-        linkedinUrl: string;
-        tiktokUrl: string;
-      }),
+    queryFn: async () => {
+      const cached = getCachedSiteSettings();
+      if (cached) return cached;
+
+      const res = await fetch('/api/site-settings');
+      const json = await res.json();
+      const raw = json.data as Record<string, string>;
+      // Normalize: API may return facebook/instagram or facebookUrl/instagramUrl
+      const data: SiteSettingsSocialLinks = {
+        facebookUrl: raw.facebookUrl ?? raw.facebook ?? "",
+        instagramUrl: raw.instagramUrl ?? raw.instagram ?? "",
+        youtubeUrl: raw.youtubeUrl ?? raw.youtube ?? "",
+        linkedinUrl: raw.linkedinUrl ?? raw.linkedin ?? "",
+        tiktokUrl: raw.tiktokUrl ?? raw.tiktok ?? "",
+      };
+      setCachedSiteSettings(data);
+      return data;
+    },
+    staleTime: 1000 * 60 * 60 * 24, // 24 hours – social links rarely change
+    gcTime: 1000 * 60 * 60 * 24 * 7, // 7 days – keep in cache for a week
   });
 
   const handleSubscribe = async () => {
