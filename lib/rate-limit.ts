@@ -1,10 +1,21 @@
 import { NextResponse } from "next/server";
-import redis from "./redisClient";
 
 const FORM_MAX_PER_MINUTE = 5;
 const FORM_BURST_MAX = 3;
 const FORM_BURST_WINDOW_MS = 30_000;
 const FORM_WINDOW_MS = 60_000;
+
+/** In-memory store; shared across hot reloads in dev via global */
+const globalForRateLimit = globalThis as unknown as {
+  __rateLimitStore?: Map<string, { count: number; expiresAt: number }>;
+};
+
+function getStore(): Map<string, { count: number; expiresAt: number }> {
+  if (!globalForRateLimit.__rateLimitStore) {
+    globalForRateLimit.__rateLimitStore = new Map();
+  }
+  return globalForRateLimit.__rateLimitStore;
+}
 
 export type RateLimitOptions = {
   maxRequests?: number;
@@ -35,27 +46,31 @@ function getIdentifier(request: Request, customId?: string): string {
   return ip;
 }
 
-async function atomicIncrWithTTL(
+/**
+ * Fixed window counter with TTL (same semantics as the previous Redis INCR + EXPIRE flow).
+ */
+function atomicIncrWithTTL(
   key: string,
   windowSec: number
-): Promise<{ count: number; ttl: number }> {
-  const luaScript = `
-    local count = redis.call('INCR', KEYS[1])
-    if count == 1 then
-      redis.call('EXPIRE', KEYS[1], ARGV[1])
-    end
-    local ttl = redis.call('TTL', KEYS[1])
-    return {count, ttl}
-  `;
-  const result = await redis.eval(luaScript, {
-    keys: [key],
-    arguments: [String(windowSec)],
-  }) as [number, number];
+): { count: number; ttl: number } {
+  const store = getStore();
+  const now = Date.now();
+  const windowMs = windowSec * 1000;
 
-  return { count: result[0], ttl: result[1] };
+  let entry = store.get(key);
+  if (!entry || now >= entry.expiresAt) {
+    entry = { count: 1, expiresAt: now + windowMs };
+    store.set(key, entry);
+    return { count: 1, ttl: windowSec };
+  }
+
+  entry = { ...entry, count: entry.count + 1 };
+  store.set(key, entry);
+  const ttlSec = Math.max(0, Math.ceil((entry.expiresAt - now) / 1000));
+  return { count: entry.count, ttl: ttlSec };
 }
 
-async function checkRedisRateLimit(
+async function checkMemoryRateLimit(
   id: string,
   burstKey: string,
   maxRequests: number,
@@ -68,8 +83,11 @@ async function checkRedisRateLimit(
   const windowSec = Math.ceil(windowMs / 1000);
   const burstWindowSec = Math.ceil(burstWindowMs / 1000);
 
-  const { count: currentCount, ttl: windowTtl } = await atomicIncrWithTTL(id, windowSec);
-  const { count: currentBurstCount, ttl: burstTtl } = await atomicIncrWithTTL(burstKey, burstWindowSec);
+  const { count: currentCount, ttl: windowTtl } = atomicIncrWithTTL(id, windowSec);
+  const { count: currentBurstCount, ttl: burstTtl } = atomicIncrWithTTL(
+    burstKey,
+    burstWindowSec
+  );
 
   if (currentBurstCount > burstMax) {
     return {
@@ -132,7 +150,7 @@ export async function rateLimit(
   const baseKey = `ratelimit:${keyPrefix}:${id}`;
   const burstKey = `${baseKey}:burst`;
 
-  return await checkRedisRateLimit(
+  return await checkMemoryRateLimit(
     baseKey,
     burstKey,
     maxRequests,

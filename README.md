@@ -13,7 +13,7 @@ Official website for **R Land Development Inc.**, a Philippine property develope
 | Styling | Tailwind CSS (^4) |
 | ORM | Drizzle ORM (^0.45.1) |
 | Database | PostgreSQL via Neon Serverless |
-| Caching | Redis (^5.11.0) |
+| Caching | Next.js `unstable_cache` / Data Cache |
 | UI Components | Radix UI, shadcn/ui, Lucide React |
 | Animation | Motion (^12.36.0), Embla Carousel |
 | Forms / CAPTCHA | hCaptcha (`@hcaptcha/react-hcaptcha`) |
@@ -28,7 +28,6 @@ Official website for **R Land Development Inc.**, a Philippine property develope
 - **Node.js** >= 20
 - **npm** >= 10
 - A **PostgreSQL** database (Neon recommended)
-- A **Redis** instance
 - An **hCaptcha** account (site key + secret key)
 
 ---
@@ -72,12 +71,6 @@ RLINK_API_KEY=your_rlink_api_key_here
 HCAPTCHA_SITE_KEY=your_hcaptcha_site_key
 HCAPTCHA_SECRET_KEY=your_hcaptcha_secret_key
 
-# --- Cache & Rate Limiting (Redis) ---
-REDIS_URL=redis://localhost:6379
-REDIS_USERNAME=default
-REDIS_PASSWORD=your_redis_password
-REDIS_HOST=your_redis_host_address
-REDIS_PORT=6379
 ```
 
 > **Note:** Exact variable names not confirmed beyond `DATABASE_URL`. Check your team's secret management or ask a maintainer for the full `.env.example`. [Unverified — additional variables may exist]
@@ -121,7 +114,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 | `npm run test` | Run Jest unit tests |
 | `npm run test:watch` | Run Jest in watch mode |
 | `npm run test:coverage` | Run Jest with coverage report |
-| `npm run clear-cache` | Clear Redis cache via script |
+| `npm run clear-cache` | Delete `.next/cache` (Next.js data cache) |
 
 ---
 
@@ -137,18 +130,16 @@ The schema (`db/schema.ts`) defines the following enums and tables:
 
 ## Caching Strategy
 
-API routes use Redis for response caching. The pattern used:
+- **Page / data loaders:** `lib/data.ts` uses Next.js `unstable_cache` with `revalidate` (e.g. articles, projects, careers).
+- **`GET /api/promos`:** Cached with `unstable_cache` (1 hour revalidate, tag `promos`).
 
-1. On GET request, check Redis for a cached response.
-2. If cache hit, return immediately.
-3. If cache miss, query the database, store result in Redis with a 1-hour TTL (`EX: 3600`), then return.
-4. Redis errors are caught and logged — the app falls back to the database without crashing.
-
-To clear the cache manually:
+To clear the Next.js data cache locally (forces fresh DB reads on next request):
 
 ```bash
 npm run clear-cache
 ```
+
+**Rate limiting** no longer uses Redis: counters live in **process memory** (see `lib/rate-limit.ts`). On multi-instance deployments, limits apply per instance, not globally.
 
 ---
 
@@ -219,7 +210,7 @@ rland/
 │   ├── schema.ts
 │   └── auth-schema.ts
 ├── drizzle/              # Generated migration files
-├── lib/                  # Utility modules (db client, Redis client, API auth)
+├── lib/                  # Utility modules (db client, rate limiting, API auth)
 ├── scripts/              # Utility scripts (e.g., clear-cache.ts)
 ├── tests/                # Playwright E2E tests
 ├── drizzle.config.ts     # Drizzle Kit config

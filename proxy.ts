@@ -61,7 +61,7 @@ export async function proxy(request: NextRequest) {
       }
     } catch (err) {
       console.error("[proxy] Rate limit check failed:", err);
-      // Allow request through if Redis is unavailable
+      // Allow request through if the limiter throws (fail-open)
     }
   }
 

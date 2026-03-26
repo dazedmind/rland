@@ -1,14 +1,15 @@
-// scripts/clear-cache.ts
-import 'dotenv/config';
-import { redis } from '@/lib/redisClient';
+/**
+ * Clears Next.js persistent cache (includes unstable_cache / fetch cache data).
+ * Run after deploy or when you need to force fresh DB-backed cached data locally.
+ */
+import fs from 'fs';
+import path from 'path';
 
-async function clearCache() {
-  if (!redis.isOpen) await redis.connect();
-  await redis.flushAll();
-  console.log('✨ Redis cache cleared 🧹');
-  process.exit(0);
+const cacheDir = path.join(process.cwd(), '.next', 'cache');
+
+if (fs.existsSync(cacheDir)) {
+  fs.rmSync(cacheDir, { recursive: true, force: true });
+  console.log('✨ Next.js cache cleared (.next/cache removed)');
+} else {
+  console.log('No .next/cache found (run a build or `npm run dev` first).');
 }
-clearCache().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
