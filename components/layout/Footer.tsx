@@ -193,7 +193,7 @@ function Footer() {
             </p>
           </span>
 
-          <span className="flex gap-2">
+          <span className="flex gap-2 relative">
             <div className="relative w-full">
               <MailIcon className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" />
               <Input
@@ -206,11 +206,11 @@ function Footer() {
             </div>
 
             <Button
-              variant="default"
-              size="sm"
-              className="text-white h-12"
+              variant="default" 
+              size="xs"
+              className="absolute right-2 top-1.75"
               onClick={handleSubscribe}
-            >{loading ? <Loader2 className="size-5 animate-spin" /> : (isMobile ? <Bell className="size-5" strokeWidth={2}/> : <span>Subscribe</span>)}
+            >{loading ? <Loader2 className="size-5 animate-spin" /> : (isMobile ? <Bell className="size-5" strokeWidth={2}/> : <span className="flex items-center gap-1">Subscribe</span>)}
             </Button>
           </span>
         </div>

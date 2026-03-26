@@ -319,11 +319,11 @@ function AboutUs() {
                   can help you find your perfect home.
                 </p>
               </div>
-              <div className="flex gap-4 w-full lg:w-auto">
+              <div className="flex flex-col md:flex-row gap-4 w-full lg:w-auto">
                 <Button
                   variant="outline"
                   size="sm"
-                  className="flex-1 lg:w-auto text-white hover:bg-white/10 hover:text-white shadow-lg"
+                  className="lg:w-auto text-white hover:bg-white/10 hover:text-white shadow-lg"
                   onClick={() => router.push("/projects")}
                 >
                   Explore Projects
@@ -331,7 +331,7 @@ function AboutUs() {
                 <Button
                   variant="default"
                   size="sm"
-                  className="flex-1 lg:w-auto text-white transition-colors shadow-lg"
+                  className="lg:w-auto text-white transition-colors shadow-lg"
                   onClick={() => router.push("/contact-us")}
                 >
                   Get In Touch

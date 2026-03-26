@@ -142,7 +142,7 @@ function CareerApplicationModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-sm md:max-w-2xl" showCloseButton={false}>
+      <DialogContent className="max-w-sm md:max-w-2xl rounded-xl" showCloseButton={false}>
         <DialogHeader>
           <DialogTitle>Apply Now</DialogTitle>
           <DialogDescription>

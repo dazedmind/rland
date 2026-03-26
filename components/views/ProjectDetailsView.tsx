@@ -222,7 +222,7 @@ export function ProjectDetailsView({ data }: ProjectDetailsViewProps) {
                   alt="Project Logo"
                   width={200}
                   height={200}
-                  className="rounded-md object-contain"
+                  className="rounded-xl object-contain"
                 />
               </div>
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
@@ -237,7 +237,7 @@ export function ProjectDetailsView({ data }: ProjectDetailsViewProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <button className="bg-neutral-100 px-4 py-2 rounded-md text-black text-sm border-border border hover:bg-neutral-300 flex items-center gap-2 cursor-pointer">
+                    <button className="bg-neutral-100 px-4 py-2 rounded-full text-black text-sm border-border border hover:bg-neutral-300 flex items-center gap-2 cursor-pointer">
                       <img
                         src="/google-maps-icon.png"
                         alt="Google Maps Icon"
@@ -264,7 +264,7 @@ export function ProjectDetailsView({ data }: ProjectDetailsViewProps) {
                   {specification.map((spec) => (
                     <div
                       key={spec.id}
-                      className="flex flex-row items-center rounded-full bg-primary/10 p-2 gap-2"
+                      className="flex flex-row items-center rounded-full bg-primary/5 p-2 gap-2"
                     >
                       <span className="p-3 bg-primary rounded-full">
                         <spec.icon
@@ -290,7 +290,7 @@ export function ProjectDetailsView({ data }: ProjectDetailsViewProps) {
                 alt={project.projectName ?? "Project"}
               />
             ) : (
-              <div className="w-full h-80 bg-neutral-200 rounded-md" />
+              <div className="w-full h-80 bg-neutral-200 rounded-xl" />
             )}
           </section>
         </ScrollReveal>
@@ -312,8 +312,8 @@ export function ProjectDetailsView({ data }: ProjectDetailsViewProps) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {((project.amenities as { photoUrl?: string; name?: string }[]) ?? []).map((amenity: { photoUrl?: string; name?: string }, idx: number) => (
                   <div key={amenity.name ?? amenity.photoUrl ?? `amenity-${idx}`}>
-                    <div className="flex justify-center items-center h-50 md:h-60 bg-neutral-400 rounded-md relative">
-                      <div className="w-full h-50 md:h-60 rounded-md z-0 overflow-hidden">
+                    <div className="flex justify-center items-center h-50 md:h-60 bg-neutral-400 rounded-xl relative">
+                      <div className="w-full h-50 md:h-60 rounded-xl z-0 overflow-hidden">
                         {amenity.photoUrl && (
                           <Image
                             src={amenity.photoUrl ?? ""}
@@ -324,9 +324,9 @@ export function ProjectDetailsView({ data }: ProjectDetailsViewProps) {
                           />
                         )}
                       </div>
-                      <div className="absolute bottom-0 left-0 w-full h-full bg-linear-to-t from-black/50 to-transparent z-10 rounded-md" />
+                      <div className="absolute bottom-0 left-0 w-full h-full bg-linear-to-t from-black/50 to-transparent z-10 rounded-xl" />
                       {amenity.name && (
-                        <div className="absolute bottom-4 left-4 rounded-md z-10">
+                        <div className="absolute bottom-4 left-4 rounded-xl z-10">
                           <p className="text-2xl font-bold text-white text-center">
                             {amenity.name}
                           </p>
@@ -422,7 +422,7 @@ export function ProjectDetailsView({ data }: ProjectDetailsViewProps) {
         <ScrollReveal delay={250}>
           <section className="relative z-10 flex flex-col lg:flex-row justify-between items-start px-8 md:px-16 lg:px-44 xl:px-64 gap-8 py-16">
             <div className="w-full">
-              <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-linear-to-r from-primary-fg to-blue-950 text-white p-8 rounded-t-md">
+              <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-linear-to-r from-primary-fg to-blue-950 text-white p-8 rounded-t-xl">
                 <span className="w-full md:w-auto">
                   <h1 className="text-2xl font-bold">
                     Found the perfect home?
@@ -441,7 +441,7 @@ export function ProjectDetailsView({ data }: ProjectDetailsViewProps) {
                   </Link>
                 </span>
               </div>
-              <div className="flex flex-col gap-2 bg-primary text-white px-8 py-6 rounded-b-md">
+              <div className="flex flex-col gap-2 bg-primary text-white px-8 py-6 rounded-b-xl">
                 <p className="text-lg font-bold">{project.projectName}:</p>
                 <ul className="text-sm list-disc list-outside pl-5">
                   <li>Address: {project.address ?? "N/A"}</li>

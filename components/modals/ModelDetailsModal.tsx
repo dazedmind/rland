@@ -16,7 +16,6 @@ import {
   LandPlot,
   Utensils,
   Scan,
-  PhilippinePeso,
 } from "lucide-react";
 import ModelGalleryCarousel from "@/components/layout/ModelGalleryCarousel";
 import { priceFormatter } from "@/app/utils/priceFormatter";
@@ -86,7 +85,7 @@ function ModelDetailsModal({
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
-        className="w-[calc(100%-2rem)] max-w-5xl max-h-[90vh] overflow-hidden flex flex-col p-0 gap-0"
+        className="w-full h-dvh overflow-hidden flex flex-col p-0 gap-0"
         showCloseButton={false}
       >
         <DialogHeader className="px-6 pt-6 pb-2 shrink-0 text-start">
@@ -103,7 +102,7 @@ function ModelDetailsModal({
 
         <div className="flex flex-col md:flex-row gap-6 md:gap-8 px-4 md:px-6 pb-6 overflow-y-auto flex-1">
           {/* Gallery - full width on mobile, 1/3 on desktop */}
-          <div className="relative w-full md:w-1/3 md:shrink-0 rounded-md overflow-visible">
+          <div className="relative w-full md:w-1/3 md:shrink-0 rounded-xl overflow-visible">
             {images.length > 0 ? (
               <ModelGalleryCarousel images={images} alt={model.modelName} />
             ) : (
@@ -117,7 +116,7 @@ function ModelDetailsModal({
           <div className="space-y-4 w-full md:w-2/3 min-w-0">
             {/* Pricing */}
             {(minPrice > 0 || maxPrice > 0) && (
-              <div className="rounded-md">
+              <div className="rounded-xl">
                   {/* <PhilippinePeso className="size-5 text-primary" /> */}
                 <span className="text-sm text-neutral-500">Starts at</span>
                 <p className="text-3xl font-bold text-primary">
@@ -155,7 +154,7 @@ function ModelDetailsModal({
                   return (
                     <div
                       key={key}
-                      className="flex items-center gap-2 p-3 rounded-md border border-border bg-neutral-50"
+                      className="flex items-center gap-2 p-3 rounded-xl border border-border bg-neutral-50"
                     >
                       <Icon className="size-5 text-neutral-400 shrink-0" />
                       <span>
@@ -180,7 +179,7 @@ function ModelDetailsModal({
                   {amenities.map((a) => (
                     <span
                       key={a.name}
-                      className="px-3 py-1.5 bg-neutral-100 rounded-md text-sm font-medium text-neutral-700"
+                      className="px-3 py-1.5 bg-neutral-100 rounded-xl text-sm font-medium text-neutral-700"
                     >
                       {a.name}
                     </span>

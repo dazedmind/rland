@@ -32,7 +32,7 @@ function ModelCard({
   ];
 
   return (
-    <div className="border border-border rounded-lg overflow-hidden bg-white">
+    <div className="border border-border rounded-xl overflow-hidden bg-white">
 
       {/* TOP: Image + Model Name side by side */}
       <div className="flex flex-col sm:flex-row">
