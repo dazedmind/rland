@@ -77,7 +77,7 @@ function NavBar({ isScrolled, isMenuOpen, setIsMenuOpen }: NavBarProps) {
             })}
             
             <Button size="sm" variant="primary" onClick={() => window.location.href = "/contact-us"}>
-              Contact Us
+              CONTACT US
             </Button>
           </div>
 

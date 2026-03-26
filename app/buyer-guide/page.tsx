@@ -127,7 +127,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 
   return (
     <div
-      className="border border-border rounded-md overflow-hidden transition-all duration-300 cursor-pointer"
+      className="border border-border rounded-xl overflow-hidden transition-all duration-300 cursor-pointer"
       onClick={() => setOpen(!open)}
     >
       <div className="flex items-center justify-between px-6 py-4 bg-neutral-50 hover:bg-neutral-100 transition-colors duration-200">
@@ -210,7 +210,7 @@ function BuyerGuidePage() {
                 {buyingSteps.map((item) => (
                   <div
                     key={item.step}
-                    className="group relative flex flex-col gap-4 border border-border rounded-md p-6 bg-white hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+                    className="group relative flex flex-col gap-4 rounded-xl p-6 bg-white hover:shadow-md hover:-translate-y-1 transition-all duration-300"
                   >
                     {/* Step number accent */}
                     <span className="absolute top-4 right-4 text-6xl font-black text-neutral-100 select-none group-hover:text-primary/10 transition-colors duration-300">
@@ -259,7 +259,7 @@ function BuyerGuidePage() {
               {paymentOptions.map((option) => (
                 <div
                   key={option.title}
-                  className="flex flex-col gap-4 border border-border rounded-md p-6 bg-neutral-50 hover:shadow-md transition-all duration-300"
+                  className="flex flex-col gap-4 rounded-xl p-6 bg-neutral-50 hover:shadow-md transition-all duration-300"
                 >
                   <div className="flex items-center gap-4">
                     <div className="flex items-center justify-center w-14 h-14 rounded-full bg-white border border-border shrink-0">
@@ -276,7 +276,7 @@ function BuyerGuidePage() {
                 ))}
               </div>
             {/* CTA to Loan Calculator */}
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-linear-to-r from-primary to-blue-950 rounded-md p-8 text-white">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-linear-to-r from-primary to-blue-950 rounded-xl p-8 text-white">
               <div className="flex flex-col gap-1">
                 <h3 className="text-xl font-bold">
                   Not sure how much you can afford?
@@ -320,7 +320,7 @@ function BuyerGuidePage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* For Local Buyers */}
-                <div className="flex flex-col gap-4 border border-border rounded-md p-6 bg-white">
+                <div className="flex flex-col gap-4 border border-border rounded-xl p-6 bg-white">
                   <h3 className="text-lg font-bold text-primary border-b border-border pb-3">
                     For Local Buyers
                   </h3>
@@ -342,7 +342,7 @@ function BuyerGuidePage() {
                 </div>
 
                 {/* For OFWs */}
-                <div className="flex flex-col gap-4 border border-border rounded-md p-6 bg-white">
+                <div className="flex flex-col gap-4 border border-border rounded-xl p-6 bg-white">
                   <h3 className="text-lg font-bold text-primary border-b border-border pb-3">
                     For OFWs (Overseas Filipino Workers)
                   </h3>
@@ -406,7 +406,7 @@ function BuyerGuidePage() {
         {/* BOTTOM CTA */}
         <section className="px-8 md:px-16 xl:px-44 py-16 bg-neutral-50">
           <ScrollReveal>
-            <div className="p-6 md:p-8 rounded-md bg-primary text-white flex flex-col md:flex-row items-center justify-between gap-8 overflow-hidden relative w-full">
+            <div className="p-6 md:p-8 rounded-xl bg-primary text-white flex flex-col md:flex-row items-center justify-between gap-8 overflow-hidden relative w-full">
               <div className="relative z-10 space-y-2">
                 <h3 className="text-2xl font-bold">
                   Ready to Take the First Step?

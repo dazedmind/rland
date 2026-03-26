@@ -60,7 +60,7 @@ function HouseSearchBar({ className, initialLocation = "", initialPriceRange }: 
   };
 
   return (
-    <div className={cn("flex flex-col md:flex-row gap-6 bg-background rounded-md p-4 z-20", className)}>
+    <div className={cn("flex flex-col md:flex-row items-center gap-6 bg-background rounded-xl p-4 z-20", className)}>
       <div className="flex items-center gap-2 relative w-full">
         <MapPin className="size-4 text-primary" />
         <ChevronDownIcon className="text-black w-4 h-4 absolute right-2 top-1/2 -translate-y-1/2 z-30" />
@@ -98,11 +98,16 @@ function HouseSearchBar({ className, initialLocation = "", initialPriceRange }: 
           min={minPrice}
           onValueChange={handlePriceChange}
           step={50000}
-          className="mx-auto w-full max-w-xs"
+          className="mx-auto w-full "
         />
       </div>
 
-      <Button onClick={handleSearch} variant="secondary" size="icon-xl" className="flex w-full md:w-fit justify-center items-center gap-2 text-white text-center px-3 py-2 rounded-md cursor-pointer">
+      <Button 
+        onClick={handleSearch} 
+        variant="secondary" 
+        size="sm" 
+        className="w-full md:w-fit rounded-xl h-0 md:h-13"
+      >
         <Search className="size-5" /> <p className="block md:hidden">Search</p>
       </Button>
     </div>

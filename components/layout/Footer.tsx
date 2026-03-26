@@ -184,7 +184,7 @@ function Footer() {
       {/* RIGHT */}
       <div className=" w-full h-full flex flex-col gap-8">
         {/* NEWSLETTER */}
-        <div className="bg-primary rounded-md p-6 mt-4 md:mt-0 text-white flex flex-col gap-4 w-auto">
+        <div className="bg-primary rounded-xl p-6 mt-4 md:mt-0 text-white flex flex-col gap-4 w-auto">
           <span>
             <h2 className="text-xl font-bold">Subscribe to our newsletter</h2>
             <p className="text-sm leading-relaxed text-neutral-200">
@@ -199,7 +199,7 @@ function Footer() {
               <Input
                 type="email"
                 placeholder="Enter your email"
-                className="w-full p-2 pl-10 h-12 rounded-md bg-slate-200 text-black"
+                className="w-full p-2 pl-10 h-12 rounded-full bg-slate-200 text-black"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -211,7 +211,6 @@ function Footer() {
               className="text-white h-12"
               onClick={handleSubscribe}
             >{loading ? <Loader2 className="size-5 animate-spin" /> : (isMobile ? <Bell className="size-5" strokeWidth={2}/> : <span>Subscribe</span>)}
-              {/* {isMobile ? <Bell className="size-5" strokeWidth={2}/> : <span>Subscribe</span>} */}
             </Button>
           </span>
         </div>

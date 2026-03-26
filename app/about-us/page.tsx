@@ -116,13 +116,13 @@ function AboutUs() {
 
               {/* Image */}
               <div className="w-full lg:w-1/2 relative">
-                <div className=" w-full h-full rounded-md" />
+                <div className=" w-full h-full rounded-xl" />
                 <Image
                   src={aboutUsImage}
                   alt="R Land Property"
                   width={700}
                   height={500}
-                  className="rounded-md object-cover w-full h-96 relative z-10 shadow-xl"
+                  className="rounded-xl object-cover w-full h-96 relative z-10 shadow-xl"
                 />
               </div>
             </div>
@@ -170,7 +170,7 @@ function AboutUs() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Mission */}
-                <div className="group flex flex-col gap-4 rounded-md p-8 bg-linear-to-br from-primary to-blue-950 text-white overflow-hidden relative">
+                <div className="group flex flex-col gap-4 rounded-xl p-8 bg-linear-to-br from-primary to-blue-950 text-white overflow-hidden relative">
                   <div className="flex items-center justify-center w-14 h-14 rounded-full bg-white/10 border border-white/20">
                     <Target
                       className="size-7 text-secondary"
@@ -189,7 +189,7 @@ function AboutUs() {
                 </div>
 
                 {/* Promise */}
-                <div className="group flex flex-col gap-4 rounded-md p-8 bg-linear-to-br from-primary to-blue-950 text-white overflow-hidden relative">
+                <div className="group flex flex-col gap-4 rounded-xl p-8 bg-linear-to-br from-primary to-blue-950 text-white overflow-hidden relative">
                   <div className="flex items-center justify-center w-14 h-14 rounded-full bg-white/10 border border-white/20">
                     <Ribbon
                       className="size-7 text-secondary"
@@ -250,13 +250,13 @@ function AboutUs() {
 
               {/* Image */}
               <div className="w-full lg:w-1/2 relative">
-                <div className="rounded-md" />
+                <div className="rounded-xl" />
                 <Image
                   src={aboutUsImage}
                   alt="R Land Community"
                   width={700}
                   height={500}
-                  className="rounded-md object-cover w-full h-96 relative z-10 shadow-xl"
+                  className="rounded-xl object-cover w-full h-96 relative z-10 shadow-xl"
                 />
               </div>
             </div>
@@ -282,20 +282,20 @@ function AboutUs() {
                 {companyValues.map((value) => (
                   <div
                     key={value.title}
-                    className="group relative flex flex-col justify-between gap-4 border border-border rounded-md p-6 bg-linear-to-br from-primary to-blue-950 text-white hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-default overflow-hidden"
+                    className="group relative flex md:flex-col items-center md:items-start gap-4 border border-border rounded-xl p-6 bg-linear-to-br from-primary to-blue-950 text-white hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-default overflow-hidden"
                   >
                     {/* Icon circle */}
-                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-secondary/5 border-2 border-secondary text-secondary shrink-0">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary-fg  text-secondary shrink-0">
                       <div className="[&>svg]:size-6 [&>svg]:text-secondary [&>svg]:stroke-2">
                         {value.icon}
                       </div>
                     </div>
 
-                    <div className="flex flex-col gap-2 z-10">
+                    <div className="flex flex-col gap-1 z-10">
                       <h3 className="text-xl font-bold text-secondary">
                         {value.title}
                       </h3>
-                      <p className="text-sm leading-snug">
+                      <p className="text-xs leading-snug">
                         {value.description}
                       </p>
                     </div>
@@ -309,7 +309,7 @@ function AboutUs() {
         {/* ── CTA BAND ── */}
         <section className="px-8 md:px-16 xl:px-44 py-20">
           <ScrollReveal>
-            <div className="p-8 md:p-12 rounded-md bg-primary text-white flex flex-col lg:flex-row items-center justify-between gap-8 overflow-hidden relative">
+            <div className="p-6 md:p-8 rounded-xl bg-primary text-white flex flex-col lg:flex-row items-center justify-between gap-8 overflow-hidden relative">
               <div className="relative z-10 space-y-2 w-full lg:w-2/3">
                 <h3 className="text-2xl font-bold">
                   Ready to find your place in our community?
@@ -319,11 +319,11 @@ function AboutUs() {
                   can help you find your perfect home.
                 </p>
               </div>
-              <div className="flex flex-col md:flex-row gap-4 w-full lg:w-auto">
+              <div className="flex gap-4 w-full lg:w-auto">
                 <Button
                   variant="outline"
                   size="sm"
-                  className="lg:w-auto text-white hover:bg-white/10 hover:text-white shadow-lg"
+                  className="flex-1 lg:w-auto text-white hover:bg-white/10 hover:text-white shadow-lg"
                   onClick={() => router.push("/projects")}
                 >
                   Explore Projects
@@ -331,7 +331,7 @@ function AboutUs() {
                 <Button
                   variant="default"
                   size="sm"
-                  className="lg:w-auto text-white transition-colors shadow-lg"
+                  className="flex-1 lg:w-auto text-white transition-colors shadow-lg"
                   onClick={() => router.push("/contact-us")}
                 >
                   Get In Touch

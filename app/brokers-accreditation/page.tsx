@@ -113,7 +113,7 @@ function BrokersAccreditation() {
                 <p className="text-slate-500 leading-relaxed">
                   To maintain the highest standards of professional service, we require our partners to provide the following documentation. 
                 </p>
-                <div className="p-4 bg-secondary/5 rounded-md border border-secondary/10">
+                <div className="p-4 bg-secondary/5 rounded-xl border border-secondary/10">
                   <h4 className="font-bold text-primary mb-2 flex items-center gap-2">
                     <Lightbulb size={18} className="text-secondary" />Tips
                   </h4>
@@ -125,7 +125,7 @@ function BrokersAccreditation() {
               <div className="xl:w-2/3">
                 <Accordion type="single" collapsible defaultValue="item-1" className="space-y-4">
                   
-                  <AccordionItem value="item-1" className="rounded-md p-0 bg-white overflow-hidden">
+                  <AccordionItem value="item-1" className="rounded-xl p-0 bg-white overflow-hidden">
                     <AccordionTrigger className="hover:no-underline font-bold text-xl py-4">
                       General Requirements
                     </AccordionTrigger>
@@ -143,7 +143,7 @@ function BrokersAccreditation() {
                     </AccordionContent>
                   </AccordionItem>
 
-                  <AccordionItem value="item-2" className="rounded-md p-0 bg-white overflow-hidden">
+                  <AccordionItem value="item-2" className="rounded-xl p-0 bg-white overflow-hidden">
                     <AccordionTrigger className="hover:no-underline font-bold text-xl py-4 text-left">
                       For Corporations
                     </AccordionTrigger>
@@ -156,7 +156,7 @@ function BrokersAccreditation() {
                     </AccordionContent>
                   </AccordionItem>
 
-                  <AccordionItem value="item-3" className="rounded-md p-0 bg-white overflow-hidden">
+                  <AccordionItem value="item-3" className="rounded-xl p-0 bg-white overflow-hidden">
                     <AccordionTrigger className="hover:no-underline font-bold text-xl py-4 text-left">
                       For Partnerships
                     </AccordionTrigger>
@@ -168,7 +168,7 @@ function BrokersAccreditation() {
                     </AccordionContent>
                   </AccordionItem>
 
-                  <AccordionItem value="item-4" className="rounded-md p-0 bg-white overflow-hidden">
+                  <AccordionItem value="item-4" className="rounded-xl p-0 bg-white overflow-hidden">
                     <AccordionTrigger className="hover:no-underline font-bold text-xl py-4 text-left">
                       For Sole Proprietorship
                     </AccordionTrigger>
@@ -191,7 +191,7 @@ function BrokersAccreditation() {
         {/* FINAL CTA SECTION */}
         <section className="pb-8 md:pb-24 px-8 md:px-16 lg:px-24 xl:px-20">
           <ScrollReveal>
-            <div className="max-w-7xl mx-auto bg-slate-50 rounded-md overflow-hidden flex flex-col md:flex-row items-stretch border border-border">
+            <div className="max-w-7xl mx-auto bg-slate-50 rounded-xl overflow-hidden flex flex-col md:flex-row items-stretch border border-border">
               <div className="md:w-1/3 bg-neutral-200 relative min-h-[300px]">
                 <Image 
                   src={brokerHero} 

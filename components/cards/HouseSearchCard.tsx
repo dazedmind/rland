@@ -97,7 +97,7 @@ function HouseSearchCard({ price, unit, modelCard }: HouseSearchCardProps) {
     : "#";
 
   return (
-    <div className="flex flex-col lg:flex-row w-full justify-between border border-border rounded-md overflow-hidden bg-white hover:shadow-md transition-all duration-300">
+    <div className="flex flex-col lg:flex-row w-full justify-between border border-border rounded-xl overflow-hidden bg-white transition-all duration-300">
 
       <div className="flex flex-col md:flex-row">
         {/* LEFT — image */}
@@ -135,16 +135,16 @@ function HouseSearchCard({ price, unit, modelCard }: HouseSearchCardProps) {
           </div>
 
           {/* Type badge */}
-          <div className="absolute top-3 left-0 z-20  bg-linear-to-t from-secondary to-yellow-600 px-2.5 py-1 rounded-r-lg">
+          {/* <div className="absolute top-3 left-0 z-20  bg-linear-to-t from-secondary to-yellow-600 px-2.5 py-1 rounded-r-lg">
             <p className="text-[10px] tracking-[0.12em] uppercase font-semibold text-primary-foreground">
               {typeLabel}
             </p>
-          </div>
+          </div> */}
 
           {/* Toggle button */}
           <button
             onClick={() => setCardView(cardView === "default" ? "floorplan" : "default")}
-            className="absolute bottom-3 right-3 z-20 flex items-center gap-1.5 bg-primary px-2.5 py-1.5 rounded-sm text-primary-foreground text-[11px] font-medium hover:bg-primary/80 transition-colors duration-200 cursor-pointer"
+            className="absolute bottom-0 right-0 z-20 flex items-center gap-1.5 bg-primary px-2.5 py-1.5 rounded-tl-sm text-primary-foreground text-[11px] font-medium hover:bg-primary/80 transition-colors duration-200 cursor-pointer"
           >
             {cardView === "default"
               ? <><LayoutTemplate className="size-3.5" /> Floor Plan</>
@@ -160,8 +160,8 @@ function HouseSearchCard({ price, unit, modelCard }: HouseSearchCardProps) {
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-2 flex-wrap">
                 <h2 className="text-xl font-bold text-primary leading-tight">{projectName}</h2>
-                <span className="text-[10px] tracking-[0.12em] uppercase font-semibold bg-primary text-white px-2 py-0.5 rounded-[3px]">
-                  {modelName}
+                <span className="text-[10px] tracking-[0.12em] uppercase font-semibold bg-secondary text-white px-2 py-0.5 rounded-full">
+                  {modelName} Unit
                 </span>
               </div>
               <p className="text-sm text-neutral-500 flex items-center gap-1">
@@ -209,7 +209,7 @@ function HouseSearchCard({ price, unit, modelCard }: HouseSearchCardProps) {
 
 
       {/* RIGHT — price + CTA */}
-      <div className="flex flex-col md:flex-row lg:flex-col items-start md:items-center justify-between lg:items-start bg-primary text-white p-6 w-full lg:w-[220px] shrink-0 lg:border-l border-t lg:border-t-0 border-white/10 gap-4">
+      <div className="flex flex-col md:flex-row lg:flex-col items-start md:items-center justify-between lg:items-start bg-primary text-white p-6 w-full lg:w-[250px] shrink-0 lg:border-l border-t lg:border-t-0 border-white/10 gap-4">
       
         <div className="flex flex-col gap-1">
           <p className="text-[10px] tracking-[0.14em] uppercase text-white/60 font-medium">
@@ -226,7 +226,7 @@ function HouseSearchCard({ price, unit, modelCard }: HouseSearchCardProps) {
           <Button
             size="sm"
             variant="outline"
-            className="w-full md:w-auto bg-transparent hover:bg-white hover:text-primary text-white border-white/50 rounded-md"
+            className="w-full md:w-auto lg:w-full shrink-0"
           >
             View Details
           </Button>

@@ -47,7 +47,7 @@ export function FeaturedUnitCard({ unit, project }: FeaturedUnitCardProps) {
   const imageUrl = unit.model.photoUrl ?? project.photoUrl ?? null;
 
   return (
-    <div className="group relative w-full bg-white rounded-md overflow-hidden border border-border hover:shadow-sm transition-all duration-500">
+    <div className="group relative w-full bg-white rounded-xl overflow-hidden hover:shadow-sm transition-all duration-500">
       {/* IMAGE SECTION */}
       <div className="relative overflow-hidden aspect-video">
         {imageUrl ? (

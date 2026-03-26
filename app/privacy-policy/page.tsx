@@ -165,7 +165,7 @@ function PrivacyPolicyPage() {
             <h1 className="text-4xl font-bold text-primary">
               Our Commitment to Your Privacy
             </h1>
-            <p className="leading-relaxed text-neutral-600 max-w-3xl">
+            <p className="leading-relaxed text-neutral-600 ">
               R Land Development Inc. is committed to protecting the privacy and
               security of your personal information. This Privacy Policy
               describes how we collect, use, disclose, and safeguard your data
@@ -181,7 +181,7 @@ function PrivacyPolicyPage() {
           <div className="flex flex-col lg:flex-row gap-10 items-start">
 
             {/* Sticky sidebar nav */}
-            <aside className="lg:sticky lg:top-36 w-full lg:w-64 shrink-0 flex flex-col gap-1 bg-neutral-50 border border-border rounded-md p-4">
+            <aside className="lg:sticky lg:top-36 w-full lg:w-64 shrink-0 flex flex-col gap-1 bg-neutral-50 border border-border rounded-xl p-4">
               <p className="text-secondary font-semibold uppercase text-xs tracking-wider mb-2 px-2">
                 Contents
               </p>
@@ -190,7 +190,7 @@ function PrivacyPolicyPage() {
                   key={section.id}
                   href={`#${section.id}`}
                   onClick={() => setActiveSection(section.id)}
-                  className={`flex items-center gap-3 text-sm px-3 py-2 rounded-md transition-all duration-200 ${
+                  className={`flex items-center gap-3 text-sm px-3 py-2 rounded-xl transition-all duration-200 ${
                     activeSection === section.id
                       ? "bg-primary text-white font-semibold"
                       : "text-neutral-500 hover:text-primary hover:bg-neutral-100"
@@ -214,22 +214,22 @@ function PrivacyPolicyPage() {
                 >
                   {/* Section header */}
                   <div className="flex items-center gap-2 pb-3 border-b border-border">
-                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/5 text-primary shrink-0">
+                    {/* <div className="flex items-center justify-center w-12 h-12 rounded-full text-primary shrink-0">
                       {section.icon}
-                    </div>
+                    </div> */}
                     <h2 className="text-2xl font-bold text-primary">
                       {section.title}
                     </h2>
                   </div>
 
                   {/* Subsection cards */}
-                  <div className="flex flex-col gap-4">
+                  <div className="flex flex-col">
                     {section.subsections.map((sub) => (
                       <div
                         key={sub.subtitle}
-                        className=" rounded-md p-5  flex flex-col gap-2"
+                        className=" rounded-xl p-4 flex flex-col"
                       >
-                        <p className="text-secondary font-semibold uppercase text-xs tracking-wider">
+                        <p className="text-primary font-semibold tracking-wider">   
                           {sub.subtitle}
                         </p>
                         <p className="text-sm text-neutral-600 leading-relaxed">
@@ -242,7 +242,7 @@ function PrivacyPolicyPage() {
                   {/* Additional content for "your-rights" */}
                   {section.id === "your-rights" && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="flex flex-col gap-4 border border-border rounded-md p-6 bg-white">
+                      <div className="flex flex-col gap-4 border border-border rounded-xl p-6 bg-white">
                         <h3 className="text-base font-bold text-primary border-b border-border pb-3">
                           Rights Under RA 10173
                         </h3>
@@ -255,7 +255,7 @@ function PrivacyPolicyPage() {
                           ))}
                         </ul>
                       </div>
-                      <div className="flex flex-col gap-4 border border-border rounded-md p-6 bg-white">
+                      <div className="flex flex-col gap-4 border border-border rounded-xl p-6 bg-white">
                         <h3 className="text-base font-bold text-primary border-b border-border pb-3">
                           How to Exercise Your Rights
                         </h3>
@@ -285,7 +285,7 @@ function PrivacyPolicyPage() {
               ))}
 
               {/* Changes notice */}
-              <div className="flex flex-col gap-3 border border-border rounded-md p-6 bg-neutral-50">
+              <div className="flex flex-col gap-3 border border-border rounded-xl p-6 bg-neutral-50">
                 <h2 className="text-lg font-bold text-primary">
                   Changes to This Policy
                 </h2>
@@ -304,13 +304,13 @@ function PrivacyPolicyPage() {
 
         {/* BOTTOM CTA */}
         <section className="px-8 md:px-16 xl:px-44 py-16 bg-neutral-50">
-          <div className="p-6 md:p-8 rounded-md bg-primary text-white flex flex-col md:flex-row items-center justify-between gap-8 overflow-hidden relative w-full">
+          <div className="p-6 md:p-8 rounded-xl bg-primary text-white flex flex-col md:flex-row items-center justify-between gap-8 overflow-hidden relative w-full">
             <div className="relative z-10 space-y-2">
               <h3 className="text-2xl font-bold">
                 Have questions about your data?
               </h3>
               <p className="text-primary-foreground/80">
-                Reach out to our Data Protection Officer for any
+                Reach out to our Data Protection Officer at privacy@rland.ph for any
                 privacy-related inquiries or to exercise your rights.
               </p>
             </div>

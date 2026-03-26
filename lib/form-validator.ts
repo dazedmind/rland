@@ -12,7 +12,7 @@ const ALLOWED_DOMAINS_REGEX = new RegExp(`^(${ALLOWED_DOMAINS.join("|")})$`);
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_REGEX = /^(09|\+639)\d{9}$/;
-const NAME_REGEX = /^[a-zA-Z\s]+$/;
+const NAME_REGEX = /^[\p{L}\s]+$/u;
 
 const validateEmail = (email: string) => {
   return EMAIL_REGEX.test(email) && ALLOWED_DOMAINS_REGEX.test(email.split("@")[1]);

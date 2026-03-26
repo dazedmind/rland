@@ -25,9 +25,9 @@ function ProjectCard({
   projectId: number;
 }) {
   return (
-    <div className="flex flex-col w-full bg-neutral-50/50 rounded-md hover:shadow-xs transition-all duration-300 cursor-pointer">
+    <div className="flex flex-col w-full bg-neutral-50/50 rounded-xl hover:shadow-xs transition-all duration-300 cursor-pointer">
       {/* CARD */}
-      <div className={cn("w-auto h-60 bg-white rounded-md relative transition-all duration-300 cursor-pointer group overflow-hidden", className)}>
+      <div className={cn("w-auto h-60 bg-white rounded-xl relative transition-all duration-300 cursor-pointer group overflow-hidden", className)}>
         {/* Gradient overlay - fades in on hover */}
         <div
           className={cn(

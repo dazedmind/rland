@@ -75,7 +75,7 @@ function NewsCard({ limit, filterCategory }: { limit?: number; filterCategory?: 
             <div className="flex touch-pan-y -ml-4">
               {filteredArticles.map((article: any) => (
                 <div key={article.id} className="flex-[0_0_100%] min-w-0 pl-4 md:flex-[0_0_50%] lg:flex-[0_0_33.333%]">
-                  <div className="flex flex-col bg-white rounded-md overflow-hidden border border-border hover:shadow-xs transition-shadow h-full">
+                  <div className="flex flex-col bg-white rounded-xl overflow-hidden hover:shadow-xs transition-shadow h-full">
                     <div className="h-48 bg-neutral-200 relative shrink-0">
                       {article.photoUrl && (
                         <Image

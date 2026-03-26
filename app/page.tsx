@@ -117,11 +117,11 @@ export default function Home() {
             <div className="flex flex-col gap-8 md:flex-row-reverse h-auto w-full bg-neutral-100 py-12 px-8 md:px-16 xl:px-44">
               {/* Image */}
               <div className="w-full lg:w-1/2">
-                <div className="h-100 bg-neutral-300 rounded-md">
+                <div className="h-100 bg-neutral-300 rounded-xl">
                   <Image
                     src={aeValleyUnit}
                     alt="R Land Logo"
-                    className="rounded-md object-cover h-full"
+                    className="rounded-xl object-cover h-full"
                   />
                 </div>
               </div>

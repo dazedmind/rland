@@ -60,7 +60,7 @@ export function ArticleView({ article }: ArticleViewProps) {
               </div>
 
               {article.photoUrl ? (
-                <div className="relative w-full md:h-[400px] aspect-video rounded-md overflow-hidden bg-neutral-200 shadow-inner">
+                <div className="relative w-full md:h-[400px] aspect-video rounded-xl overflow-hidden bg-neutral-200 shadow-inner">
                   <Image
                     src={article.photoUrl}
                     alt={article.headline}
@@ -69,7 +69,7 @@ export function ArticleView({ article }: ArticleViewProps) {
                   />
                 </div>
               ) : (
-                <div className="relative w-full h-[400px] rounded-md overflow-hidden bg-neutral-200 shadow-inner">
+                <div className="relative w-full h-[400px] rounded-xl overflow-hidden bg-neutral-200 shadow-inner">
                   <div className="absolute inset-0 flex items-center justify-center text-neutral-400 italic">
                     [Article Image]
                   </div>
@@ -77,12 +77,12 @@ export function ArticleView({ article }: ArticleViewProps) {
               )}
 
               <div
-                className="prose prose-p:mb-2 prose-headings:mb-3 prose-headings:mt-6 prose-headings:first:mt-0 max-w-none text-neutral-700 leading-relaxed min-h-[500px] w-full rounded-md [&_h1]:text-xl [&_h1]:font-bold [&_h2]:text-lg [&_h2]:font-semibold [&_h3]:text-base [&_h3]:font-semibold [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-2 [&_li]:my-0.5 [&_strong]:font-semibold [&_em]:italic"
+                className="prose prose-p:mb-2 prose-headings:mb-3 prose-headings:mt-6 prose-headings:first:mt-0 max-w-none text-neutral-700 leading-relaxed min-h-[500px] w-full rounded-xl [&_h1]:text-xl [&_h1]:font-bold [&_h2]:text-lg [&_h2]:font-semibold [&_h3]:text-base [&_h3]:font-semibold [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-2 [&_li]:my-0.5 [&_strong]:font-semibold [&_em]:italic"
                 dangerouslySetInnerHTML={{
                   __html: article.body.trim() ? renderMarkdown(article.body) : "",
                 }}
               />
-              <div className="mt-16 pt-8 border-t border-neutral-100 flex flex-wrap justify-between items-center gap-4">
+              <div className="mt-16 pt-8 border-t border-neutral-100 flex flex-wrap justify-end md:justify-between items-center gap-4">
                 <div className="flex flex-wrap gap-2">
                   {article.tags?.map((tag) => (
                     <span

@@ -51,7 +51,7 @@ function NewsPage() {
                 <button
                   key={cat}
                   onClick={() => setFilter(cat)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${filter === cat ? "bg-primary text-white" : "bg-white text-neutral-500 border border-neutral-200 hover:border-primary"}`}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${filter === cat ? "bg-primary text-white" : "bg-white text-neutral-500 border border-neutral-200 hover:border-primary"}`}
                 >
                   {cat}
                 </button>

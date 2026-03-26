@@ -40,6 +40,7 @@ function ContactForm() {
       { value: formData.phone, label: "Phone" },
       { value: formData.subject, label: "Subject" },
       { value: formData.source, label: "Where did you hear about us?" },
+      { value: formData.message, label: "Message" },
     ];
 
     const isValid = requiredFields.every((field: { value: string; label: string }) => field.value && field.value.trim() !== "");
@@ -137,7 +138,7 @@ function ContactForm() {
   };
 
   return (
-    <div className="bg-white border border-neutral-200 rounded-lg p-6 md:p-6 w-full gap-4">
+    <div className="bg-white border border-neutral-200 rounded-xl p-6 md:p-6 w-full gap-4">
       <h1 className="text-2xl font-bold text-primary uppercase mb-4">Contact Us</h1>
       
       <div className="grid grid-cols-2 gap-4">
@@ -148,6 +149,7 @@ function ContactForm() {
             placeholder="Enter First Name"
             onChange={handleChangeInput}
             value={formData.firstName}
+            required
           />
           <TextInput
             label="Last Name"
@@ -156,6 +158,7 @@ function ContactForm() {
             placeholder="Enter Last Name"
             onChange={handleChangeInput}
             value={formData.lastName}
+            required
           />
 
           <TextInput
@@ -165,6 +168,7 @@ function ContactForm() {
             placeholder="Enter Email"
             onChange={handleChangeInput}
             value={formData.email}
+            required
           />
  
           <TextInput
@@ -174,6 +178,7 @@ function ContactForm() {
             placeholder="+63 (920) 123-4567"
             onChange={handleChangeInput}
             value={formData.phone}
+            required
           />
 
           <DropSelect
@@ -182,6 +187,7 @@ function ContactForm() {
             selectId="subject"
             onChange={handleChangeInput}
             value={formData.subject}
+            required
           >
             <option value="" disabled>Select a subject</option>
             <option value="buying">Buying a Property</option>
@@ -196,18 +202,19 @@ function ContactForm() {
             selectId="source"
             onChange={handleChangeInput}
             value={formData.source}
+            required
           >
             <option value="" disabled>Select a source</option>
+            <option value="website">Website</option>
             <option value="facebook">Facebook</option>
             <option value="instagram">Instagram</option>
             <option value="linkedin">LinkedIn</option>
             <option value="youtube">YouTube</option>
-            <option value="website">Website</option>
             <option value="others">Other</option>
           </DropSelect>
 
         <Field className="col-span-2">
-          <FieldLabel className="uppercase text-xs text-primary">Message</FieldLabel>
+          <FieldLabel className="uppercase text-xs text-primary">Message <span className="text-red-500">*</span></FieldLabel>
           <Textarea
             name="message"
             placeholder="Enter your message here..."
