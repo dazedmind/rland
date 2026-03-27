@@ -72,36 +72,51 @@ function CareersPage() {
         <section id="jobs" className="flex flex-col items-start px-8 md:px-24 lg:px-44 xl:px-64 justify-center py-16 space-y-8">
           <div className="w-full flex flex-col gap-4">
             {/* HEADER */}
-            <div className="flex flex-col gap-4 md:flex-row items-start md:items-center justify-between">
+            <div className="flex flex-col gap-4 lg:flex-row items-start lg:items-center justify-between">
               <h2 className="text-3xl font-bold text-primary">Current Job Openings</h2>
 
-              <span className="flex flex-row gap-4 w-full md:w-1/2 justify-end">
-                <DropSelect
-                  label="Department"
-                  selectName="department"
-                  selectId="department"
-                  onChange={(e) => handleDepartmentChange(e.target.value)}
-                  value={selectedDepartment}
-                >
-                  <option value="">All Departments</option>
-                  {Object.entries(department).map(([key, label]) => (
-                    <option key={key} value={key}>{label}</option>
-                  ))}
-                </DropSelect>
+              <div className="flex flex-col md:flex-row gap-4 w-full lg:w-1/2 justify-end items-center">
+                <span className="flex flex-row gap-4 w-full justify-end items-center">
+                  <DropSelect
+                    label="Department"
+                    selectName="department"
+                    selectId="department"
+                    onChange={(e) => handleDepartmentChange(e.target.value)}
+                    value={selectedDepartment}
+                  >
+                    <option value="">All Departments</option>
+                    {Object.entries(department).map(([key, label]) => (
+                      <option key={key} value={key}>{label}</option>
+                    ))}
+                  </DropSelect>
 
-                <DropSelect
-                  label="Location"
-                  selectName="location"
-                  selectId="location"
-                  onChange={(e) => handleLocationChange(e.target.value)}
-                  value={selectedLocation}
-                >
-                  <option value="">All Locations</option>
-                  {Object.entries(location).map(([key, label]) => (
-                    <option key={key} value={key}>{label}</option>
-                  ))}
-                </DropSelect>
-              </span>
+                  <DropSelect
+                    label="Location"
+                    selectName="location"
+                    selectId="location"
+                    onChange={(e) => handleLocationChange(e.target.value)}
+                    value={selectedLocation}
+                  >
+                    <option value="">All Locations</option>
+                    {Object.entries(location).map(([key, label]) => (
+                      <option key={key} value={key}>{label}</option>
+                    ))}
+                  </DropSelect>
+                </span>
+
+                {(selectedDepartment || selectedLocation) && (
+                  <Button
+                    variant="outline"
+                    size="xs"
+                    className="w-full md:w-fit hover:text-foreground hover:bg-neutral-100"
+                    onClick={() => {
+                      setSelectedDepartment('');
+                      setSelectedLocation('');
+                      setPage(1);
+                    }}
+                  >Clear</Button>
+                )}
+              </div>
             </div>
 
             {/* CARDS */}

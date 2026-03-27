@@ -3,8 +3,7 @@ import { db } from '@/lib/db';
 import { careers } from '@/db/schema';
 import { requireApiKey } from '@/lib/api-auth';
 import { and, desc, eq, ne, sql } from 'drizzle-orm';
-import type { Career, CareerStatus } from '@/app/utils/types';
-import { department } from '@/app/utils/types';
+import type { Career, CareerStatus, department, Department, Location } from '@/app/utils/types';
 
 export async function GET(request: NextRequest) {
   const authError = requireApiKey(request);
@@ -21,10 +20,12 @@ export async function GET(request: NextRequest) {
 
   try {
     const conditions = [eq(careers.status, status as CareerStatus)];
-    if (departmentFilter && Object.values(department).includes(departmentFilter as typeof department[keyof typeof department])) {
+    if (departmentFilter) {
       conditions.push(eq(careers.department, departmentFilter as keyof typeof department));
     }
-    if (locationFilter) conditions.push(eq(careers.location, locationFilter));
+    if (locationFilter) {
+      conditions.push(eq(careers.location, locationFilter as Location));
+    }
     if (excludeId) {
       const id = parseInt(excludeId, 10);
       if (!isNaN(id)) conditions.push(ne(careers.id, id));
