@@ -113,82 +113,6 @@ export default function Home() {
         </ScrollReveal>
 
         <ScrollReveal>
-          <div className="flex flex-col items-center justify-center h-auto">
-            <div className="flex flex-col gap-8 md:flex-row-reverse h-auto w-full bg-neutral-100 py-12 px-8 md:px-16 xl:px-44">
-              {/* Image */}
-              <div className="w-full lg:w-1/2">
-                <div className="h-100 bg-neutral-300 rounded-xl">
-                  <Image
-                    src={aeValleyUnit}
-                    alt="R Land Logo"
-                    className="rounded-xl object-cover h-full"
-                  />
-                </div>
-              </div>
-
-              {/* Text */}
-              <span className="flex flex-col gap-4 px-4 w-full lg:w-1/2 ">
-                <span>
-                  <h1 className="text-4xl font-bold text-primary">
-                    About R Land
-                  </h1>
-                  <p className="uppercase text-secondary font-medium">Rooted in Nature, Designed for the Future</p>
-                </span>
-
-                <p className="leading-relaxed text-neutral-600">
-                  R Land Development Inc., a subsidiary of RMR Capital Inc., is
-                  dedicated to transforming landscapes into thriving centers of
-                  growth. The company is committed to creating
-                  thoughtfully-designed communities that lead to new
-                  opportunities and a promising future. <br />
-                  <br />
-                  Guided by the motto "Our Bright Future Together," R Land
-                  focuses on improving land and enriching lives through
-                  responsible and sustainable real estate projects that offer
-                  exceptional living experiences.
-                </p>
-              </span>
-            </div>
-
-            <div className="w-full">
-              <div className="bg-primary p-3 w-full text-center text-white">
-                <h1 className="text-2xl md:text-3xl font-bold">
-                  Partners & Affiliated Companies
-                </h1>
-              </div>
-
-              {/* Desktop: static centered */}
-              <div className="flex flex-row items-center justify-center gap-8 md:gap-24 lg:gap-32 px-8 md:px-16 xl:px-44 py-8">
-                <Image src={rmrLogo} alt="RMR Logo" width={100} height={100} className="saturate-0 hover:saturate-100 transition-all  w-12 md:w-16 lg:w-24 duration-300 cursor-pointer" />
-                <Image src={philecoLogo} alt="Phileco Logo" width={160} height={100} className="saturate-0 hover:saturate-100 transition-all w-28 lg:w-32 duration-300 cursor-pointer" />
-                <Image src={hcptLogo} alt="HCPT Logo" width={100} height={100} className="saturate-0 hover:saturate-100 transition-all w-12 md:w-16 lg:w-24 duration-300 cursor-pointer" />
-                <Image src={r2Logo} alt="R2 Logo" width={100} height={100} className="saturate-0 hover:saturate-100 transition-all w-12 md:w-16 lg:w-24 duration-300 cursor-pointer" />
-              </div>
-            </div>
-          </div>
-        </ScrollReveal>
-
-        <ScrollReveal>
-          <div className="flex flex-col h-auto justify-center px-8 md:px-16 xl:px-44 gap-4 py-24">
-            {/* SECTION HEADER */}
-            <div className="flex flex-row items-center justify-between">
-              <span>
-                <h1 className="text-3xl font-bold text-primary">
-                  Featured Units
-                </h1>
-                <p className="text-sm md:text-base leading-relaxed text-muted-foreground">
-                  Browse our diverse projects each offering a familiar and
-                  comfort vibes
-                </p>
-              </span>
-            </div>
-
-            {/* Featured Projects Card*/}
-            <FeaturedProjectList />
-          </div>
-        </ScrollReveal>
-
-        <ScrollReveal>
           <div className="flex flex-col lg:flex-row px-12 md:px-16 xl:px-44 gap-4 pt-12 lg:py-24 bg-primary text-white relative overflow-hidden">
             {/* Background subtle grid texture */}
             <div
@@ -308,6 +232,82 @@ export default function Home() {
                 height={600}
                 className="absolute inset-0 w-full h-full object-contain object-bottom drop-shadow-2xl"
               />
+            </div>
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal>
+          <div className="flex flex-col h-auto justify-center px-8 md:px-16 xl:px-44 gap-4 py-24">
+            {/* SECTION HEADER */}
+            <div className="flex flex-row items-center justify-between">
+              <span>
+                <h1 className="text-3xl font-bold text-primary">
+                  Featured Units
+                </h1>
+                <p className="text-sm md:text-base leading-relaxed text-muted-foreground">
+                  Browse our diverse projects each offering a familiar and
+                  comfort vibes
+                </p>
+              </span>
+            </div>
+
+            {/* Featured Projects Card*/}
+            <FeaturedProjectList />
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal>
+          <div className="flex flex-col items-center justify-center h-auto">
+            <div className="flex flex-col gap-8 md:flex-row-reverse h-auto w-full bg-neutral-100 py-12 px-8 md:px-16 xl:px-44">
+              {/* Image */}
+              <div className="w-full lg:w-1/2">
+                <div className="h-100 bg-neutral-300 rounded-xl">
+                  <Image
+                    src={aeValleyUnit}
+                    alt="R Land Logo"
+                    className="rounded-xl object-cover h-full"
+                  />
+                </div>
+              </div>
+
+              {/* Text */}
+              <span className="flex flex-col gap-4 px-4 w-full lg:w-1/2 ">
+                <span>
+                  <h1 className="text-4xl font-bold text-primary">
+                    About R Land
+                  </h1>
+                  <p className="uppercase text-secondary font-medium">Rooted in Nature, Designed for the Future</p>
+                </span>
+
+                <p className="leading-relaxed text-neutral-600">
+                  R Land Development Inc., a subsidiary of RMR Capital Inc., is
+                  dedicated to transforming landscapes into thriving centers of
+                  growth. The company is committed to creating
+                  thoughtfully-designed communities that lead to new
+                  opportunities and a promising future. <br />
+                  <br />
+                  Guided by the motto "Our Bright Future Together," R Land
+                  focuses on improving land and enriching lives through
+                  responsible and sustainable real estate projects that offer
+                  exceptional living experiences.
+                </p>
+              </span>
+            </div>
+
+            <div className="w-full">
+              <div className="bg-primary p-3 w-full text-center text-white">
+                <h1 className="text-2xl md:text-3xl font-bold">
+                  Partners & Affiliated Companies
+                </h1>
+              </div>
+
+              {/* Desktop: static centered */}
+              <div className="flex flex-row items-center justify-center gap-8 md:gap-24 lg:gap-32 px-8 md:px-16 xl:px-44 py-8">
+                <Image src={rmrLogo} alt="RMR Logo" width={100} height={100} className="saturate-0 hover:saturate-100 transition-all  w-12 md:w-16 lg:w-24 duration-300 cursor-pointer" />
+                <Image src={philecoLogo} alt="Phileco Logo" width={160} height={100} className="saturate-0 hover:saturate-100 transition-all w-28 lg:w-32 duration-300 cursor-pointer" />
+                <Image src={hcptLogo} alt="HCPT Logo" width={100} height={100} className="saturate-0 hover:saturate-100 transition-all w-12 md:w-16 lg:w-24 duration-300 cursor-pointer" />
+                <Image src={r2Logo} alt="R2 Logo" width={100} height={100} className="saturate-0 hover:saturate-100 transition-all w-12 md:w-16 lg:w-24 duration-300 cursor-pointer" />
+              </div>
             </div>
           </div>
         </ScrollReveal>

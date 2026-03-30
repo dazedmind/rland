@@ -149,7 +149,6 @@ function ContactForm() {
             placeholder="Enter First Name"
             onChange={handleChangeInput}
             value={formData.firstName}
-            required
           />
           <TextInput
             label="Last Name"
@@ -158,7 +157,6 @@ function ContactForm() {
             placeholder="Enter Last Name"
             onChange={handleChangeInput}
             value={formData.lastName}
-            required
           />
 
           <TextInput
@@ -168,7 +166,6 @@ function ContactForm() {
             placeholder="Enter Email"
             onChange={handleChangeInput}
             value={formData.email}
-            required
           />
  
           <TextInput
@@ -178,7 +175,6 @@ function ContactForm() {
             placeholder="+63 (920) 123-4567"
             onChange={handleChangeInput}
             value={formData.phone}
-            required
           />
 
           <DropSelect
@@ -187,7 +183,6 @@ function ContactForm() {
             selectId="subject"
             onChange={handleChangeInput}
             value={formData.subject}
-            required
           >
             <option value="" disabled>Select a subject</option>
             <option value="buying">Buying a Property</option>
@@ -202,7 +197,6 @@ function ContactForm() {
             selectId="source"
             onChange={handleChangeInput}
             value={formData.source}
-            required
           >
             <option value="" disabled>Select a source</option>
             <option value="website">Website</option>
@@ -214,7 +208,7 @@ function ContactForm() {
           </DropSelect>
 
         <Field className="col-span-2">
-          <FieldLabel className="uppercase text-xs text-primary">Message <span className="text-red-500">*</span></FieldLabel>
+          <FieldLabel className="uppercase text-xs text-primary">Message</FieldLabel>
           <Textarea
             name="message"
             placeholder="Enter your message here..."
@@ -243,6 +237,12 @@ function ContactForm() {
             </Field>
         </Field>
 
+        <div className="flex justify-end items-center w-full col-span-2">
+          <Button variant="default" size="sm" className="w-fit px-6" type="submit" disabled={loading} onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>)}>
+            {loading ? <span className="flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin" /> Submitting...</span> : <span className="flex items-center gap-2">Submit</span>} 
+          </Button>
+        </div>
+
         <HCaptcha
           sitekey='5f2a1b04-e718-4b58-9114-5e6ec12c87a2'
           onVerify={handleVerification}
@@ -250,12 +250,6 @@ function ContactForm() {
           onError={handleHcaptchaError}
           ref={captchaRef}
         />
-
-        <div className="flex justify-end items-center w-full col-span-2">
-          <Button variant="default" size="sm" className="w-fit px-6" type="submit" disabled={loading} onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleSubmit(e as unknown as React.FormEvent<HTMLFormElement>)}>
-            {loading ? <span className="flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin" /> Submitting...</span> : <span className="flex items-center gap-2">Submit</span>} 
-          </Button>
-        </div>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import {
   Dialog,
   DialogContent,
@@ -48,6 +49,9 @@ const specIcons = [
   { icon: Utensils, label: "Kitchen", key: "kitchen" as const },
 ];
 
+/** Slightly longer than motion transition so Radix exit can finish before we drop displayModel */
+const CLOSE_CLEAR_MS = 400;
+
 function ModelDetailsModal({
   model,
   project,
@@ -56,8 +60,24 @@ function ModelDetailsModal({
   isOpen,
   onClose,
 }: ModelDetailsModalProps) {
+  const reduceMotion = useReducedMotion();
+  const lastModelRef = useRef<ProjectModel | null>(null);
+  if (model) lastModelRef.current = model;
+  const displayModel = model ?? lastModelRef.current;
+
+  const transitionDuration = reduceMotion ? 0.05 : 0.35;
+
+  useEffect(() => {
+    if (!isOpen) {
+      const id = window.setTimeout(() => {
+        lastModelRef.current = null;
+      }, CLOSE_CLEAR_MS);
+      return () => window.clearTimeout(id);
+    }
+  }, [isOpen]);
+
   const modelUnits = inventory.filter(
-    (u) => (u.modelId ?? u.model?.id) === model?.id,
+    (u) => (u.modelId ?? u.model?.id) === displayModel?.id,
   );
   const { minPrice, maxPrice } =
     modelUnits.length > 0
@@ -69,42 +89,57 @@ function ModelDetailsModal({
 
   /** Main photo = model photoUrl; other photos = project_gallery (model-specific or project-level) */
   const modelGallery = gallery.filter(
-    (g) => g.modelId === null || g.modelId === model?.id,
+    (g) => g.modelId === null || g.modelId === displayModel?.id,
   );
 
   const amenities = project?.amenities ?? [];
-  const mainPhoto = model?.details?.photoUrl;
+  const mainPhoto = displayModel?.details?.photoUrl;
   const galleryPhotos = modelGallery.map((g) => g.imageUrl);
 
   const images = [...(mainPhoto ? [mainPhoto] : []), ...galleryPhotos];
 
-  if (!model) return null;
+  if (!displayModel) return null;
 
-  const details = model.details;
+  const details = displayModel.details;
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
-        className="w-full h-dvh overflow-hidden flex flex-col p-0 gap-0"
+        className="w-full h-dvh max-h-dvh overflow-hidden flex flex-col p-0 gap-0 max-w-[100vw] border-0 bg-transparent shadow-none sm:max-w-[100vw] animate-none data-[state=closed]:pointer-events-none"
         showCloseButton={false}
       >
+        <motion.div
+          key={displayModel.id}
+          className="flex min-h-0 flex-1 flex-col overflow-hidden bg-background"
+          initial={{ opacity: 0, scale: 0.94, y: 28 }}
+          animate={
+            isOpen
+              ? { opacity: 1, scale: 1, y: 0 }
+              : { opacity: 0, scale: 0.94, y: 28 }
+          }
+          transition={{
+            duration: transitionDuration,
+            ease: [0.32, 0.72, 0, 1],
+          }}
+          style={{ transformOrigin: "center center" }}
+        >
         <DialogHeader className="px-6 pt-6 pb-2 shrink-0 text-start">
           <DialogTitle className="text-2xl font-bold text-primary">
-            {model.modelName} Unit
+            {displayModel.modelName} Unit
             <p className="text-sm text-neutral-600 font-normal">
               {project?.projectName}
             </p>
           </DialogTitle>
           <DialogDescription className="sr-only">
-            House model details, specifications, and pricing for {model.modelName} at {project?.projectName}
+            House model details, specifications, and pricing for {displayModel.modelName} at {project?.projectName}
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex flex-col md:flex-row gap-6 md:gap-8 px-4 md:px-6 pb-6 overflow-y-auto flex-1">
+        <div className="flex flex-col md:flex-row gap-6 md:gap-8 px-4 md:px-6 pb-6 overflow-y-auto flex-1 min-h-0">
           {/* Gallery - full width on mobile, 1/3 on desktop */}
           <div className="relative w-full md:w-1/3 md:shrink-0 rounded-xl overflow-visible">
             {images.length > 0 ? (
-              <ModelGalleryCarousel images={images} alt={model.modelName} />
+              <ModelGalleryCarousel images={images} alt={displayModel.modelName} />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center text-neutral-400">
                 <span className="text-sm">No image available</span>
@@ -189,12 +224,13 @@ function ModelDetailsModal({
             )}       
           </div>
         </div>
-        <DialogFooter className="px-6 py-6 md:pb-6 md:pt-0">
+        <DialogFooter className="px-6 py-6 md:pb-6 md:pt-0 shrink-0">
           <Button variant="secondary" size="sm" onClick={onClose}>
             {" "}
             Close
           </Button>
         </DialogFooter>
+        </motion.div>
       </DialogContent>
     </Dialog>
   );
