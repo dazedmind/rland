@@ -198,7 +198,7 @@ function BuyerGuidePage() {
                 <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
                   Step-by-Step
                 </p>
-                <h2 className="text-4xl font-bold text-primary">
+                <h2 className="text-4xl font-bold text-foreground">
                   The Home Buying Process
                 </h2>
                 <p className="text-neutral-600 max-w-2xl">
@@ -223,7 +223,7 @@ function BuyerGuidePage() {
                     </div>
 
                     <div className="flex flex-col gap-2">
-                      <h3 className="text-lg font-bold text-primary">
+                      <h3 className="text-lg font-bold text-foreground">
                         {item.title}
                       </h3>
                       <p className="text-sm text-neutral-600 leading-relaxed">
@@ -245,7 +245,7 @@ function BuyerGuidePage() {
               <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
                 Financing
               </p>
-              <h2 className="text-4xl font-bold text-primary">
+              <h2 className="text-4xl font-bold text-foreground">
                 Payment Options
               </h2>
               <p className="text-neutral-600 max-w-2xl">
@@ -265,7 +265,7 @@ function BuyerGuidePage() {
                     <div className="flex items-center justify-center w-14 h-14 rounded-full bg-white border border-border shrink-0">
                       {option.icon}
                     </div>
-                    <h3 className="text-lg font-bold text-primary">
+                    <h3 className="text-lg font-bold text-foreground">
                       {option.title}
                     </h3>
                   </div>
@@ -309,7 +309,7 @@ function BuyerGuidePage() {
                 <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
                   Documents
                 </p>
-                <h2 className="text-4xl font-bold text-primary">
+                <h2 className="text-4xl font-bold text-foreground">
                   What You'll Need
                 </h2>
                 <p className="text-neutral-600 max-w-2xl">
@@ -321,7 +321,7 @@ function BuyerGuidePage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* For Local Buyers */}
                 <div className="flex flex-col gap-4 border border-border rounded-xl p-6 bg-white">
-                  <h3 className="text-lg font-bold text-primary border-b border-border pb-3">
+                  <h3 className="text-lg font-bold text-foreground border-b border-border pb-3">
                     For Local Buyers
                   </h3>
                   <ul className="flex flex-col gap-2 text-sm text-neutral-600">
@@ -343,7 +343,7 @@ function BuyerGuidePage() {
 
                 {/* For OFWs */}
                 <div className="flex flex-col gap-4 border border-border rounded-xl p-6 bg-white">
-                  <h3 className="text-lg font-bold text-primary border-b border-border pb-3">
+                  <h3 className="text-lg font-bold text-foreground border-b border-border pb-3">
                     For OFWs (Overseas Filipino Workers)
                   </h3>
                   <ul className="flex flex-col gap-2 text-sm text-neutral-600">
@@ -381,7 +381,7 @@ function BuyerGuidePage() {
                 <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
                   FAQ
                 </p>
-                <h2 className="text-4xl font-bold text-primary">
+                <h2 className="text-4xl font-bold text-foreground">
                   Frequently Asked Questions
                 </h2>
                 <p className="text-neutral-600 max-w-2xl">

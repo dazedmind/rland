@@ -5,13 +5,8 @@ import Footer from "@/components/layout/Footer";
 import aboutUsImage from "@/public/ae-meadow-unit.jpg";
 import Image from "next/image";
 import {
-  HeartHandshake,
   Ribbon,
-  ShieldCheck,
-  Star,
   Target,
-  Trophy,
-  Users,
   ArrowRight,
 } from "lucide-react";
 import MobileNavBar from "@/components/layout/MobileNavBar";
@@ -20,39 +15,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import CountUp from '@/components/ui/CountUp'
-
-const companyValues = [
-  {
-    icon: <Users className="size-10" strokeWidth={1.5} />,
-    title: "Teamwork",
-    description:
-      "We believe in the exponential power of minds working together to achieve greater outcomes.",
-  },
-  {
-    icon: <Trophy className="size-10" strokeWidth={1.5} />,
-    title: "Competence",
-    description:
-      "We constantly strive for excellence, to be the best we can be in business and in life.",
-  },
-  {
-    icon: <Star className="size-10" strokeWidth={1.5} />,
-    title: "Confidence",
-    description:
-      "We trust in our abilities and empower our people to take bold steps toward innovation.",
-  },
-  {
-    icon: <ShieldCheck className="size-10" strokeWidth={1.5} />,
-    title: "Integrity",
-    description:
-      "Honesty and transparency are at the core of everything we do, building trust with every action.",
-  },
-  {
-    icon: <HeartHandshake className="size-10" strokeWidth={1.5} />,
-    title: "Commitment",
-    description:
-      "Our customers are our priority; we are dedicated to delivering value that exceeds expectations.",
-  },
-];
+import ValuesPieSection from "./ValuesPieSection";
 
 const stats = [
   { value: 3, label: "Active Projects" },
@@ -77,7 +40,7 @@ function AboutUs() {
 
       <main className="flex flex-col">
         {/* ── HERO INTRO ── */}
-        <section className="px-8 md:px-16 xl:px-44 py-20 lg:py-30">
+        <section className="px-8 md:px-16 xl:px-44 py-20 lg:pt-30">
           <ScrollReveal>
             <div className="flex flex-col lg:flex-row items-center gap-12">
               {/* Text */}
@@ -85,11 +48,9 @@ function AboutUs() {
                 <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
                   Who We Are
                 </p>
-                <h1 className="text-4xl md:text-5xl font-bold text-primary leading-tight">
-                  Rooted in Nature,{" "}
-                  <span className="text-secondary">
-                    Designed for the Future
-                  </span>
+                <h1 className="text-4xl md:text-5xl font-bold text-foreground leading-tight">
+                  Rooted in Nature, <br /> Designed for the Future
+                  {" "}
                 </h1>
                 <p className="leading-relaxed text-neutral-600">
                   R Land Development Inc., a subsidiary of RMR Capital Inc., is
@@ -130,13 +91,12 @@ function AboutUs() {
         </section>
 
         {/* ── STATS BAND ── */}
-        <section className="bg-linear-to-r from-primary to-blue-950 py-14 px-8 md:px-16 xl:px-44">
+        <section className="bg-linear-to-r from-neutral-100 mx-8 md:mx-20 mb-10 rounded-xl md:rounded-full to-neutral-200 p-12 px-8 md:px-16">
           <ScrollReveal>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-white">
               {stats.map((stat) => (
                 <div key={stat.label} className="flex flex-col gap-1">
-                  <span className="text-4xl md:text-5xl font-black text-secondary">
-                    {/* <CountUp end={stat.value} /> */}
+                  <span className="text-4xl md:text-5xl font-bold text-primary">
                     <CountUp
                       from={0}
                       to={stat.value}
@@ -146,7 +106,7 @@ function AboutUs() {
                       className="count-up-text"
                     />
                   </span>
-                  <span className="text-sm text-white/70 uppercase tracking-wider">
+                  <span className="text-sm text-foreground/70 uppercase tracking-wider">
                     {stat.label}
                   </span>
                 </div>
@@ -163,21 +123,21 @@ function AboutUs() {
                 <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
                   Our Foundation
                 </p>
-                <h2 className="text-4xl font-bold text-primary">
+                <h2 className="text-4xl font-bold text-foreground">
                   What Drives Us
                 </h2>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Mission */}
-                <div className="group flex flex-col gap-4 rounded-xl p-8 bg-linear-to-br from-primary to-blue-950 text-white overflow-hidden relative">
+                <div className="group flex flex-col gap-4 rounded-2xl p-8 bg-linear-to-br from-primary to-blue-950 text-white overflow-hidden relative">
                   <div className="flex items-center justify-center w-14 h-14 rounded-full">
                     <Target
                       className="size-12 text-secondary"
                       strokeWidth={1}
                     />
                   </div>
-                  <h3 className="text-3xl font-bold text-secondary">
+                  <h3 className="text-3xl font-bold text-white">
                     Our Mission
                   </h3>
                   <p className="leading-relaxed text-white/85 text-sm">
@@ -189,14 +149,14 @@ function AboutUs() {
                 </div>
 
                 {/* Promise */}
-                <div className="group flex flex-col gap-4 rounded-xl p-8 bg-linear-to-br from-primary to-blue-950 text-white overflow-hidden relative">
+                <div className="group flex flex-col gap-4 rounded-2xl p-8 bg-linear-to-br from-primary to-blue-950 text-white overflow-hidden relative">
                   <div className="flex items-center justify-center w-14 h-14 rounded-full">
                     <Ribbon
                       className="size-12 text-secondary"
                       strokeWidth={1}
                     />
                   </div>
-                  <h3 className="text-3xl font-bold text-secondary">
+                  <h3 className="text-3xl font-bold text-white">
                     Our Promise
                   </h3>
                   <p className="leading-relaxed text-white/85 text-sm">
@@ -220,11 +180,8 @@ function AboutUs() {
                 <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
                   Our Story
                 </p>
-                <h2 className="text-4xl font-bold text-primary">
-                  Life&apos;s Mark of Progress,{" "}
-                  <span className="text-secondary">
-                    Developments Echoing in Time
-                  </span>
+                <h2 className="text-4xl font-bold text-foreground">
+                  Life&apos;s Mark of Progress, <br /> Developments Echoing in Time
                 </h2>
                 <p className="leading-relaxed text-neutral-600">
                   Coherence of Design, Style of Simplicity, and Distinction of
@@ -263,45 +220,29 @@ function AboutUs() {
           </ScrollReveal>
         </section>
 
-        {/* ── VALUES ── */}
-        <section className="px-8 md:px-16 xl:px-44 py-20 bg-neutral-50">
-          <ScrollReveal>
-            <div className="flex flex-col gap-10">
-              <div className="flex flex-col gap-2">
+        {/* ── VALUES (pie) ── */}
+        <section className="py-16 px-6 md:px-16 xl:px-44 overflow-hidden bg-neutral-100">
+          <ScrollReveal className="flex flex-col md:flex-row-reverse  items-center">
+            <div className="mb-12 text-center md:text-start md:mb-16  w-full lg:w-1/2">
+              <div className="flex flex-col gap-2 mb-2">
                 <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
-                  What We Stand For
+                  Our Values
                 </p>
-                <h2 className="text-4xl font-bold text-primary">Our Values</h2>
-                <p className="text-neutral-600 max-w-xl">
-                  These five pillars define how we operate, build, and serve our
-                  communities every day.
-                </p>
+                <h2 className="text-4xl font-bold text-foreground">
+                Values We Build On
+                </h2>
               </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-                {companyValues.map((value) => (
-                  <div
-                    key={value.title}
-                    className="group relative flex md:flex-col items-center md:items-start gap-4 border border-border rounded-xl p-6 bg-linear-to-br from-primary to-blue-950 text-white hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-default overflow-hidden"
-                  >
-                    {/* Icon circle */}
-                    <div className="flex items-center justify-center w-12 h-12 rounded-full  text-secondary shrink-0">
-                      <div className="[&>svg]:size-12 [&>svg]:text-secondary [&>svg]:stroke-1">
-                        {value.icon}
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-1 z-10">
-                      <h3 className="text-xl font-bold text-secondary">
-                        {value.title}
-                      </h3>
-                      <p className="text-xs leading-snug">
-                        {value.description}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <div className="mx-auto md:mx-0 h-1.5 w-20 rounded-full bg-secondary" />
+              <p className="mx-auto mt-4  text-sm text-muted-foreground md:text-base">
+                Five principles that form one whole—each slice is part of how we
+                build communities together. Teamwork, Competence, Confidence, Integrity, and Commitment.
+              </p>
+              <p className="mt-4 text-xs text-neutral-400">
+                Tap or hover a slice to explore each value.
+              </p>
+            </div>
+            <div className="w-full lg:w-1/2">
+              <ValuesPieSection />
             </div>
           </ScrollReveal>
         </section>

@@ -104,17 +104,17 @@ function BrokersAccreditation() {
 
         {/* REQUIREMENTS SECTION */}
         <section id="requirements" className="py-24">
-          <div className="container mx-auto px-8 md:px-16 lg:px-24 xl:px-44">
+          <div className="container mx-auto px-8 md:px-16 lg:px-24 xl:px-24">
             <div className="flex flex-col xl:flex-row gap-16">
               
               {/* LEFT: CONTENT */}
               <div className="xl:w-1/3 space-y-6">
-                <h2 className="text-4xl font-bold text-primary">Accreditation Requirements</h2>
+                <h2 className="text-4xl font-bold text-foreground">Accreditation Requirements</h2>
                 <p className="text-slate-500 leading-relaxed">
                   To maintain the highest standards of professional service, we require our partners to provide the following documentation. 
                 </p>
                 <div className="p-4 bg-secondary/5 rounded-xl border border-secondary/10">
-                  <h4 className="font-bold text-primary mb-2 flex items-center gap-2">
+                  <h4 className="font-bold text-foreground mb-2 flex items-center gap-2">
                     <Lightbulb size={18} className="text-secondary" />Tips
                   </h4>
                   <p className="text-sm text-slate-600">Ensure all photocopies are clear and ID pictures have a white background for faster approval.</p>
@@ -201,7 +201,7 @@ function BrokersAccreditation() {
                 />
               </div>
               <div className="md:w-2/3 p-8 lg:p-12 xl:p-18 flex flex-col justify-center gap-2">
-                <h2 className="text-3xl lg:text-5xl font-bold text-primary">
+                <h2 className="text-3xl lg:text-5xl font-bold text-foreground">
                   Ready to Become an Accredited Broker?
                 </h2>
                 <p className="leading-relaxed text-neutral-600">

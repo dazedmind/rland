@@ -73,7 +73,7 @@ function CareersPage() {
           <div className="w-full flex flex-col gap-4">
             {/* HEADER */}
             <div className="flex flex-col gap-4 lg:flex-row items-start lg:items-center justify-between">
-              <h2 className="text-3xl font-bold text-primary">Current Job Openings</h2>
+              <h2 className="text-3xl font-bold text-foreground">Current Job Openings</h2>
 
               <div className="flex flex-col md:flex-row gap-4 w-full lg:w-1/2 justify-end items-center">
                 <span className="flex flex-row gap-4 w-full justify-end items-center">

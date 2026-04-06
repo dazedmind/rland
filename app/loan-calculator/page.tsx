@@ -1,11 +1,13 @@
 "use client";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect, useCallback } from "react";
+import Image from "next/image";
+import rlandLogo from "@/public/rland-logo.png";
 import NavBar from "@/components/layout/NavBar";
 import Footer from "@/components/layout/Footer";
 import PageBanner from "@/components/layout/PageBanner";
 import MobileNavBar from "@/components/layout/MobileNavBar";
 import { Input } from "@/components/ui/input";
-import { ChevronDownIcon, RotateCcw, Trash2 } from "lucide-react";
+import { ChevronDownIcon, Printer, Trash2 } from "lucide-react";
 import {
   Table,
   TableHeader,
@@ -16,132 +18,63 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-
-// ── Types ──────────────────────────────────────────────────────────────────
-interface LoanInputs {
-  totalContractPrice: number;
-  reservationFee: number;
-  downPaymentPercentage: number;
-  downPaymentTermsMonths: number;
-  loanYears: number;
-  vatPercentage: number;
-  miscFeesPercentage: number;
-  bankFeesPercentage: number;
-  interestRate: number;
-}
-
-interface LoanResults {
-  totalContractPrice: number;
-  vat: number;
-  miscFees: number;
-  bankFees: number;
-  grossTotalContractPrice: number;
-  downPayment: number;
-  reservationFee: number;
-  netDownPayment: number;
-  monthlyDownPayment: number;
-  loanAmount: number;
-  interestRate: number;
-  loanPeriodMonths: number;
-  monthlyAmortization: number;
-  requiredMonthlyIncome: number;
-}
-
-// ── Calculation ────────────────────────────────────────────────────────────
-const calculateLoanResults = (inputs: LoanInputs): LoanResults => {
-  const {
-    totalContractPrice,
-    reservationFee,
-    downPaymentPercentage,
-    downPaymentTermsMonths,
-    loanYears,
-    vatPercentage,
-    miscFeesPercentage,
-    bankFeesPercentage,
-    interestRate,
-  } = inputs;
-
-  const vat = totalContractPrice * (vatPercentage / 100);
-  const miscFees = totalContractPrice * (miscFeesPercentage / 100);
-  const bankFees = totalContractPrice * (bankFeesPercentage / 100);
-  const grossTotalContractPrice =
-    totalContractPrice + vat + miscFees + bankFees;
-  const downPayment = grossTotalContractPrice * (downPaymentPercentage / 100);
-  const netDownPayment = downPayment - reservationFee;
-  const monthlyDownPayment = netDownPayment / downPaymentTermsMonths;
-  const loanAmount = grossTotalContractPrice - downPayment;
-  const loanPeriodMonths = loanYears * 12;
-  const monthlyInterestRate = interestRate / 100 / 12;
-
-  let monthlyAmortization = 0;
-  if (monthlyInterestRate > 0) {
-    const numerator =
-      monthlyInterestRate * Math.pow(1 + monthlyInterestRate, loanPeriodMonths);
-    const denominator = Math.pow(1 + monthlyInterestRate, loanPeriodMonths) - 1;
-    monthlyAmortization = loanAmount * (numerator / denominator);
-  } else {
-    monthlyAmortization = loanAmount / loanPeriodMonths;
-  }
-
-  const requiredMonthlyIncome = monthlyAmortization / 0.35;
-
-  return {
-    totalContractPrice,
-    vat,
-    miscFees,
-    bankFees,
-    grossTotalContractPrice,
-    downPayment,
-    reservationFee,
-    netDownPayment,
-    monthlyDownPayment,
-    loanAmount,
-    interestRate,
-    loanPeriodMonths,
-    monthlyAmortization,
-    requiredMonthlyIncome,
-  };
-};
-
-const formatCurrency = (amount: number): string =>
-  new Intl.NumberFormat("en-PH", {
-    style: "currency",
-    currency: "PHP",
-    minimumFractionDigits: 2,
-  }).format(amount);
+import {
+  MISC_FEES_PERCENTAGE,
+  calculateLoanResults,
+  formatCurrency,
+  formatFixingLabel,
+  formatCommaIntegerInput,
+  parseCommaIntegerInput,
+  getAvailableFixingTerms,
+  getInterestRateForFixing,
+  INITIAL_LOAN_INPUTS,
+  LOAN_YEAR_OPTIONS,
+  DOWN_PAYMENT_TERM_OPTIONS,
+  type LoanInputs,
+  type PaymentType,
+} from "@/lib/loan-calculator";
 
 function LoanCalculatorPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [inputs, setInputs] = useState<LoanInputs>({
-    totalContractPrice: 2000000,
-    reservationFee: 50000,
-    downPaymentPercentage: 20,
-    downPaymentTermsMonths: 12,
-    loanYears: 15,
-    vatPercentage: 12,
-    miscFeesPercentage: 2,
-    bankFeesPercentage: 1,
-    interestRate: 6.5,
-  });
+  const [inputs, setInputs] = useState<LoanInputs>(INITIAL_LOAN_INPUTS);
+
+  const availableFixingTerms = useMemo(
+    () =>
+      getAvailableFixingTerms(
+        inputs.paymentType,
+        inputs.loanPaymentTermMonths,
+      ),
+    [inputs.paymentType, inputs.loanPaymentTermMonths],
+  );
+
+  useEffect(() => {
+    if (availableFixingTerms.length === 0) return;
+    if (!availableFixingTerms.includes(inputs.fixingTermMonths)) {
+      const next = availableFixingTerms[availableFixingTerms.length - 1];
+      setInputs((prev) => ({ ...prev, fixingTermMonths: next }));
+    }
+  }, [availableFixingTerms, inputs.fixingTermMonths]);
 
   const results = useMemo(() => calculateLoanResults(inputs), [inputs]);
 
-  const handleInputChange = (field: keyof LoanInputs, value: number) => {
-    setInputs((prev) => ({ ...prev, [field]: value }));
-  };
+  const handleInputChange = useCallback(
+    <K extends keyof LoanInputs>(field: K, value: LoanInputs[K]) => {
+      setInputs((prev) => ({ ...prev, [field]: value }));
+    },
+    [],
+  );
 
   const handleClear = () => {
-    setInputs({
-      totalContractPrice: 0,
-      reservationFee: 0,
-      downPaymentPercentage: 20,
-      downPaymentTermsMonths: 12,
-      loanYears: 15,
-      vatPercentage: 12,
-      miscFeesPercentage: 2,
-      bankFeesPercentage: 1,
-      interestRate: 6.5,
-    });
+    setInputs(INITIAL_LOAN_INPUTS);
+  };
+
+  const fixingAnnualForDisplay = getInterestRateForFixing(
+    inputs.paymentType,
+    inputs.fixingTermMonths,
+  );
+
+  const handlePrintBreakdown = () => {
+    window.print();
   };
 
   return (
@@ -171,33 +104,55 @@ function LoanCalculatorPage() {
                 <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
                   Calculator
                 </p>
-                <h2 className="text-4xl font-bold text-primary">
+                <h2 className="text-4xl font-bold text-foreground">
                   Enter Loan Details
                 </h2>
               </span>
 
               <div className="flex flex-col gap-3 border border-border rounded-xl p-6">
-                {/* Text inputs */}
                 <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-1.5">
                   <label className="text-sm font-semibold text-primary">
                     Total Contract Price (PHP)
                   </label>
                   <Input
-                    type="number"
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="off"
                     placeholder="Enter Contract Price"
-                    value={
-                      inputs.totalContractPrice === 0
-                        ? ""
-                        : inputs.totalContractPrice
-                    }
+                    value={formatCommaIntegerInput(inputs.totalContractPrice)}
                     onChange={(e) =>
                       handleInputChange(
                         "totalContractPrice",
-                        Number(e.target.value),
+                        parseCommaIntegerInput(e.target.value),
                       )
                     }
                     className="w-full"
                   />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-1.5">
+                  <label className="text-sm font-semibold text-primary">
+                    Down Payment Plan
+                  </label>
+                  <div className="relative">
+                    <ChevronDownIcon className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500" />
+                    <select
+                      value={inputs.downPaymentPlan}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "downPaymentPlan",
+                          Number(e.target.value),
+                        )
+                      }
+                      className="w-full h-10 text-sm text-black rounded px-3 appearance-none"
+                    >
+                      <option value={20000}>Platinum - ₱20,000</option>
+                      <option value={15000}>Gold - ₱15,000</option>
+                      <option value={10000}>
+                        Silver / Silver Expanded - ₱10,000
+                      </option>
+                    </select>
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-1.5">
@@ -205,121 +160,115 @@ function LoanCalculatorPage() {
                     Reservation Fee (PHP)
                   </label>
                   <Input
-                    type="number"
-                    placeholder="Enter Reservation Fee"
-                    value={
-                      inputs.reservationFee === 0 ? "" : inputs.reservationFee
-                    }
-                    onChange={(e) =>
-                      handleInputChange(
-                        "reservationFee",
-                        Number(e.target.value),
-                      )
-                    }
-                    className="w-full"
+                    type="text"
+                    readOnly
+                    value="15,000"
+                    className="w-full bg-neutral-100"
                   />
                 </div>
-
-                {/* Select fields */}
-                {[
-                  {
-                    label: "Down Payment Percentage (%)",
-                    field: "downPaymentPercentage" as keyof LoanInputs,
-                    options: [10, 15, 20, 25, 30].map((v) => ({
-                      value: v,
-                      label: `${v}%`,
-                    })),
-                  },
-                  {
-                    label: "Down Payment Terms (Months)",
-                    field: "downPaymentTermsMonths" as keyof LoanInputs,
-                    options: [6, 12, 18, 24].map((v) => ({
-                      value: v,
-                      label: `${v} months`,
-                    })),
-                  },
-                  {
-                    label: "Number of Years to Pay Loan",
-                    field: "loanYears" as keyof LoanInputs,
-                    options: [5, 10, 15, 20, 25, 30].map((v) => ({
-                      value: v,
-                      label: `${v} years`,
-                    })),
-                  },
-                ].map(({ label, field, options }) => (
-                  <div key={field} className="grid grid-cols-1 md:grid-cols-2 items-center gap-1.5">
-                    <label className="text-sm font-semibold text-primary">
-                      {label}
-                    </label>
-                    <div className="relative">
-                      <ChevronDownIcon className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500" />
-                      <select
-                        value={inputs[field] as number}
-                        onChange={(e) =>
-                          handleInputChange(field, Number(e.target.value))
-                        }
-                        className="w-full h-10 text-sm text-black rounded px-3 appearance-none"
-                      >
-                        {options.map((o) => (
-                          <option key={o.value} value={o.value}>
-                            {o.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                ))}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-1.5">
                   <label className="text-sm font-semibold text-primary">
-                    Interest Rate (% per annum)
+                    Down Payment Term (Months)
                   </label>
-                  <Input
-                    type="number"
-                    step="0.1"
-                    placeholder="Enter Interest Rate"
-                    value={inputs.interestRate}
-                    onChange={(e) =>
-                      handleInputChange("interestRate", Number(e.target.value))
-                    }
-                    className="w-full"
-                  />
+                  <div className="relative">
+                    <ChevronDownIcon className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500" />
+                    <select
+                      value={inputs.downPaymentTermMonths}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "downPaymentTermMonths",
+                          Number(e.target.value),
+                        )
+                      }
+                      className="w-full h-10 text-sm text-black rounded px-3 appearance-none"
+                    >
+                      {DOWN_PAYMENT_TERM_OPTIONS.map((o) => (
+                        <option key={o.value} value={o.value}>
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
 
-                {/* Additional Fees */}
-                <div className="pt-3 flex flex-col gap-3">
-                  <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
-                    Additional Fees (%)
-                  </p>
-                  {[
-                    {
-                      label: "VAT (%)",
-                      field: "vatPercentage" as keyof LoanInputs,
-                    },
-                    {
-                      label: "Miscellaneous Fees (%)",
-                      field: "miscFeesPercentage" as keyof LoanInputs,
-                    },
-                    {
-                      label: "Bank Fees (%)",
-                      field: "bankFeesPercentage" as keyof LoanInputs,
-                    },
-                  ].map(({ label, field }) => (
-                    <div key={field} className="grid grid-cols-1 md:grid-cols-2 items-center gap-1.5">
-                      <label className="text-sm font-semibold text-primary">
-                        {label}
-                      </label>
-                      <Input
-                        type="number"
-                        step="0.1"
-                        value={inputs[field] as number}
-                        onChange={(e) =>
-                          handleInputChange(field, Number(e.target.value))
-                        }
-                        className="w-full"
-                      />
-                    </div>
-                  ))}
+                <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-1.5">
+                  <label className="text-sm font-semibold text-primary">
+                    Payment Type
+                  </label>
+                  <div className="relative">
+                    <ChevronDownIcon className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500" />
+                    <select
+                      value={inputs.paymentType}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "paymentType",
+                          e.target.value as PaymentType,
+                        )
+                      }
+                      className="w-full h-10 text-sm text-black rounded px-3 appearance-none"
+                    >
+                      <option value="bank">Bank</option>
+                      <option value="pagibig">Pag-Ibig</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-1.5">
+                  <label className="text-sm font-semibold text-primary">
+                    Loan Payment Term
+                  </label>
+                  <div className="relative">
+                    <ChevronDownIcon className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500" />
+                    <select
+                      value={inputs.loanPaymentTermMonths}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "loanPaymentTermMonths",
+                          Number(e.target.value),
+                        )
+                      }
+                      className="w-full h-10 text-sm text-black rounded px-3 appearance-none"
+                    >
+                      {LOAN_YEAR_OPTIONS.map((o) => (
+                        <option key={o.value} value={o.value}>
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-1.5">
+                  <label className="text-sm font-semibold text-primary">
+                    Fixing Term
+                  </label>
+                  <div className="relative">
+                    <ChevronDownIcon className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-neutral-500" />
+                    <select
+                      id="fixingTerm"
+                      value={inputs.fixingTermMonths}
+                      onChange={(e) =>
+                        handleInputChange(
+                          "fixingTermMonths",
+                          Number(e.target.value),
+                        )
+                      }
+                      className="w-full h-10 text-sm text-black rounded px-3 appearance-none"
+                    >
+                      {availableFixingTerms.map((m) => {
+                        const rate = getInterestRateForFixing(
+                          inputs.paymentType,
+                          m,
+                        );
+                        return (
+                          <option key={m} value={m}>
+                            {formatFixingLabel(m, rate)}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
                 </div>
 
                 {results.totalContractPrice > 0 && (
@@ -337,7 +286,6 @@ function LoanCalculatorPage() {
 
             {/* ── RIGHT: Results ── */}
             <div className="w-full lg:w-3/5 flex flex-col gap-6">
-              {/* Summary cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-2 border border-border rounded-xl p-6 bg-linear-to-br from-primary to-blue-950 text-white">
                   <p className="font-semibold uppercase text-sm tracking-wider text-secondary">
@@ -347,7 +295,7 @@ function LoanCalculatorPage() {
                     {formatCurrency(results.monthlyDownPayment)}
                   </p>
                   <p className="text-xs text-white/60">
-                    First {inputs.downPaymentTermsMonths} months
+                    First {inputs.downPaymentTermMonths} months
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 border border-border rounded-xl p-6 bg-linear-to-br from-primary to-blue-950 text-white">
@@ -363,14 +311,47 @@ function LoanCalculatorPage() {
                 </div>
               </div>
 
-              {/* Table */}
-              <span>
+              <div className="flex flex-row flex-wrap items-center justify-between gap-4 w-full">
                 <h2 className="text-3xl font-bold text-primary">
                   Payment Breakdown
                 </h2>
-              </span>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={handlePrintBreakdown}
+                  className="gap-1.5 shrink-0 print:hidden hover:text-primary"
+                >
+                  <Printer className="size-4" aria-hidden />
+                  Print
+                </Button>
+              </div>
 
-              <div className="border border-border rounded-xl overflow-hidden">
+              <div
+                id="loan-calculator-print-area"
+                className="border border-border rounded-xl overflow-hidden bg-white"
+              >
+                <header className="hidden flex-col items-center gap-3 border-b border-border bg-neutral-50 px-4 py-5 text-center print:flex print:bg-white print:py-4">
+                  <Image
+                    src={rlandLogo}
+                    alt=""
+                    width={140}
+                    height={48}
+                    className="h-11 w-auto max-w-[200px] object-contain object-center"
+                    priority
+                  />
+                  <div className="space-y-1">
+                    <p className="text-base uppercase font-semibold text-primary md:text-lg">
+                      Loan payment breakdown
+                    </p>
+                    <p className="text-sm text-neutral-700">
+                      R Land Development Inc.
+                    </p>
+                    <p className="text-xs text-neutral-500">
+                      rland.ph/loan-calculator · Estimates only; confirm details with our sales team
+                    </p>
+                  </div>
+                </header>
               <Table>
                   <TableHeader>
                     <TableRow className="bg-neutral-50 hover:bg-neutral-50">
@@ -384,8 +365,6 @@ function LoanCalculatorPage() {
                   </TableHeader>
                   <TableBody>
 
-                    {/* ── Group 1: Contract Price ── */}
-            
                     <TableRow className="hover:bg-transparent">
                       <TableCell className="text-sm font-bold text-primary py-2">Total Contract Price</TableCell>
                       <TableCell className="text-right text-sm font-bold text-primary py-2">
@@ -393,16 +372,16 @@ function LoanCalculatorPage() {
                       </TableCell>
                     </TableRow>
                     <TableRow className="hover:bg-transparent">
-                      <TableCell className="pl-6 text-sm text-neutral-400 py-2">+ VAT ({inputs.vatPercentage}%)</TableCell>
-                      <TableCell className="text-right text-sm text-neutral-400 py-2">{formatCurrency(results.vat)}</TableCell>
+                      <TableCell className="pl-6 text-sm text-neutral-500 py-1 font-medium">Add:</TableCell>
+                      <TableCell className="text-right py-1" />
                     </TableRow>
                     <TableRow className="hover:bg-transparent">
-                      <TableCell className="pl-6 text-sm text-neutral-400 py-2">+ Miscellaneous Fees ({inputs.miscFeesPercentage}%)</TableCell>
+                      <TableCell className="pl-6 text-sm text-neutral-400 py-2">Miscellaneous Fees ({MISC_FEES_PERCENTAGE}%)</TableCell>
                       <TableCell className="text-right text-sm text-neutral-400 py-2">{formatCurrency(results.miscFees)}</TableCell>
                     </TableRow>
                     <TableRow className="hover:bg-transparent border-b border-border">
-                      <TableCell className="pl-6 text-sm text-neutral-400 py-2">+ Bank Fees ({inputs.bankFeesPercentage}%)</TableCell>
-                      <TableCell className="text-right text-sm text-neutral-400 py-2">{formatCurrency(results.bankFees)}</TableCell>
+                      <TableCell className="pl-6 text-sm text-neutral-400 py-2">Move-In Fee</TableCell>
+                      <TableCell className="text-right text-sm text-neutral-400 py-2">{formatCurrency(results.moveInFee)}</TableCell>
                     </TableRow>
                     <TableRow className="hover:bg-transparent">
                       <TableCell className="text-sm font-bold text-primary py-3">Gross Total Contract Price</TableCell>
@@ -413,14 +392,18 @@ function LoanCalculatorPage() {
 
                     <TableRow className="hover:bg-transparent">
                       <TableCell className="text-sm text-neutral-600 py-2">
-                        Down Payment ({inputs.downPaymentPercentage}%)
+                        Down Payment (plan)
                       </TableCell>
                       <TableCell className="text-right text-sm text-neutral-600 py-2">
                         {formatCurrency(results.downPayment)}
                       </TableCell>
                     </TableRow>
+                    <TableRow className="hover:bg-transparent">
+                      <TableCell className="pl-6 text-sm text-neutral-500 py-1 font-medium">Less:</TableCell>
+                      <TableCell className="text-right py-1" />
+                    </TableRow>
                     <TableRow className="hover:bg-transparent border-b border-border">
-                      <TableCell className="pl-6 text-sm text-neutral-400 py-2">− Reservation Fee</TableCell>
+                      <TableCell className="pl-6 text-sm text-neutral-400 py-2">Reservation Fee</TableCell>
                       <TableCell className="text-right text-sm text-neutral-400 py-2">
                         {formatCurrency(results.reservationFee)}
                       </TableCell>
@@ -433,13 +416,32 @@ function LoanCalculatorPage() {
                     </TableRow>
                     <TableRow className="hover:bg-transparent">
                       <TableCell className="text-sm text-neutral-600 py-2">
-                        Monthly Down Payment ({inputs.downPaymentTermsMonths} months)
+                        Monthly Down Payment ({inputs.downPaymentTermMonths} months)
                       </TableCell>
                       <TableCell className="text-right text-sm text-neutral-600 py-2">
                         {formatCurrency(results.monthlyDownPayment)}
                       </TableCell>
                     </TableRow>
-                    
+                    <TableRow className="hover:bg-transparent border-b border-border">
+                      <TableCell className="text-sm text-neutral-600 py-2">Balloon Payment (Last Month)</TableCell>
+                      <TableCell className="text-right text-sm text-neutral-600 py-2">
+                        {formatCurrency(results.balloonPayment)}
+                      </TableCell>
+                    </TableRow>
+
+                    <TableRow className="hover:bg-transparent">
+                      <TableCell className="text-sm text-neutral-600 py-2">Payment Type</TableCell>
+                      <TableCell className="text-right text-sm text-neutral-600 py-2">
+                        {results.paymentType}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow className="hover:bg-transparent border-b border-border">
+                      <TableCell className="text-sm text-neutral-600 py-2">Fixing Term</TableCell>
+                      <TableCell className="text-right text-sm text-neutral-600 py-2">
+                        {formatFixingLabel(inputs.fixingTermMonths, fixingAnnualForDisplay)}
+                      </TableCell>
+                    </TableRow>
+
                     <TableRow className="hover:bg-transparent">
                       <TableCell className="text-sm text-neutral-600 py-2">Loan Amount</TableCell>
                       <TableCell className="text-right text-sm text-neutral-600 py-2">
@@ -447,19 +449,21 @@ function LoanCalculatorPage() {
                       </TableCell>
                     </TableRow>
                     <TableRow className="hover:bg-transparent">
-                      <TableCell className="text-sm text-neutral-400 py-2">Interest Rate</TableCell>
+                      <TableCell className="text-sm text-neutral-400 py-2">Rate (per annum)</TableCell>
                       <TableCell className="text-right text-sm text-neutral-400 py-2">
-                        {results.interestRate}% per annum
+                        {results.interestRate.toFixed(3)}%
                       </TableCell>
                     </TableRow>
                     <TableRow className="hover:bg-transparent">
-                      <TableCell className="text-sm text-neutral-400 py-2">Loan Period</TableCell>
+                      <TableCell className="text-sm text-neutral-400 py-2">Period</TableCell>
                       <TableCell className="text-right text-sm text-neutral-400 py-2">
-                        {results.loanPeriodMonths} months ({inputs.loanYears} years)
+                        {(() => {
+                          const y = results.loanPeriodMonths / 12;
+                          return `${y === 1 ? "1 year" : `${y} years`} (${results.loanPeriodMonths} months)`;
+                        })()}
                       </TableCell>
                     </TableRow>
 
-                    {/* ── Totals ── */}
                     <TableRow className="hover:bg-primary/90 bg-primary">
                       <TableCell className="text-sm font-bold text-white py-4">Monthly Amortization</TableCell>
                       <TableCell className="text-right text-sm font-bold text-white py-4">
@@ -476,7 +480,6 @@ function LoanCalculatorPage() {
                 </Table>
               </div>
 
-              {/* Disclaimer */}
               <p className="text-xs italic text-neutral-400 leading-relaxed">
                 <strong className="not-italic font-semibold text-neutral-500">
                   Note:{" "}

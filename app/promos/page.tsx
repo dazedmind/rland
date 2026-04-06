@@ -55,7 +55,7 @@ function PromosPage() {
             <section className="flex flex-col items-start px-8 md:px-16 xl:px-44 justify-center py-16 space-y-8">
               <span className="flex flex-col gap-4">
                 <span className="flex flex-col gap-2">
-                  <h1 className="text-4xl font-bold text-primary">
+                  <h1 className="text-4xl font-bold text-foreground">
                     Current Promos and Offers
                   </h1>
                   <p className="text-sm md:text-base leading-relaxed text-muted-foreground">

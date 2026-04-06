@@ -64,9 +64,9 @@ export default function Home() {
           {/* VIDEO HERO SECTION */}
           <div className="h-screen w-full gradient-overlay">
             <div className="bg-black/50 z-20 w-full absolute top-0 left-0 h-screen flex flex-col text-center lg:text-left items-center lg:items-start justify-center text-white px-8 md:px-44 py-16 gap-4">
-              <span className="w-full lg:w-1/2 space-y-2">
-                <h1 className="text-5xl font-bold">Live The Experience</h1>
-                <p className="leading-relaxed">
+              <span className="w-full space-y-2">
+                <h1 className="text-5xl md:text-6xl xl:text-7xl font-bold">Live The Experience</h1>
+                <p className="text-base md:text-lg xl:text-xl leading-relaxed">
                   We are a real estate development company that specializes in
                   the development of residential properties.
                 </p>
@@ -95,7 +95,7 @@ export default function Home() {
         <ScrollReveal>
           <div className="flex flex-col items-center justify-center py-24 gap-16 px-8 md:24 xl:px-44">
             <span className="flex flex-col items-center justify-center">
-              <h1 className="text-4xl font-bold text-primary text-center lg:text-left">
+              <h1 className="text-4xl font-bold text-foreground text-center lg:text-left">
                 Our Bright Future Together
               </h1>
               <p className="leading-relaxed text-neutral-600 text-center">
@@ -241,7 +241,7 @@ export default function Home() {
             {/* SECTION HEADER */}
             <div className="flex flex-row items-center justify-between">
               <span>
-                <h1 className="text-3xl font-bold text-primary">
+                <h1 className="text-3xl font-bold text-foreground">
                   Featured Units
                 </h1>
                 <p className="text-sm md:text-base leading-relaxed text-muted-foreground">
@@ -273,10 +273,10 @@ export default function Home() {
               {/* Text */}
               <span className="flex flex-col gap-4 px-4 w-full lg:w-1/2 ">
                 <span>
-                  <h1 className="text-4xl font-bold text-primary">
+                  <h1 className="text-4xl font-bold text-foreground">
                     About R Land
                   </h1>
-                  <p className="uppercase text-secondary font-medium">Rooted in Nature, Designed for the Future</p>
+                  <p className="uppercase text-primary font-medium">Rooted in Nature, Designed for the Future</p>
                 </span>
 
                 <p className="leading-relaxed text-neutral-600">
@@ -317,7 +317,7 @@ export default function Home() {
             {/* SECTION HEADER */}
             <div className="flex flex-row items-center justify-between">
               <span>
-                <h1 className="text-3xl font-bold text-primary">
+                <h1 className="text-3xl font-bold text-foreground">
                   Latest News
                 </h1>
                 <p className="text-sm md:text-base leading-relaxed text-muted-foreground">

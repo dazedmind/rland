@@ -76,7 +76,7 @@ function ProjectsPage() {
             className="flex flex-col items-start px-8 md:px-16 xl:px-44 justify-center py-16 space-y-8"
           >
             <span className="flex flex-col gap-4">
-              <h1 className="text-4xl font-bold text-primary">
+              <h1 className="text-4xl font-bold text-foreground">
                 R Land's Projects
               </h1>
               <p className="leading-relaxed text-neutral-600">

@@ -139,7 +139,7 @@ function ContactForm() {
 
   return (
     <div className="bg-white border border-neutral-200 rounded-xl p-6 md:p-6 w-full gap-4">
-      <h1 className="text-2xl font-bold text-primary uppercase mb-4">Contact Us</h1>
+      <h1 className="text-2xl font-bold text-foreground uppercase mb-4">Contact Us</h1>
       
       <div className="grid grid-cols-2 gap-4">
           <TextInput

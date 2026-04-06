@@ -47,7 +47,7 @@ export function ArticleView({ article }: ArticleViewProps) {
             </div>
 
             <article className="space-y-4">
-              <h1 className="text-2xl md:text-4xl font-bold leading-tight text-primary uppercase">
+              <h1 className="text-2xl md:text-4xl font-bold leading-tight text-foreground uppercase">
                 {article.headline}
               </h1>
               <div className="flex flex-wrap items-center gap-6 text-sm text-neutral-500 border-b border-neutral-100 pb-6">

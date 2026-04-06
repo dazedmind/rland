@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { Bath, Bed, Car, LandPlot, MapPin } from "lucide-react";
+import { Bath, Bed, Car, LandPlot, MapPin, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { priceFormatter } from "@/app/utils/priceFormatter";
@@ -64,11 +64,11 @@ export function FeaturedUnitCard({ unit, project }: FeaturedUnitCardProps) {
         )}
 
         {/* Floating Price Tag */}
-        <div className="absolute top-4 left-0 backdrop-blur-md bg-linear-to-t from-secondary to-yellow-600 px-3 p-1.5 rounded-r-md shadow-sm z-10">
+        {/* <div className="absolute top-4 left-0 backdrop-blur-md bg-linear-to-t from-secondary to-yellow-600 px-3 p-1.5 rounded-r-md shadow-sm z-10">
           <p className="text-xs font-semibold text-white uppercase tracking-wide">
             {unit.model.modelName} Unit
           </p>
-        </div>
+        </div> */}
 
         {/* DETAILS OVERLAY */}
         <div className="absolute inset-0 z-20 bg-linear-to-t from-primary-fg to-transparent flex flex-col justify-end p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out">
@@ -88,21 +88,23 @@ export function FeaturedUnitCard({ unit, project }: FeaturedUnitCardProps) {
             {project.projectName}
           </h3>
           <p className="text-sm text-neutral-500 flex items-center gap-1">
-            <MapPin className="size-4" /> {project.location ?? "-"} •{" "}
+            <MapPin className="size-4" /> {project.location ?? "-"} •{" "} 
             {project.type === "houselot"
               ? "House & Lot"
               : project.type === "townhouse"
                 ? "Townhouse"
-                : "Condo"}
+                : "Condo"} {" "}
+            •{" "} {unit.model.modelName} Unit
+
           </p>
           <span className="flex flex-col mt-3">
             <p className="text-xs uppercase text-muted-foreground font-medium">Starts at</p>
-            <p className="text-secondary text-2xl font-bold">{priceFormatter(unit.sellingPrice)}</p>
+            <p className="text-primary text-2xl font-bold">{priceFormatter(unit.sellingPrice)}</p>
           </span>
         </div>
         <Link href={`/projects/${project.slug}?inventory=${unit.inventoryCode}`}>
           <Button variant="primary" size="sm" className="w-full">
-            Explore Unit
+            <Search className="size-4" strokeWidth={3} /> Explore Unit
           </Button>
         </Link>
       </div>
