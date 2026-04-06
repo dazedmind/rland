@@ -171,10 +171,10 @@ function AboutUs() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Mission */}
                 <div className="group flex flex-col gap-4 rounded-xl p-8 bg-linear-to-br from-primary to-blue-950 text-white overflow-hidden relative">
-                  <div className="flex items-center justify-center w-14 h-14 rounded-full bg-white/10 border border-white/20">
+                  <div className="flex items-center justify-center w-14 h-14 rounded-full">
                     <Target
-                      className="size-7 text-secondary"
-                      strokeWidth={1.5}
+                      className="size-12 text-secondary"
+                      strokeWidth={1}
                     />
                   </div>
                   <h3 className="text-3xl font-bold text-secondary">
@@ -190,10 +190,10 @@ function AboutUs() {
 
                 {/* Promise */}
                 <div className="group flex flex-col gap-4 rounded-xl p-8 bg-linear-to-br from-primary to-blue-950 text-white overflow-hidden relative">
-                  <div className="flex items-center justify-center w-14 h-14 rounded-full bg-white/10 border border-white/20">
+                  <div className="flex items-center justify-center w-14 h-14 rounded-full">
                     <Ribbon
-                      className="size-7 text-secondary"
-                      strokeWidth={1.5}
+                      className="size-12 text-secondary"
+                      strokeWidth={1}
                     />
                   </div>
                   <h3 className="text-3xl font-bold text-secondary">
@@ -285,8 +285,8 @@ function AboutUs() {
                     className="group relative flex md:flex-col items-center md:items-start gap-4 border border-border rounded-xl p-6 bg-linear-to-br from-primary to-blue-950 text-white hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-default overflow-hidden"
                   >
                     {/* Icon circle */}
-                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary-fg  text-secondary shrink-0">
-                      <div className="[&>svg]:size-6 [&>svg]:text-secondary [&>svg]:stroke-2">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full  text-secondary shrink-0">
+                      <div className="[&>svg]:size-12 [&>svg]:text-secondary [&>svg]:stroke-1">
                         {value.icon}
                       </div>
                     </div>

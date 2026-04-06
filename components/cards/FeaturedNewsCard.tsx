@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import NewsCardSkeleton from "@/components/layout/skeleton/NewsCardSkeleton";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "../ui/button";
 
@@ -108,8 +108,8 @@ function FeaturedNewsCard() {
         <h1 className="text-3xl md:text-4xl font-bold leading-tight transition-all duration-500 uppercase">
           {currentArticle?.headline}
         </h1>
-        <p className="text-sm md:text-base text-neutral-600 leading-relaxed transition-all duration-500">
-          {currentArticle?.body.substring(0, 200)}...
+        <p className="text-sm md:text-base line-clamp-3 text-neutral-600 leading-relaxed transition-all duration-500">
+          {currentArticle?.body}
         </p>
    
         <Link
