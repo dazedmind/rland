@@ -111,7 +111,7 @@ export default function Home() {
         </ScrollReveal>
 
         <ScrollReveal>
-          <div className="flex flex-col lg:flex-row px-12 md:px-16 xl:px-44 gap-4 pt-12 lg:py-24 bg-primary text-white relative overflow-hidden rounded-[2rem] mx-5 md:mx-10">
+          <div className="flex flex-col lg:flex-row p-8 pb-0 md:px-16 xl:px-24 gap-4 lg:py-24 bg-primary text-white relative overflow-hidden rounded-2xl md:rounded-[2rem] mx-5 md:mx-10">
             {/* Background subtle grid texture */}
             <div
               className="absolute inset-0 opacity-[0.04] pointer-events-none"
@@ -122,7 +122,7 @@ export default function Home() {
             />
 
             {/* DETAILS SECTION */}
-            <div className="flex flex-col text-start gap-4 w-full lg:w-2xl pt-8 md:py-16">
+            <div className="flex flex-col text-start gap-4 w-full lg:w-2xl md:py-16">
               <span className="space-y-2 z-10">
                 <h1 className="text-4xl font-bold">
                   Let's Find Available Home Near You
@@ -311,7 +311,7 @@ export default function Home() {
         </ScrollReveal>
 
         <ScrollReveal>
-          <section className="flex flex-col justify-center px-8 md:px-16 xl:px-44 gap-4 py-24">
+          <section className="flex flex-col justify-center bg-white px-8 md:px-16 xl:px-44 gap-4 py-24">
             {/* SECTION HEADER */}
             <div className="flex flex-row items-center justify-between">
               <span>
@@ -359,7 +359,7 @@ export default function Home() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="w-fit text-white hover:bg-white hover:text-primary"
+                    className="w-fit text-white "
                     asChild
                   >
                     <Link href="/buyer-guide">Your Buying Guide</Link>

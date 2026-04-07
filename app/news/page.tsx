@@ -9,10 +9,12 @@ import NewsCard from "@/components/cards/NewsCard";
 import { ArticleType } from "@/app/utils/types";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { Button } from "@/components/ui/button";
+import NewsFeedSearch from "@/components/news/NewsFeedSearch";
 
 function NewsPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [filter, setFilter] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
   const categories = ["All", "Announcement", "News", "Blog"];
 
   const scrollToSection = (id: string) => {
@@ -75,10 +77,10 @@ function NewsPage() {
         {/* NEWS FEED SECTION */}
         <section className="px-8 md:px-16 xl:px-44 py-16 bg-neutral-50">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
-            <h2 className="text-3xl font-bold">Latest News</h2>
+            <h2 className="text-3xl font-bold">News and Articles</h2>
 
-            {/* Category Filter */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 items-center">
+              <NewsFeedSearch onDebouncedQueryChange={setSearchQuery} />
               {categories.map((cat) => (
                 <button
                   key={cat}
@@ -99,6 +101,7 @@ function NewsPage() {
                   ? undefined
                   : (filter.toLowerCase() as ArticleType)
               }
+              searchQuery={searchQuery}
             />
           </ScrollReveal>
         </section>

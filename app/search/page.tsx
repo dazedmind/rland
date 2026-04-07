@@ -177,7 +177,8 @@ function SearchPage() {
         <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       </header>
 
-      <div className="flex flex-col items-start px-8 md:px-16 xl:px-44 justify-center h-auto bg-linear-to-br from-primary to-slate-900">
+      {/* PAGE BANNER */}
+      <div className="flex flex-col items-start px-8 md:px-16 xl:px-44 justify-center h-auto bg-linear-to-br from-primary to-blue-950 mx-5 md:mx-10 rounded-b-[2rem]">
         <span className="flex flex-col justify-center items-center p-4 gap-4 my-8 text-white w-full">
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white">Find Your Dream Home</h1>
 

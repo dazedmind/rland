@@ -4,11 +4,11 @@ import NavBar from "@/components/layout/NavBar";
 import Footer from "@/components/layout/Footer";
 import PageBanner from "@/components/layout/PageBanner";
 import MobileNavBar from "@/components/layout/MobileNavBar";
-import { Shield, Eye, Lock, RefreshCw, Mail, FileText, BadgeCheck } from "lucide-react";
+import { Shield, Eye, Lock, RefreshCw, Mail, FileText, BadgeCheck, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-const lastUpdated = "June 1, 2025";
+const lastUpdated = "April 7, 2026";
 
 const sections = [
   {
@@ -95,6 +95,17 @@ const sections = [
       {
         subtitle: "Complaints",
         body: "If you believe your data privacy rights have been violated, you have the right to lodge a complaint with the National Privacy Commission (NPC) of the Philippines.",
+      },
+    ],
+  },
+  {
+    id: "third-party-services",
+    icon: <Users className="size-5" />,
+    title: "Third-Party Services",
+    subsections: [
+      {
+        subtitle: "hCaptcha",
+        body: `We use the hCaptcha security service (hereinafter "hCaptcha") on our website. This service is provided by Intuition Machines, Inc., a Delaware US Corporation ("IMI"). hCaptcha is used to check whether user actions on our online service (such as submitting a contact form) meet our security requirements. To do this, hCaptcha analyzes the behavior of the website or mobile app visitor based on various characteristics. This analysis starts automatically as soon as the website or mobile app visitor enters a part of the website or app with hCaptcha enabled. For the analysis, hCaptcha evaluates various information (e.g. IP address, how long the visitor has been on the website or app, or mouse movements made by the user). The data collected during the analysis will be forwarded to IMI. hCaptcha analysis in the "invisible mode" may take place completely in the background. Website or app visitors are not advised that such an analysis is taking place if the user is not shown a challenge. Data processing is based on Art. 6(1)(b) of the GDPR: the processing of personal data is necessary for the performance of a contract to which the website visitor is party (for example, the website terms) or in order to take steps at the request of the website visitor prior to entering into a contract. Our online service (including our website, mobile apps, and any other apps or other forms of access offered by us) needs to ensure that it is interacting with a human, not a bot, and that activities performed by the user are not related to fraud or abuse. In addition, processing may also be based on Art. 6(1)(f) of the GDPR: our online service has a legitimate interest in protecting the service from abusive automated crawling, spam, and other forms of abuse that can harm our service or other users of our service. IMI acts as a "data processor" acting on behalf of its customers as defined under the GDPR, and a "service provider" for the purposes of the California Consumer Privacy Act (CCPA). For more information about hCaptchas privacy policy and terms of use, please visit the following links: https://www.hcaptcha.com/privacy and https://www.hcaptcha.com/terms`,
       },
     ],
   },
@@ -190,7 +201,7 @@ function PrivacyPolicyPage() {
                   key={section.id}
                   href={`#${section.id}`}
                   onClick={() => setActiveSection(section.id)}
-                  className={`flex items-center gap-3 text-sm px-3 py-2 rounded-xl transition-all duration-200 ${
+                  className={`flex items-center gap-3 text-sm px-3 py-2 rounded-full transition-all duration-200 ${
                     activeSection === section.id
                       ? "bg-primary text-white font-semibold"
                       : "text-neutral-500 hover:text-primary hover:bg-neutral-100"
@@ -199,7 +210,7 @@ function PrivacyPolicyPage() {
                   <span className={activeSection === section.id ? "text-white" : "text-neutral-500"}>
                     {section.icon}
                   </span>
-                  <span>{section.title}</span>
+                  <span className="leading-tight">{section.title}</span>
                 </a>
               ))}
             </aside>
@@ -213,10 +224,10 @@ function PrivacyPolicyPage() {
                   className="flex flex-col gap-6 scroll-mt-32"
                 >
                   {/* Section header */}
-                  <div className="flex items-center gap-2 pb-3 border-b border-border">
-                    {/* <div className="flex items-center justify-center w-12 h-12 rounded-full text-primary shrink-0">
+                  <div className="flex items-center pb-3 border-b border-border">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full text-primary shrink-0">
                       {section.icon}
-                    </div> */}
+                    </div>
                     <h2 className="text-2xl font-bold text-primary">
                       {section.title}
                     </h2>

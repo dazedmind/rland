@@ -47,7 +47,7 @@ function PromosPage() {
               <div className="py-12 lg:py-24 text-center lg:text-left flex flex-col gap-8">
                 <span className="space-y-4">
                   <h1 className="text-5xl lg:text-6xl font-medium text-white">
-                    Promos and Offers
+                    Promos and <span className="text-secondary font-bold">Offers</span>
                   </h1>
                   <p className="leading-relaxed text-neutral-200 max-w-xl mx-auto lg:mx-0">
                     Take advantage of our current promos and offers.

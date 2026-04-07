@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { memo, useEffect, useMemo, useState, useTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
@@ -42,38 +42,104 @@ function getPaginationItems(currentPage: number, totalPages: number): (number | 
   return items;
 }
 
+/** Haystack is pre-lowercased once per article when data loads — avoids huge string work on each search/pagination. */
+function articleMatchesSearchHay(hay: string, query: string) {
+  const terms = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  if (terms.length === 0) return true;
+  return terms.every((t) => hay.includes(t));
+}
+
+const NewsArticleCard = memo(function NewsArticleCard({ article }: { article: any }) {
+  return (
+    <div className="min-w-0">
+      <div className="flex flex-col bg-white rounded-xl overflow-hidden hover:shadow-xs transition-shadow h-full">
+        <div className="h-48 bg-neutral-200 relative shrink-0">
+          {article.photoUrl && (
+            <Image
+              src={article.photoUrl}
+              alt={article.headline}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33.333vw"
+            />
+          )}
+        </div>
+        <div className="p-6 flex flex-col flex-1">
+          <div className="flex justify-between items-center mb-3">
+            <span className="text-xs font-bold text-secondary uppercase">{article.type}</span>
+            <span className="text-xs text-neutral-400">{dateFormatter(article.publishDate)}</span>
+          </div>
+          <h3 className="text-xl font-bold mb-3 line-clamp-2 uppercase">{article.headline}</h3>
+          <p className="text-sm text-neutral-600 mb-6 line-clamp-3 flex-1">{article.body}</p>
+          <Link href={`/news/${article.slug}`}>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full text-primary hover:bg-primary hover:text-white border-primary/30 transition-all ease-in-out duration-300"
+            >
+              Read
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+});
+
 const fetchArticles = async () => {
   const response = await fetch("/api/articles");
   if (!response.ok) throw new Error("Network response was not ok");
   return response.json();
 };
 
-function NewsCard({ limit, filterCategory }: { limit?: number; filterCategory?: ArticleType }) {
+function NewsCard({
+  limit,
+  filterCategory,
+  searchQuery = "",
+}: {
+  limit?: number;
+  filterCategory?: ArticleType;
+  /** Debounced keywords from parent; articles still load once via React Query. */
+  searchQuery?: string;
+}) {
   const { data: articles = [], isLoading, isError } = useQuery({
     queryKey: ["articles"],
     queryFn: fetchArticles,
   });
 
   const [page, setPage] = useState(1);
+  const [, startTransition] = useTransition();
+
+  const articlesWithSearchHay = useMemo(
+    () =>
+      articles.map((a: any) => ({
+        article: a as any,
+        searchHay: `${a.headline} ${a.body} ${a.type}`.toLowerCase(),
+      })),
+    [articles]
+  );
 
   const filteredArticles = useMemo(
     () =>
-      articles
-        .filter((article: any) =>
-          filterCategory ? article.type.toLowerCase() === filterCategory.toLowerCase() : true
-        )
+      articlesWithSearchHay
+        .filter((row: { article: any; searchHay: string }) => {
+          const { article, searchHay } = row;
+          if (filterCategory && article.type.toLowerCase() !== filterCategory.toLowerCase()) return false;
+          return articleMatchesSearchHay(searchHay, searchQuery);
+        })
+        .map((row: { article: any; searchHay: string }) => row.article)
         .slice(0, limit ?? articles.length),
-    [articles, filterCategory, limit]
+    [articlesWithSearchHay, filterCategory, limit, searchQuery]
   );
 
   const totalPages = Math.max(1, Math.ceil(filteredArticles.length / PAGE_SIZE));
 
   useEffect(() => {
-    setPage(1);
-  }, [filterCategory, limit]);
+    startTransition(() => setPage(1));
+  }, [filterCategory, limit, searchQuery]);
 
   useEffect(() => {
-    setPage((p) => Math.min(p, totalPages));
+    startTransition(() => setPage((p) => Math.min(p, totalPages)));
   }, [totalPages]);
 
   const paginationItems = useMemo(
@@ -96,38 +162,7 @@ function NewsCard({ limit, filterCategory }: { limit?: number; filterCategory?: 
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {pageArticles.map((article: any) => (
-              <div key={article.id} className="min-w-0">
-                <div className="flex flex-col bg-white rounded-xl overflow-hidden hover:shadow-xs transition-shadow h-full">
-                  <div className="h-48 bg-neutral-200 relative shrink-0">
-                    {article.photoUrl && (
-                      <Image
-                        src={article.photoUrl}
-                        alt={article.headline}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33.333vw"
-                      />
-                    )}
-                  </div>
-                  <div className="p-6 flex flex-col flex-1">
-                    <div className="flex justify-between items-center mb-3">
-                      <span className="text-xs font-bold text-secondary uppercase">{article.type}</span>
-                      <span className="text-xs text-neutral-400">{dateFormatter(article.publishDate)}</span>
-                    </div>
-                    <h3 className="text-xl font-bold mb-3 line-clamp-2 uppercase">{article.headline}</h3>
-                    <p className="text-sm text-neutral-600 mb-6 line-clamp-3 flex-1">{article.body}</p>
-                    <Link href={`/news/${article.slug}`}>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="w-full text-primary hover:bg-primary hover:text-white border-primary/30 transition-all ease-in-out duration-300"
-                      >
-                        Read
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
+              <NewsArticleCard key={article.id} article={article} />
             ))}
           </div>
 
@@ -142,7 +177,7 @@ function NewsCard({ limit, filterCategory }: { limit?: number; filterCategory?: 
                 <Button
                   variant="outline"
                   size="icon"
-                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  onClick={() => startTransition(() => setPage((p) => Math.max(1, p - 1)))}
                   disabled={page <= 1}
                   className="rounded-lg border-neutral-200 shrink-0 hover:bg-primary/10 hover:text-primary"
                   aria-label="Previous page"
@@ -164,8 +199,8 @@ function NewsCard({ limit, filterCategory }: { limit?: number; filterCategory?: 
                       <button
                         key={item}
                         type="button"
-                        onClick={() => setPage(item)}
-                        className={`min-w-[36px] sm:min-w-[40px] h-9 sm:h-10 rounded-lg text-sm font-bold transition-all cursor-pointer ${
+                        onClick={() => startTransition(() => setPage(item))}
+                        className={`min-w-[36px] sm:min-w-[40px] h-9 sm:h-10 rounded-lg text-sm font-bold cursor-pointer ${
                           item === page
                             ? "bg-primary text-white "
                             : "bg-transparent text-slate-500 hover:bg-slate-100"
@@ -180,7 +215,7 @@ function NewsCard({ limit, filterCategory }: { limit?: number; filterCategory?: 
                 <Button
                   variant="outline"
                   size="icon"
-                  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                  onClick={() => startTransition(() => setPage((p) => Math.min(totalPages, p + 1)))}
                   disabled={page >= totalPages}
                   className="rounded-lg border-neutral-200 shrink-0 hover:bg-primary/10 hover:text-primary"
                   aria-label="Next page"
