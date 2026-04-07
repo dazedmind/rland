@@ -34,8 +34,8 @@ export default function ContactCopyItems() {
         onClick={() => handleCopyPhone("(02) 7752 2789")}
         className="group flex flex-row items-center justify-center gap-2 rounded-full p-1 px-3 cursor-pointer"
       >
-        <span className="bg-primary/5 border border-primary/40 p-2 rounded-full">
-          <HiPhone className="size-5 text-primary" />
+        <span className="bg-primary border border-primary/40 p-2 rounded-full">
+          <HiPhone className="size-5 text-white" />
         </span>
 
         <span className="relative h-6 flex items-center min-w-[150px]">
@@ -64,8 +64,8 @@ export default function ContactCopyItems() {
         onClick={() => handleCopyEmail("moreinfo@rland.ph")}
         className="group flex flex-row items-center justify-center gap-2 rounded-full p-1 px-3 cursor-pointer"
       >
-        <span className="bg-primary/5 border border-primary/40 p-2 rounded-full">
-          <HiMail className="size-5 text-primary" />
+        <span className="bg-primary border border-primary/40 p-2 rounded-full">
+          <HiMail className="size-5 text-white" />
         </span>
 
         <span className="relative h-6 flex items-center min-w-[145px]">

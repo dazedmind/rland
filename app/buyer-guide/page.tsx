@@ -18,76 +18,35 @@ import {
   BadgeCheck,
   ChevronDown,
   ChevronUp,
+  Landmark,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-
-const buyingSteps = [
-  {
-    step: 1,
-    icon: <Search className="w-8 h-8" />,
-    title: "Explore Our Projects",
-    description:
-      "Browse through our available developments — Arcoe Residences, Arcoe Estates, and more. Compare unit types, locations, amenities, and price ranges to find the community that fits your lifestyle and budget.",
-  },
-  {
-    step: 2,
-    icon: <Handshake className="w-8 h-8" />,
-    title: "Schedule a Site Visit",
-    description:
-      "Visit our properties in person to get a feel for the community and surroundings. Our sales team will be ready to walk you through available lots and house models.",
-  },
-  {
-    step: 3,
-    icon: <FileText className="w-8 h-8" />,
-    title: "Choose Your Payment Scheme",
-    description:
-      "Select a payment option that works for you — spot cash, in-house financing, or bank/Pag-IBIG loan. Use our Loan Calculator to estimate monthly amortizations before you commit.",
-  },
-  {
-    step: 4,
-    icon: <ClipboardList className="w-8 h-8" />,
-    title: "Submit Reservation & Requirements",
-    description:
-      "Complete the reservation form and submit the required documents. A reservation fee secures your chosen unit while documents are being processed.",
-  },
-  {
-    step: 5,
-    icon: <BadgeCheck className="w-8 h-8" />,
-    title: "Contract Signing",
-    description:
-      "Once your documents are verified and financing is approved, you will be invited to sign the Contract to Sell. Review all terms carefully before signing.",
-  },
-  {
-    step: 6,
-    icon: <KeyRound className="w-8 h-8" />,
-    title: "Turnover & Move-In",
-    description:
-      "After full payment or loan release, you will receive your unit during a formal turnover. Inspect your property, sign the acceptance documents, and receive your keys.",
-  },
-];
+import Image from "next/image";
+import goldenKey from "@/public/goldkey.png";
+import BuyingProcessRoadmap from "./BuyingProcessRoadmap";
 
 const paymentOptions = [
   {
-    icon: <PhilippinePeso className="w-8 h-8 text-secondary" />,
+    icon: <PhilippinePeso className="w-8 h-8 text-secondary stroke-1" />,
     title: "Spot Cash",
     description:
       "Pay the full purchase price in a single transaction. This option typically comes with the best discount and the fastest processing time.",
   },
   {
-    icon: <Home className="w-8 h-8 text-secondary" />,
+    icon: <Home className="w-8 h-8 text-secondary stroke-1" />,
     title: "In-House Financing",
     description:
       "Flexible payment terms directly through R Land with no bank requirements. Ideal for buyers who want a more accessible and straightforward financing process.",
   },
   {
-    icon: <FileText className="w-8 h-8 text-secondary" />,
+    icon: <Landmark className="w-8 h-8 text-secondary stroke-1" />,
     title: "Bank Loan",
     description:
       "Finance your home through a bank of your choice. Enjoy competitive interest rates and longer payment terms, subject to bank approval.",
   },
   {
-    icon: <BadgeCheck className="w-8 h-8 text-secondary" />,
+    icon: <BadgeCheck className="w-8 h-8 text-secondary stroke-1" />,
     title: "Pag-IBIG Fund (HDMF)",
     description:
       "Eligible Pag-IBIG members may apply for a housing loan with low monthly contributions. This is one of the most popular options for Filipino homebuyers.",
@@ -153,8 +112,12 @@ function BuyerGuidePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
 
+  const scrollToSection = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
-    <div className="pt-20 md:pt-30">
+    <div>
       <header>
         <NavBar
           isScrolled={true}
@@ -164,141 +127,130 @@ function BuyerGuidePage() {
         <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       </header>
 
-      {/* PAGE BANNER */}
-      <PageBanner
-        title="Buyer's Guide"
-        description="Everything you need to know about purchasing your dream home with R Land."
-        breadcrumb="Buyer's Guide"
-      />
-
       <main className="flex flex-col">
+        <section className=" min-h-[90dvh] flex items-center justify-center lg:justify-start overflow-hidden rounded-b-[2rem] md:rounded-b-[4rem] xl:rounded-b-[6rem] mx-5 md:mx-10 bg-linear-to-r from-primary to-blue-950 pt-20">
+          <div className="container px-8 md:px-16 xl:px-44 z-10 flex gap-12 items-center relative">
+            <ScrollReveal>
+              <div className="py-12 lg:py-24 text-center lg:text-left flex flex-col gap-8">
+                <span className="space-y-4">
+                  <h1 className="text-5xl lg:text-6xl font-medium text-white">
+                    Buyer&apos;s{" "}
+                    <span className="text-secondary font-bold">Guide</span>
+                  </h1>
+                  <p className="leading-relaxed text-neutral-200 max-w-xl mx-auto lg:mx-0">
+                    Everything you need to know about purchasing your dream home
+                    with R Land.
+                  </p>
+                </span>
+
+                <div className="flex gap-4 justify-center lg:justify-start w-full lg:w-fit">
+                  <Button
+                    size="sm"
+                    className="flex-1 md:w-fit"
+                    onClick={() => scrollToSection("buying-process")}
+                  >
+                    Start Now
+                  </Button>
+                </div>
+              </div>
+            </ScrollReveal>
+          </div>
+        </section>
+
         {/* INTRO SECTION */}
-        <section className="flex flex-col items-start px-8 md:px-16 xl:px-44 justify-center py-16 space-y-6">
-          <ScrollReveal>
+        <section className="flex flex-col items-start px-8 md:px-16 xl:px-64 justify-center py-16 space-y-6">
+          <ScrollReveal className="flex flex-col md:flex-row items-center">
+            <Image
+              src={goldenKey}
+              alt="Buyer's Guide Intro"
+              width={150}
+              height={150}
+              className="rotate-40"
+            />
             <span className="flex flex-col gap-4 w-full">
               <h1 className="text-4xl font-bold text-primary">
                 Your Journey to Homeownership Starts Here!
               </h1>
               <p className="leading-relaxed text-neutral-600 w-full">
                 Buying a home is one of the most significant decisions you will
-                ever make. At R Land Development Inc., we are committed to making
-                the process as clear, straightforward, and stress-free as
-                possible. This guide walks you through every step — from exploring
-                our communities to receiving the keys to your new home.
+                ever make. At R Land Development Inc., we are committed to
+                making the process as clear, straightforward, and stress-free as
+                possible. This guide walks you through every step — from
+                exploring our communities to receiving the keys to your new
+                home.
               </p>
             </span>
           </ScrollReveal>
         </section>
 
-        {/* STEP-BY-STEP BUYING PROCESS */}
-        <section className="px-8 md:px-16 xl:px-44 py-16 bg-neutral-50">
+        <BuyingProcessRoadmap id="buying-process" />
+
+        {/* PAYMENT OPTIONS SECTION */}
+        <section className="px-8 md:px-16 xl:px-44 py-16">
           <ScrollReveal>
             <div className="flex flex-col gap-10">
               <span className="flex flex-col gap-2">
                 <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
-                  Step-by-Step
+                  Financing
                 </p>
                 <h2 className="text-4xl font-bold text-foreground">
-                  The Home Buying Process
+                  Payment Options
                 </h2>
                 <p className="text-neutral-600 max-w-2xl">
-                  Follow these six steps to guide you from browsing to moving in.
+                  R Land offers flexible payment schemes to help make
+                  homeownership accessible. Choose the option that best fits
+                  your financial situation.
                 </p>
               </span>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {buyingSteps.map((item) => (
-                  <div
-                    key={item.step}
-                    className="group relative flex flex-col gap-4 rounded-xl p-6 bg-white hover:shadow-md hover:-translate-y-1 transition-all duration-300"
-                  >
-                    {/* Step number accent */}
-                    <span className="absolute top-4 right-4 text-6xl font-black text-neutral-100 select-none group-hover:text-primary/10 transition-colors duration-300">
-                      {item.step}
-                    </span>
-
-                    {/* Icon */}
-                    <div className="flex items-center justify-center w-14 h-14 rounded-full bg-linear-to-br from-primary to-blue-950 text-white shrink-0">
-                      {item.icon}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {paymentOptions.map((option) => (
+                  <div key={option.title} className="flex items-center gap-4">
+                    <div className="flex items-center justify-center w-14 h-14 rounded-full bg-white border border-border shrink-0">
+                      {option.icon}
                     </div>
-
-                    <div className="flex flex-col gap-2">
-                      <h3 className="text-lg font-bold text-foreground">
-                        {item.title}
-                      </h3>
+                    <div
+                      key={option.title}
+                      className="flex flex-col gap-4 rounded-xl p-6 bg-linear-to-l from-secondary/10 to-transparent hover:shadow-md transition-all duration-300"
+                    >
+                      <div className="flex items-center gap-4">
+                        <h3 className="text-lg font-bold text-foreground">
+                          {option.title}
+                        </h3>
+                      </div>
                       <p className="text-sm text-neutral-600 leading-relaxed">
-                        {item.description}
+                        {option.description}
                       </p>
                     </div>
                   </div>
                 ))}
               </div>
-            </div>
-          </ScrollReveal>
-        </section>
-
-        {/* PAYMENT OPTIONS SECTION */}
-        <section className="px-8 md:px-16 xl:px-44 py-16">
-          <ScrollReveal>
-          <div className="flex flex-col gap-10">
-            <span className="flex flex-col gap-2">
-              <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
-                Financing
-              </p>
-              <h2 className="text-4xl font-bold text-foreground">
-                Payment Options
-              </h2>
-              <p className="text-neutral-600 max-w-2xl">
-                R Land offers flexible payment schemes to help make
-                homeownership accessible. Choose the option that best fits your
-                financial situation.
-              </p>
-            </span>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {paymentOptions.map((option) => (
-                <div
-                  key={option.title}
-                  className="flex flex-col gap-4 rounded-xl p-6 bg-neutral-50 hover:shadow-md transition-all duration-300"
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center justify-center w-14 h-14 rounded-full bg-white border border-border shrink-0">
-                      {option.icon}
-                    </div>
-                    <h3 className="text-lg font-bold text-foreground">
-                      {option.title}
-                    </h3>
-                  </div>
-                  <p className="text-sm text-neutral-600 leading-relaxed">
-                    {option.description}
+              {/* CTA to Loan Calculator */}
+              <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-linear-to-r from-primary to-blue-950 rounded-xl p-8 text-white">
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-xl font-bold">
+                    Not sure how much you can afford?
+                  </h3>
+                  <p className="text-sm text-white/80">
+                    Use our Loan Calculator to estimate your monthly payments
+                    based on your preferred unit and financing scheme.
                   </p>
                 </div>
-                ))}
-              </div>
-            {/* CTA to Loan Calculator */}
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-linear-to-r from-primary to-blue-950 rounded-xl p-8 text-white">
-              <div className="flex flex-col gap-1">
-                <h3 className="text-xl font-bold">
-                  Not sure how much you can afford?
-                </h3>
-                <p className="text-sm text-white/80">
-                  Use our Loan Calculator to estimate your monthly payments
-                  based on your preferred unit and financing scheme.
-                </p>
-              </div>
-              <Link href="/loan-calculator" className="shrink-0 w-full md:w-fit">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="w-full md:w-fit text-white hover:bg-white hover:text-primary"
+                <Link
+                  href="/loan-calculator"
+                  className="shrink-0 w-full md:w-fit"
                 >
-                  Try Loan Calculator
-                </Button>
-              </Link>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full md:w-fit text-white hover:bg-white hover:text-primary"
+                  >
+                    Try Loan Calculator
+                  </Button>
+                </Link>
+              </div>
             </div>
-          </div>
           </ScrollReveal>
-
         </section>
 
         {/* REQUIRED DOCUMENTS SECTION */}
@@ -430,7 +382,6 @@ function BuyerGuidePage() {
             </div>
           </ScrollReveal>
         </section>
-
       </main>
 
       <footer>

@@ -65,7 +65,7 @@ export default function Home() {
           <div className="h-screen w-full gradient-overlay">
             <div className="bg-black/50 z-20 w-full absolute top-0 left-0 h-screen flex flex-col text-center lg:text-left items-center lg:items-start justify-center text-white px-8 md:px-44 py-16 gap-4">
               <span className="w-full space-y-2">
-                <h1 className="text-5xl md:text-6xl xl:text-7xl font-bold">Live The Experience</h1>
+                <h1 className="text-5xl md:text-6xl font-bold">Live The Experience</h1>
                 <p className="text-base md:text-lg xl:text-xl leading-relaxed">
                   We are a real estate development company that specializes in
                   the development of residential properties.

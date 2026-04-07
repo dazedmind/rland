@@ -4,23 +4,20 @@ import NavBar from "@/components/layout/NavBar";
 import Footer from "@/components/layout/Footer";
 import aboutUsImage from "@/public/ae-meadow-unit.jpg";
 import Image from "next/image";
-import {
-  Ribbon,
-  Target,
-  ArrowRight,
-} from "lucide-react";
+import { Ribbon, Target, ArrowRight } from "lucide-react";
 import MobileNavBar from "@/components/layout/MobileNavBar";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import CountUp from '@/components/ui/CountUp'
+import CountUp from "@/components/ui/CountUp";
 import ValuesPieSection from "./ValuesPieSection";
+import { Separator } from "@/components/ui/separator";
 
 const stats = [
   { value: 3, label: "Active Projects" },
   { value: 500, label: "Families Housed" },
-  { value: 10, label: "Years of Experience" },
+  { value: 10, label: "Years in Service" },
   { value: 2, label: "Cities Served" },
 ];
 
@@ -28,7 +25,7 @@ function AboutUs() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
   return (
-    <div className="pt-15 md:pt-25">
+    <div>
       <header>
         <NavBar
           isScrolled={true}
@@ -39,19 +36,40 @@ function AboutUs() {
       </header>
 
       <main className="flex flex-col">
+        <section className=" min-h-[90dvh] flex items-center justify-center lg:justify-start overflow-hidden rounded-b-[2rem] md:rounded-b-[4rem] xl:rounded-b-[6rem] mx-5 md:mx-10 bg-linear-to-r from-primary to-blue-950 pt-20">
+          <div className="container px-8 md:px-16 xl:px-44 z-10 flex gap-12 items-center relative">
+            <ScrollReveal>
+              <div className="py-12 lg:py-24 text-center lg:text-left flex flex-col gap-8">
+                <span className="space-y-4">
+                  <h1 className="text-5xl lg:text-6xl font-medium text-white">
+                    About{" "}
+                    <span className="text-secondary font-bold">R Land</span>
+                  </h1>
+                  <p className="leading-relaxed text-neutral-200 max-w-xl mx-auto lg:mx-0">
+                    Everything you need to know about purchasing your dream home
+                    with R Land.
+                  </p>
+                </span>
+              </div>
+            </ScrollReveal>
+          </div>
+        </section>
+
         {/* ── HERO INTRO ── */}
         <section className="px-8 md:px-16 xl:px-44 py-20 lg:pt-30">
           <ScrollReveal>
-            <div className="flex flex-col lg:flex-row items-center gap-12">
+            <div className="flex flex-col-reverse lg:flex-row items-center gap-12">
               {/* Text */}
               <div className="flex flex-col gap-6 w-full lg:w-1/2">
-                <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
-                  Who We Are
-                </p>
-                <h1 className="text-4xl md:text-5xl font-bold text-foreground leading-tight">
-                  Rooted in Nature, <br /> Designed for the Future
-                  {" "}
-                </h1>
+                <span className="flex flex-col gap-2">
+                  <p className="text-secondary font-semibold uppercase text-sm tracking-wider">
+                    Who We Are
+                  </p>
+                  <h1 className="text-4xl md:text-5xl font-bold text-foreground leading-tight">
+                    Rooted in Nature, <br /> Designed for the Future
+                  </h1>
+                </span>
+
                 <p className="leading-relaxed text-neutral-600">
                   R Land Development Inc., a subsidiary of RMR Capital Inc., is
                   dedicated to transforming landscapes into thriving centers of
@@ -93,7 +111,7 @@ function AboutUs() {
         {/* ── STATS BAND ── */}
         <section className="bg-linear-to-r from-neutral-100 mx-8 md:mx-20 mb-10 rounded-xl md:rounded-full to-neutral-200 p-12 px-8 md:px-16">
           <ScrollReveal>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-white">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-white relative">
               {stats.map((stat) => (
                 <div key={stat.label} className="flex flex-col gap-1">
                   <span className="text-4xl md:text-5xl font-bold text-primary">
@@ -106,7 +124,7 @@ function AboutUs() {
                       className="count-up-text"
                     />
                   </span>
-                  <span className="text-sm text-foreground/70 uppercase tracking-wider">
+                  <span className="text-xs md:text-sm text-foreground/70 uppercase tracking-wider">
                     {stat.label}
                   </span>
                 </div>
@@ -137,10 +155,8 @@ function AboutUs() {
                       strokeWidth={1}
                     />
                   </div>
-                  <h3 className="text-3xl font-bold text-white">
-                    Our Mission
-                  </h3>
-                  <p className="leading-relaxed text-white/85 text-sm">
+                  <h3 className="text-3xl font-bold text-white">Our Mission</h3>
+                  <p className="leading-relaxed text-white/85 text-sm md:text-base">
                     We provide housing arrangements that offer functionality,
                     prestige, and value for money that suit the needs,
                     aspirations, and constantly changing lifestyle of the
@@ -156,10 +172,8 @@ function AboutUs() {
                       strokeWidth={1}
                     />
                   </div>
-                  <h3 className="text-3xl font-bold text-white">
-                    Our Promise
-                  </h3>
-                  <p className="leading-relaxed text-white/85 text-sm">
+                  <h3 className="text-3xl font-bold text-white">Our Promise</h3>
+                  <p className="leading-relaxed text-white/85 text-sm md:text-base">
                     We aim to be the preferred real estate developer in the
                     country by continuously providing innovative and
                     well-designed houses which entail future ties of family and
@@ -181,7 +195,8 @@ function AboutUs() {
                   Our Story
                 </p>
                 <h2 className="text-4xl font-bold text-foreground">
-                  Life&apos;s Mark of Progress, <br /> Developments Echoing in Time
+                  Life&apos;s Mark of Progress, <br /> Developments Echoing in
+                  Time
                 </h2>
                 <p className="leading-relaxed text-neutral-600">
                   Coherence of Design, Style of Simplicity, and Distinction of
@@ -229,13 +244,14 @@ function AboutUs() {
                   Our Values
                 </p>
                 <h2 className="text-4xl font-bold text-foreground">
-                Values We Build On
+                  Values We Build On
                 </h2>
               </div>
               <div className="mx-auto md:mx-0 h-1.5 w-20 rounded-full bg-secondary" />
               <p className="mx-auto mt-4  text-sm text-muted-foreground md:text-base">
                 Five principles that form one whole—each slice is part of how we
-                build communities together. Teamwork, Competence, Confidence, Integrity, and Commitment.
+                build communities together. Teamwork, Competence, Confidence,
+                Integrity, and Commitment.
               </p>
               <p className="mt-4 text-xs text-neutral-400">
                 Tap or hover a slice to explore each value.

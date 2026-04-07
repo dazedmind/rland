@@ -1,8 +1,5 @@
 import React from 'react'
 import Image, { StaticImageData } from 'next/image'
-import { Button } from '../ui/button'
-import { ArrowRight } from 'lucide-react'
-import Link from 'next/link'
 
 function PromoCard({
     title,

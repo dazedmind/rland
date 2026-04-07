@@ -25,7 +25,7 @@ function ProjectCard({
   projectId: number;
 }) {
   return (
-    <div className="flex flex-col w-full bg-neutral-50/50 rounded-xl hover:shadow-xs transition-all duration-300 cursor-pointer">
+    <div className="flex flex-col w-full bg-neutral-50/50 rounded-xl transition-all duration-300 cursor-pointer">
       {/* CARD */}
       <div className={cn("w-auto h-60 bg-white rounded-xl relative transition-all duration-300 cursor-pointer group overflow-hidden", className)}>
         {/* Gradient overlay - fades in on hover */}
@@ -55,10 +55,6 @@ function ProjectCard({
           height={100}
           className="w-full h-full object-cover saturate-0 opacity-10 group-hover:opacity-30 transition-opacity duration-300 ease-in-out"
         />
-        
-        {/* <p className="absolute bottom-3 right-0 text-white font-bold bg-linear-to-r from-secondary/10 to-yellow-600 px-3 p-1.5 w-fit tracking-wide uppercase text-xs">
-          {projectStatus}
-        </p> */}
       </div>
       {/* INFO */}
       <span className="flex items-center justify-between gap-2 p-4">
@@ -68,11 +64,10 @@ function ProjectCard({
         
         </span>
           <Button size="icon" variant="outline"
-            className="hover:bg-transparent hover:text-primary rounded-full"
+            className="hover:bg-transparent hover:text-primary rounded-full group"
           >
             <span className="flex items-center gap-2">
-              {/* <p className="text-sm">View</p> */}
-              <ArrowUpRight className="size-6 hover:ml-2 transition-all duration-300 ease-in-out" />
+              <ArrowUpRight className="size-6 group-hover:rotate-45 transition-all duration-300 ease-in-out" />
             </span>
           </Button>
       </span>

@@ -7,12 +7,12 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import PromoCard from "@/components/cards/PromoCard";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import promo1 from "@/public/promo-sample.png";
 import { Promo } from "@/app/utils/types";
 import { dateFormatter } from "../utils/dateFormatter";
 import PromoPageSkeleton from "@/components/layout/skeleton/PromoPageSkeleton";
 import { Button } from "@/components/ui/button";
 import { Bell } from "lucide-react";
+import { StaticImageData } from "next/image";
 
 async function fetchPromos(): Promise<Promo[]> {
   const response = await fetch("/api/promos");
@@ -33,26 +33,46 @@ function PromosPage() {
   };
 
   return (
-    <div className="pt-20 md:pt-30">
+    <div>
       <header>
         <NavBar isScrolled={true} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
         <MobileNavBar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       </header>
-
-      <PageBanner
-        title="Promos"
-        description="View current and upcoming promos and discounts."
-        breadcrumb="Promos"
-      />
 
       {isLoading ? (
         <PromoPageSkeleton />
       ) : (
         <>
           <main>
+          <section className=" min-h-[90dvh] flex items-center justify-center lg:justify-start overflow-hidden rounded-b-[2rem] md:rounded-b-[4rem] xl:rounded-b-[6rem] mx-5 md:mx-10 bg-linear-to-r from-primary to-blue-950 pt-20">
+          <div className="container px-8 md:px-16 xl:px-44 z-10 flex gap-12 items-center relative">
+            <ScrollReveal>
+              <div className="py-12 lg:py-24 text-center lg:text-left flex flex-col gap-8">
+                <span className="space-y-4">
+                  <h1 className="text-5xl lg:text-6xl font-medium text-white">
+                    Promos and Offers
+                  </h1>
+                  <p className="leading-relaxed text-neutral-200 max-w-xl mx-auto lg:mx-0">
+                    Take advantage of our current promos and offers.
+                  </p>
+                </span>
+
+                <div className="flex gap-4 justify-center lg:justify-start w-full lg:w-fit">
+                  <Button
+                    size="sm"
+                    className="flex-1 md:w-fit"
+                    onClick={() => scrollToSection("promo-section")}
+                  >
+                    View Promos
+                  </Button>
+                </div>
+              </div>
+            </ScrollReveal>
+          </div>
+        </section>
           <ScrollReveal>
             {/* ABOUT US SECTION */}
-            <section className="flex flex-col items-start px-8 md:px-16 xl:px-44 justify-center py-16 space-y-8">
+            <section id="promo-section" className="flex flex-col items-start px-8 md:px-16 xl:px-44 justify-center py-16 space-y-8">
               <span className="flex flex-col gap-4">
                 <span className="flex flex-col gap-2">
                   <h1 className="text-4xl font-bold text-foreground">
@@ -70,7 +90,7 @@ function PromosPage() {
                       key={promo.id}
                       title={promo.title}
                       description={promo.description}
-                      image={promo1}
+                      image={promo.imageUrl as unknown as StaticImageData}
                       date={dateFormatter(promo.endDate.toString())}
                       id={promo.id}
                     />

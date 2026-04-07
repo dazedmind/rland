@@ -32,7 +32,7 @@ function BrokersAccreditation() {
 
       <main>
         {/* HERO SECTION */}
-        <section className=" min-h-[90dvh] flex items-center justify-center lg:justify-start overflow-hidden  bg-linear-to-r from-primary to-blue-950 pt-20">
+        <section className=" min-h-[90dvh] flex items-center justify-center lg:justify-start overflow-hidden  bg-linear-to-r from-primary to-blue-950 pt-20 rounded-b-[2rem] md:rounded-b-[4rem] xl:rounded-b-[6rem] mx-5 md:mx-10">
           <div className="container px-8 md:px-16 xl:px-44 z-10 flex gap-12 items-center relative">
             <ScrollReveal>
               <div className="py-12 lg:py-24 text-center lg:text-left flex flex-col gap-8">

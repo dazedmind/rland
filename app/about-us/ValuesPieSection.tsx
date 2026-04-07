@@ -49,11 +49,11 @@ function wedgePath(
 }
 
 const SLICE_FILLS = [
-  "rgba(34, 64, 123)",
-  "rgba(34, 64, 123)",
-  "rgba(34, 64, 123)",
-  "rgba(34, 64, 123)",
-  "rgba(34, 64, 123)",
+  "rgba(18, 42, 88, 1)",
+  "rgba(18, 42, 88, 1)",
+  "rgba(18, 42, 88, 1)",
+  "rgba(18, 42, 88, 1)",
+  "rgba(18, 42, 88, 1)",
 ];
 
 function ValuesPieSection() {
@@ -89,7 +89,7 @@ function ValuesPieSection() {
                 fill={SLICE_FILLS[i]}
                 stroke="white"
                 strokeWidth="2"
-                className="cursor-pointer transition-[filter,opacity] duration-200 hover:brightness-110"
+                className="cursor-pointer transition-[filter,opacity] duration-200 hover:brightness-110 focus:outline-0"
                 style={{
                   opacity: isActive ? 1 : 0.88,
                   filter: isActive ? "brightness(1.06)" : undefined,
