@@ -107,13 +107,11 @@ export default function Home() {
             <div className="w-full flex flex-col items-center gap-6">
               <ProjectList type="carousel" />
             </div>
-
-          
           </div>
         </ScrollReveal>
 
         <ScrollReveal>
-          <div className="flex flex-col lg:flex-row px-12 md:px-16 xl:px-44 gap-4 pt-12 lg:py-24 bg-primary text-white relative overflow-hidden">
+          <div className="flex flex-col lg:flex-row px-12 md:px-16 xl:px-44 gap-4 pt-12 lg:py-24 bg-primary text-white relative overflow-hidden rounded-[2rem] mx-5 md:mx-10">
             {/* Background subtle grid texture */}
             <div
               className="absolute inset-0 opacity-[0.04] pointer-events-none"
