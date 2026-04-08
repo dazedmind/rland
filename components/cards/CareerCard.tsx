@@ -135,7 +135,7 @@ function CareerCard({
                   </span>
                 </div>
 
-                <p className="text-sm text-slate-500 leading-relaxed line-clamp-2 max-w-2xl">
+                <p className="text-sm text-slate-500 leading-relaxed line-clamp-2">
                   {truncateDescription(career.jobDescription)}
                 </p>
 
