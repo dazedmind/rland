@@ -84,9 +84,9 @@ export function FeaturedUnitCard({ unit, project }: FeaturedUnitCardProps) {
       {/* CONTENT SECTION */}
       <div className="p-5 flex flex-col gap-4">
         <div>
-          <h3 className="text-lg font-bold text-neutral-800 line-clamp-1 group-hover:text-primary transition-colors duration-300">
+          <h1 className="text-lg font-bold text-neutral-800 line-clamp-1 group-hover:text-primary transition-colors duration-300">
             {project.projectName}
-          </h3>
+          </h1>
           <p className="text-sm text-neutral-500 flex items-center gap-1">
             <MapPin className="size-4" /> {project.location ?? "-"} •{" "} 
             {project.type === "houselot"
@@ -102,7 +102,7 @@ export function FeaturedUnitCard({ unit, project }: FeaturedUnitCardProps) {
             <p className="text-primary text-2xl font-bold">{priceFormatter(unit.sellingPrice)}</p>
           </span>
         </div>
-        <Link href={`/projects/${project.slug}?inventory=${unit.inventoryCode}`}>
+        <Link href={`/projects/${project.slug}?inventory=${unit.inventoryCode}`} aria-label="Explore Unit">
           <Button variant="primary" size="sm" className="w-full">
             <Search className="size-4" strokeWidth={3} /> Explore Unit
           </Button>

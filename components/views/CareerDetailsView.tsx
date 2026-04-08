@@ -75,7 +75,7 @@ export function CareerDetailsView({ career }: CareerDetailsViewProps) {
 
           <Button
             size="sm"
-            variant="secondary"
+            variant="default"
             onClick={() => setIsApplicationModalOpen(true)}
             className="w-full md:w-fit"
           >

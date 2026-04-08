@@ -65,6 +65,7 @@ function ProjectCard({
         </span>
           <Button size="icon" variant="outline"
             className="hover:bg-transparent hover:text-primary rounded-full group"
+            aria-label="View Project"
           >
             <span className="flex items-center gap-2">
               <ArrowUpRight className="size-6 group-hover:rotate-45 transition-all duration-300 ease-in-out" />

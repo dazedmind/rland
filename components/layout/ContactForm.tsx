@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -27,13 +27,22 @@ const EMPTY_FORM_DATA = {
   source: "",
 };
 
+/** hCaptcha logs a console warning on localhost; we skip loading the widget there for cleaner Lighthouse/devtools. Production hostnames still get invisible captcha. */
+type CaptchaEnv = "pending" | "localhost" | "production";
+
 function ContactForm() {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState(EMPTY_FORM_DATA);
   const [checkbox, setCheckbox] = useState(false);
+  const [captchaEnv, setCaptchaEnv] = useState<CaptchaEnv>("pending");
   const captchaRef = useRef<InstanceType<typeof HCaptcha>>(null);
   /** True after user submits valid form; we wait for invisible hCaptcha → onVerify before POST. */
   const awaitingCaptchaSubmitRef = useRef(false);
+
+  useEffect(() => {
+    const h = window.location.hostname;
+    setCaptchaEnv(h === "localhost" || h === "127.0.0.1" ? "localhost" : "production");
+  }, []);
 
   const handleHcaptchaError = (error: string) => {
     console.error("HCaptcha error:", error);
@@ -160,11 +169,16 @@ function ContactForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validateForm()) return;
+    if (captchaEnv === "pending") return;
 
     setLoading(true);
+    if (captchaEnv === "localhost") {
+      void submitInquiry("");
+      return;
+    }
+
     awaitingCaptchaSubmitRef.current = true;
     try {
-      // Invisible: runs in background; challenge UI only if hCaptcha requires it.
       captchaRef.current?.execute();
     } catch {
       awaitingCaptchaSubmitRef.current = false;
@@ -278,6 +292,7 @@ function ContactForm() {
               name="terms-checkbox-basic"
               checked={checkbox}
               onCheckedChange={handleChangeCheckbox}
+              aria-label="Terms and Conditions"
             />
 
             <p className="w-full text-xs md:text-sm">
@@ -299,7 +314,8 @@ function ContactForm() {
             size="sm"
             className="w-fit px-6"
             type="submit"
-            disabled={loading}
+            disabled={loading || captchaEnv === "pending"}
+            aria-label="Submit inquiry"
           >
             {loading ? (
               <span className="flex items-center gap-2">
@@ -311,15 +327,17 @@ function ContactForm() {
           </Button>
         </div>
 
-        <HCaptcha
-          sitekey="5f2a1b04-e718-4b58-9114-5e6ec12c87a2"
-          size="invisible"
-          onVerify={handleVerification}
-          onExpire={handleExpiration}
-          onError={handleHcaptchaError}
-          onClose={handleCaptchaClose}
-          ref={captchaRef}
-        />
+        {captchaEnv === "production" && (
+          <HCaptcha
+            sitekey="5f2a1b04-e718-4b58-9114-5e6ec12c87a2"
+            size="invisible"
+            onVerify={handleVerification}
+            onExpire={handleExpiration}
+            onError={handleHcaptchaError}
+            onClose={handleCaptchaClose}
+            ref={captchaRef}
+          />
+        )}
       </form>
     </div>
   );

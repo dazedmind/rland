@@ -1,22 +1,24 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { ArrowRight, MapPin } from "lucide-react";
+import Link from "next/link";
+// IMAGES
 import Image from "next/image";
 import philecoLogo from "@/public/phileco-logo.png";
 import rmrLogo from "@/public/rmr-logo.png";
 import hcptLogo from "@/public/hcpt-logo.png";
 import r2Logo from "@/public/r2-logo.png";
+import platinumUnit from "@/public/platinum-unit-nobg.png";
+import aeValleyUnit from "@/public/ae-valley-unit.jpg";
+// COMPONENTS
 import FeaturedProjectList from "@/components/cards/FeaturedProjectList";
-import { ArrowRight, MapPin } from "lucide-react";
 import NavBar from "@/components/layout/NavBar";
 import MobileNavBar from "@/components/layout/MobileNavBar";
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/layout/Footer";
-import aeValleyUnit from "@/public/ae-valley-unit.jpg";
 import NewsCard from "@/components/cards/NewsCard";
-import platinumUnit from "@/public/platinum-unit-nobg.png";
 import HouseSearchBar from "@/components/cards/HouseSearchBar";
-import Link from "next/link";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ProjectList from "@/components/cards/ProjectList";
 import ContactSection from "@/components/layout/ContactSection";
@@ -323,14 +325,18 @@ export default function Home() {
                 </p>
               </span>
 
-              <Link href="/news">
-                <Button
-                  variant="ghost"
-                  className="text-secondary hover:text-secondary-fg font-bold rounded-full transition-all ease-in-out duration-300"
-                >
-                  More <ArrowRight className="size-5" strokeWidth={2} />
-                </Button>
-              </Link>
+              <Button
+                variant="ghost"
+                className="text-secondary hover:text-secondary-fg font-bold rounded-full transition-all ease-in-out duration-300"
+                asChild
+              >
+                <Link href="/news">
+                  <span className="inline-flex items-center gap-1.5">
+                    View all news
+                    <ArrowRight className="size-5 shrink-0" strokeWidth={2} aria-hidden />
+                  </span>
+                </Link>
+              </Button>
             </div>
 
             <NewsCard limit={3} />

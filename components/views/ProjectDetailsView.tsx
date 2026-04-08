@@ -435,7 +435,7 @@ export function ProjectDetailsView({ data }: ProjectDetailsViewProps) {
 
                 <span className="w-full md:w-auto">
                   <Link href="/contact-us">
-                    <Button variant="secondary" size="sm">
+                    <Button variant="default" size="sm">
                       Contact Us
                     </Button>
                   </Link>

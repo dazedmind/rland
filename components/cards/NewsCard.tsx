@@ -69,7 +69,7 @@ const NewsArticleCard = memo(function NewsArticleCard({ article }: { article: an
             <span className="text-xs font-bold text-secondary uppercase">{article.type}</span>
             <span className="text-xs text-neutral-400">{dateFormatter(article.publishDate)}</span>
           </div>
-          <h3 className="text-xl font-bold mb-3 line-clamp-2 uppercase">{article.headline}</h3>
+          <h1 className="text-xl font-bold mb-3 line-clamp-2 uppercase">{article.headline}</h1>
           <p className="text-sm text-neutral-600 mb-6 line-clamp-3 flex-1">{article.body}</p>
           <Link href={`/news/${article.slug}`}>
             <Button

@@ -3,6 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   output: "standalone",
+  /** Improves Lighthouse / DevTools debugging for first-party bundles (larger build output). */
+  productionBrowserSourceMaps: true,
   images: {
     unoptimized: true, // Disable Next.js image optimization for Cloudflare
   },

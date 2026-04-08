@@ -225,7 +225,7 @@ function ModelDetailsModal({
           </div>
         </div>
         <DialogFooter className="px-6 py-6 md:pb-6 md:pt-0 shrink-0">
-          <Button variant="secondary" size="sm" onClick={onClose}>
+          <Button variant="default" size="sm" onClick={onClose}>
             {" "}
             Close
           </Button>

@@ -116,7 +116,7 @@ function FeaturedNewsCard() {
           href={`/news/${currentArticle?.slug}`}
           className="mt-4 py-2 font-bold text-primary flex items-center gap-2 hover:gap-4 transition-all"
         >
-          <Button variant="secondary" size="sm" className="w-fit">
+          <Button variant="default" size="sm" className="w-fit">
             Read Full Story
           </Button>
         </Link> 

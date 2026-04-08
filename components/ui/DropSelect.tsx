@@ -33,6 +33,7 @@ function DropSelect({
           value={value}
           className={cn("w-full h-10 text-sm text-black rounded-md px-2", className)}
           onChange={onChange}
+          aria-label={label}
         >
           {children}
         </select>

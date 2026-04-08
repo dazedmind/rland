@@ -371,7 +371,7 @@ function BuyerGuidePage() {
               <div className="relative z-10 w-full md:w-auto">
                 <Link href="/contact-us">
                   <Button
-                    variant="secondary"
+                    variant="default"
                     size="sm"
                     className="w-full md:w-fit"
                   >

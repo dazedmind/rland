@@ -70,6 +70,7 @@ function HouseSearchBar({ className, initialLocation = "", initialPriceRange }: 
           value={location}
           className="w-full h-12 text-sm text-black outline-none border-none rounded-md px-2 bg-transparent appearance-none"
           onChange={(e) => handleLocationChange(e.target.value)}
+          aria-label="Select Location"
         >
           <option value="">Select Location</option>
           {locations.map((loc) => (
@@ -104,9 +105,10 @@ function HouseSearchBar({ className, initialLocation = "", initialPriceRange }: 
 
       <Button 
         onClick={handleSearch} 
-        variant="secondary" 
+        variant="default" 
         size="sm" 
         className="w-full md:w-fit rounded-xl h-0 md:h-13"
+        aria-label="Search"
       >
         <Search className="size-5" /> <p className="block md:hidden">Search</p>
       </Button>

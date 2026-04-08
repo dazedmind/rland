@@ -37,13 +37,15 @@ function NavBar({ isScrolled, isMenuOpen, setIsMenuOpen }: NavBarProps) {
         {/* UTILITY NAVIGATION */}
         <div className={`hidden md:flex items-center justify-end w-full text-sm p-4 px-16 transition-colors duration-300 ${isScrolled ? 'bg-neutral-100 text-black' : 'bg-neutral-100/10 text-white'}`}>
           <div className="flex items-center gap-4 list-none uppercase text-xs">
-            {utilityLinks.map((link) => {
-              return (
-                <li key={link.href}>
-                  <a href={link.href}>{link.name}</a>
-                </li>
-              );
-            })}
+            <ul className="flex items-center gap-4">
+              {utilityLinks.map((link) => {
+                return (
+                  <li key={link.href}>
+                    <a href={link.href}>{link.name}</a>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         </div>
 
@@ -58,21 +60,23 @@ function NavBar({ isScrolled, isMenuOpen, setIsMenuOpen }: NavBarProps) {
               const isActive = pathname === link.href;
               
               return (
-                <li key={link.href}>
-                  <Link 
-                    href={link.href} 
-                    className={`group relative py-2 transition-all duration-300 ${isActive ? 'font-bold' : 'font-normal'}`}
-                  >
-                    <span className={`${isScrolled ? 'text-primary' : 'text-white'} transition-all duration-300`}>
-                      {link.name}
-                    </span>
-                    
-                    {/* The Animated Line: Visible if hovered OR if page is active */}
-                    <span className={`absolute bottom-0 left-0 h-0.5 bg-secondary transition-all duration-300 
-                      ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}>
-                    </span>
-                  </Link>
-                </li>
+                <ul key={link.href}>
+                  <li>
+                    <Link 
+                      href={link.href} 
+                      className={`group relative py-2 transition-all duration-300 ${isActive ? 'font-bold' : 'font-normal'}`}
+                    >
+                      <span className={`${isScrolled ? 'text-primary' : 'text-white'} transition-all duration-300`}>
+                        {link.name}
+                      </span>
+                      
+                      {/* The Animated Line: Visible if hovered OR if page is active */}
+                      <span className={`absolute bottom-0 left-0 h-0.5 bg-secondary transition-all duration-300 
+                        ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}>
+                      </span>
+                    </Link>
+                  </li>
+                </ul>
               );
             })}
             

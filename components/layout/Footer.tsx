@@ -111,6 +111,14 @@ function Footer() {
       {name: "Terms of Use", href: "/privacy-policy"},
     ]},
   ]
+
+  const socialLinkList = [
+    {name: "Facebook", icon: <FaFacebook className="size-6" />, href: socialLinks?.facebookUrl},
+    {name: "Instagram", icon: <FaInstagram className="size-6" />, href: socialLinks?.instagramUrl},
+    {name: "YouTube", icon: <FaYoutube className="size-6" />, href: socialLinks?.youtubeUrl},
+    {name: "LinkedIn", icon: <FaLinkedin className="size-6" />, href: socialLinks?.linkedinUrl},
+    {name: "TikTok", icon: <FaTiktok className="size-6" />, href: socialLinks?.tiktokUrl},
+  ]
   return (
     <div className="flex flex-col-reverse lg:flex-row items-center justify-between h-auto lg:h-120 p-6 md:p-16 bg-primary-fg gap-8">
       {/* LEFT */}
@@ -118,62 +126,36 @@ function Footer() {
         <div className="flex flex-col gap-6">
           <Image src={rlandLogo} alt="R Land Logo" width={200} height={200} />
           <span className="flex flex-col gap-2 text-neutral-200">
-            <li className="flex flex-row items-start md:items-center gap-2">
-              {/* <MapPin className="size-4 shrink-0" /> */}
-              <p className="text-neutral-300">
-                5/F R-II Building, Malakas Street, Diliman, Quezon City, Metro
-                Manila, Philippines
-              </p>
-            </li>
-            <li className="flex flex-row items-center gap-2">
-              <Phone className="size-4" />
-              <p className="text-neutral-300">(02) 7752 2789</p>
-            </li>
-            <li className="flex flex-row items-center gap-2">
-              <Mail className="size-4" />
-              <p className="text-neutral-300">moreinfo@rland.ph</p>
-            </li>
+            <ul>
+              <li className="flex flex-row items-start md:items-center gap-2">
+                {/* <MapPin className="size-4 shrink-0" /> */}
+                <p className="text-neutral-300">
+                  5/F R-II Building, Malakas Street, Diliman, Quezon City, Metro
+                  Manila, Philippines
+                </p>
+              </li>
+              <li className="flex flex-row items-center gap-2">
+                <Phone className="size-4" />
+                <p className="text-neutral-300">(02) 7752 2789</p>
+              </li>
+              <li className="flex flex-row items-center gap-2">
+                <Mail className="size-4" />
+                <p className="text-neutral-300">moreinfo@rland.ph</p>
+              </li>
+            </ul>
           </span>
         </div>
 
         <div className="flex flex-col gap-4 text-white list-none pt-8">
-          <span className="flex flex-row items-center gap-4">
-            {socialLinks?.facebookUrl && (
-              <li>
-                <a href={socialLinks?.facebookUrl} target="_blank" rel="noopener noreferrer">
-                  <FaFacebook className="size-6" />
+          <ul className="flex flex-row items-center gap-4">
+            {socialLinkList.filter((link) => link.href).map((link) => (
+              <li key={link.name}>
+                <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.name}>
+                  {link.icon}
                 </a>
               </li>
-            )}
-            {socialLinks?.instagramUrl && (
-              <li>
-                <a href={socialLinks?.instagramUrl} target="_blank" rel="noopener noreferrer">
-                  <FaInstagram className="size-6" />
-                </a>
-              </li>
-            )}
-            {socialLinks?.youtubeUrl && (
-              <li>
-                <a href={socialLinks?.youtubeUrl} target="_blank" rel="noopener noreferrer">
-                  <FaYoutube className="size-6" />
-                </a>
-              </li>
-            )}
-            {socialLinks?.linkedinUrl && (
-              <li>
-                <a href={socialLinks?.linkedinUrl} target="_blank" rel="noopener noreferrer">
-                  <FaLinkedin className="size-6" />
-                </a>
-              </li>
-            )}
-            {socialLinks?.tiktokUrl && (
-              <li>
-                <a href={socialLinks?.tiktokUrl} target="_blank" rel="noopener noreferrer">
-                  <FaTiktok className="size-6" />
-                </a>
-              </li>
-            )}
-          </span>
+            ))}
+          </ul>
           <p>© 2026 R LAND DEVELOPMENT INC.</p>
         </div>
       </div>
@@ -202,6 +184,7 @@ function Footer() {
                 className="w-full p-2 pl-10 h-12 rounded-full bg-slate-200 text-black"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                aria-label="Enter Email"
               />
             </div>
 
@@ -220,11 +203,13 @@ function Footer() {
           {footerLinks.map((link) => (
             <div key={link.category} className="flex flex-col text-sm text-white list-none gap-1">
               <h2 className="font-bold uppercase">{link.category}</h2>
-              {link.links.map((link) => (
-                <li key={link.name} className="text-neutral-300 hover:text-white">
-                  <Link href={link.href}>{link.name}</Link>
-                </li>
-              ))}
+              <ul className="space-y-1">
+                {link.links.map((link) => (
+                  <li key={link.name} className="text-neutral-300 hover:text-white">
+                    <Link href={link.href}>{link.name}</Link>
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>

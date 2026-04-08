@@ -74,7 +74,7 @@ const ShareModal = ({ url, title, isOpen, onClose }: ShareModalProps) => {
         </div>
 
 
-        <Button variant="secondary" className="w-full mt-4" size="sm" onClick={onClose}>
+        <Button variant="default" className="w-full mt-4" size="sm" onClick={onClose}>
           Close
         </Button>
       </div>
