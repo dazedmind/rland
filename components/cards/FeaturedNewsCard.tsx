@@ -45,7 +45,7 @@ function FeaturedNewsCard() {
   const currentArticle = featuredArticles[currentIndex];
 
   return (
-    <div className="group relative grid grid-cols-1 lg:grid-cols-2 items-center overflow-hidden rounded-xl bg-neutral-50 hover:shadow-md transition-all duration-300">
+    <div className="group relative grid grid-cols-1 lg:grid-cols-2 items-center overflow-hidden rounded-xl bg-neutral-50 hover:shadow-md transition-all border border-border duration-300">
       <div className="absolute bottom-4 right-4 z-10 space-x-4">
         <span>
           <button

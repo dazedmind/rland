@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
-import { Separator } from "../ui/separator";
 
 const minPrice = 1000000;
 const maxPrice = 10000000;

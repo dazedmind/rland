@@ -65,21 +65,36 @@ export default function Home() {
         <section className="bg-neutral-400 h-screen">
           {/* VIDEO HERO SECTION */}
           <div className="h-screen w-full gradient-overlay">
-            <div className="bg-black/50 z-20 w-full absolute top-0 left-0 h-screen flex flex-col text-center lg:text-left items-center lg:items-start justify-center text-white px-8 md:px-44 py-16 gap-4">
+            <div className="bg-black/60 z-20 w-full absolute top-0 left-0 h-screen flex flex-col text-center lg:text-left items-center lg:items-start justify-center text-white px-8 md:px-44 py-16 gap-4">
               <span className="w-full space-y-2">
-                <h1 className="text-5xl md:text-6xl font-bold">Live The Experience</h1>
-                <p className="text-base md:text-lg xl:text-xl leading-relaxed">
+                <h1 className="text-5xl md:text-6xl font-bold">
+                  Live The Experience
+                </h1>
+                <p className="text-base md:text-lg xl:text-xl leading-tight  max-w-1/2">
                   We are a real estate development company that specializes in
                   the development of residential properties.
                 </p>
               </span>
-              <Button
-                size="lg"
-                variant="default"
-                asChild
+
+              <Link
+                className="group relative flex flex-row items-center gap-3 bg-secondary font-bold text-lg text-white p-2 rounded-full transition-all duration-300 ease-out 
+             hover:scale-[1.02] hover:brightness-110 
+             hover:shadow-[0_0_20px_rgba(var(--secondary-rgb),0.6)]"
+                href="/projects"
               >
-                <Link href="/projects">Explore Projects</Link>
-              </Button>
+                {/* The "Glow" Layer - hidden by default, appears on hover */}
+                <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-md bg-secondary -z-10" />
+
+                <span className="ml-3 text-sm md:text-lg">Browse Projects</span>
+
+                <span className="bg-white text-secondary p-2 rounded-full inline-flex items-center justify-center transition-transform duration-300">
+                  <ArrowRight
+                    className="size-5 shrink-0"
+                    strokeWidth={3}
+                    aria-hidden
+                  />
+                </span>
+              </Link>
             </div>
             <video
               className="w-full h-full object-cover"
@@ -140,7 +155,6 @@ export default function Home() {
 
             {/* HOUSE IMAGE HERO SECTION — desktop */}
             <div className="hidden lg:block lg:absolute bottom-0 right-0 w-1/2 h-full pointer-events-none">
-
               {/* Soft glow behind the house */}
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[420px] h-[280px] rounded-full bg-white/10 blur-3xl" />
 
@@ -153,7 +167,9 @@ export default function Home() {
                   <span className="text-[10px] tracking-[0.15em] uppercase text-white/60 leading-none mb-1">
                     Starting at
                   </span>
-                  <span className="text-base font-bold text-white leading-none">₱1.2M</span>
+                  <span className="text-base font-bold text-white leading-none">
+                    ₱1.2M
+                  </span>
                 </div>
               </div>
 
@@ -166,7 +182,9 @@ export default function Home() {
                   <span className="text-[10px] tracking-[0.15em] uppercase text-white/80 leading-none mb-1">
                     Available
                   </span>
-                  <span className="text-base font-bold text-white leading-none">24 Units</span>
+                  <span className="text-base font-bold text-white leading-none">
+                    24 Units
+                  </span>
                 </div>
               </div>
 
@@ -176,7 +194,9 @@ export default function Home() {
                 style={{ animation: "floatBadge 4s ease-in-out 1.6s infinite" }}
               >
                 <MapPin className="size-4 text-secondary" />
-                <span className="text-sm font-medium text-white">Batangas, PH</span>
+                <span className="text-sm font-medium text-white">
+                  Batangas, PH
+                </span>
               </div>
 
               {/* House image */}
@@ -200,8 +220,12 @@ export default function Home() {
                 style={{ animation: "floatBadge 4s ease-in-out infinite" }}
               >
                 <div className="flex flex-col">
-                  <span className="text-[9px] tracking-[0.15em] uppercase text-white/60 leading-none mb-1">Starting at</span>
-                  <span className="text-sm font-bold text-white leading-none">₱1.2M</span>
+                  <span className="text-[9px] tracking-[0.15em] uppercase text-white/60 leading-none mb-1">
+                    Starting at
+                  </span>
+                  <span className="text-sm font-bold text-white leading-none">
+                    ₱1.2M
+                  </span>
                 </div>
               </div>
 
@@ -211,8 +235,12 @@ export default function Home() {
                 style={{ animation: "floatBadge 4s ease-in-out 0.8s infinite" }}
               >
                 <div className="flex flex-col">
-                  <span className="text-[9px] tracking-[0.15em] uppercase text-white/80 leading-none mb-1">Available</span>
-                  <span className="text-sm font-bold text-white leading-none">24 Units</span>
+                  <span className="text-[9px] tracking-[0.15em] uppercase text-white/80 leading-none mb-1">
+                    Available
+                  </span>
+                  <span className="text-sm font-bold text-white leading-none">
+                    24 Units
+                  </span>
                 </div>
               </div>
 
@@ -222,7 +250,9 @@ export default function Home() {
                 style={{ animation: "floatBadge 4s ease-in-out 1.6s infinite" }}
               >
                 <div className="w-2 h-2 rounded-full bg-[#c9a84c] shrink-0" />
-                <span className="text-xs font-medium text-white">Batangas, PH</span>
+                <span className="text-xs font-medium text-white">
+                  Batangas, PH
+                </span>
               </div>
 
               <Image
@@ -258,7 +288,7 @@ export default function Home() {
 
         <ScrollReveal>
           <div className="flex flex-col items-center justify-center h-auto">
-            <div className="flex flex-col gap-8 md:flex-row-reverse h-auto w-full bg-neutral-100 py-12 px-8 md:px-16 xl:px-44">
+            <div className="flex flex-col gap-8 md:flex-row-reverse h-auto w-full bg-neutral-100 py-12 px-8 md:px-16 xl:px-44 shadow-md">
               {/* Image */}
               <div className="w-full lg:w-1/2">
                 <div className="h-100 bg-neutral-300 rounded-xl">
@@ -276,7 +306,9 @@ export default function Home() {
                   <h1 className="text-4xl font-bold text-foreground">
                     About R Land
                   </h1>
-                  <p className="uppercase text-primary font-medium">Rooted in Nature, Designed for the Future</p>
+                  <p className="uppercase text-primary font-medium">
+                    Rooted in Nature, Designed for the Future
+                  </p>
                 </span>
 
                 <p className="leading-relaxed text-neutral-600">
@@ -294,21 +326,62 @@ export default function Home() {
               </span>
             </div>
 
-            <div className="w-full">
-              <div className="bg-primary p-3 w-full text-center text-white">
-                <h1 className="text-2xl md:text-3xl font-bold">
-                  Partners & Affiliated Companies
-                </h1>
-              </div>
+            <section className="w-full" aria-labelledby="partners-heading">
+              <div className="mx-auto flex max-w-6xl xl:max-w-none flex-col xl:flex-row items-center gap-8 px-6 py-8 sm:gap-10 sm:px-8 md:gap-12 md:px-16 md:py-8 xl:px-44">
+                <h2
+                  id="partners-heading"
+                  className=" w-full text-balance text-center xl:text-start text-2xl font-bold tracking-tight text-primary sm:text-3xl md:text-4xl"
+                >
+                  Affiliated Companies
+                </h2>
 
-              {/* Desktop: static centered */}
-              <div className="flex flex-row items-center justify-center gap-8 md:gap-24 lg:gap-32 px-8 md:px-16 xl:px-44 py-8">
-                <Image src={rmrLogo} alt="RMR Logo" width={100} height={100} className="saturate-0 hover:saturate-100 transition-all  w-12 md:w-16 lg:w-24 duration-300 cursor-pointer" />
-                <Image src={philecoLogo} alt="Phileco Logo" width={160} height={100} className="saturate-0 hover:saturate-100 transition-all w-28 lg:w-32 duration-300 cursor-pointer" />
-                <Image src={hcptLogo} alt="HCPT Logo" width={100} height={100} className="saturate-0 hover:saturate-100 transition-all w-12 md:w-16 lg:w-24 duration-300 cursor-pointer" />
-                <Image src={r2Logo} alt="R2 Logo" width={100} height={100} className="saturate-0 hover:saturate-100 transition-all w-12 md:w-16 lg:w-24 duration-300 cursor-pointer" />
+                <ul
+                  className="grid w-full max-w-md grid-cols-2 gap-x-6 gap-y-10 sm:max-w-2xl sm:gap-x-10 sm:gap-y-12 md:max-w-none md:grid-cols-4 md:gap-x-8 md:gap-y-0 lg:gap-x-12 xl:gap-x-16"
+                  role="list"
+                >
+                  <li className="flex min-h-18 items-center justify-center sm:min-h-20 md:min-h-24">
+                    <Image
+                      src={rmrLogo}
+                      alt="RMR Logo"
+                      width={100}
+                      height={100}
+                      className="h-auto max-h-12 w-auto max-w-22 object-contain saturate-0 transition-all duration-300 hover:saturate-100 sm:max-h-14 md:max-h-16 lg:max-h-20 cursor-pointer"
+                      title="RMR Capital Inc."
+                    />
+                  </li>
+                  <li className="flex min-h-18 items-center justify-center sm:min-h-20 md:min-h-24">
+                    <Image
+                      src={philecoLogo}
+                      alt="Phileco Logo"
+                      width={160}
+                      height={100}
+                      className="h-auto max-h-12 w-auto max-w-36 object-contain saturate-0 transition-all duration-300 hover:saturate-100 sm:max-h-14 md:max-h-16 lg:max-h-18 cursor-pointer"
+                      title="Phil. Ecology Systems Corp."
+                    />
+                  </li>
+                  <li className="flex min-h-18 items-center justify-center sm:min-h-20 md:min-h-24">
+                    <Image
+                      src={hcptLogo}
+                      alt="HCPT Logo"
+                      width={100}
+                      height={100}
+                      className="h-auto max-h-12 w-auto max-w-22 object-contain saturate-0 transition-all duration-300 hover:saturate-100 sm:max-h-14 md:max-h-16 lg:max-h-20 cursor-pointer"
+                      title="Harbour Centre Port Terminal Inc."
+                    />
+                  </li>
+                  <li className="flex min-h-18 items-center justify-center sm:min-h-20 md:min-h-24">
+                    <Image
+                      src={r2Logo}
+                      alt="R2 Logo"
+                      width={100}
+                      height={100}
+                      className="h-auto max-h-12 w-auto max-w-22 object-contain saturate-0 transition-all duration-300 hover:saturate-100 sm:max-h-14 md:max-h-16 lg:max-h-20 cursor-pointer"
+                      title="R-II Builders Inc."
+                    />
+                  </li>
+                </ul>
               </div>
-            </div>
+            </section>
           </div>
         </ScrollReveal>
 
@@ -332,8 +405,12 @@ export default function Home() {
               >
                 <Link href="/news">
                   <span className="inline-flex items-center gap-1.5">
-                    View all news
-                    <ArrowRight className="size-5 shrink-0" strokeWidth={2} aria-hidden />
+                    More
+                    <ArrowRight
+                      className="size-5 shrink-0"
+                      strokeWidth={2}
+                      aria-hidden
+                    />
                   </span>
                 </Link>
               </Button>
@@ -347,42 +424,37 @@ export default function Home() {
           <ContactSection />
         </ScrollReveal>
 
-          {/* BANNER */}
-          <section className="flex flex-col items-center justify-center bg-primary py-24">
-            <ScrollReveal>
-              <div className="flex flex-col items-center justify-center text-center gap-4 px-8 md:px-24 lg:px-44 text-white">
-                <span className="flex flex-col gap-2 w-full text-center">
-                  <h1 className="text-3xl lg:text-4xl font-bold">
-                    Ready to Settle on Your Dream Home?
-                  </h1>
-                  <p className="leading-relaxed text-neutral-200">
-                    Contact us today to learn more about our properties and how we
-                    can help you find your perfect home.
-                  </p>
-                </span>
-        
-                <span className="flex flex-row items-center justify-center gap-4 w-full lg:w-auto">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="w-fit text-white "
-                    asChild
-                  >
-                    <Link href="/buyer-guide">Your Buying Guide</Link>
-                  </Button>
+        {/* BANNER */}
+        <section className="flex flex-col items-center justify-center bg-primary py-24">
+          <ScrollReveal>
+            <div className="flex flex-col items-center justify-center text-center gap-4 px-8 md:px-24 lg:px-44 text-white">
+              <span className="flex flex-col gap-2 w-full text-center">
+                <h1 className="text-3xl lg:text-4xl font-bold">
+                  Ready to Settle on Your Dream Home?
+                </h1>
+                <p className="leading-relaxed text-neutral-200">
+                  Contact us today to learn more about our properties and how we
+                  can help you find your perfect home.
+                </p>
+              </span>
 
-                  <Button
-                    variant="default"
-                    size="sm"
-                    asChild
-                    className="w-fit"
-                  >
-                    <Link href="/contact-us">Contact Sales</Link>
-                  </Button>
-                </span>
-              </div>
-            </ScrollReveal>
-          </section>
+              <span className="flex flex-row items-center justify-center gap-4 w-full lg:w-auto">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-fit text-white "
+                  asChild
+                >
+                  <Link href="/buyer-guide">Your Buying Guide</Link>
+                </Button>
+
+                <Button variant="default" size="sm" asChild className="w-fit">
+                  <Link href="/contact-us">Contact Sales</Link>
+                </Button>
+              </span>
+            </div>
+          </ScrollReveal>
+        </section>
 
         <footer>
           <Footer />

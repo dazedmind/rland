@@ -52,7 +52,7 @@ function articleMatchesSearchHay(hay: string, query: string) {
 const NewsArticleCard = memo(function NewsArticleCard({ article }: { article: any }) {
   return (
     <div className="min-w-0">
-      <div className="flex flex-col bg-white rounded-xl overflow-hidden hover:shadow-xs transition-shadow h-full">
+      <div className="flex flex-col bg-white rounded-xl overflow-hidden hover:shadow-xs border border-border transition-shadow h-full">
         <div className="h-48 bg-neutral-200 relative shrink-0">
           {article.photoUrl && (
             <Image

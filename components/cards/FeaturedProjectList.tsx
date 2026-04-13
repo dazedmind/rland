@@ -117,7 +117,7 @@ function FeaturedProjectList() {
               key={i}
               type="button"
               onClick={() => scrollTo(i)}
-              className={`h-2 rounded-full transition-all ${
+              className={`h-2 rounded-full transition-all cursor-pointer ${
                 i === selectedIndex ? "w-6 bg-primary" : "w-2 bg-neutral-300 hover:bg-neutral-400"
               }`}
               aria-label={`Go to slide ${i + 1}`}

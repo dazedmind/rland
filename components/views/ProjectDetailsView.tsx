@@ -15,6 +15,9 @@ import {
   Landmark,
   TreePalm,
   Building,
+  MapPin,
+  Building2,
+  Calendar,
 } from "lucide-react";
 import Image from "next/image";
 import ModelCard from "@/components/cards/ModelCard";
@@ -35,11 +38,11 @@ import ModelDetailsModal from "@/components/modals/ModelDetailsModal";
 import type { ProjectDetailData } from "@/lib/data";
 
 const sections = [
-  { id: "specification", label: "Specifications" },
+  { id: "specification", label: "Overview" },
   { id: "amenities", label: "Amenities" },
   { id: "landmarks", label: "Landmarks" },
   { id: "models", label: "House Models" },
-  { id: "contact", label: "Contact Us" },
+  { id: "contact", label: "Contact" },
 ];
 
 const landmarkIcon: { icon: React.ElementType; category: string }[] = [
@@ -187,7 +190,7 @@ export function ProjectDetailsView({ data }: ProjectDetailsViewProps) {
       </header>
 
       <main className="relative">
-        <nav className="hidden xl:block fixed right-8 top-1/2 -translate-y-1/2 z-40 ">
+        <nav className="hidden xl:block fixed left-8 top-1/2 -translate-y-1/2 z-40 ">
           <div className="flex flex-col gap-1 bg-white/80 backdrop-blur-sm rounded-lg p-3 shadow-lg">
             {sections.map(({ id, label }) => (
               <button
@@ -199,8 +202,9 @@ export function ProjectDetailsView({ data }: ProjectDetailsViewProps) {
                     : "text-neutral-600 hover:bg-neutral-100 hover:text-primary"
                 }`}
               >
-                <span className="relative z-10 block max-w-[180px] leading-tight">
-                  — {label}
+                <span className="relative z-10 max-w-[180px] leading-tight uppercase tracking-wide flex items-center gap-2">
+                  <span>—{activeSection === id ? "—" : ""}</span>
+                  {label}
                 </span>
               </button>
             ))}
@@ -297,23 +301,24 @@ export function ProjectDetailsView({ data }: ProjectDetailsViewProps) {
 
         <ScrollReveal delay={100}>
           <section
-            className="flex flex-col items-start px-8 md:px-16 lg:px-44 xl:px-64 justify-center space-y-8 scroll-mt-24 py-16"
+            className="flex flex-col items-start px-8 md:px-16 lg:px-44 xl:px-64 justify-center space-y-8 scroll-mt-24 py-16 bg-neutral-100 mt-10"
             id="amenities"
           >
             <span className="flex flex-col gap-4 w-full scroll-mt-24">
               <span className="flex flex-col gap-2">
-                <p className="text-sm font-semibold text-secondary uppercase">
-                  Amenities
+                <p className="text-sm font-semibold tracking-wide text-primary uppercase">
+                  Lifestyle
                 </p>
-                <h1 className="text-4xl font-bold text-primary">
-                  Pockets of Lifestyle
+                <h1 className="text-4xl font-bold text-foreground">
+                  Project Amenities
                 </h1>
+                <p className="text-neutral-600">Experience a curated collection of amenities designed to provide comfort, leisure, and community.</p>
               </span>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {((project.amenities as { photoUrl?: string; name?: string }[]) ?? []).map((amenity: { photoUrl?: string; name?: string }, idx: number) => (
                   <div key={amenity.name ?? amenity.photoUrl ?? `amenity-${idx}`}>
-                    <div className="flex justify-center items-center h-50 md:h-60 bg-neutral-400 rounded-xl relative">
-                      <div className="w-full h-50 md:h-60 rounded-xl z-0 overflow-hidden">
+                    <div className="flex justify-center items-center h-50 md:h-60 bg-neutral-400 rounded-2xl relative">
+                      <div className="w-full h-50 md:h-60 rounded-2xl z-0 overflow-hidden">
                         {amenity.photoUrl && (
                           <Image
                             src={amenity.photoUrl ?? ""}
@@ -347,10 +352,10 @@ export function ProjectDetailsView({ data }: ProjectDetailsViewProps) {
           >
             <span className="flex flex-col gap-4 w-full">
               <span className="flex flex-col gap-2">
-                <p className="text-sm font-semibold text-secondary uppercase">
+                <p className="text-sm font-semibold tracking-wide text-primary uppercase">
                   Landmarks
                 </p>
-                <h1 className="text-4xl font-bold text-primary">
+                <h1 className="text-4xl font-bold text-foreground">
                   Nearby Landmarks
                 </h1>
               </span>
@@ -393,12 +398,14 @@ export function ProjectDetailsView({ data }: ProjectDetailsViewProps) {
           >
             <span className="flex flex-col gap-8 w-full">
               <span className="flex flex-col gap-2">
-                <p className="text-sm font-semibold text-secondary uppercase">
-                  House Models
+                <p className="text-sm font-semibold tracking-wide text-primary uppercase">
+                  Inventory
                 </p>
-                <h1 className="text-4xl font-bold text-primary">
-                  Project House Models
+                <h1 className="text-4xl font-bold text-foreground">
+                  House Models
                 </h1>
+                <p className="text-neutral-600">Choose from our selection of masterfully designed homes tailored for modern Filipino families.</p>
+
               </span>
               {models.length > 0 &&
                 models.map((model) => (
@@ -419,39 +426,39 @@ export function ProjectDetailsView({ data }: ProjectDetailsViewProps) {
           </section>
         </ScrollReveal>
 
-        <ScrollReveal delay={250}>
-          <section className="relative z-10 flex flex-col lg:flex-row justify-between items-start px-8 md:px-16 lg:px-44 xl:px-64 gap-8 py-16">
-            <div className="w-full">
-              <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-linear-to-r from-primary-fg to-blue-950 text-white p-8 rounded-t-xl">
-                <span className="w-full md:w-auto">
-                  <h1 className="text-2xl font-bold">
-                    Found the perfect home?
-                  </h1>
-                  <p className="leading-relaxed text-neutral-200">
-                    Make it yours. Secure your spot with a quick and easy
-                    reservation.
-                  </p>
-                </span>
-
-                <span className="w-full md:w-auto">
-                  <Link href="/contact-us">
-                    <Button variant="default" size="sm">
-                      Contact Us
-                    </Button>
-                  </Link>
-                </span>
+        {/* RESERVATION FOOTER */}
+        <ScrollReveal>
+          <section className="py-24 px-6 md:px-16 lg:px-44 xl:px-64">
+            <div className="bg-primary rounded-2xl overflow-hidden flex flex-col-reverse lg:flex-row-reverse shadow-2xl shadow-primary/20">
+              <div className="p-10 lg:p-16 lg:w-3/5 text-white space-y-4">
+                <h3 className="text-4xl font-bold leading-tight">Secure your dream home today.</h3>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-4">
+                    <div className="bg-white/10 p-2 rounded-lg"><Building2 className="size-5" /></div>
+                    <p className="text-white/80"><span className="font-bold text-white block">Sales Office</span> {project.salesOffice}</p>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <div className="bg-white/10 p-2 rounded-lg"><Building className="size-5" /></div>
+                    <p className="text-white/80"><span className="font-bold text-white block">LTS No.</span> {project.dhsudNumber}</p>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <div className="bg-white/10 p-2 rounded-lg"><Calendar className="size-5" /></div>
+                    <p className="text-white/80"><span className="font-bold text-white block">Completion Date</span> {dateFormatter(project.completionDate ?? "N/A")}</p>
+                  </div>
+                </div>
+                <Link href="/contact-us">
+                  <Button variant="default">
+                    Book a Viewing
+                  </Button>
+                </Link>
               </div>
-              <div className="flex flex-col gap-2 bg-primary text-white px-8 py-6 rounded-b-xl">
-                <p className="text-lg font-bold">{project.projectName}:</p>
-                <ul className="text-sm list-disc list-outside pl-5">
-                  <li>Address: {project.address ?? "N/A"}</li>
-                  <li>Sales Office: {project.salesOffice ?? "N/A"}</li>
-                  <li>DHSUD LTS No: {project.dhsudNumber ?? "N/A"}</li>
-                  <li>
-                    Completion Date:{" "}
-                    {dateFormatter(project.completionDate ?? "N/A")}
-                  </li>
-                </ul>
+              <div className="lg:w-2/5 relative h-64 lg:h-auto min-h-[300px]">
+                <Image 
+                  src={project.photoUrl ?? ""} 
+                  alt="Project View" 
+                  fill 
+                  className="object-cover"
+                />
               </div>
             </div>
           </section>
