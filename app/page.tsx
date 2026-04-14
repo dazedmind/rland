@@ -22,6 +22,7 @@ import HouseSearchBar from "@/components/cards/HouseSearchBar";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import ProjectList from "@/components/cards/ProjectList";
 import ContactSection from "@/components/layout/ContactSection";
+import BlurText from "@/components/ui/BlurText";
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -65,23 +66,37 @@ export default function Home() {
         <section className="bg-neutral-400 h-screen">
           {/* VIDEO HERO SECTION */}
           <div className="h-screen w-full gradient-overlay">
-            <div className="bg-black/60 z-20 w-full absolute top-0 left-0 h-screen flex flex-col text-center lg:text-left items-center lg:items-start justify-center text-white px-8 md:px-44 py-16 gap-4">
-              <span className="w-full space-y-2">
-                <h1 className="text-5xl md:text-6xl font-bold">
-                  Live The Experience
-                </h1>
-                <p className="text-base md:text-lg xl:text-xl leading-tight  max-w-1/2">
-                  We are a real estate development company that specializes in
-                  the development of residential properties.
-                </p>
+            <div className="bg-black/60 z-20 w-full absolute top-0 left-0 h-screen flex flex-col text-center lg:text-left items-center lg:items-start justify-center text-white px-8 md:px-44 py-16 space-y-4">
+              <span className="w-full space-y-3">
+                {/* <h1 className="text-5xl md:text-6xl font-bold">
+                  Elevated Living, Naturally Restored
+                </h1> */}
+                <BlurText
+                  text="Elevated Living, Naturally Restored"
+                  delay={100}
+                  animateBy="words"
+                  direction="top"
+                  className="text-5xl md:text-6xl font-bold justify-center lg:justify-start"
+                />
+                <ScrollReveal
+                  delay={800}
+                >
+                  <p className="text-base md:text-lg xl:text-xl line-clamp-2 leading-tight w-full">
+                    We are a real estate development company that specializes in
+                    the development of residential properties.
+                  </p>
+                </ScrollReveal>
               </span>
-
+              
+              <ScrollReveal
+                delay={900}
+              >
               <Link
                 className="group relative flex flex-row items-center gap-3 bg-secondary font-bold text-lg text-white p-2 rounded-full transition-all duration-300 ease-out 
-             hover:scale-[1.02] hover:brightness-110 
-             hover:shadow-[0_0_20px_rgba(var(--secondary-rgb),0.6)]"
-                href="/projects"
-              >
+                hover:scale-[1.02] hover:brightness-110 
+                hover:shadow-[0_0_20px_rgba(var(--secondary-rgb),0.6)]"
+                  href="/projects"
+                >
                 {/* The "Glow" Layer - hidden by default, appears on hover */}
                 <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-md bg-secondary -z-10" />
 
@@ -95,6 +110,7 @@ export default function Home() {
                   />
                 </span>
               </Link>
+              </ScrollReveal>
             </div>
             <video
               className="w-full h-full object-cover"
@@ -340,44 +356,52 @@ export default function Home() {
                   role="list"
                 >
                   <li className="flex min-h-18 items-center justify-center sm:min-h-20 md:min-h-24">
+                    <Link href="https://rmrcapitalinc.com" target="_blank">
                     <Image
                       src={rmrLogo}
                       alt="RMR Logo"
                       width={100}
                       height={100}
-                      className="h-auto max-h-12 w-auto max-w-22 object-contain saturate-0 transition-all duration-300 hover:saturate-100 sm:max-h-14 md:max-h-16 lg:max-h-20 cursor-pointer"
+                      className="h-auto max-h-12 w-auto max-w-22 object-contain transition-all duration-300 hover:saturate-100 sm:max-h-14 md:max-h-16 lg:max-h-20 cursor-pointer"
                       title="RMR Capital Inc."
                     />
+                    </Link>
                   </li>
                   <li className="flex min-h-18 items-center justify-center sm:min-h-20 md:min-h-24">
+                    <Link href="https://www.philecology.com/" target="_blank">
                     <Image
                       src={philecoLogo}
                       alt="Phileco Logo"
                       width={160}
                       height={100}
-                      className="h-auto max-h-12 w-auto max-w-36 object-contain saturate-0 transition-all duration-300 hover:saturate-100 sm:max-h-14 md:max-h-16 lg:max-h-18 cursor-pointer"
+                      className="h-auto max-h-12 w-auto max-w-36 object-contain transition-all duration-300 hover:saturate-100 sm:max-h-14 md:max-h-16 lg:max-h-18 cursor-pointer"
                       title="Phil. Ecology Systems Corp."
                     />
+                    </Link>
                   </li>
                   <li className="flex min-h-18 items-center justify-center sm:min-h-20 md:min-h-24">
-                    <Image
-                      src={hcptLogo}
-                      alt="HCPT Logo"
-                      width={100}
-                      height={100}
-                      className="h-auto max-h-12 w-auto max-w-22 object-contain saturate-0 transition-all duration-300 hover:saturate-100 sm:max-h-14 md:max-h-16 lg:max-h-20 cursor-pointer"
-                      title="Harbour Centre Port Terminal Inc."
-                    />
+                    <Link href="https://www.facebook.com/hcpti/" target="_blank">
+                      <Image
+                        src={hcptLogo}
+                        alt="HCPT Logo"
+                        width={100}
+                        height={100}
+                        className="h-auto max-h-12 w-auto max-w-22 object-contain transition-all duration-300 hover:saturate-100 sm:max-h-14 md:max-h-16 lg:max-h-20 cursor-pointer"
+                        title="Harbour Centre Port Terminal Inc."
+                      />
+                    </Link>
                   </li>
                   <li className="flex min-h-18 items-center justify-center sm:min-h-20 md:min-h-24">
-                    <Image
-                      src={r2Logo}
-                      alt="R2 Logo"
-                      width={100}
-                      height={100}
-                      className="h-auto max-h-12 w-auto max-w-22 object-contain saturate-0 transition-all duration-300 hover:saturate-100 sm:max-h-14 md:max-h-16 lg:max-h-20 cursor-pointer"
-                      title="R-II Builders Inc."
-                    />
+                    <Link href="https://riibuilders.com/" target="_blank">
+                      <Image
+                        src={r2Logo}
+                        alt="R2 Logo"
+                        width={100}
+                        height={100}
+                        className="h-auto max-h-12 w-auto max-w-22 object-contain transition-all duration-300 hover:saturate-100 sm:max-h-14 md:max-h-16 lg:max-h-20 cursor-pointer"
+                          title="R-II Builders Inc."
+                        />
+                    </Link>
                   </li>
                 </ul>
               </div>

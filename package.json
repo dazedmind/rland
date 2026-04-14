@@ -15,6 +15,7 @@
     "clear-cache": "npx tsx scripts/clear-cache.ts"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "@hcaptcha/react-hcaptcha": "^2.0.2",
     "@neondatabase/serverless": "^1.0.2",
     "@next/third-parties": "^16.1.6",
@@ -25,10 +26,11 @@
     "dotenv": "^17.3.1",
     "drizzle-orm": "^0.45.1",
     "embla-carousel-react": "^8.6.0",
+    "gsap": "^3.15.0",
     "html2canvas": "^1.4.1",
     "lucide-react": "^0.563.0",
     "marked": "^17.0.3",
-    "motion": "^12.36.0",
+    "motion": "^12.38.0",
     "next": "^16.1.6",
     "next-themes": "^0.4.6",
     "radix-ui": "^1.4.3",
