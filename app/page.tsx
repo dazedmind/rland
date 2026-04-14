@@ -76,7 +76,7 @@ export default function Home() {
                   delay={100}
                   animateBy="words"
                   direction="top"
-                  className="text-5xl md:text-6xl font-bold justify-center lg:justify-start"
+                  className="text-4xl sm:text-5xl md:text-6xl font-bold justify-center lg:justify-start"
                 />
                 <ScrollReveal
                   delay={800}
